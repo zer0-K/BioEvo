@@ -3,7 +3,7 @@
 #include "Universe.hpp"
 
 /// @brief experiment abstract class
-class Experiment
+class ExperimentOld
 {
 protected:
     Universe* universe; ///< universe of the experiment
@@ -17,7 +17,7 @@ public:
     /**
      * @brief Constructor
     */
-    Experiment();
+    ExperimentOld();
 
     /**
      * @brief Constructor
@@ -25,7 +25,7 @@ public:
      * @param width width of the universe of the experiment
      * @param height height of the universe of the experiment
     */
-    Experiment(const int width, const int height);
+    ExperimentOld(const int width, const int height);
 
     /**
      * @brief Launch the experiment

@@ -4,7 +4,7 @@
 #include "../ConstantsCodeEater.hpp"
 #include "../Computing/Utils/Permutation.hpp"
 
-/// @brief elementary unit of the ExperimentCodeEaters
+/// @brief elementary unit of the ExperimentOldCodeEaters
 class CodeEater
 {
 private:

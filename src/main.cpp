@@ -1,11 +1,15 @@
 #include <iostream>
 #include "string.h"
 
-#include "Experiment.hpp"
-#include "CodeEater/Experiments/ExperimentCodeEater.hpp"
-#include "CodeEater/Experiments/ExperimentCodeEater1.hpp"
-#include "CodeEater/Experiments/ExperimentCodeEater2.hpp"
-#include "CodeEater/Experiments/ExperimentCodeEater3.hpp"
+#include "Utils/Log/logpaths.hpp"
+
+#include "ExperimentOld.hpp"
+#include "CodeEater/Experiments/ExperimentOldCodeEater.hpp"
+#include "CodeEater/Experiments/ExperimentOldCodeEater1.hpp"
+#include "CodeEater/Experiments/ExperimentOldCodeEater2.hpp"
+#include "CodeEater/Experiments/ExperimentOldCodeEater3.hpp"
+
+#include "Experiments/ClassicalAlgos/experiment_classical_algo_1.hpp"
 
 using namespace std;
 
@@ -36,7 +40,7 @@ int main(int argc, char* argv[])
 void launch_experiment_code_eaters()
 {
     int experimentCodeEater_number = 3;
-    ExperimentCodeEater* ExperimentCodeEater;
+    ExperimentOldCodeEater* experimentOldCodeEater;
 
     cout<<"Please give an int to choose an ExperimentCodeEater (between 1 and 3). Default : 3."<<endl;
     cin>>experimentCodeEater_number;
@@ -45,21 +49,21 @@ void launch_experiment_code_eaters()
     switch (experimentCodeEater_number)
     {
         case 1:
-            ExperimentCodeEater = new ExperimentCodeEater1();
+            experimentOldCodeEater = new ExperimentOldCodeEater1();
             break;
 
         case 2:
-            ExperimentCodeEater = new ExperimentCodeEater2();
+            experimentOldCodeEater = new ExperimentOldCodeEater2();
             break;
         
         case 3:
-            ExperimentCodeEater = new ExperimentCodeEater3();
+            experimentOldCodeEater = new ExperimentOldCodeEater3();
             break;
         
         default:
-            ExperimentCodeEater = new ExperimentCodeEater3();
+            experimentOldCodeEater = new ExperimentOldCodeEater3();
             break;
     }
 
-    ExperimentCodeEater->launch();
+    experimentOldCodeEater->launch();
 }

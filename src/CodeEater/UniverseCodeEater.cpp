@@ -51,7 +51,7 @@ void UniverseCodeEater::initScalars(const int width, const int height, int start
 
 void UniverseCodeEater::initCodeEAters(CodeEater*** code_eaters, const int width, const int height)
 {
-    // set eaters, given by the ExperimentCodeEater
+    // set eaters, given by the ExperimentOldCodeEater
     this->code_eaters = code_eaters;
 
     // default code eaters completion

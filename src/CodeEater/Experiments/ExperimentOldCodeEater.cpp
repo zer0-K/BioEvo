@@ -1,16 +1,16 @@
 #include <iostream>
 
-#include "ExperimentCodeEater.hpp"
+#include "ExperimentOldCodeEater.hpp"
 #include "../ConstantsCodeEater.hpp"
 
-ExperimentCodeEater::ExperimentCodeEater()
-    : ExperimentCodeEater::ExperimentCodeEater(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+ExperimentOldCodeEater::ExperimentOldCodeEater()
+    : ExperimentOldCodeEater::ExperimentOldCodeEater(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 {
     // does nothing
 }
 
-ExperimentCodeEater::ExperimentCodeEater(const int width, const int height)
-    : Experiment(width, height)
+ExperimentOldCodeEater::ExperimentOldCodeEater(const int width, const int height)
+    : ExperimentOld(width, height)
 {
     this->code_eaters = new CodeEater**[height];
 
@@ -21,12 +21,12 @@ ExperimentCodeEater::ExperimentCodeEater(const int width, const int height)
     this->universe = (Universe*) new UniverseCodeEater(this->eating_processor, this->code_eaters, width, height);
 }
 
-void ExperimentCodeEater::show()
+void ExperimentOldCodeEater::show()
 {
     this->universe->show();
 }
 
-void ExperimentCodeEater::loop()
+void ExperimentOldCodeEater::loop()
 {
     this->loop();
 }

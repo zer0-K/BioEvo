@@ -1,20 +1,20 @@
 #include <iostream>
 
-#include "Experiment.hpp"
+#include "ExperimentOld.hpp"
 #include "Constants.hpp"
 
-Experiment::Experiment()
-    : Experiment(DEFAULT_UNIVERSE_WIDTH, DEFAULT_UNIVERSE_HEIGHT)
+ExperimentOld::ExperimentOld()
+    : ExperimentOld(DEFAULT_UNIVERSE_WIDTH, DEFAULT_UNIVERSE_HEIGHT)
 {
 
 }
 
-Experiment::Experiment(const int width, const int height)
+ExperimentOld::ExperimentOld(const int width, const int height)
 {
     // does nothing
 }
 
-void Experiment::loop()
+void ExperimentOld::loop()
 {
     int timestep = 1;
     

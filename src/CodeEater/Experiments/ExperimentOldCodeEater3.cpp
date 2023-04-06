@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "ExperimentCodeEater3.hpp"
+#include "ExperimentOldCodeEater3.hpp"
 
-ExperimentCodeEater3::ExperimentCodeEater3()
-    :ExperimentCodeEater()
+ExperimentOldCodeEater3::ExperimentOldCodeEater3()
+    :ExperimentOldCodeEater()
 {
     // after the parent constructor init, do some other stuff
-    this->initExperiment();
+    this->initExperimentOld();
 }
 
-void ExperimentCodeEater3::initExperiment()
+void ExperimentOldCodeEater3::initExperimentOld()
 {
     // place a code eater somewhere
     int r,c;r=DEFAULT_HEIGHT/2;c=DEFAULT_WIDTH/2;    
@@ -18,13 +18,13 @@ void ExperimentCodeEater3::initExperiment()
     this->code_eaters[r][c] = new CodeEater(EATER_TOKEN_1, 72);
 }
 
-void ExperimentCodeEater3::launch()
+void ExperimentOldCodeEater3::launch()
 {
     std::cout<<"***********************************"<<std::endl;
-    std::cout<<"Launching ExperimentCodeEater 3"<<std::endl;
+    std::cout<<"Launching ExperimentOldCodeEater 3"<<std::endl;
     std::cout<<"***********************************"<<std::endl;
     std::cout<<std::endl;
-    std::cout<<"ExperimentCodeEater 3 : introducing eating process"<<std::endl;
+    std::cout<<"ExperimentOldCodeEater 3 : introducing eating process"<<std::endl;
     std::cout<<std::endl;
     std::cout<<std::endl;
 

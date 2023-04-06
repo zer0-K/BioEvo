@@ -5,7 +5,7 @@
 #include "CodeEaters/CodeEater.hpp"
 #include "Computing/EatingProcessor.hpp"
 
-/// @brief UniverseCodeEater for the ExperimentCodeEaters
+/// @brief UniverseCodeEater for the ExperimentOldCodeEaters
 class UniverseCodeEater : Universe
 {
 protected:
@@ -30,7 +30,7 @@ protected:
     /**
      * @brief Init code eaters
      * 
-     * @param[out] code_eaters code eaters to init (partially, the rest of the init is in the ExperimentCodeEater)
+     * @param[out] code_eaters code eaters to init (partially, the rest of the init is in the ExperimentOldCodeEater)
      * @param[in] width width of the UniverseCodeEater
      * @param[in] height height of the UniverseCodeEater
     */
@@ -57,7 +57,7 @@ public:
      * @brief Constructor
      * 
      * @param[in] eating_processor eating processor
-     * @param[out] code_eaters code eaters to init (partially, the rest of the init is in the ExperimentCodeEater)
+     * @param[out] code_eaters code eaters to init (partially, the rest of the init is in the ExperimentOldCodeEater)
      * @param[in] width width of the UniverseCodeEater
      * @param[in] height height of the UniverseCodeEater
     */
@@ -67,7 +67,7 @@ public:
      * @brief Constructor
      * 
      * @param[in] eating_processor eating processor
-     * @param[out] code_eaters code eaters to init (partially, the rest of the init is in the ExperimentCodeEater)
+     * @param[out] code_eaters code eaters to init (partially, the rest of the init is in the ExperimentOldCodeEater)
      * @param[in] width width of the UniverseCodeEater
      * @param[in] height height of the UniverseCodeEater
      * @param[in] starting_width starting width of the eating process
