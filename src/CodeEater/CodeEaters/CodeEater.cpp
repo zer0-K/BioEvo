@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "CodeEater.hpp"
-#include "../Constants.hpp"
+#include "../ConstantsCodeEater.hpp"
 
 CodeEater::CodeEater()
     : CodeEater(DEFAULT_IDENTIFIER, DEFAULT_LIFETIME, DEFAULT_EATER_TYPE)
@@ -32,7 +32,7 @@ CodeEater::CodeEater(int identifier, int lifetime, EaterToken token)
     //---------- identity
     this->identifier = identifier;
     this->lifetime = lifetime;
-    this->universe_state = INITIAL_UNIVERSE_STATE; 
+    this->UniverseCodeEater_state = INITIAL_UniverseCodeEater_STATE; 
 
     //---------- computing identity
     this->token = token;
@@ -74,16 +74,16 @@ void CodeEater::timeIncr()
     this->lifetime++;
 }
 
-void CodeEater::flipUniverseState()
+void CodeEater::flipUniverseCodeEaterState()
 {
-    // flip the universe state
-    this->universe_state = !this->universe_state;
+    // flip the UniverseCodeEater state
+    this->UniverseCodeEater_state = !this->UniverseCodeEater_state;
 }
 
 
 //---------- getters
 
-bool CodeEater::getUniverseState() { return this->universe_state; }
+bool CodeEater::getUniverseCodeEaterState() { return this->UniverseCodeEater_state; }
 bool CodeEater::getIsEaten() { return this->isEaten; }
 EaterToken CodeEater::getToken() { return this->token; }
 int CodeEater::getNumber() { return this->number; }

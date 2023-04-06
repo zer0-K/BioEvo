@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Constants.hpp"
+#include "../ConstantsCodeEater.hpp"
 
 /// @brief to compute the rule number corresponding to a number
 class RuleNumberComputer

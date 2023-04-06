@@ -1,17 +1,17 @@
 #pragma once
 
-#include "../PreprocessingDefinitions.hpp"
-#include "../Constants.hpp"
+#include "../../PreprocessingDefinitions.hpp"
+#include "../ConstantsCodeEater.hpp"
 #include "../Computing/Utils/Permutation.hpp"
 
-/// @brief elementary unit of the experiments
+/// @brief elementary unit of the ExperimentCodeEaters
 class CodeEater
 {
 private:
     //---------- identity
     int identifier; ///< identifier of the code eater
     int lifetime;   ///< lifetime of the code eater
-    bool universe_state;    ///< universe state @see Universe::state
+    bool UniverseCodeEater_state;    ///< UniverseCodeEater state @see UniverseCodeEater::state
     bool isEaten;   ///< true if the code eater has been eaten
 
     //---------- computing identity
@@ -82,13 +82,13 @@ public:
     void timeIncr();
 
     /**
-     * @brief flip the universe state (so that we know if the current code eater has been processed by the eating processor or not)
+     * @brief flip the UniverseCodeEater state (so that we know if the current code eater has been processed by the eating processor or not)
     */
-    void flipUniverseState();
+    void flipUniverseCodeEaterState();
 
     //---------- getters
     
-    bool getUniverseState();
+    bool getUniverseCodeEaterState();
     bool getIsEaten();
     EaterToken getToken();
     int getNumber();

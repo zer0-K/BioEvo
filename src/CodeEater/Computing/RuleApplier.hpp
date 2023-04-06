@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../PreprocessingDefinitions.hpp"
+#include "../../PreprocessingDefinitions.hpp"
 #include "Utils/Permutation.hpp"
 #include "../CodeEaters/CodeEater.hpp"
 #include "NeighborhoodManager.hpp"
-#include "../Constants.hpp"
+#include "../ConstantsCodeEater.hpp"
 
 /// @brief to apply a rule to a code eater and its neighbors
 class RuleApplier
@@ -32,7 +32,7 @@ public:
      * 
      * (no getter for the number in CodeEater so that we can apply the rule correctly in the state changer)
      * 
-     * @return an index (in the neighborhood, not the universe) telling the parent that a case is empty
+     * @return an index (in the neighborhood, not the UniverseCodeEater) telling the parent that a case is empty
     */
     int applyRule(CodeEater* code_eater,CodeEater** neighborhood, NeighborHoodType neighborhood_type, 
         Permutation* rules_permutation, int number);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../PreprocessingDefinitions.hpp"
+#include "../../PreprocessingDefinitions.hpp"
 #include "../CodeEaters/CodeEater.hpp"
 #include "NeighborhoodManager.hpp"
 #include "StateChanger.hpp"
@@ -10,8 +10,8 @@ class EatingProcessor
 {
 protected:
     //---------- spatial attributes
-    int width;      ///< width of the universe
-    int height;     ///< height of the universe
+    int width;      ///< width of the UniverseCodeEater
+    int height;     ///< height of the UniverseCodeEater
     int starting_row;   ///< starting row of the eating process
     int starting_col;   ///< starting column of the eating process
 
@@ -45,16 +45,16 @@ public:
     /**
      * @brief Constructor
      * 
-     * @param width width of the universe
-     * @param height height of the universe
+     * @param width width of the UniverseCodeEater
+     * @param height height of the UniverseCodeEater
     */
     EatingProcessor(const int width, const int height);
 
     /**
      * @brief Constructor
      * 
-     * @param width width of the universe
-     * @param height height of the universe
+     * @param width width of the UniverseCodeEater
+     * @param height height of the UniverseCodeEater
      * @param starting_row starting row of the eating process
      * @param starting_col starting column of the eating process
     */
@@ -63,7 +63,7 @@ public:
     /**
      * @brief PROCEED THE EATING
      * 
-     * @param[out] code_eaters code eaters of the universe (first layer obviously)
+     * @param[out] code_eaters code eaters of the UniverseCodeEater (first layer obviously)
     */
     void proceed(CodeEater*** code_eaters);
 };

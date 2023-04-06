@@ -1,6 +1,6 @@
 #include "Permutation.hpp"
 
-#include "../../Constants.hpp"
+#include "../../ConstantsCodeEater.hpp"
 
 Permutation::Permutation()
     : Permutation(NUMBER_OF_RULES)

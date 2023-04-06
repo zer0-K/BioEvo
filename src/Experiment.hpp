@@ -1,20 +1,17 @@
 #pragma once
 
-#include "../Universe.hpp"
-#include "../Computing/EatingProcessor.hpp"
+#include "Universe.hpp"
 
 /// @brief experiment abstract class
 class Experiment
 {
 protected:
     Universe* universe; ///< universe of the experiment
-    CodeEater*** code_eaters;   ///< code eaters of the universe
-    EatingProcessor* eating_processor;   ///< eating process (need to be defined at each experiment)
 
     /**
-     * @brief Init the code eaters, is called at the end of the constructor
+     * @brief Init the experiment
     */
-    virtual void initCodeEaters() {};
+    virtual void initexperiment() {};
 
 public:
     /**
@@ -38,5 +35,5 @@ public:
     /**
      * @brief Loop to make time go on 
     */
-    void loop();
+    virtual void loop();
 };

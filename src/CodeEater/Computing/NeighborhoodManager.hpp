@@ -1,20 +1,20 @@
 #pragma once
 
-#include "../PreprocessingDefinitions.hpp"
-#include "../Constants.hpp"
+#include "../../PreprocessingDefinitions.hpp"
+#include "../ConstantsCodeEater.hpp"
 #include "../CodeEaters/CodeEater.hpp"
 
 class NeighborhoodManager
 {
-    int width;  ///< width of the universe
-    int height; ///< height of the universe
+    int width;  ///< width of the UniverseCodeEater
+    int height; ///< height of the UniverseCodeEater
 
 public:
     /**
      * @brief Constructor
      * 
-     * @param width width of the universe
-     * @param height height of the universe
+     * @param width width of the UniverseCodeEater
+     * @param height height of the UniverseCodeEater
     */
     NeighborhoodManager(int width, int height);
 
@@ -34,7 +34,7 @@ public:
     CodeEater** getNeighborhood(CodeEater*** code_eaters, int r, int c, NeighborHoodType neighborhood_type);
 
     /**
-     * @brief get the absolute coordinates (in the universe) corresponding to the index for the given neighborhood at the 
+     * @brief get the absolute coordinates (in the UniverseCodeEater) corresponding to the index for the given neighborhood at the 
      * absolute coordinantes
      * will call similar methods, correspoding to particular neighborhood
      * 
@@ -42,8 +42,8 @@ public:
      * @param[in] c column of the code eater from which we have taken the neighborhood of
      * @param[in] index relative index of the missing code eater; i.e. index in the neighborhood
      * @param[in] neighborhood_type neighborhood type, so that we can deduce the absolute coordinates from the relative index
-     * @param[out] r_replacement absolute row (i.e. row in the universe) where to replace a code eater, corresponding to the relative index
-     * @param[out] c_replacement absolute column (i.e. column in the universe) where to replace a code eater, corresponding to the relative index
+     * @param[out] r_replacement absolute row (i.e. row in the UniverseCodeEater) where to replace a code eater, corresponding to the relative index
+     * @param[out] c_replacement absolute column (i.e. column in the UniverseCodeEater) where to replace a code eater, corresponding to the relative index
     */
     void getAbsoluteReplacementCoordinates(int r, int c, int index, NeighborHoodType neighborhood_type, 
         int& r_replacement, int& c_replacement);
@@ -73,14 +73,14 @@ public:
     CodeEater** getVonNeumannNeighborhood(CodeEater*** code_eaters, int r, int c);
 
     /**
-     * @brief get the absolute coordinates (in the universe) corresponding to the index for the given Von Neumann neighborhood at the 
+     * @brief get the absolute coordinates (in the UniverseCodeEater) corresponding to the index for the given Von Neumann neighborhood at the 
      * absolute coordinantes
      * 
      * @param[in] r row of the code eater from which we have taken the neighborhood of
      * @param[in] c column of the code eater from which we have taken the neighborhood of
      * @param[in] index relative index of the missing code eater; i.e. index in the neighborhood
-     * @param[out] r_replacement absolute row (i.e. row in the universe) where to replace a code eater, corresponding to the relative index
-     * @param[out] c_replacement absolute column (i.e. column in the universe) where to replace a code eater, corresponding to the relative index
+     * @param[out] r_replacement absolute row (i.e. row in the UniverseCodeEater) where to replace a code eater, corresponding to the relative index
+     * @param[out] c_replacement absolute column (i.e. column in the UniverseCodeEater) where to replace a code eater, corresponding to the relative index
     */
     void getAbsoluteReplacementCoordinates_VonNeumann(int r, int c, int index, 
         int& r_replacement, int& c_replacement);

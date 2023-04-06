@@ -33,8 +33,8 @@ int StateChanger::changeState(CodeEater* code_eater, CodeEater** neighbors, Neig
     // increment the lifetime of the code eater
     code_eater->timeIncr();
 
-    // flip the universe state
-    code_eater->flipUniverseState();
+    // flip the UniverseCodeEater state
+    code_eater->flipUniverseCodeEaterState();
 
     // if a neighbor has been eaten without being replaced, we need to warn the eating processor 
     // so that it can replace a code eater at this place (empty_neighbor_index=-1 if no replacement needed)

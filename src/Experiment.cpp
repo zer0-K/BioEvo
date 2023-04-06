@@ -1,27 +1,17 @@
 #include <iostream>
 
 #include "Experiment.hpp"
-#include "../Constants.hpp"
+#include "Constants.hpp"
 
 Experiment::Experiment()
-    : Experiment(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+    : Experiment(DEFAULT_UNIVERSE_WIDTH, DEFAULT_UNIVERSE_HEIGHT)
 {
 
 }
 
 Experiment::Experiment(const int width, const int height)
 {
-    this->code_eaters = new CodeEater**[height];
-
-    // create the eating process
-    this->eating_processor = new EatingProcessor(width, height);
-
-    // create the universe
-    this->universe = new Universe(this->eating_processor, this->code_eaters, width, height);
-
-    // init the code eaters
-    // actually useless here, you need to call it in the child constructor (Experiment1, Experiment2,...)
-    this->initCodeEaters();
+    // does nothing
 }
 
 void Experiment::loop()

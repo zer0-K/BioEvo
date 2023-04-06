@@ -36,19 +36,19 @@ enum EatDirection
 };
 
 
-//---------- universe size
+//---------- UniverseCodeEater size
 
-const int DEFAULT_WIDTH = 6;   ///< universe default width
-const int DEFAULT_HEIGHT = 6;  ///< universe default height
+const int DEFAULT_WIDTH = 6;   ///< UniverseCodeEater default width
+const int DEFAULT_HEIGHT = 6;  ///< UniverseCodeEater default height
 
 
-//---------- eating process parameters, related to the universe
+//---------- eating process parameters, related to the UniverseCodeEater
 
 const int DEFAULT_STARTING_ROW = 0; ///< default starting row of the eating process
 const int DEFAULT_STARTING_COL = 0; ///< default starting column of the eating process
 const int MAX_EATING_DEPTH = 3; ///< max number of layers
 const int MAX_LAYER_SIZE = 5;   ///< max number of code eaters in a layer
-const int INITIAL_UNIVERSE_STATE = true;    ///< initial universe state
+const int INITIAL_UniverseCodeEater_STATE = true;    ///< initial UniverseCodeEater state
 const int MAX_NEIGHBORS = 4;
 
 
@@ -68,7 +68,7 @@ const int NUMBER_OF_RULES = Rule::Count;  ///< default number of rules
 
 
 
-//---------- Neighborhood constants
+//---------- Neighborhood ConstantsCodeEater
 
 const NeighborHoodType DEFAULT_NEIGHBORHOOD_TYPE = VON_NEUMANN;
 

@@ -1,17 +1,18 @@
 #include <iostream>
 
-#include "Universe.hpp"
-#include "Constants.hpp"
+#include "UniverseCodeEater.hpp"
+#include "ConstantsCodeEater.hpp"
 
-Universe::Universe(EatingProcessor* eating_processor, CodeEater*** code_eaters, 
+UniverseCodeEater::UniverseCodeEater(EatingProcessor* eating_processor, CodeEater*** code_eaters, 
     const int width, const int height)
-        : Universe(eating_processor, code_eaters, width, height, DEFAULT_STARTING_ROW, DEFAULT_STARTING_COL)
+        : UniverseCodeEater(eating_processor, code_eaters, width, height, DEFAULT_STARTING_ROW, DEFAULT_STARTING_COL)
 {
     // call the other constructor, that's all
 }
 
-Universe::Universe(EatingProcessor* eating_processor, CodeEater*** code_eaters, 
+UniverseCodeEater::UniverseCodeEater(EatingProcessor* eating_processor, CodeEater*** code_eaters, 
     const int width, const int height, int starting_width, int starting_height)
+    : Universe(width, height)
 {
     // set eating process
     this->eating_processor = eating_processor;
@@ -22,11 +23,11 @@ Universe::Universe(EatingProcessor* eating_processor, CodeEater*** code_eaters,
     // init code eaters
     this->initCodeEAters(code_eaters, width, height);
 
-    // set initial universe state
-    this->state = INITIAL_UNIVERSE_STATE;
+    // set initial UniverseCodeEater state
+    this->state = INITIAL_UniverseCodeEater_STATE;
 }
 
-Universe::~Universe()
+UniverseCodeEater::~UniverseCodeEater()
 {
     // does nothing, the code eaters need to be freed elsewhere !
 }
@@ -35,7 +36,7 @@ Universe::~Universe()
 
 //-------------------- init
 
-void Universe::initScalars(const int width, const int height, int starting_row, int starting_col)
+void UniverseCodeEater::initScalars(const int width, const int height, int starting_row, int starting_col)
 {
     // set time
     this->t = 0;
@@ -48,9 +49,9 @@ void Universe::initScalars(const int width, const int height, int starting_row, 
 }
 
 
-void Universe::initCodeEAters(CodeEater*** code_eaters, const int width, const int height)
+void UniverseCodeEater::initCodeEAters(CodeEater*** code_eaters, const int width, const int height)
 {
-    // set eaters, given by the Experiment
+    // set eaters, given by the ExperimentCodeEater
     this->code_eaters = code_eaters;
 
     // default code eaters completion
@@ -74,7 +75,7 @@ void Universe::initCodeEAters(CodeEater*** code_eaters, const int width, const i
 
 //-------------------- show
 
-void Universe::show()
+void UniverseCodeEater::show()
 {
     for(int r=0; r<height; r++)
     {
@@ -92,7 +93,7 @@ void Universe::show()
 
 //-------------------- next step
 
-void Universe::nextStep()
+void UniverseCodeEater::nextStep()
 {
     this->t++;
 
@@ -104,51 +105,16 @@ void Universe::nextStep()
 }
 
 
-void Universe::nextSteps(int nb_steps)
+void UniverseCodeEater::nextSteps(int nb_steps)
 {
-    // check that the number of steps is valid
-    if(nb_steps>0)
-    {
-        // perform the steps
-        for(int i=0;i<nb_steps;i++)
-        {
-#if DEBUG
-            std::cout<<"-------------------- step "<<i<<" -------------------- (beginning) "<<std::endl;
-#endif
-            this->nextStep();
-#if DEBUG
-            std::cout<<"-------------------- step "<<i<<" -------------------- (end) "<<std::endl;
-#endif
-        }
-
-        // show
-        this->show();
-    }
-    else if(nb_steps==0)
-    {
-        std::cout<<"Halting program. "<<std::endl;
-    }
-    else
-    {
-        std::cout<<"Wrong number of steps entered, should be > 0. "<<std::endl;
-    }
+    this->nextSteps(nb_steps);
 }
 
 
 
 //-------------------- getters
 
-int Universe::getWidth()
-{
-    return this->width;
-}
-
-int Universe::getHeight()
-{
-    return this->height;
-}
-
-CodeEater*** Universe::getCodeEaters()
+CodeEater*** UniverseCodeEater::getCodeEaters()
 {
     return this->code_eaters;
 }

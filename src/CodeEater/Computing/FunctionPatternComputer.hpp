@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Utils/FunctionPattern.hpp"
-#include "../Constants.hpp"
+#include "../ConstantsCodeEater.hpp"
 
 /// @brief compute the function pattern
 class FunctionPatternComputer

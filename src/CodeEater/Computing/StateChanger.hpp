@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../PreprocessingDefinitions.hpp"
+#include "../../PreprocessingDefinitions.hpp"
 #include "../CodeEaters/CodeEater.hpp"
 #include "FunctionPatternComputer.hpp"
 #include "Utils/FunctionPattern.hpp"
@@ -14,7 +14,7 @@ private:
     /**
      * There is only one function pattern computer, one function pattern (that we change over time, one
      * function processor and one rule applier in the whole program, because there is only one state changer
-     * All these computation elements are unique, the universe and the code eaters are their objects
+     * All these computation elements are unique, the UniverseCodeEater and the code eaters are their objects
      * and not the opposite (in contrary to the set of rules for example) 
     */
     FunctionPatternComputer* function_pattern_computer;  ///< function pattern computer, to compute the function pattern to apply to the numbers
@@ -49,7 +49,7 @@ private:
      * @param[out] rules set of rules of the code eater
      * @param[in] number number of the code eater
      * 
-     * @return an index (in the neighborhood, not the universe) telling the eating processor to create a new code eater there. -1 if none
+     * @return an index (in the neighborhood, not the UniverseCodeEater) telling the eating processor to create a new code eater there. -1 if none
     */
     int applyRule(CodeEater* code_eater, CodeEater** neighbors, NeighborHoodType neighborhood_type, 
         Permutation* rules, int number);
@@ -72,7 +72,7 @@ public:
      * @param[out] neighbors neighbors of the code eaters
      * @param[in] neighborhood_type type of neighborhood (Von Neuman, Moore, line,...)
      * 
-     * @return an index (in the neighborhood, not the universe) telling the eating processor to create a new code eater there. -1 if none
+     * @return an index (in the neighborhood, not the UniverseCodeEater) telling the eating processor to create a new code eater there. -1 if none
     */
     int changeState(CodeEater* code_eater, CodeEater** neighbors, NeighborHoodType neighborhood_type);
 };
