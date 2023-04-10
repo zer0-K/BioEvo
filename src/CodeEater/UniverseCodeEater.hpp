@@ -46,11 +46,7 @@ protected:
     */
     void initScalars(const int width, const int height, int starting_row, int starting_col);
 
-    /**
-     * @see Universe
-    */
-    void nextStep() override;
-
+    
 public:
     
     /**
@@ -81,15 +77,15 @@ public:
     ~UniverseCodeEater();
 
     /**
-     * @brief Show the UniverseCodeEater
-    */
-    void show() override;
-
-
-    /**
      * @see Universe
     */
-    void nextSteps(int nb_steps) override;
+    void nextStep();
+
+    /**
+     * @brief Show the UniverseCodeEater
+    */
+    void show();
+
 
     //----- getters
     CodeEater*** getCodeEaters();

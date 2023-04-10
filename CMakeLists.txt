@@ -16,23 +16,30 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 # ********************************* Common *********************************
 
-set(HEADERS_COMMON src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
-    src/Constants.hpp src/PreprocessingDefinitions.hpp
-    src/Utils/Log/logpaths.hpp)
-set(SOURCES_COMMON src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
-    src/main.cpp)
+set(HEADERS_COMMON src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
+    src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
+    src/Solution.hpp)
+set(SOURCES_COMMON src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
+    src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
+    src/Solution.cpp src/main.cpp)
 
 
 # ********************************* Experiments *********************************
 
 set(HEADERS_EXPERIMENTS src/Experiments/ClassicalAlgos/experiment_classical_algo_1.hpp)
-
+set(SOURCES_EXPERIMENTS src/Experiments/ClassicalAlgos/experiment_classical_algo_1.cpp)
 
 
 # ********************************* Classical algos *********************************
 
-set(HEADERS_CLASSIC )
-set(SOURCES_CLASSIC )
+set(HEADERS_CLASSIC src/ClassicalAlgos/ClassicalUniverse.hpp 
+    src/ClassicalAlgos/LinearRegression/FlowLinear.hpp src/ClassicalAlgos/LinearRegression/EnvironmentLinear.hpp
+        src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.hpp
+        src/ClassicalAlgos/LinearRegression/BufferLinear.hpp)
+set(SOURCES_CLASSIC src/ClassicalAlgos/ClassicalUniverse.cpp
+    src/ClassicalAlgos/LinearRegression/FlowLinear.cpp src/ClassicalAlgos/LinearRegression/EnvironmentLinear.cpp
+        src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.cpp
+        src/ClassicalAlgos/LinearRegression/BufferLinear.cpp)
 
 
 # ********************************* Code Eaters *********************************
@@ -51,7 +58,8 @@ set(SOURCES src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/UniverseCodeEat
         src/CodeEater/Computing/RuleNumberComputer.cpp
     src/CodeEater/Experiments/ExperimentOldCodeEater.cpp src/CodeEater/Experiments/ExperimentOldCodeEater1.cpp src/CodeEater/Experiments/ExperimentOldCodeEater2.cpp 
         src/CodeEater/Experiments/ExperimentOldCodeEater3.cpp)
-add_executable(code_eater_experience ${HEADERS_COMMON} ${HEADERS_CLASSIC} ${HEADERS} ${HEADERS_EXPERIMENTS} ${SOURCES_COMMON} ${SOURCES_CLASSIC} ${SOURCES})
+add_executable(bioevo ${HEADERS_COMMON} ${HEADERS_CLASSIC} ${HEADERS} ${HEADERS_EXPERIMENTS} 
+    ${SOURCES_COMMON} ${SOURCES_CLASSIC} ${SOURCES} ${SOURCES_EXPERIMENTS})
 
-target_link_libraries(code_eater_experience ${LIBS})
+target_link_libraries(bioevo ${LIBS})
 

@@ -104,14 +104,6 @@ void UniverseCodeEater::nextStep()
     // the eating process (it gives some its values)
 }
 
-
-void UniverseCodeEater::nextSteps(int nb_steps)
-{
-    this->nextSteps(nb_steps);
-}
-
-
-
 //-------------------- getters
 
 CodeEater*** UniverseCodeEater::getCodeEaters()

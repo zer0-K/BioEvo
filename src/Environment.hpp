@@ -1,36 +1,41 @@
 #pragma once
 
 #include "Flow.hpp"
+#include <string>
 
+/// @brief environment
 class Environment
 {
-private:
+protected:
+    std::string name;   ///< name of the environment
+
     Flow* input;    ///< input of the environment
     Flow* output;   ///< output of the environment
 
 public:
     /**
      * @brief Constructor
-    */
-    Environment();
-
-    /**
-     * @brief set input of the individual
      * 
-     * @param[in] input input to set to the environment
+     * @param[in] name name of the environment
     */
-    void set_input(Flow* input);
+    Environment(std::string name);
 
-    /**
-     * @brief get output of the environment
-     * 
-     * @return output of the environment
-    */
-    Flow* get_output();
-
+    
     /**
     * @brief Perform the computation, making the environment evolve according to the laws we define
     */
     virtual void evolve() = 0;
-};
+
+    
+    /**
+     * getters
+    */
+    std::string get_name();
+    Flow* get_output();
+
+    /**
+     * setters
+    */
+    void set_input(Flow* input);
+}; 
 

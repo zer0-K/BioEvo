@@ -1,5 +1,10 @@
 #include "Buffer.hpp"
 
+Buffer::Buffer()
+{
+
+}
+
 void Buffer::feed_ins_and_outs(Individual* individual, Environment* environment)
 {
     // get outputs

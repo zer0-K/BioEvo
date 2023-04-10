@@ -9,45 +9,24 @@ Universe::Universe(const int width, const int height)
     this->height = height;
 }
 
+Universe::Universe(std::string name, Individual** individuals, int nb_individuals, Environment* environment, Buffer* buffer)
+    : Universe::Universe(name, individuals, nb_individuals, DEFAULT_NB_MAX_INDIVIDUALS, environment, buffer)
+{
+
+}
+
+Universe::Universe(std::string name, Individual** individuals, int nb_individuals, int nb_max_individuals, Environment* environment, Buffer* buffer)
+{
+    this->name = name;
+    this->number_of_individuals = nb_individuals;
+    this->individuals = individuals;
+    this->environment = environment;
+    this->buffer = buffer;
+}
+
 Universe::~Universe()
 {
     // does nothing
-}
-
-
-void Universe::nextSteps(int nb_steps)
-{
-    // check that the number of steps is valid
-    if(nb_steps>0)
-    {
-
-#if DEBUG
-        std::cout<<"---------------- Looping "<<nb_steps<<" step(s) ----------------- (beginning) "<<std::endl;
-#endif
-
-        // perform the steps
-        for(int i=0;i<nb_steps;i++)
-        {
-#if DEBUG
-            std::cout<<"-------------------- step "<<i<<" -------------------- (beginning) "<<std::endl;
-#endif
-            this->nextStep();
-#if DEBUG
-            std::cout<<"-------------------- step "<<i<<" -------------------- (end) "<<std::endl;
-#endif
-        }
-
-        // show
-        this->show();
-    }
-    else if(nb_steps==0)
-    {
-        std::cout<<"Halting program. "<<std::endl;
-    }
-    else
-    {
-        std::cout<<"Wrong number of steps entered, should be > 0. "<<std::endl;
-    }
 }
 
 void Universe::nextStep()
@@ -69,9 +48,24 @@ void Universe::nextStep()
     this->environment->evolve();
 }
 
+void Universe::show()
+{
+    std::cout<<"Universe name : "<<this->name<<std::endl;
+    std::cout<<"\tEnvironment name : "<<this->environment->get_name()<<std::endl;
+    std::cout<<"\tIndividuals : "<<std::endl;
+    for(int i=0; i<this->number_of_individuals; i++)
+    {
+        std::cout<<"\t\t"<<this->individuals[i]->get_name()<<std::endl;
+    }
+}
 
 
 //-------------------- getters
+
+std::string Universe::get_name()
+{
+    return this->name;
+}
 
 int Universe::getWidth()
 {

@@ -2,11 +2,15 @@
 
 #include "PreprocessingDefinitions.hpp"
 #include "Buffer.hpp"
+#include <map>
+#include <string>
 
 /// @brief universe for the experiments
 class Universe
 {
 protected:
+    std::string name;   ///< name of the universe
+
     int width;  ///< width of the universe
     int height; ///< height of the universe
 
@@ -16,22 +20,21 @@ protected:
     Individual** individuals;   ///< individuals living in the universe
     Environment* environment;   ///< environment with which the individual interacts
     Buffer* buffer;             ///< buffer, to feed individual's input with environment's output and vice-vesra
+        
+    std::map<Individual*, float> solutions;     ///< solutions of the problem
 
     int t;  ///< time
 
     bool state; ///< universe state
 
-    /**
-     * @brief Proceed to the next step
-    */
-    virtual void nextStep();
-
 public:
 
     /**
      * @brief Constructor
+     * 
+     * @param[in] name name of the universe
     */
-    Universe();
+    Universe(std::string name);
     
     /**
      * @brief Constructor
@@ -42,23 +45,45 @@ public:
     Universe(const int width, const int height);
 
     /**
+     * @brief Constructor
+     * 
+     * @param[in] name name of the universe
+     * @param[in] individuals individuals at beginning of the universe
+     * @param[in] nb_individuals number of individuals
+     * @param[in] environment environment
+     * @param[in] buffer buffer
+    */
+    Universe(std::string name, Individual** individuals, int nb_individuals, Environment* environment, Buffer* buffer);
+
+     /**
+     * @brief Constructor
+     * 
+     * @param[in] name name of the universe
+     * @param[in] individuals individuals at beginning of the universe
+     * @param[in] nb_individuals number of individuals
+     * @param[in] nb_max_individuals max number of individuals
+     * @param[in] environment environment
+     * @param[in] buffer buffer
+    */
+    Universe(std::string name, Individual** individuals, int nb_individuals, int nb_max_individuals, Environment* environment, Buffer* buffer);
+
+    /**
      * @brief Destructor
     */
     ~Universe();
 
     /**
-     * @brief Show the universe
+     * @brief Proceed to the next step
     */
-    virtual void show()=0;
+    void nextStep();
 
     /**
-     * @brief Proceed to the next steps
-     * 
-     * @param nb_steps number of steps
+     * @brief Show the universe
     */
-    virtual void nextSteps(int nb_steps);
+    void show();
 
     //----- getters
+    std::string get_name();
     int getWidth();
     int getHeight();
 };
