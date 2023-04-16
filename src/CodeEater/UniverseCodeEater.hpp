@@ -79,7 +79,7 @@ public:
     /**
      * @see Universe
     */
-    void nextStep();
+    void next_step();
 
     /**
      * @brief Show the UniverseCodeEater

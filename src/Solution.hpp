@@ -8,7 +8,7 @@ class Solution
 private:
     std::string name;   ///< name of the solution
     Individual* evolved_solution; ///< algorithm which encodes the solution we found
-    float gap;  ///< difference between the solution we found and the real solution
+    double error;  ///< difference between the solution we found and the real solution
 
 public:
     /**
@@ -17,7 +17,7 @@ public:
      * @param[in] evolved_solution individual which has evolved to be close to the solution
      * @param[in] gap difference between the evolved solution and the real solution
     */
-    Solution(Individual* evolved_solution, float gap);
+    Solution(Individual* evolved_solution, double gap);
 
     /**
      * @brief tells if the current solution is better than the given one
@@ -28,9 +28,11 @@ public:
     */
     bool is_better(Solution* solution);
 
-    /**
-     * getters
-    */
+
+    //----- getters
     Individual* get_evolved_solution();
-    float get_gap(); 
+    double get_error(); 
+
+    //----- other
+    std::string to_string();
 };

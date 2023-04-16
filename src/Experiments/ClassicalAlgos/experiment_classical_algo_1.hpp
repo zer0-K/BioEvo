@@ -15,8 +15,16 @@ extern std::string LOG_SUFFIXES_EXPERIMENT_1[];
 extern int experiment_1();
 
 /**
- * @brief affine functions
+ * @brief Linear model dimension 1
  * 
- * @param[in] framework framework of the experience
+ * @param[out] framework framework of the experience
 */
 extern int experiment_1_1(Framework* framework);
+
+/**
+ * @brief Linear model dimension n
+ * 
+ * @param[out] framework framework of the experience
+ * @param[in] dim dimension of the linear model
+*/
+extern int experiment_1_2(Framework* framework, int dim);

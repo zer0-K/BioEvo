@@ -24,7 +24,7 @@ void ExperimentOld::loop()
         std::cin>>timestep;
 
         // proceed 'timestep' eating processes
-        this->universe->nextStep();
-        // you can also perform a loop and call nextStep() to have more control
+        this->universe->next_step();
+        // you can also perform a loop and call next_step() to have more control
     }
 }

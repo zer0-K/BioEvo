@@ -3,5 +3,5 @@
 class ClassicalUniverse
 {
 protected:
-    void nextStep();
+    void next_step();
 };

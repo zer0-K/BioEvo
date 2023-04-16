@@ -16,26 +16,45 @@ public:
     /**
      * @brief Transform individial's output into environment's input
      * 
-     * @param[in] individual_output individual's ouput to feed the environment with
+     * @param[in] individuals_outputs individuals' ouputs to feed the environment with
      * 
-     * @return input for environment
-    */
-    virtual Flow* transform_individual_out_to_environment_in(Flow* individual_ouput) = 0;
+     * @return input for the environment
+     */
+    virtual Flow* transform_individuals_out_to_environment_in(Flow** individuals_ouputs) = 0;
 
     /**
      * @brief Transform environment's output into individial's input
      * 
-     * @param[in] environment_output environment's ouput to feed the individial with
+     * @param[in] environment_output environment's ouput to feed the individials with
+     * @param[in] nb_individuals number of individuals
      * 
-     * @return input for the individual
+     * @return inputs of the individuals
     */
-    virtual Flow* transform_environment_out_to_individual_in(Flow* environment_ouput) = 0;
+    virtual Flow** transform_environment_out_to_individuals_in(Flow* environment_ouput, int nb_individuals) = 0;
 
     /**
-     * @brief Feed individual output to environment input and environment output to individual output
+     * @brief Compute the error between the label and the prediction
      * 
-     * @param[in] individual individual
+     * @param[in] input input given to individual
+     * @param[in] output output (predictions) of the individual
+     * 
+     * @return array of the errors
+    */
+    virtual double compute_errors(Flow* input, Flow* output)=0;
+
+    /**
+     * @brief Feed individuals output to environment input and environment output to individuals input
+     * 
+     * Can be overriden
+     * By default, consider that the environment's input and output are fit for an array of individual
+     * For example, if there are 4 individuals, it considers the environment output is an array of 4 individuals' inputs
+     * 
+     * @param[in] individuals individuals
+     * @param[in] nb_individuals number of individuals
      * @param[in] environment environment
     */
-    void feed_ins_and_outs(Individual* individual, Environment* environment);
+    void feed_ins_and_outs(Individual** individuals, int nb_individuals, Environment* environment);
+
+    //----- other
+    std::string to_string();
 };

@@ -1,9 +1,9 @@
 #include "Solution.hpp"
 
-Solution::Solution(Individual* evolved_solution, float gap)
+Solution::Solution(Individual* evolved_solution, double error)
 {
     this->evolved_solution = evolved_solution;
-    this->gap = gap;
+    this->error = error;
 }
 
 Individual* Solution::get_evolved_solution()
@@ -13,11 +13,20 @@ Individual* Solution::get_evolved_solution()
 
 bool Solution::is_better(Solution* comp_solution)
 {
-    return this->gap < comp_solution->get_gap();
+    return this->error < comp_solution->get_error();
 }
 
 
-float Solution::get_gap()
+double Solution::get_error()
 {
-    return this->gap;
+    return this->error;
+}
+
+std::string Solution::to_string()
+{
+    std::string res = "";
+
+    res += name + std::to_string(error) + " for " + this->evolved_solution->to_string();
+
+    return res;
 }

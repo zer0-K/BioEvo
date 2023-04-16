@@ -1,19 +1,7 @@
-#ifndef DEBUG
-#define DEBUG true
+#ifndef LOG_LEVEL
+#define LOG_LEVEL 1000
 #endif
 
-#ifndef VERBOSE
-#define VERBOSE true
-#endif
-
-#ifndef LOG
-#define LOG true
-#endif
-
-#ifndef LOG_VERBOSE
-#define LOG_VERBOSE true
-#endif
-
-#ifndef LOG_VERBOSE_EXTREME
-#define LOG_VERBOSE_EXTREME true
+#ifndef FLAG_LOG_LEVEL
+#define FLAG_LOG_LEVEL(X) "[LOG LEVEL " #X "] " 
 #endif

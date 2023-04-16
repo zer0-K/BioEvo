@@ -93,7 +93,7 @@ void UniverseCodeEater::show()
 
 //-------------------- next step
 
-void UniverseCodeEater::nextStep()
+void UniverseCodeEater::next_step()
 {
     this->t++;
 

@@ -1,6 +1,6 @@
 #include "ClassicalUniverse.hpp"
 
-void ClassicalUniverse::nextStep()
+void ClassicalUniverse::next_step()
 {
 
 }

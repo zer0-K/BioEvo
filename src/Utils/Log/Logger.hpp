@@ -18,11 +18,10 @@ extern void logger_init(std::string* log_suffixes, int nb_suffixes, std::string 
 /**
 * @brief write text in the log
 * 
-* @param[in] flags flags of the text (for ex : 'DEBUG', 'INFO', 'ERROR',...)
-* @param[in] nb_flags number of flags
+* @param[in] log_level log level
 * @param[in] text text to write in the logs
 */
-extern void logger_write(std::string* flags, int nb_flags, std::string text);
+extern void logger_write(int log_level, std::string text);
 
 /**
 * @brief end the logger (close file,...)

@@ -8,7 +8,6 @@ std::string log_name_full;
 std::fstream log_file;
 
 
-
 void logger_init(std::string* log_suffixes, int nb_suffixes, std::string experiment_name)
 {
     // get log file name and open stream
@@ -22,8 +21,9 @@ void logger_init(std::string* log_suffixes, int nb_suffixes, std::string experim
         tm* gmtm = gmtime(&now);
         std::string date_and_time = asctime(gmtm);
 
-        log_file<<"Date and time : "<<date_and_time<<"\n";
-        log_file<<"Beginning of "<<experiment_name<<"\n";
+        log_file<<"Date and time : "<<date_and_time<<std::endl;
+        log_file<<"Beginning of "<<experiment_name<<std::endl;
+        log_file.flush();
     }
     else
     {
@@ -31,20 +31,21 @@ void logger_init(std::string* log_suffixes, int nb_suffixes, std::string experim
     }
 }
 
-void logger_write(std::string* flags, int nb_flags, std::string text)
+void logger_write(int log_level, std::string text)
 {
-    if(log_file.is_open())
+    if(LOG_LEVEL > log_level)
     {
-        for(int i=0; i<nb_flags; i++)
+        if(log_file.is_open())
         {
-            log_file<<"["<<flags[i]<<"] ";
+            text = FLAG_LOG_LEVEL(log_level) + text;
+            log_file<<text<<std::endl;
+            log_file.flush();
         }
-        log_file<<text<<"\n";
-    }
-    else
-    {
-        std::cout<<"File "<<log_name_full<<" not opened, cannot write in it properly"<<std::endl;
-        std::cout<<"Text to write : "<<text<<std::endl;
+        else
+        {
+            std::cout<<"File "<<log_name_full<<" not opened, cannot write in it properly"<<std::endl;
+            std::cout<<"Text to write : "<<text<<std::endl;
+        }
     }
 }
 
@@ -52,7 +53,8 @@ void logger_end()
 {
     if(log_file.is_open())
     {
-        log_file<<"End\n";
+        log_file<<"End"<<std::endl;
+        log_file.flush();
         log_file.close();
     }
     else

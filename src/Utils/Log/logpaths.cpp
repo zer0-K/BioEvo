@@ -1,5 +1,7 @@
 #include "logpaths.hpp"
 
+#include "../../Constants.hpp"
+
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
@@ -8,7 +10,6 @@ const std::string LOG_PREFIX = "log_experiment";
 const std::string LOG_INFO_SUFFIX = "info";
 
 const std::string EXPERIMENT_CLASSICAL_ALGO_SUFFIX = "classical_algo";
-const std::string EXPERIMENT_CLASSICAL_ALGO_1 = "experiment classical algos 1";
 
 // the paths begin at the root
 std::map<const std::string, std::string> pathsmap = {
@@ -112,7 +113,7 @@ std::string get_log_name_full_relative_path(std::string* log_suffixes, int nb_su
     else
     {
 #if VERBOSE || DEBUG
-        std::cout<<experiment_name<<" does not have an attributed log path.\nTo attribute a log path, ";
+        std::cout<<experiment_name<<" does not have an attributed log path."<<std::endl<<"To attribute a log path, ";
         std::cout<<"set it in src/Utils/Log/logpaths/hpp"<<std::endl;
 #endif
         return "";

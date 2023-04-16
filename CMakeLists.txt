@@ -12,14 +12,20 @@ if (CXX)
 endif (CXX)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+set(CMAKE_BUILD_TYPE Debug)
 
 
 # ********************************* Common *********************************
 
 set(HEADERS_COMMON src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
+    src/Utils/Convert/tostring.hpp
+    src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp
+    src/Utils/Result/Result.hpp src/Utils/Result/Result1.hpp
     src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
     src/Solution.hpp)
 set(SOURCES_COMMON src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
+    src/Utils/Convert/tostring.cpp
+    src/Utils/Result/Result.cpp src/Utils/Result/Result1.cpp
     src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
     src/Solution.cpp src/main.cpp)
 
@@ -32,14 +38,33 @@ set(SOURCES_EXPERIMENTS src/Experiments/ClassicalAlgos/experiment_classical_algo
 
 # ********************************* Classical algos *********************************
 
-set(HEADERS_CLASSIC src/ClassicalAlgos/ClassicalUniverse.hpp 
-    src/ClassicalAlgos/LinearRegression/FlowLinear.hpp src/ClassicalAlgos/LinearRegression/EnvironmentLinear.hpp
-        src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.hpp
-        src/ClassicalAlgos/LinearRegression/BufferLinear.hpp)
+# ********************** Linear regression **********************
+
+
+set(HEADERS_CLASSIC_LINEAR 
+    src/ClassicalAlgos/LinearRegression/Flow/InputLinearIndividual.hpp
+        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearIndividual.hpp
+        src/ClassicalAlgos/LinearRegression/Flow/InputLinearEnvironment.hpp
+        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearEnvironment.hpp
+    src/ClassicalAlgos/LinearRegression/EnvironmentLinear.hpp
+    src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.hpp
+    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.hpp)
+set(SOURCES_CLASSIC_LINEAR 
+    src/ClassicalAlgos/LinearRegression/Flow/InputLinearIndividual.cpp
+        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearIndividual.cpp
+        src/ClassicalAlgos/LinearRegression/Flow/InputLinearEnvironment.cpp
+        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearEnvironment.cpp
+    src/ClassicalAlgos/LinearRegression/EnvironmentLinear.cpp
+    src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.cpp
+    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.cpp)
+
+
+
+
+set(HEADERS_CLASSIC src/ClassicalAlgos/ClassicalUniverse.hpp
+    ${HEADERS_CLASSIC_LINEAR}) 
 set(SOURCES_CLASSIC src/ClassicalAlgos/ClassicalUniverse.cpp
-    src/ClassicalAlgos/LinearRegression/FlowLinear.cpp src/ClassicalAlgos/LinearRegression/EnvironmentLinear.cpp
-        src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.cpp
-        src/ClassicalAlgos/LinearRegression/BufferLinear.cpp)
+    ${SOURCES_CLASSIC_LINEAR})
 
 
 # ********************************* Code Eaters *********************************
