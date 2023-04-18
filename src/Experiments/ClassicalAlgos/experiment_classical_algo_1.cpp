@@ -133,9 +133,9 @@ int experiment_1_2(Framework* framework, int dim)
     double* w = new double[dim];
     for(int d=0;d<dim;d++)
     {
-        w[d] = rand_double(-rand_bound,rand_bound);
+        w[d] = rand_gen::rand_double(-rand_bound,rand_bound);
     }
-    double b = rand_double(-rand_bound, rand_bound);
+    double b = rand_gen::rand_double(-rand_bound, rand_bound);
 
     // environment
     EnvironmentLinear* env_linear = new EnvironmentLinear(env_name, dim, w, b);

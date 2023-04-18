@@ -1,13 +1,14 @@
 #pragma once
 
 #include "../../../Individual.hpp"
+#include "../../../Biology/Trait.hpp"
 
 class LinearRegressionIndividual : Individual
 {
 private:
     int dimension;  ///< dimension 
-    double* w;     ///< the coefficients of the linear model
-    double b;   ///< affine term
+    Trait<double>** w;  ///< coefficients of the linear model
+    Trait<double>* b;   ///< affine term
 
     public:
     /**
@@ -40,4 +41,7 @@ private:
      * @return f(x)
     */
     double compute(double x[]);
+
+    //-----other
+    std::string to_string() override;
 };

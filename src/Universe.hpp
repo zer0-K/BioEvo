@@ -103,7 +103,7 @@ public:
     Flow** prepare_values(int nb_vals);
 
     /**
-     * @brief Make the individuals compute  and get their outputs
+     * @brief Make the individuals compute and get their outputs
      * 
      * @param[in] vals values to compute
     */

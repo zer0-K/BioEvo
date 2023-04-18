@@ -40,24 +40,14 @@ Flow* Individual::get_output()
 
 void Individual::set_input(Flow* input)
 {
-    logger_write(2, FLAG_INFO + FLAG_BEGIN + "Setting input of " + this->name);
-
     // set new input
     this->input = input;
-    
-    logger_write(2, FLAG_INFO + FLAG_END + "Input of " + this->name + " set");
 }
 
 void Individual::set_output(Flow* output)
 {
-    logger_write(2, FLAG_INFO + FLAG_BEGIN + "Setting output of " + this->name);
-
     // set new input
-    Flow* old_output = this->output;
     this->output = output;
-    delete old_output;
-
-    logger_write(2, FLAG_INFO + FLAG_END + "Input of " + this->name + " set");
 }
 
 void Individual::set_number_of_epochs(int nb_epoch_learn)

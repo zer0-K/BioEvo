@@ -28,12 +28,11 @@ Universe::Universe(std::string name, Individual** individuals, int nb_individual
     this->environment = environment;
     this->buffer = buffer;
 
-    int* epochs_individuals = new int[nb_individuals];
+    this->epochs_individuals = new int[nb_individuals];
     for(int i=0;i<nb_individuals;i++)
     {
-        epochs_individuals[i] = DEFAULT_NB_EPOCHS_LEARN;
+        this->epochs_individuals[i] = DEFAULT_NB_EPOCHS_LEARN;
     }
-    this->epochs_individuals = epochs_individuals;
 
     // init some stuff to before first step
     this->environment->init(nb_individuals, epochs_individuals);
@@ -43,38 +42,24 @@ Universe::Universe(std::string name, Individual** individuals, int nb_individual
 
 void Universe::next_step_environment()
 {
-    logger_write(3, FLAG_INFO + FLAG_BEGIN + "Next step for " + this->environment->get_name() + " from " + this->name + "...");
-
     this->environment->evolve(this->number_of_individuals, this->epochs_individuals);
-
-    logger_write(3, FLAG_INFO + FLAG_END + "Step of" + this->environment->get_name() + " from " + this->name + " ended");
 }
 
 void Universe::next_step_individual(int individual_index)
 {
-    logger_write(4, FLAG_INFO + FLAG_BEGIN + "Next step for individual " + std::to_string(individual_index) + " from " + this->name + "...");
-
     this->individuals[individual_index]->evolve();
-
-    logger_write(4, FLAG_INFO + FLAG_END + "Step of individual " + std::to_string(individual_index) + " from " + this->name + " ended");
 }
 
 void Universe::next_step_individuals()
 {
-    logger_write(3, FLAG_INFO + FLAG_BEGIN + "Next step for individuals of " + this->name + "...");
-
-    for(int individual_index  = 0; individual_index<this->number_of_individuals; individual_index++)
+    for(int i=0; i<this->number_of_individuals; i++)
     {
-        this->next_step_individual(individual_index);
+        this->next_step_individual(i);
     }
-
-    logger_write(3, FLAG_INFO + FLAG_END + "Step of individuals of " + this->name + " ended");
 }
 
 void Universe::next_step()
 {
-    logger_write(2, FLAG_INFO + FLAG_BEGIN + "Next step of " + this->name + "...");
-
     // first, feed inputs with the outputs of the other
     this->buffer->feed_ins_and_outs(this->individuals, this->number_of_individuals, this->environment);
 
@@ -83,8 +68,6 @@ void Universe::next_step()
     // then, makes the individuals and the environment evolve
     this->next_step_individuals();
     this->next_step_environment();
-
-    logger_write(2, FLAG_INFO + FLAG_END + "Step of " + this->name + " ended");
 }
 
 Flow** Universe::prepare_values(int nb_vals)
@@ -111,6 +94,7 @@ Flow** Universe::individuals_compute(Flow** values)
 {
     Flow** individuals_out = new Flow*[this->number_of_individuals];
 
+    // compute individuals' outputs one by one
     for(int i=0; i<this->number_of_individuals;i++)
     {
         Flow* individual_out = this->individuals[i]->compute(values[i]);
@@ -122,6 +106,7 @@ Flow** Universe::individuals_compute(Flow** values)
 
 double* Universe::compute_errors(Flow** inputs, Flow** outputs, int nb_flows)
 {
+    // compute the errors for each flow
     double* errors = new double[nb_flows];
     for(int i=0;i<nb_flows;i++)
     {

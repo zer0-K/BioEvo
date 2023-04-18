@@ -17,17 +17,26 @@ set(CMAKE_BUILD_TYPE Debug)
 
 # ********************************* Common *********************************
 
-set(HEADERS_COMMON src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
+set(HEADERS_COMMON_BASIC src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
     src/Utils/Convert/tostring.hpp
     src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp
     src/Utils/Result/Result.hpp src/Utils/Result/Result1.hpp
     src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
     src/Solution.hpp)
-set(SOURCES_COMMON src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
-    src/Utils/Convert/tostring.cpp
+set(SOURCES_COMMON_BASIC src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
+    src/Utils/Convert/tostring.cpp src/Utils/Math/RandomGen.cpp
     src/Utils/Result/Result.cpp src/Utils/Result/Result1.cpp
     src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
     src/Solution.cpp src/main.cpp)
+
+
+# *********************** Biology ***********************
+
+set(HEADERS_COMMON_BIO src/Biology/Gene.hpp src/Biology/AbstractTrait.hpp src/Biology/Trait.hpp)
+set(SOURCES_COMMON_BIO src/Biology/Gene.cpp)
+
+set(HEADERS_COMMON ${HEADERS_COMMON_BASIC} ${HEADERS_COMMON_BIO})
+set(SOURCES_COMMON ${SOURCES_COMMON_BASIC} ${SOURCES_COMMON_BIO})
 
 
 # ********************************* Experiments *********************************
@@ -48,7 +57,8 @@ set(HEADERS_CLASSIC_LINEAR
         src/ClassicalAlgos/LinearRegression/Flow/OutputLinearEnvironment.hpp
     src/ClassicalAlgos/LinearRegression/EnvironmentLinear.hpp
     src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.hpp
-    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.hpp)
+    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.hpp
+    src/ClassicalAlgos/LinearRegression/GeneLinear.hpp)
 set(SOURCES_CLASSIC_LINEAR 
     src/ClassicalAlgos/LinearRegression/Flow/InputLinearIndividual.cpp
         src/ClassicalAlgos/LinearRegression/Flow/OutputLinearIndividual.cpp
@@ -56,8 +66,8 @@ set(SOURCES_CLASSIC_LINEAR
         src/ClassicalAlgos/LinearRegression/Flow/OutputLinearEnvironment.cpp
     src/ClassicalAlgos/LinearRegression/EnvironmentLinear.cpp
     src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.cpp
-    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.cpp)
-
+    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.cpp
+    src/ClassicalAlgos/LinearRegression/GeneLinear.cpp)
 
 
 

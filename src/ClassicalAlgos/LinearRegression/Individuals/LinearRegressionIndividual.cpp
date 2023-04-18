@@ -15,13 +15,15 @@ LinearRegressionIndividual::LinearRegressionIndividual(std::string name, int nb_
     :Individual::Individual(name, nb_epoch_learn)
 {
     this->dimension = dimension;
-    this->w = new double[dimension];
+    this->w = new Trait<double>*[dimension];
 
     for(int d=0;d<dimension;d++)
     {
-        this->w[d] = rand()%100 - 50;
+        this->w[d] = new Trait<double>(rand()%100 - 500);
+        ((AbstractTrait*)this->w[d])->set_name("weight " + std::to_string(d));
     }
-    this->b = rand()%100 - 50;
+    this->b = new Trait<double>(rand()%100 - 50);
+    ((AbstractTrait*)this->b)->set_name("bias");
 
     this->output = (Flow*) new OutputLinearIndividual(NULL, 0);
 }
@@ -63,9 +65,25 @@ double LinearRegressionIndividual::compute(double x[])
     double res = 0;
     for(int i=0; i<this->dimension;i++)
     {
-        res += w[i] * x[i];
+        res += w[i]->get_value() * x[i];
     }
-    res += b;
+    res += b->get_value();
+
+    return res;
+}
+
+//---------- other
+
+std::string LinearRegressionIndividual::to_string()
+{
+    std::string res = Individual::to_string();
+
+    res += this->name + " :  weights : ";
+    for(int i=0;i<this->dimension;i++)
+    {
+        res += std::to_string(this->w[i]->get_value()) + " ";
+    }
+    res += ", bias : " + std::to_string(b->get_value());
 
     return res;
 }

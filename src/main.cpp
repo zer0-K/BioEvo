@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include "Constants.hpp"
 #include "ExperimentOld.hpp"
@@ -11,6 +12,8 @@
 
 int main(int argc, char* argv[])
 {
+    std::default_random_engine generator;
+
     void launch_experiment_code_eaters();
     void launch_experiment_classical_algos();
     int experiment_number = 3;

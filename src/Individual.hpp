@@ -58,5 +58,5 @@ public:
     void set_number_of_epochs(int nb_epoch_learn);
 
     //----- other
-    std::string to_string();
+    virtual std::string to_string();
 };

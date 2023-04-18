@@ -88,40 +88,23 @@ void Framework::insert_solution(Solution* evolved_solution)
 
 void Framework::next_step_environment(int universe_index)
 {
-    logger_write(2, FLAG_INFO + FLAG_FRAMEWORK + FLAG_BEGIN + "Next step for the environment of universe " + std::to_string(universe_index) + " (begin)...");
-    
-    this->universes[universe_index]->next_step_environment();
-
-    logger_write(3, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Step of universe " + std::to_string(universe_index));
+   this->universes[universe_index]->next_step_environment();
 }
 
 void Framework::next_step_individual(int universe_index, int individual_index)
 {
-    logger_write(3, FLAG_INFO + FLAG_FRAMEWORK +FLAG_BEGIN + "Next step for individual " + std::to_string(individual_index) \
-        + " of universe " + std::to_string(universe_index) + "...");
-
     this->universes[universe_index]->next_step_individual(individual_index);
-
-    logger_write(2, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Step of individual " + std::to_string(individual_index) \
-        + " of universe " + std::to_string(universe_index));
 }
 
 void Framework::next_step_individuals(int universe_index)
 {
-    logger_write(2, FLAG_INFO + FLAG_FRAMEWORK + FLAG_BEGIN + "Next step for individuals of universe " + std::to_string(universe_index) + "...");
-
     this->universes[universe_index]->next_step_individuals();
 
-    logger_write(2, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Step of individuals of universe " + std::to_string(universe_index));
 }
 
 void Framework::next_step(int universe_index)
 {
-    logger_write(1, FLAG_INFO + FLAG_FRAMEWORK  + FLAG_BEGIN+ "Next step of universe " + std::to_string(universe_index) + "...");
-
     this->universes[universe_index]->next_step();
-
-    logger_write(1, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Step of universe " + std::to_string(universe_index));
 }
 
 void Framework::test(Result* result, int universe_index, int nb_vals)
@@ -148,11 +131,15 @@ void Framework::test(Result* result, int universe_index, int nb_vals)
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Test");
 }
 
+//---------- setters
+
 void Framework::set_universes(int nb_universes, Universe** universes)
 {
     this->nb_universes = nb_universes;
     this->universes = universes;
 }
+
+//---------- other
 
 std::string Framework::to_string()
 {
