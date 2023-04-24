@@ -52,10 +52,46 @@ std::string convert_str(std::vector<double> vect)
     
     for(int i=1; i<std::min((int)vect.size(), MAX_ARRAY_PRINT); i++)
     {
-        str_return += " " + std::to_string(vect[i]);
+        str_return += ", " + std::to_string(vect[i]);
     }
 
     str_return += "]";
+
+    return str_return;
+}
+
+std::string convert_str(std::vector<std::string> vect)
+{
+    std::string str_return = "[";
+
+    if(vect.size()>0)
+    {
+        str_return += "'" + vect[0] + "'";
+    }
+    
+    for(int i=1; i<std::min((int)vect.size(), MAX_ARRAY_PRINT); i++)
+    {
+        str_return += ",'" + vect[i] + "'";
+    }
+
+    str_return += "]";
+
+    return str_return;
+}
+
+std::string convert_str(std::map<const std::string, std::vector<std::string>> map_names)
+{
+    std::string str_return = "{";
+
+    std::map<const std::string, std::vector<std::string>>::iterator it;
+
+    for (it = map_names.begin(); it != map_names.end(); it++)
+    {
+        str_return += "'" + it->first + "':" + convert_str(it->second) + ","; 
+            
+    }
+
+    str_return.replace( str_return.size()-1, 1, "}");
 
     return str_return;
 }

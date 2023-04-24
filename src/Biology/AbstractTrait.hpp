@@ -17,4 +17,5 @@ public:
 
     //----- other
     std::string to_string() { return this->name; }
+    std::string to_json() { return "{'name'"+this->name+"'}"; }
 };

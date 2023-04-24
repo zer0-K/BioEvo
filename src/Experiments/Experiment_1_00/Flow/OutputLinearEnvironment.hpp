@@ -21,6 +21,7 @@ public:
      * @brief Constructor
      * 
      * @param[in] vals output of the environment 
+     * @param[in] nb_vals number of values
     */
     OutputLinearEnvironment(Pair<double,double>*** vals, int nb_vals[]);
 

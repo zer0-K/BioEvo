@@ -40,6 +40,16 @@ Universe::Universe(std::string name, Individual** individuals, int nb_individual
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " created");
 }
 
+void Universe::init()
+{
+    Flow** inputs_for_individuals = this->prepare_values(100); 
+
+    for(int i=0;i<this->number_of_individuals;i++)
+    {
+        this->individuals[i]->set_input(inputs_for_individuals[i]);
+    }
+}
+
 void Universe::next_step_environment()
 {
     this->environment->evolve(this->number_of_individuals, this->epochs_individuals);
@@ -172,6 +182,26 @@ std::string Universe::to_string()
     }
     res += " ; environment : " + this->environment->to_string();
     res += " ; buffer : " + this->buffer->to_string();
+
+    return res;
+}
+
+std::string Universe::to_json()
+{
+    std::string res = "{";
+
+    res += "name:" + this->name + ",nb_individuals:" + std::to_string(this->number_of_individuals);
+    res += ",'max nb individuals':" + std::to_string(this->max_number_of_individuals);
+    res += ",'epochs for individuals':" + convert_str(this->epochs_individuals, this->get_nb_individuals());
+    res += ",'individuals':[";
+    for(int i=0;i<this->number_of_individuals;i++)
+    {
+        res += this->individuals[i]->to_json() +",";
+    }
+    res.replace( res.size()-1, 1, "");
+    res += "],'environment':" + this->environment->to_json();
+    res += ",'buffer':" + this->buffer->to_json();
+    res += "}";
 
     return res;
 }

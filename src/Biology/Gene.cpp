@@ -24,3 +24,12 @@ std::string Gene::to_string()
     res += "std dev : " + std::to_string(this->std_dev); 
     return res;
 }
+
+std::string Gene::to_json()
+{
+    std::string res = "{";
+    res += "'trait':" + this->trait_driven->to_json();
+    res += ",'mean':" + std::to_string(this->mean);
+    res += ",'std dev':" + std::to_string(this->std_dev); 
+    return res;
+}

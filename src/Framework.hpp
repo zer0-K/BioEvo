@@ -38,6 +38,11 @@ public:
     Framework(int nb_universes, Universe** universes, int nb_max_solutions);
 
     /**
+     * @brief Initialize everything so that the first step is smooth
+    */
+    void init();
+
+    /**
      * @brief perform one environment step
      * 
      * @param[in] universe_index index of the universe

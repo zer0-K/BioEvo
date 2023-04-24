@@ -13,4 +13,5 @@ public:
 
     //----- other
     std::string to_string();
+    std::string to_json();
 };

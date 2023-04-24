@@ -17,9 +17,17 @@ void GeneLinear::drive()
 }
 
 //---------- other
+
 std::string GeneLinear::to_string()
 {
     std::string res = "";
     res += Gene::to_string();
+    return res;
+}
+
+std::string GeneLinear::to_json()
+{
+    std::string res = "";
+    res += Gene::to_json();
     return res;
 }

@@ -14,7 +14,6 @@ Flow* BufferLinear::transform_individuals_out_to_environment_in(Flow** individua
 
 Flow** BufferLinear::transform_environment_out_to_individuals_in(Flow* environment_ouput, int nb_individuals)
 {
-    OutputLinearEnvironment* env_out = (OutputLinearEnvironment*) environment_ouput;
     Pair<double,double>*** output_values = ((OutputLinearEnvironment*) environment_ouput)->get_values();
     int* nb_vals = ((OutputLinearEnvironment*) environment_ouput)->get_nb_vals();
 

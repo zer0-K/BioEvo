@@ -68,6 +68,10 @@ public:
     */
     Universe(std::string name, Individual** individuals, int nb_individuals, int nb_max_individuals, Environment* environment, Buffer* buffer);
 
+    /**
+     * @brief Initialize everything so that first step is smooth
+    */
+    void init();
 
     /**
      * @brief perform one environment step 
@@ -132,4 +136,5 @@ public:
 
     //----- other
     std::string to_string();
+    std::string to_json();
 };

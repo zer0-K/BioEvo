@@ -120,3 +120,36 @@ void EnvironmentLinear::compute(int nb_individuals, int nb_vals)
 
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " has computed values");
 }
+
+//---------- other
+
+std::string EnvironmentLinear::to_string()
+{
+    std::string res = Environment::to_string();
+
+    res += " dimension : " +std::to_string(this->dimension) + " weights : ";
+    for(int i =0; i<this->dimension;i++)
+    {
+        res += std::to_string(this->w[i]) + " ";
+    }
+    res += "bias : " + std::to_string(this->b);
+
+    return res;
+}
+
+std::string EnvironmentLinear::to_json()
+{
+    std::string res = Environment::to_json();
+    res.replace(res.size()-1,1,"");
+
+    res += ",'dimension':" +std::to_string(this->dimension) + ",'weights':[";
+    for(int i =0; i<this->dimension;i++)
+    {
+        res += std::to_string(this->w[i]) + ",";
+    }
+    res.replace(res.size()-1,1,"");
+    res += "],'bias':" + std::to_string(this->b);
+    res += "}";
+
+    return res;
+}

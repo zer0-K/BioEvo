@@ -43,3 +43,8 @@ std::string Buffer::to_string()
 {
     return "buffer not null";
 }
+
+std::string Buffer::to_json()
+{
+    return "{}";
+}

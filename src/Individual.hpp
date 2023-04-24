@@ -59,4 +59,5 @@ public:
 
     //----- other
     virtual std::string to_string();
+    virtual std::string to_json();
 };

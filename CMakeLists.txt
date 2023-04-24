@@ -15,15 +15,24 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_BUILD_TYPE Debug)
 
 
+# ********************************* External libraries *********************************
+
+set(Boost_INCLUDE_DIR "/home/adrien/Disque/Programmation/Packages/cpp/boost_1_81_0")
+FIND_PACKAGE(Boost COMPONENTS asio beast)
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+
+
 # ********************************* Common *********************************
 
-set(HEADERS_COMMON_BASIC src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
+set(HEADERS_COMMON_BASIC src/Server/Server.hpp 
+    src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
     src/Utils/Convert/tostring.hpp
     src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp
     src/Utils/Result/Result.hpp src/Utils/Result/Result1.hpp
     src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
     src/Solution.hpp)
-set(SOURCES_COMMON_BASIC src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
+set(SOURCES_COMMON_BASIC src/Server/Server.cpp
+    src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
     src/Utils/Convert/tostring.cpp src/Utils/Math/RandomGen.cpp
     src/Utils/Result/Result.cpp src/Utils/Result/Result1.cpp
     src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
@@ -41,33 +50,33 @@ set(SOURCES_COMMON ${SOURCES_COMMON_BASIC} ${SOURCES_COMMON_BIO})
 
 # ********************************* Experiments *********************************
 
-set(HEADERS_EXPERIMENTS src/Experiments/ClassicalAlgos/experiment_classical_algo_1.hpp)
-set(SOURCES_EXPERIMENTS src/Experiments/ClassicalAlgos/experiment_classical_algo_1.cpp)
+set(HEADERS_EXPERIMENTS src/Experiments/Experiment_1_00/experiment_1_00.hpp)
+set(SOURCES_EXPERIMENTS src/Experiments/Experiment_1_00/experiment_1_00.cpp)
 
 
 # ********************************* Classical algos *********************************
 
-# ********************** Linear regression **********************
+# ********************** Experiment 1 **********************
 
 
 set(HEADERS_CLASSIC_LINEAR 
-    src/ClassicalAlgos/LinearRegression/Flow/InputLinearIndividual.hpp
-        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearIndividual.hpp
-        src/ClassicalAlgos/LinearRegression/Flow/InputLinearEnvironment.hpp
-        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearEnvironment.hpp
-    src/ClassicalAlgos/LinearRegression/EnvironmentLinear.hpp
-    src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.hpp
-    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.hpp
-    src/ClassicalAlgos/LinearRegression/GeneLinear.hpp)
+    src/Experiments/Experiment_1_00/Flow/InputLinearIndividual.hpp
+        src/Experiments/Experiment_1_00/Flow/OutputLinearIndividual.hpp
+        src/Experiments/Experiment_1_00/Flow/InputLinearEnvironment.hpp
+        src/Experiments/Experiment_1_00/Flow/OutputLinearEnvironment.hpp
+    src/Experiments/Experiment_1_00/EnvironmentLinear.hpp
+    src/Experiments/Experiment_1_00/Individuals/LinearRegressionIndividual.hpp
+    src/Experiments/Experiment_1_00/Flow/BufferLinear.hpp
+    src/Experiments/Experiment_1_00/GeneLinear.hpp)
 set(SOURCES_CLASSIC_LINEAR 
-    src/ClassicalAlgos/LinearRegression/Flow/InputLinearIndividual.cpp
-        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearIndividual.cpp
-        src/ClassicalAlgos/LinearRegression/Flow/InputLinearEnvironment.cpp
-        src/ClassicalAlgos/LinearRegression/Flow/OutputLinearEnvironment.cpp
-    src/ClassicalAlgos/LinearRegression/EnvironmentLinear.cpp
-    src/ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.cpp
-    src/ClassicalAlgos/LinearRegression/Flow/BufferLinear.cpp
-    src/ClassicalAlgos/LinearRegression/GeneLinear.cpp)
+    src/Experiments/Experiment_1_00/Flow/InputLinearIndividual.cpp
+        src/Experiments/Experiment_1_00/Flow/OutputLinearIndividual.cpp
+        src/Experiments/Experiment_1_00/Flow/InputLinearEnvironment.cpp
+        src/Experiments/Experiment_1_00/Flow/OutputLinearEnvironment.cpp
+    src/Experiments/Experiment_1_00/EnvironmentLinear.cpp
+    src/Experiments/Experiment_1_00/Individuals/LinearRegressionIndividual.cpp
+    src/Experiments/Experiment_1_00/Flow/BufferLinear.cpp
+    src/Experiments/Experiment_1_00/GeneLinear.cpp)
 
 
 
@@ -96,5 +105,5 @@ set(SOURCES src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/UniverseCodeEat
 add_executable(bioevo ${HEADERS_COMMON} ${HEADERS_CLASSIC} ${HEADERS} ${HEADERS_EXPERIMENTS} 
     ${SOURCES_COMMON} ${SOURCES_CLASSIC} ${SOURCES} ${SOURCES_EXPERIMENTS})
 
-target_link_libraries(bioevo ${LIBS})
+target_link_libraries(bioevo ${Boost_LIBRARIES} ${LIBS})
 

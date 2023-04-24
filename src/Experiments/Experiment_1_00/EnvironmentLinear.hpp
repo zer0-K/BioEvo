@@ -58,4 +58,8 @@ public:
 
     /// @see Environment::compute
     void compute(int nb_individuals, int nb_vals) override;
+
+    //----- other
+    std::string to_string();
+    std::string to_json();
 };

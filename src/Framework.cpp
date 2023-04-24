@@ -27,6 +27,14 @@ Framework::Framework(int nb_universes, Universe** universes, int nb_max_solution
     this->current_nb_solutions = 0;
 }
 
+void Framework::init()
+{
+    for(int i=0; i<this->nb_universes;i++)
+    {
+        this->universes[i]->init();
+    }
+}
+
 void Framework::insert_solution(Solution* evolved_solution)
 {
     Solution* current_solution;

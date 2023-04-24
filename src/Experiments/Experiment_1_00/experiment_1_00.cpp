@@ -1,4 +1,4 @@
-#include "experiment_classical_algo_1.hpp"
+#include "experiment_1_00.hpp"
 
 #include <fstream>
 #include <chrono>
@@ -9,9 +9,9 @@
 #include "../../Constants.hpp"
 #include "../../Buffer.hpp"
 #include "../../ClassicalAlgos/ClassicalUniverse.hpp"
-#include "../../ClassicalAlgos/LinearRegression/Flow/BufferLinear.hpp"
-#include "../../ClassicalAlgos/LinearRegression/EnvironmentLinear.hpp"
-#include "../../ClassicalAlgos/LinearRegression/Individuals/LinearRegressionIndividual.hpp"
+#include "Flow/BufferLinear.hpp"
+#include "EnvironmentLinear.hpp"
+#include "Individuals/LinearRegressionIndividual.hpp"
 
 
 //---------- constants
@@ -34,7 +34,7 @@ int experiment_1()
     Framework* framework_experiment_1 = new Framework();
 
     experiment_result = experiment_1_1(framework_experiment_1);
-    experiment_result = experiment_1_2(framework_experiment_1, 1);
+    //experiment_result = experiment_1_2(framework_experiment_1, 1);
 
     logger_write(0, FLAG_INIT + "End of experiment 1");
     logger_end();
@@ -52,12 +52,13 @@ int experiment_1_1(Framework* framework)
 
     // params
     std::string env_name = "environment linear model 1";
-    int dim = 1;
-    double w[] = { 3 };
-    double b = 5;
+    int dim = 4;
+    double w[] = { 3, -33, 0, 100 };
+    double b = 0;
 
     // environment
     EnvironmentLinear* env_linear = new EnvironmentLinear(env_name, dim, w, b);
+    logger_write(2, FLAG_INFO + FLAG_DETAILS + env_linear->to_string());
 
 
     //---------- Creating individuals
@@ -65,13 +66,13 @@ int experiment_1_1(Framework* framework)
     // params
     int nb_individuals = 1;
     std::string name_individuals[] = { "individual 1"};
-    int nb_epochs[] = { 10 };
+    int nb_epochs[] = { 100 };
 
     // individuals
     Individual* individuals[nb_individuals];
     for(int i=0; i<nb_individuals;i++)
     {
-        individuals[i] = (Individual*) new LinearRegressionIndividual(name_individuals[i], nb_epochs[i]);
+        individuals[i] = (Individual*) new LinearRegressionIndividual(name_individuals[i], nb_epochs[i], 4);
     }
 
 
@@ -83,8 +84,7 @@ int experiment_1_1(Framework* framework)
     //---------- Creating universe
 
     std::string name_universe = "universe experiment 1.1";
-    Universe* universe = new Universe(name_universe, individuals, nb_individuals, (Environment*) env_linear, (Buffer*) buffer_linear);
-    universe->show();
+    Universe* universe = new Universe(name_universe, individuals, nb_individuals, (Environment*) env_linear, (Buffer*) buffer_linear); 
 
 
     //---------- Creating framework
@@ -99,6 +99,7 @@ int experiment_1_1(Framework* framework)
     
     auto t1 = std::chrono::high_resolution_clock::now();
     int universe_index = 0;
+    framework->init();
     framework->next_step(universe_index);
 
     // time stuff

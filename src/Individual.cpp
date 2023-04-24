@@ -66,3 +66,14 @@ std::string Individual::to_string()
 
     return res;
 }
+
+std::string Individual::to_json()
+{
+    std::string res = "{";
+
+    res += "'name':" + this->name + ",'number of epochs'" + std::to_string(this->number_of_epochs);
+    res += "'input':" + this->input->to_json() + ",'output':" + this->output->to_json();
+    res += "}";
+
+    return res;
+}
