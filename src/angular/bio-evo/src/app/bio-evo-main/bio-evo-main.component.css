@@ -1,0 +1,7 @@
+mat-card {
+    display: inline-table;
+    width:fit-content;
+    margin-top: 15px;
+    margin-left: 15px;
+    padding: 10px;
+}

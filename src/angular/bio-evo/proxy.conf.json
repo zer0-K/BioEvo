@@ -1,0 +1,7 @@
+{
+  "/api-bio-evo/*": {
+    "target": "127.0.0.1:4300",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

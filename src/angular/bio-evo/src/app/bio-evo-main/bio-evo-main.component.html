@@ -1,0 +1,96 @@
+<div class="card-universes">
+
+    <mat-card size="big">
+        <mat-card-header>
+            Experiment
+        </mat-card-header>
+
+
+        <mat-card size="medium">
+            <mat-card-header>
+                Universes
+            </mat-card-header>
+
+            <p>Choose a universe to experiment on</p>
+
+            <ul>
+                <li *ngFor="let universe of universe_list">
+                    <button (click)="click_universe(universe)">
+                        {{universe}}
+                    </button>
+                </li>
+            </ul>
+      
+        </mat-card>
+
+        <mat-card size="medium">
+            <mat-card-header>
+                Environments
+            </mat-card-header>
+
+            <p>Choose an environment to experiment on</p>
+
+            <ul>
+                <li *ngFor="let environment of environment_list">
+                    <button (click)="click_environment(environment)">
+                        {{environment}}
+                    </button>
+                </li>
+            </ul>
+      
+        </mat-card>
+    
+        <mat-card size="medium">
+            <mat-card-header>
+                Species
+            </mat-card-header>
+
+          <p>Choose species for the experiment</p>
+
+            <ul>
+                <li *ngFor="let species_name of species_list">
+                    <button (click)="click_species(species_name)">
+                        {{species_name}}
+                    </button>
+                    <button>
+                        +
+                    </button>
+                </li>
+            </ul>
+      
+        </mat-card>
+
+    </mat-card>
+
+    <mat-card size="big">
+
+        <mat-card-header>
+            Environment details
+        </mat-card-header>
+
+
+
+    </mat-card>
+
+    <mat-card size="big">
+
+        <mat-card-header>
+            Species details
+        </mat-card-header>
+
+
+
+    </mat-card>
+
+    <mat-card size="big">
+
+        <mat-card-header>
+            Current info
+        </mat-card-header>
+
+
+
+    </mat-card>
+
+
+</div>
