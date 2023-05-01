@@ -67,13 +67,42 @@ std::string Individual::to_string()
     return res;
 }
 
-std::string Individual::to_json()
+boost::json::object Individual::to_json()
 {
+    boost::json::object jindividual;
+
+    jindividual["name"] = this->name;
+    jindividual["nb_epoch"] = this->number_of_epochs;
+
+    /*
     std::string res = "{";
 
     res += "'name':" + this->name + ",'number of epochs'" + std::to_string(this->number_of_epochs);
     res += "'input':" + this->input->to_json() + ",'output':" + this->output->to_json();
     res += "}";
 
-    return res;
+    return res;*/
+
+    return jindividual;
+}
+
+std::string Individual::is_ready()
+{
+    bool is_ready = true;
+    std::string message = "Individual missing content : ";
+
+    if(this->name == "")
+    {
+        is_ready = false;
+        message += "name, ";
+    }
+    else
+    {
+        message = this->name + " missing content : ";
+    }
+
+    if(is_ready)
+        return "ready";
+
+    return message;
 }

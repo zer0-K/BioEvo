@@ -137,8 +137,18 @@ std::string EnvironmentLinear::to_string()
     return res;
 }
 
-std::string EnvironmentLinear::to_json()
+boost::json::object EnvironmentLinear::to_json()
 {
+    boost::json::object jenv = Environment::to_json();
+
+    jenv["dimension"] = this->dimension;
+    boost::json::array arr_weights;
+    for(int i=0;i<this->dimension;i++)
+        arr_weights.emplace_back(this->w[i]);
+    jenv["weights"] = arr_weights;
+    jenv["bias"] = this->b;
+
+    /*
     std::string res = Environment::to_json();
     res.replace(res.size()-1,1,"");
 
@@ -151,5 +161,6 @@ std::string EnvironmentLinear::to_json()
     res += "],'bias':" + std::to_string(this->b);
     res += "}";
 
-    return res;
+    return res;*/
+    return jenv;
 }

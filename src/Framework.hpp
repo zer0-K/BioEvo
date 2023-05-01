@@ -87,9 +87,16 @@ public:
     */
     void test(Result* result, int universe_index, int nb_vals);
 
+    
     //----- setters
     void set_universes(int nb_universes, Universe** universes);
+    void add_universe(Universe* universe);
+    void set_environment(Environment* env, int universe_nb);
+    void set_environment(Environment* env, std::string universe_name);
+    void set_individuals(Individual** individuals, int nb_individuals, int universe_nb);
+    void set_individuals(Individual** individuals, int nb_individuals, std::string universe_name);
 
     //----- other
     std::string to_string();
+    boost::json::object to_json();
 };

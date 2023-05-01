@@ -1,96 +1,154 @@
-<div class="card-universes">
+<div class="main-div">
+    <div class="bio-evo-header">
+        <div class="current-info">
+            <p>Selected config : {{current_config}}</p>
+            <p>Current universe : {{current_universe}}</p>
+        </div>
 
-    <mat-card size="big">
-        <mat-card-header>
-            Experiment
-        </mat-card-header>
+        <button mat-button>Refresh</button>
+    </div>
 
+    <mat-accordion class="example-headers-align" multi>
 
-        <mat-card size="medium">
-            <mat-card-header>
-                Universes
-            </mat-card-header>
+        <!----------  Configs  ---------->
 
-            <p>Choose a universe to experiment on</p>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Configs 
+                </mat-panel-title>
+                <mat-panel-description>
+                    Choose an existing config 
+                <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
 
-            <ul>
-                <li *ngFor="let universe of universe_list">
-                    <button (click)="click_universe(universe)">
-                        {{universe}}
-                    </button>
-                </li>
-            </ul>
-      
-        </mat-card>
+            <mat-selection-list multiple="false">
+                <mat-list-option *ngFor="let config_name of configs"
+                    (click)="select_config(config_name)">
+                    <div matListItemLine>
+                        <p>{{config_name}}</p>
+                    </div>
+                </mat-list-option> 
+                <mat-divider></mat-divider>
+            </mat-selection-list>
 
-        <mat-card size="medium">
-            <mat-card-header>
-                Environments
-            </mat-card-header>
-
-            <p>Choose an environment to experiment on</p>
-
-            <ul>
-                <li *ngFor="let environment of environment_list">
-                    <button (click)="click_environment(environment)">
-                        {{environment}}
-                    </button>
-                </li>
-            </ul>
-      
-        </mat-card>
-    
-        <mat-card size="medium">
-            <mat-card-header>
-                Species
-            </mat-card-header>
-
-          <p>Choose species for the experiment</p>
-
-            <ul>
-                <li *ngFor="let species_name of species_list">
-                    <button (click)="click_species(species_name)">
-                        {{species_name}}
-                    </button>
-                    <button>
-                        +
-                    </button>
-                </li>
-            </ul>
-      
-        </mat-card>
-
-    </mat-card>
-
-    <mat-card size="big">
-
-        <mat-card-header>
-            Environment details
-        </mat-card-header>
+        </mat-expansion-panel>
 
 
 
-    </mat-card>
+        <!----------  Universes  ---------->
 
-    <mat-card size="big">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Universes 
+                </mat-panel-title>
+                <mat-panel-description>
+                    Universes of the experiments 
+                <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
 
-        <mat-card-header>
-            Species details
-        </mat-card-header>
+            <p style="color: red;">{{warning_universe}}</p>
+
+            <mat-form-field appearance="fill">
+                <mat-label>New universe</mat-label>
+                <input matInput [(ngModel)]="new_universe">   
+            </mat-form-field>
+
+            <button mat-button (click)="add_universe()">Add</button>
+
+            <mat-selection-list multiple="false">
+                <mat-list-option *ngFor="let universe_name of universes"
+                    (click)="current_universe = universe_name">
+                    <div matListItemLine>
+                        <p>{{universe_name}}</p>
+                        <button mat-button style="color: red;">remove</button>
+                    </div>
+                </mat-list-option> 
+                <mat-divider></mat-divider>
+            </mat-selection-list>
+
+        </mat-expansion-panel>
 
 
+        <!----------  Environments  ---------->
 
-    </mat-card>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Environments 
+                </mat-panel-title>
+                <mat-panel-description>
+                    Environment of {{current_universe}} 
+                <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
 
-    <mat-card size="big">
+            <p style="color: red;" *ngIf="current_universe === &quot;&quot;">
+                No universe selected
+            </p>
 
-        <mat-card-header>
-            Current info
-        </mat-card-header>
+            <p style="color: red;" *ngIf="current_universe !== &quot;&quot;">
+                {{warning_environment}}
+            </p>
+
+            <mat-form-field *ngIf="env_by_univ.get(current_universe) === &quot;&quot;" appearance="fill">
+                <mat-label>Create environment for {{current_universe}}</mat-label>
+                <input matInput [(ngModel)]="new_environment">   
+            </mat-form-field>
+
+            <button mat-button *ngIf="env_by_univ.get(current_universe) === &quot;&quot;"
+                (click)="add_environment()">Add</button>
+
+            <p>{{env_by_univ.get(current_universe)}}</p>
+
+        </mat-expansion-panel>
 
 
+        <!----------  Individuals  ---------->
 
-    </mat-card>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Individuals 
+                </mat-panel-title>
+                <mat-panel-description>
+                    Individuals of {{current_universe}} 
+                <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
 
+            <p style="color: red;" *ngIf="current_universe === &quot;&quot;">
+                No universe selected
+            </p>
 
+            <p style="color: red;" *ngIf="current_universe !== &quot;&quot;">
+                {{warning_individual}}
+            </p>
+
+            <mat-form-field *ngIf="current_universe !== &quot;&quot;"
+                appearance="fill">
+                <mat-label>Create individidual for {{current_universe}}</mat-label>
+                <input matInput [(ngModel)]="new_individual">   
+            </mat-form-field>
+
+            <button mat-button *ngIf="current_universe !== &quot;&quot;"
+                (click)="add_individual()">Add</button>
+
+            <mat-selection-list *ngIf="current_universe !== &quot;&quot;"
+                multiple="false">
+                <mat-list-option *ngFor="let individual_name of indiv_by_univ.get(current_universe)">
+                    <div matListItemLine>
+                        <p>{{individual_name}}</p>
+                        <button mat-button style="color: red;">remove</button>
+                    </div>
+                </mat-list-option> 
+                <mat-divider></mat-divider>
+            </mat-selection-list>
+
+        </mat-expansion-panel>
+
+    </mat-accordion>
 </div>

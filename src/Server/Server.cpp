@@ -5,7 +5,13 @@
 #include <iostream>
 #include <string>
 #include "../Constants.hpp"
+#include "../Utils/Config/config.hpp"
 #include "../Utils/Convert/tostring.hpp"
+#include "../Utils/Convert/toarray.hpp"
+#include "../Framework.hpp"
+#include "../Utils/Convert/json_interprete.hpp"
+
+#include "../Experiments/Experiment_1_00/EnvironmentLinear.hpp"
 
 namespace beast = boost::beast;     // from <boost/beast.hpp>
 namespace http = beast::http;       // from <boost/beast/http.hpp>
@@ -52,7 +58,8 @@ std::vector<std::string> parse_args(std::string args)
 Server::Server(tcp::socket socket)
     : socket_(std::move(socket))
 {
-    this->framework = new Framework();
+    this->framework = new Framework;
+    this->cr = new ConfigRunner(this->framework);
 }
 
 void Server::start()
@@ -89,8 +96,14 @@ void Server::process_request()
     {
         case http::verb::get:
             response_.result(http::status::ok);
-            response_.set(http::field::server, "Beast");
+            response_.set(http::field::server, "BioEvo");
             create_response();
+            break;
+
+        case http::verb::post:
+            response_.result(http::status::ok);
+            response_.set(http::field::server, "BioEvo");
+            manage_post();
             break;
 
         default:
@@ -108,37 +121,76 @@ void Server::process_request()
     write_response();
 }
 
+void Server::manage_post()
+{
+    std::vector<std::string> parsed_args = parse_args(request_.target());
+    std::string url_target = parsed_args[0];
+
+    if(url_target == "/bio-evo-api/instr")
+    {
+        std::string body_instructions = request_.body();  
+        std::vector<boost::json::object> instrs = convert_to_objs(body_instructions);
+
+        if(this->cr->is_executing())
+        {
+            response_.set(http::field::content_type, "text/plain");
+            beast::ostream(response_.body())
+                << "config runner is currently running";
+        }
+        else
+        {
+            this->cr->add_instructions(instrs);
+            this->cr->continue_exec();
+        }
+    }
+    else if(url_target == "/bio-evo-api/apply-config")
+    {
+        std::string config_name = request_.body();
+        std::string instructions = get_config_content(config_name);
+        std::vector<boost::json::object> instrs = convert_to_objs(instructions);
+        
+        if(this->cr->is_executing())
+        {
+            response_.set(http::field::content_type, "text/plain");
+            beast::ostream(response_.body())
+                << "config runner is currently running";
+        }
+        else
+        {
+            this->cr->add_instructions(instrs);
+            this->cr->continue_exec();
+        }
+    }
+}
+
 void Server::create_response()
 {
     // parse arguments
     std::vector<std::string> parsed_args = parse_args(request_.target());
-    
-    if(parsed_args[0] == "/bio-evo-api/time")
-    {
-        response_.set(http::field::content_type, "text/plain"); 
 
-        beast::ostream(response_.body())
-            <<  "test text";
-    }
-    else if(parsed_args[0] == "/bio-evo-api/info")
+    std::string url_target = parsed_args[0];
+    
+    if(url_target == "/bio-evo-api/info")
     {
         response_.set(http::field::content_type, "text/plain"); 
 
         // universes, environments and individuals        
         beast::ostream(response_.body())
-            << "{'universes':"
-            << convert_str(UNIVERSE_NAMES)
-            << ", ";
+            << this->framework->to_json();
+    }
+    else if(url_target == "/bio-evo-api/get-configs")
+    {
+        response_.set(http::field::content_type, "text/plain"); 
+
+        // get configs names/paths        
+        std::vector<std::string> configs = get_config_names();
+        boost::json::array jconfigs;
+
+        for(int i=0;i<configs.size();i++)
+            jconfigs.emplace_back(configs[i]);
 
         beast::ostream(response_.body())
-            << "'environments':"
-            << convert_str(ENV_NAMES_BY_UNIVERSE)
-            << ", ";
-
-        beast::ostream(response_.body())
-            << "'individuals':"
-            << convert_str(INDIVIDUAL_NAMES_BY_ENV)
-            << "}";
+            << jconfigs;
     }
     else
     {

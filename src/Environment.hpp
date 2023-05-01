@@ -2,6 +2,7 @@
 
 #include "Flow.hpp"
 #include <string>
+#include <boost/json.hpp>
 
 /// @brief environment
 class Environment
@@ -72,6 +73,7 @@ public:
 
     //----- other
     std::string to_string();
-    std::string to_json();
+    boost::json::object to_json();
+    std::string is_ready();
 }; 
 

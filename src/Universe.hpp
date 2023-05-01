@@ -131,10 +131,18 @@ public:
     std::string get_name();
     int get_nb_individuals();
     Individual** get_individuals();
+    Individual* get_individual(int pos);
     int getWidth();
     int getHeight();
 
+    //----- setters
+    void set_environment(Environment* env);
+    void set_individuals(Individual** individuals, int nb_individuals);
+    void add_individual(Individual* individual);
+    void remove_individual(int pos);
+
     //----- other
     std::string to_string();
-    std::string to_json();
+    boost::json::object to_json();
+    std::string is_ready();
 };

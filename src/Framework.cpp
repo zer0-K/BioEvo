@@ -139,6 +139,7 @@ void Framework::test(Result* result, int universe_index, int nb_vals)
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Test");
 }
 
+
 //---------- setters
 
 void Framework::set_universes(int nb_universes, Universe** universes)
@@ -147,13 +148,80 @@ void Framework::set_universes(int nb_universes, Universe** universes)
     this->universes = universes;
 }
 
+void Framework::add_universe(Universe* universe)
+{
+    Universe** universes_old = this->universes;
+    this->universes = new Universe*[this->nb_universes+1];
+
+    for(int i=0; i<this->nb_universes;i++)
+    {
+        this->universes[i] = universes_old[i];
+    }
+    this->universes[this->nb_universes] = universe;
+
+    this->nb_universes++;
+}
+
+void Framework::set_environment(Environment* env, int universe_nb)
+{
+    this->universes[universe_nb]->set_environment(env);
+}
+
+void Framework::set_environment(Environment* env, std::string universe_name)
+{
+    for(int i=0; i<this->nb_universes;i++)
+    {
+        if( this->universes[i]->get_name().compare(universe_name)==0 )
+        {
+            this->set_environment(env, i);
+            break;
+        }
+    }
+}
+    
+void Framework::set_individuals(Individual** individuals, int nb_individuals, int universe_nb)
+{
+    if(universe_nb<this->nb_universes)
+    {
+        this->universes[universe_nb]->set_individuals(individuals, nb_individuals);
+    }
+}
+
+void Framework::set_individuals(Individual** individuals, int nb_individuals, std::string universe_name)
+{
+    for(int i=0; i<this->nb_universes;i++)
+    {
+        if( this->universes[i]->get_name().compare(universe_name)==0 )
+        {
+            this->set_individuals(individuals, nb_individuals, i);
+            break;
+        }
+    }
+}
+
+
 //---------- other
 
 std::string Framework::to_string()
 {
     std::string res = "";
 
-    res += "";
+    for(int i=0;i<this->nb_universes;i++)
+    {
+        res += this->universes[i]->get_name() + " : " + this->universes[i]->to_string();
+    }
 
     return res;
+}
+
+boost::json::object Framework::to_json()
+{
+    boost::json::object jframework;
+
+    boost::json::object juniv;
+    for(int i=0; i<this->nb_universes;i++)
+        juniv[this->universes[i]->get_name()] = this->universes[i]->to_json();
+    jframework["universes"] = juniv;
+
+    return jframework;
 }

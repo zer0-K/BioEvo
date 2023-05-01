@@ -11,7 +11,7 @@
 #include <memory>
 #include <string>
 
-#include "../Framework.hpp"
+#include "../Utils/Config/ConfigRunner.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 namespace http = beast::http;           // from <boost/beast/http.hpp>
@@ -30,8 +30,9 @@ public:
     void start(); 
 
 private:
-    Framework* framework;   ///< framework 
-
+    Framework* framework;
+    ConfigRunner* cr;       ///< config runner    
+    
     // The socket for the currently connected client.
     tcp::socket socket_;
 
@@ -39,7 +40,7 @@ private:
     beast::flat_buffer buffer_{8192};
 
     // The request message.
-    http::request<http::dynamic_body> request_;
+    http::request<http::string_body> request_;
 
     // The response message.
     http::response<http::dynamic_body> response_;
@@ -53,6 +54,9 @@ private:
 
     // Determine what needs to be done with the request message.
     void process_request(); 
+
+    // manage post requests
+    void manage_post();
 
     // Construct a response message based on the program state.
     void create_response();

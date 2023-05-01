@@ -9,8 +9,3 @@ std::string Flow::to_string()
 {
     return "flow not null";
 }
-
-std::string Flow::to_json()
-{
-    return "{}";
-}

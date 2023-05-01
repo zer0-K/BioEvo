@@ -69,13 +69,40 @@ std::string Environment::to_string()
     return res;
 }
 
-std::string Environment::to_json()
+boost::json::object Environment::to_json()
 {
+    boost::json::object jenv;
+
+    jenv["name"] = this->name;
+
+    /*
     std::string res = "{";
 
     res += "'name':" + this->name + ",'number of epochs':" + std::to_string(this->number_of_epochs);
     res += ",'input':" + this->input->to_json() + ",'output':" + this->output->to_json();
     res += "}";
 
-    return res;
+    return res;:*/
+    return jenv;
+}
+
+std::string Environment::is_ready()
+{
+    bool is_ready = true;
+    std::string message = "Environment missing content : ";
+
+    if(this->name == "")
+    {
+        is_ready = false;
+        message += "name, ";
+    }
+    else
+    {
+        message = "Missing content of " + this->name + " : ";
+    } 
+
+    if(is_ready)
+        return "ready";
+    
+    return message;
 }

@@ -18,7 +18,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # ********************************* External libraries *********************************
 
 set(Boost_INCLUDE_DIR "/home/adrien/Disque/Programmation/Packages/cpp/boost_1_81_0")
-FIND_PACKAGE(Boost COMPONENTS asio beast)
+FIND_PACKAGE(Boost COMPONENTS asio beast json)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 
@@ -26,14 +26,17 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 set(HEADERS_COMMON_BASIC src/Server/Server.hpp 
     src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
-    src/Utils/Convert/tostring.hpp
+    src/Utils/Convert/tostring.hpp src/Utils/Convert/toarray.hpp src/Utils/Convert/json_interprete.hpp
     src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp
+    src/Utils/Config/config.hpp src/Utils/Config/ConfigRunner.hpp
     src/Utils/Result/Result.hpp src/Utils/Result/Result1.hpp
     src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
     src/Solution.hpp)
 set(SOURCES_COMMON_BASIC src/Server/Server.cpp
     src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
-    src/Utils/Convert/tostring.cpp src/Utils/Math/RandomGen.cpp
+    src/Utils/Convert/tostring.cpp src/Utils/Convert/toarray.cpp
+    src/Utils/Config/config.cpp src/Utils/Config/ConfigRunner.cpp
+    src/Utils/Math/RandomGen.cpp src/Utils/Convert/json_interprete.cpp
     src/Utils/Result/Result.cpp src/Utils/Result/Result1.cpp
     src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
     src/Solution.cpp src/main.cpp)
@@ -105,5 +108,6 @@ set(SOURCES src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/UniverseCodeEat
 add_executable(bioevo ${HEADERS_COMMON} ${HEADERS_CLASSIC} ${HEADERS} ${HEADERS_EXPERIMENTS} 
     ${SOURCES_COMMON} ${SOURCES_CLASSIC} ${SOURCES} ${SOURCES_EXPERIMENTS})
 
-target_link_libraries(bioevo ${Boost_LIBRARIES} ${LIBS})
+target_link_libraries(bioevo ${Boost_LIBRARIES} ${LIBS} /usr/bin/lib/libboost_json.a)
+
 

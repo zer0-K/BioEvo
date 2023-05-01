@@ -12,11 +12,14 @@ const int DEFAULT_NB_MAX_INDIVIDUALS    = 10;
 const std::string EXPERIMENT_WEB                = "web interface";
 const int EXPERIMENT_NUMBER_WEB                 = 0;
 
-const std::string EXPERIMENT_CLASSICAL_ALGO_1   = "experiment classical algos 1";
-const int EXPERIMENT_NUMBER_CLASSICAL_ALGOS     = 1;
+const std::string EXPERIMENT_CONFIG             = "choose config";
+const int EXPERIMENT_NUMBER_CONFIG              = 1;
 
-const int EXPERIMENT_NUMBER_SELF_CHANGING_CODE  = 2;
-const int EXPERIMENT_NUMBER_CODE_EATER          = 3;
+const std::string EXPERIMENT_CLASSICAL_ALGO_1   = "experiment classical algos 1";
+const int EXPERIMENT_NUMBER_CLASSICAL_ALGOS     = 2;
+
+const int EXPERIMENT_NUMBER_SELF_CHANGING_CODE  = 3;
+const int EXPERIMENT_NUMBER_CODE_EATER          = 4;
 
 const int DEFAULT_NB_EPOCHS_LEARN               = 100;
 const int DEFAULT_NB_EPOCHS_EVO                 = 100;

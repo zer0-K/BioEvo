@@ -2,6 +2,7 @@
 
 #include <string>
 #include "Flow.hpp"
+#include <boost/json.hpp>
 
 /// @brief algorithm, as an individual
 class Individual
@@ -59,5 +60,6 @@ public:
 
     //----- other
     virtual std::string to_string();
-    virtual std::string to_json();
+    virtual boost::json::object to_json();
+    virtual std::string is_ready();
 };

@@ -12,8 +12,11 @@ extern const int DEFAULT_NB_MAX_INDIVIDUALS;///< default number of maximum of in
 
 //-------------------- Experiment
 
-extern const std::string EXPERIMENT_WEB;   ///< name of the web interface 
-extern const int EXPERIMENT_NUMBER_WEB;    ///< number of the web interface
+extern const std::string EXPERIMENT_WEB;   ///< name of the web interface mode
+extern const int EXPERIMENT_NUMBER_WEB;    ///< number of the web interface mode
+
+extern const std::string EXPERIMENT_CONFIG;   ///< name of the config mode 
+extern const int EXPERIMENT_NUMBER_CONFIG;    ///< number of the config mode
 
 extern const std::string EXPERIMENT_CLASSICAL_ALGO_1;   ///< name of the first classical algo experiment
 extern const int EXPERIMENT_NUMBER_CLASSICAL_ALGOS;     ///< number for classical algos

@@ -11,6 +11,16 @@ Universe::Universe(const int width, const int height)
     this->height = height;
 }
 
+Universe::Universe(std::string name)
+{
+    this->name = name;
+    this->number_of_individuals = 0;
+    this->max_number_of_individuals = DEFAULT_NB_MAX_INDIVIDUALS;
+    this->individuals = nullptr;
+    this->environment = nullptr;
+    this->buffer = nullptr;
+}
+
 Universe::Universe(std::string name, Individual** individuals, int nb_individuals, Environment* environment, Buffer* buffer)
     : Universe::Universe(name, individuals, nb_individuals, DEFAULT_NB_MAX_INDIVIDUALS, environment, buffer)
 {
@@ -156,6 +166,11 @@ Individual** Universe::get_individuals()
     return this->individuals;
 }
 
+Individual* Universe::get_individual(int pos)
+{
+    return this->individuals[pos];
+}
+
 int Universe::getWidth()
 {
     return this->width;
@@ -166,6 +181,52 @@ int Universe::getHeight()
     return this->height;
 }
 
+//---------- setters
+
+void Universe::set_environment(Environment* env)
+{
+    this->environment = env;
+}
+
+void Universe::set_individuals(Individual** individuals, int nb_individuals)
+{
+    this->number_of_individuals = nb_individuals;
+    this->individuals = individuals;
+}
+
+void Universe::add_individual(Individual* individual)
+{
+    Individual** individuals_old = this->individuals;
+    this->individuals = new Individual*[this->number_of_individuals+1];
+
+    for(int i=0; i<this->number_of_individuals;i++)
+    {
+        this->individuals[i] = individuals_old[i];
+    }
+    this->individuals[this->number_of_individuals] = individual;
+
+    this->number_of_individuals++;
+}
+
+void Universe::remove_individual(int pos)
+{
+    Individual** individuals_old = this->individuals;
+    
+    this->number_of_individuals--;
+    this->individuals = new Individual*[this->number_of_individuals];
+
+    int shift = 0;
+    for(int i=0; i<this->number_of_individuals;i++)
+    {
+        if(i==pos) 
+        {
+            delete this->individuals[i];
+            shift = 1;   
+        }
+        this->individuals[i] = individuals_old[i+shift];
+    }
+}
+
 //---------- other
 
 std::string Universe::to_string()
@@ -174,7 +235,6 @@ std::string Universe::to_string()
 
     res += this->name + " : nb_individuals=" + std::to_string(this->number_of_individuals);
     res += " ; max_nb_individuals=" + std::to_string(this->max_number_of_individuals);
-    res += " ; epochs for individuals : " + convert_str(this->epochs_individuals, this->get_nb_individuals());
     res += " individuals :";
     for(int i=0;i<this->number_of_individuals;i++)
     {
@@ -186,8 +246,22 @@ std::string Universe::to_string()
     return res;
 }
 
-std::string Universe::to_json()
+boost::json::object Universe::to_json()
 {
+    boost::json::object juniverse;
+
+    juniverse["name"] = this->name;
+
+    juniverse["environment"] = this->environment->to_json();
+
+    juniverse["nb_individuals"] = this->number_of_individuals;
+    juniverse["max_nb_individuals"] = this->max_number_of_individuals;
+    boost::json::object jindividuals;
+    for(int i=0;i<this->number_of_individuals;i++)
+        jindividuals[this->individuals[i]->get_name()] = this->individuals[i]->to_json();   
+    juniverse["individuals"] = jindividuals;
+
+    /*
     std::string res = "{";
 
     res += "name:" + this->name + ",nb_individuals:" + std::to_string(this->number_of_individuals);
@@ -203,5 +277,81 @@ std::string Universe::to_json()
     res += ",'buffer':" + this->buffer->to_json();
     res += "}";
 
-    return res;
+    return res;*/
+    return juniverse;
+}
+
+std::string Universe::is_ready()
+{
+    bool is_ready = true;
+    std::string message = "Universe missing content : ";
+    std::string env_message = "";
+    std::string individuals_messages = "";
+
+    if(this->name == "")
+    {
+        message += "name, ";
+        is_ready = false;
+    }
+    else
+    {
+        message = "Missing content of " + this->name + " : ";
+    }
+
+        
+    if(this->environment == nullptr)
+    {
+        message += "environment, ";
+        is_ready = false;
+    }
+    else
+    {
+        env_message = this->environment->is_ready(); 
+    }
+
+        
+    if(this->individuals == nullptr || this->number_of_individuals == 0)
+    {
+        is_ready = false;
+        message += "individuals, ";
+    }
+    else
+    {
+        bool indiv_ready = true;
+        std::string indiv_message;
+
+        for(int i=0;i<this->number_of_individuals;i++)
+        {
+            indiv_message = this->individuals[i]->is_ready();
+
+            if(indiv_message != "ready")
+            {
+                indiv_ready = false;
+                individuals_messages += indiv_message;
+            }
+        }
+
+        if(indiv_ready)
+            individuals_messages = "ready";
+    }
+
+    if(this->buffer == nullptr)
+        message += "buffer, ";
+
+    if(env_message != "" && env_message != "ready")
+    {
+        is_ready = false;
+        message += env_message;
+    }
+
+    if(individuals_messages != "" && individuals_messages != "ready")
+    {
+        is_ready = false;
+        message += individuals_messages;
+    }
+
+    if(is_ready)
+        return "ready";
+
+    return message;
 }

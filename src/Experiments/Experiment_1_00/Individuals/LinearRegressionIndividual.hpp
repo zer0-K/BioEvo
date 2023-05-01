@@ -56,5 +56,5 @@ private:
 
     //-----other
     std::string to_string() override;
-    std::string to_json() override;
+    boost::json::object to_json() override;
 };

@@ -141,8 +141,19 @@ std::string LinearRegressionIndividual::to_string()
     return res;
 }
 
-std::string LinearRegressionIndividual::to_json()
+boost::json::object LinearRegressionIndividual::to_json()
 {
+    boost::json::object jindividual = Individual::to_json();
+
+    jindividual["dimension"] = this->dimension;
+    boost::json::array arr_weights;
+    for(int i=0;i<this->dimension;i++)
+        arr_weights.emplace_back(this->w[i]->get_value());
+    jindividual["weights"] = arr_weights;
+    jindividual["bias"] = this->b->get_value();
+    jindividual["error"] = this->prec_diff;
+
+    /*
     std::string res = Individual::to_json();
     res.replace(res.size()-1,1,"");
 
@@ -154,5 +165,6 @@ std::string LinearRegressionIndividual::to_json()
     res += ",'bias':" + std::to_string(b->get_value());
     res += ",'prec error (relative)':" + std::to_string(this->prec_diff);
 
-    return res;
+    return res;*/
+    return jindividual;
 }
