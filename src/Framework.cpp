@@ -150,16 +150,30 @@ void Framework::set_universes(int nb_universes, Universe** universes)
 
 void Framework::add_universe(Universe* universe)
 {
-    Universe** universes_old = this->universes;
-    this->universes = new Universe*[this->nb_universes+1];
-
-    for(int i=0; i<this->nb_universes;i++)
+    // check if the universe already exists or not first
+    bool isin = false;
+    for(int i=0;i<this->nb_universes;i++)
     {
-        this->universes[i] = universes_old[i];
+        if(this->universes[i]->get_name() == universe->get_name())
+        {
+            isin = true;
+            break;
+        }
     }
-    this->universes[this->nb_universes] = universe;
 
-    this->nb_universes++;
+    if(!isin)
+    {
+        Universe** universes_old = this->universes;
+        this->universes = new Universe*[this->nb_universes+1];
+
+        for(int i=0; i<this->nb_universes;i++)
+        {
+            this->universes[i] = universes_old[i];
+        }
+        this->universes[this->nb_universes] = universe;
+
+        this->nb_universes++;
+    }
 }
 
 void Framework::set_environment(Environment* env, int universe_nb)

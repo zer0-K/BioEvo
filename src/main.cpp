@@ -122,7 +122,9 @@ void launch_server()
 
         tcp::acceptor acceptor{ioc, {address, port}};
         tcp::socket socket{ioc};
-        http_server(acceptor, socket);
+        Framework* framework = new Framework();
+        ConfigRunner* cr = new ConfigRunner(framework); 
+        http_server(acceptor, socket, framework, cr);
 
         ioc.run();
     }
@@ -140,6 +142,11 @@ void launch_config_mode()
     int config_nb = 0;
 
     std::cout<<"Select the config to launch"<<std::endl;
+    for(int i=0;i<nb_cfg;i++)
+    {
+        std::cout<< i << " - " << configs[i] <<std::endl;
+    }
+
     std::cin>>config_nb;
 
     if(config_nb>=nb_cfg || config_nb<0)

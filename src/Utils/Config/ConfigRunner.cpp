@@ -30,7 +30,7 @@ void ConfigRunner::add_instructions(std::vector<boost::json::object> instruction
 
 void ConfigRunner::continue_exec()
 {
-    is_running = true;
+    this->is_running = true;
 
     // index of the current set of instructions
     int set_instr_curr_ind = 0;
@@ -45,6 +45,8 @@ void ConfigRunner::continue_exec()
         {
             set_instr_curr_ind++;
             instr_curr_ind = 0;
+
+            this->is_running = false;
         } 
         else if(instr_name == "BREAK")
         {

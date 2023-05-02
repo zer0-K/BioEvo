@@ -1,0 +1,16 @@
+{
+    "nb instructions": 2,
+    "instruction 1": {
+        "name": "ADD_UNIVERSE",
+        "params": {
+            "name": "universe test config",
+            "environment":  {
+                "name": "environment test config"
+            }
+        }
+    },
+    "instruction 2": {
+        "name": "END",
+        "params": null
+    }
+}

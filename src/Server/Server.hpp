@@ -19,12 +19,12 @@ namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 
-void http_server(tcp::acceptor& acceptor, tcp::socket& socket);
+void http_server(tcp::acceptor& acceptor, tcp::socket& socket, Framework* &framework, ConfigRunner* &cr);
 
 class Server : public std::enable_shared_from_this<Server>
 {
 public:
-    Server(tcp::socket socket);
+    Server(tcp::socket socket, Framework* framework, ConfigRunner* cr);
 
     // Initiate the asynchronous operations associated with the connection.
     void start(); 

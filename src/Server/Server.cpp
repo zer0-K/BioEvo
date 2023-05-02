@@ -29,14 +29,14 @@ std::time_t now()
     return std::time(0);
 }
 
-void http_server(tcp::acceptor& acceptor, tcp::socket& socket)
+void http_server(tcp::acceptor& acceptor, tcp::socket& socket, Framework* &framework, ConfigRunner* &cr)
 {
   acceptor.async_accept(socket,
       [&](beast::error_code ec)
       {
-          if(!ec)
-              std::make_shared<Server>(std::move(socket))->start();
-          http_server(acceptor, socket);
+        if(!ec)
+            std::make_shared<Server>(std::move(socket), framework, cr)->start();
+        http_server(acceptor, socket, framework, cr);
       });
 }
 
@@ -55,11 +55,11 @@ std::vector<std::string> parse_args(std::string args)
     return parsed_args;
 }
 
-Server::Server(tcp::socket socket)
+Server::Server(tcp::socket socket, Framework* framework, ConfigRunner* cr)
     : socket_(std::move(socket))
 {
-    this->framework = new Framework;
-    this->cr = new ConfigRunner(this->framework);
+    this->framework = framework;
+    this->cr = cr;
 }
 
 void Server::start()
@@ -131,7 +131,7 @@ void Server::manage_post()
         std::string body_instructions = request_.body();  
         std::vector<boost::json::object> instrs = convert_to_objs(body_instructions);
 
-        if(this->cr->is_executing())
+        if(cr->is_executing())
         {
             response_.set(http::field::content_type, "text/plain");
             beast::ostream(response_.body())
@@ -139,8 +139,8 @@ void Server::manage_post()
         }
         else
         {
-            this->cr->add_instructions(instrs);
-            this->cr->continue_exec();
+            cr->add_instructions(instrs);
+            cr->continue_exec();
         }
     }
     else if(url_target == "/bio-evo-api/apply-config")
@@ -149,7 +149,7 @@ void Server::manage_post()
         std::string instructions = get_config_content(config_name);
         std::vector<boost::json::object> instrs = convert_to_objs(instructions);
         
-        if(this->cr->is_executing())
+        if(cr->is_executing())
         {
             response_.set(http::field::content_type, "text/plain");
             beast::ostream(response_.body())
@@ -157,8 +157,8 @@ void Server::manage_post()
         }
         else
         {
-            this->cr->add_instructions(instrs);
-            this->cr->continue_exec();
+            cr->add_instructions(instrs);
+            cr->continue_exec();
         }
     }
 }
@@ -176,7 +176,7 @@ void Server::create_response()
 
         // universes, environments and individuals        
         beast::ostream(response_.body())
-            << this->framework->to_json();
+            << framework->to_json();
     }
     else if(url_target == "/bio-evo-api/get-configs")
     {

@@ -252,7 +252,10 @@ boost::json::object Universe::to_json()
 
     juniverse["name"] = this->name;
 
-    juniverse["environment"] = this->environment->to_json();
+    if(this->environment == nullptr)
+        juniverse["environment"] = "null";
+    else
+        juniverse["environment"] = this->environment->to_json();
 
     juniverse["nb_individuals"] = this->number_of_individuals;
     juniverse["max_nb_individuals"] = this->max_number_of_individuals;

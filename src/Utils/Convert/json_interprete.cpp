@@ -1,5 +1,7 @@
 #include "json_interprete.hpp"
 
+#include "../../Experiments/Experiment_1_00/EnvironmentLinear.hpp"
+
 std::vector<boost::json::object> convert_to_objs(std::string instr_txt)
 {
     std::vector<boost::json::object> instructions = std::vector<boost::json::object>();
@@ -55,10 +57,12 @@ std::string add_universe(Framework* framework, boost::json::object* params)
             if(message.substr(0, 5) == "Error")
                 return message;
         }
+        
+        return "Success";
     }
     else
     {
-        return "Error : can't add universe : must provide a name for the universe";
+       return "Error : can't add universe : must provide a name for the universe";
     }
 }
 
@@ -76,6 +80,14 @@ std::string add_environment(Framework* framework, boost::json::object* params)
         if(jenv_name != nullptr)
         {
             std::string env_name = boost::json::value_to<std::string>(*jenv_name);
+
+            // set the environment to the universe   
+            // TODO : for the moment, linear environment
+            int dim = 1;
+            double w[] = { 3 };
+            double b = 4;
+            Environment* env = (Environment*) new EnvironmentLinear(env_name, dim, w, b);
+            framework->set_environment(env, universe_name);
         }
         else
         {

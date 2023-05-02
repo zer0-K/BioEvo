@@ -37,6 +37,8 @@ public:
     */
     Framework(int nb_universes, Universe** universes, int nb_max_solutions);
 
+    
+
     /**
      * @brief Initialize everything so that the first step is smooth
     */
