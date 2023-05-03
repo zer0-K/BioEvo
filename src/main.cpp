@@ -108,7 +108,7 @@ void launch_server()
     try
     {
         const std::string address_str = "127.0.0.1";
-        const int port_nb = 4300;
+        const int port_nb = 4301;
         const std::string target = "/bio-evo-api";
         int version = 11;
  

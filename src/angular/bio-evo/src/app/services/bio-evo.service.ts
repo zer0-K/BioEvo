@@ -8,7 +8,7 @@ import { UtilsService } from './utils.service';
   providedIn: 'root'
 })
 export class BioEvoService {
-  apiUrl: string = "http://localhost:4300/bio-evo-api/"
+  apiUrl: string = "http://localhost:4301/bio-evo-api/"
 
   post: string = "instr"
   cfg: string = "get-configs"

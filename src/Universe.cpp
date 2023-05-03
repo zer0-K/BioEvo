@@ -257,7 +257,7 @@ boost::json::object Universe::to_json()
     else
         juniverse["environment"] = this->environment->to_json();
 
-    juniverse["nb_individuals"] = this->number_of_individuals;
+    juniverse["nb individuals"] = this->number_of_individuals;
     juniverse["max_nb_individuals"] = this->max_number_of_individuals;
     boost::json::object jindividuals;
     for(int i=0;i<this->number_of_individuals;i++)

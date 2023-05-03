@@ -1,5 +1,5 @@
 {
-    "nb instructions": 3,
+    "nb instructions": 4,
     "instruction 1": {
         "name": "ADD_UNIVERSE",
         "params": {
@@ -15,7 +15,28 @@
             }
         }
     },
-    "instruction 3": {
+    "instruction 3" : {
+        "name": "SET_INDIVIDUALS",
+        "params": {
+            "universe name": "universe test config",
+            "nb individuals": 3,
+            "individuals": [
+                { 
+                    "name" : "individual test 1",
+                    "dimension": 2
+                },
+                { 
+                    "name" : "individual test 2",
+                    "dimension": 2
+                },
+                { 
+                    "name" : "individual test 3",
+                    "dimension": 2
+                }
+            ]
+        }
+    },
+    "instruction 4": {
         "name": "END",
         "params": null
     }

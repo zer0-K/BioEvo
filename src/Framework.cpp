@@ -205,7 +205,7 @@ void Framework::set_individuals(Individual** individuals, int nb_individuals, st
 {
     for(int i=0; i<this->nb_universes;i++)
     {
-        if( this->universes[i]->get_name().compare(universe_name)==0 )
+        if( this->universes[i]->get_name() == universe_name )
         {
             this->set_individuals(individuals, nb_individuals, i);
             break;
