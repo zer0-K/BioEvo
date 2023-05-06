@@ -1,12 +1,12 @@
 #include "Solution.hpp"
 
-Solution::Solution(Individual* evolved_solution, double error)
+Solution::Solution(sp_individual evolved_solution, double error)
 {
     this->evolved_solution = evolved_solution;
     this->error = error;
 }
 
-Individual* Solution::get_evolved_solution()
+sp_individual Solution::get_evolved_solution()
 {
     return this->evolved_solution;
 }

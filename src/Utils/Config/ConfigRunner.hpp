@@ -7,7 +7,8 @@
 class ConfigRunner
 {
 private:
-    Framework* framework;
+    //sp_framework framework;
+    sp_framework framework;
 
     std::vector<std::string> executed_instructions;
     std::vector<boost::json::object>* instructions_list;
@@ -16,7 +17,8 @@ private:
     bool is_running;
 
 public:
-    ConfigRunner(Framework* framework);
+    //ConfigRunner(sp_framework framework);
+    ConfigRunner(sp_framework framework);
 
     void add_instructions(std::vector<boost::json::object> instructions);
 
@@ -24,3 +26,5 @@ public:
 
     bool is_executing();
 };
+
+typedef std::shared_ptr<ConfigRunner> sp_configrunner;

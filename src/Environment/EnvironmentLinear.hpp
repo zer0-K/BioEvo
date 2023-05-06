@@ -64,3 +64,5 @@ public:
     std::string to_string();
     boost::json::object to_json();
 };
+
+typedef std::shared_ptr<EnvironmentLinear> sp_environment_linear;

@@ -7,7 +7,7 @@ class Solution
 {
 private:
     std::string name;   ///< name of the solution
-    Individual* evolved_solution; ///< algorithm which encodes the solution we found
+    sp_individual evolved_solution; ///< algorithm which encodes the solution we found
     double error;  ///< difference between the solution we found and the real solution
 
 public:
@@ -17,7 +17,7 @@ public:
      * @param[in] evolved_solution individual which has evolved to be close to the solution
      * @param[in] gap difference between the evolved solution and the real solution
     */
-    Solution(Individual* evolved_solution, double gap);
+    Solution(sp_individual evolved_solution, double gap);
 
     /**
      * @brief tells if the current solution is better than the given one
@@ -30,7 +30,7 @@ public:
 
 
     //----- getters
-    Individual* get_evolved_solution();
+    sp_individual get_evolved_solution();
     double get_error(); 
 
     //----- other

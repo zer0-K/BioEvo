@@ -2,7 +2,7 @@
 
 #include "../json/interprete_json.hpp"
 
-ConfigRunner::ConfigRunner(Framework* framework)
+ConfigRunner::ConfigRunner(sp_framework framework)
 {
     this->framework = framework;
 

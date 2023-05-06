@@ -122,8 +122,8 @@ void launch_server()
 
         tcp::acceptor acceptor{ioc, {address, port}};
         tcp::socket socket{ioc};
-        Framework* framework = new Framework();
-        ConfigRunner* cr = new ConfigRunner(framework); 
+        sp_framework framework = std::make_shared<Framework>();
+        sp_configrunner cr = std::make_shared<ConfigRunner>(framework); 
         http_server(acceptor, socket, framework, cr);
 
         ioc.run();
@@ -158,8 +158,8 @@ void launch_config_mode()
     std::string cfg_txt = get_config_content(configs[config_nb]);
     std::vector<boost::json::object> instructions = convert_to_objs(cfg_txt);
 
-    Framework* framework = new Framework();
-    ConfigRunner* cr = new ConfigRunner(framework); 
+    sp_framework framework = std::make_shared<Framework>();
+    sp_configrunner cr = std::make_shared<ConfigRunner>(framework); 
 
     cr->add_instructions(instructions);
     cr->continue_exec();

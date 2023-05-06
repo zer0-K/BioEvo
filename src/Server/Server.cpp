@@ -28,7 +28,7 @@ std::time_t now()
     return std::time(0);
 }
 
-void http_server(tcp::acceptor& acceptor, tcp::socket& socket, Framework* &framework, ConfigRunner* &cr)
+void http_server(tcp::acceptor& acceptor, tcp::socket& socket, sp_framework &framework, sp_configrunner &cr)
 {
   acceptor.async_accept(socket,
       [&](beast::error_code ec)
@@ -54,7 +54,7 @@ std::vector<std::string> parse_args(std::string args)
     return parsed_args;
 }
 
-Server::Server(tcp::socket socket, Framework* framework, ConfigRunner* cr)
+Server::Server(tcp::socket socket, sp_framework framework, sp_configrunner cr)
     : socket_(std::move(socket))
 {
     this->framework = framework;

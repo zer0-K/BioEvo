@@ -13,13 +13,13 @@ Framework::Framework()
     this->current_nb_solutions = 0;
 }
 
-Framework::Framework(int nb_universes, Universe** universes)
-    :Framework::Framework(nb_universes, universes, DEFAULT_NB_MAX_SOLUTIONS)
+Framework::Framework(std::vector<sp_universe> universes)
+    :Framework::Framework(universes, DEFAULT_NB_MAX_SOLUTIONS)
 {
     // nothing here
 }
 
-Framework::Framework(int nb_universes, Universe** universes, int nb_max_solutions)
+Framework::Framework(std::vector<sp_universe> universes, int nb_max_solutions)
 {
     this->nb_universes = nb_universes;
     this->universes = universes;
@@ -119,7 +119,7 @@ void Framework::test(int universe_index, int nb_vals)
 {
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_BEGIN + "Test");
 
-    Universe* universe = this->universes[universe_index];
+    sp_universe universe = this->universes[universe_index];
 
     // create some inputs for the individuals 
     std::vector<sp_flow> prepared_vals = universe->prepare_values(nb_vals);
@@ -128,7 +128,7 @@ void Framework::test(int universe_index, int nb_vals)
     std::vector<sp_flow> computed_vals = universe->individuals_compute(prepared_vals);
 
     Solution** solutions = new Solution*[universe->get_nb_individuals()];
-    double* gaps = universe->compute_errors(prepared_vals, computed_vals, universe->get_nb_individuals());
+    std::vector<double> gaps = universe->compute_errors(prepared_vals, computed_vals, universe->get_nb_individuals());
     for(int i=0; i<universe->get_nb_individuals();i++)
     {
         solutions[i] = new Solution(universe->get_individuals()[i], gaps[i]);
@@ -140,13 +140,13 @@ void Framework::test(int universe_index, int nb_vals)
 
 //---------- setters
 
-void Framework::set_universes(int nb_universes, Universe** universes)
+void Framework::set_universes(std::vector<sp_universe> universes)
 {
     this->nb_universes = nb_universes;
     this->universes = universes;
 }
 
-void Framework::add_universe(Universe* universe)
+void Framework::add_universe(sp_universe universe)
 {
     // check if the universe already exists or not first
     bool isin = false;
@@ -161,25 +161,17 @@ void Framework::add_universe(Universe* universe)
 
     if(!isin)
     {
-        Universe** universes_old = this->universes;
-        this->universes = new Universe*[this->nb_universes+1];
-
-        for(int i=0; i<this->nb_universes;i++)
-        {
-            this->universes[i] = universes_old[i];
-        }
-        this->universes[this->nb_universes] = universe;
-
+        this->universes.push_back(universe);
         this->nb_universes++;
     }
 }
 
-void Framework::set_environment(Environment* env, int universe_nb)
+void Framework::set_environment(sp_environment env, int universe_nb)
 {
     this->universes[universe_nb]->set_environment(env);
 }
 
-void Framework::set_environment(Environment* env, std::string universe_name)
+void Framework::set_environment(sp_environment env, std::string universe_name)
 {
     for(int i=0; i<this->nb_universes;i++)
     {
@@ -191,21 +183,21 @@ void Framework::set_environment(Environment* env, std::string universe_name)
     }
 }
     
-void Framework::set_individuals(Individual** individuals, int nb_individuals, int universe_nb)
+void Framework::set_individuals(std::vector<sp_individual> individuals, int universe_nb)
 {
     if(universe_nb<this->nb_universes)
     {
-        this->universes[universe_nb]->set_individuals(individuals, nb_individuals);
+        this->universes[universe_nb]->set_individuals(individuals);
     }
 }
 
-void Framework::set_individuals(Individual** individuals, int nb_individuals, std::string universe_name)
+void Framework::set_individuals(std::vector<sp_individual> individuals, std::string universe_name)
 {
     for(int i=0; i<this->nb_universes;i++)
     {
         if( this->universes[i]->get_name() == universe_name )
         {
-            this->set_individuals(individuals, nb_individuals, i);
+            this->set_individuals(individuals, i);
             break;
         }
     }

@@ -15,3 +15,5 @@ public:
     /// @see Buffer
     double compute_errors(sp_flow input, sp_flow output);
 };
+
+typedef std::shared_ptr<BufferLinear> sp_bufferlinear;

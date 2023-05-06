@@ -7,7 +7,7 @@ class Framework
 {
 private:
     int nb_universes;   ///< number of universes
-    Universe** universes;   ///< universes in which
+    std::vector<sp_universe> universes;   ///< universes in which
 
     Solution** evolved_solutions;   ///< evolved solutions (sorted : first element is best solution)
     int nb_max_solutions;   ///< max number of evolved solutions we want to keep
@@ -22,19 +22,17 @@ public:
     /**
      * @brief Constructor
      * 
-     * @param[in] nb_universes number of universes
      * @param[in] universes universes
     */
-    Framework(int nb_universes, Universe** universes);
+    Framework(std::vector<sp_universe> universes);
 
     /**
      * @brief Constructor
      * 
-     * @param[in] nb_universes number of universes
      * @param[in] universes universes
      * @param[in] nb_max_solutions max number of solutions we want to keep
     */
-    Framework(int nb_universes, Universe** universes, int nb_max_solutions);
+    Framework(std::vector<sp_universe> universes, int nb_max_solutions);
 
     
 
@@ -89,14 +87,16 @@ public:
 
     
     //----- setters
-    void set_universes(int nb_universes, Universe** universes);
-    void add_universe(Universe* universe);
-    void set_environment(Environment* env, int universe_nb);
-    void set_environment(Environment* env, std::string universe_name);
-    void set_individuals(Individual** individuals, int nb_individuals, int universe_nb);
-    void set_individuals(Individual** individuals, int nb_individuals, std::string universe_name);
+    void set_universes(std::vector<sp_universe> universes);
+    void add_universe(sp_universe universe);
+    void set_environment(sp_environment env, int universe_nb);
+    void set_environment(sp_environment env, std::string universe_name);
+    void set_individuals(std::vector<sp_individual> individuals, int universe_nb);
+    void set_individuals(std::vector<sp_individual> individuals, std::string universe_name);
 
     //----- other
     std::string to_string();
     boost::json::object to_json();
 };
+
+typedef std::shared_ptr<Framework> sp_framework;

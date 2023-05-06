@@ -16,33 +16,29 @@ Universe::Universe(std::string name)
     this->name = name;
     this->number_of_individuals = 0;
     this->max_number_of_individuals = DEFAULT_NB_MAX_INDIVIDUALS;
-    this->individuals = nullptr;
+    this->individuals = std::vector<sp_individual>();
     this->environment = nullptr;
     this->buffer = nullptr;
 }
 
-Universe::Universe(std::string name, Individual** individuals, int nb_individuals, Environment* environment, Buffer* buffer)
-    : Universe::Universe(name, individuals, nb_individuals, DEFAULT_NB_MAX_INDIVIDUALS, environment, buffer)
+Universe::Universe(std::string name, std::vector<sp_individual> individuals, sp_environment environment, sp_buffer buffer)
+    : Universe::Universe(name, individuals, DEFAULT_NB_MAX_INDIVIDUALS, environment, buffer)
 {
     // do nothing here
 }
 
-Universe::Universe(std::string name, Individual** individuals, int nb_individuals, int nb_max_individuals, Environment* environment, Buffer* buffer)
+Universe::Universe(std::string name, std::vector<sp_individual> individuals, int nb_max_individuals, sp_environment environment, sp_buffer buffer)
 {
     logger_write(1, FLAG_INIT + FLAG_BEGIN + "Creating universe. name : " + name + "...");
 
     this->name = name;
-    this->number_of_individuals = nb_individuals;
+    this->number_of_individuals = individuals.size();
     this-> max_number_of_individuals = nb_max_individuals;
     this->individuals = individuals;
     this->environment = environment;
     this->buffer = buffer;
 
-    this->epochs_individuals = std::vector<int>(nb_individuals);
-    for(int i=0;i<nb_individuals;i++)
-    {
-        this->epochs_individuals[i] = DEFAULT_NB_EPOCHS_LEARN;
-    }
+    this->epochs_individuals = std::vector<int>(this->number_of_individuals, DEFAULT_NB_EPOCHS_LEARN);
 
     // init some stuff to before first step
     this->environment->init(epochs_individuals);
@@ -81,7 +77,7 @@ void Universe::next_step_individuals()
 void Universe::next_step()
 {
     // first, feed inputs with the outputs of the other
-    this->buffer->feed_ins_and_outs(this->individuals, this->number_of_individuals, this->environment);
+    this->buffer->feed_ins_and_outs(this->individuals, this->environment);
 
     // TODO allow the experimenter to act between each of the steps ?
 
@@ -124,10 +120,10 @@ std::vector<sp_flow> Universe::individuals_compute(std::vector<sp_flow> values)
     return individuals_out;
 }
 
-double* Universe::compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows)
+std::vector<double> Universe::compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows)
 {
     // compute the errors for each flow
-    double* errors = new double[nb_flows];
+    std::vector<double> errors(nb_flows);
     for(int i=0;i<nb_flows;i++)
     {
         errors[i] += this->buffer->compute_errors(inputs[i], outputs[i]);
@@ -161,12 +157,12 @@ int Universe::get_nb_individuals()
     return this->number_of_individuals;
 }
 
-Individual** Universe::get_individuals()
+std::vector<sp_individual> Universe::get_individuals()
 {
     return this->individuals;
 }
 
-Individual* Universe::get_individual(int pos)
+sp_individual Universe::get_individual(int pos)
 {
     return this->individuals[pos];
 }
@@ -183,48 +179,40 @@ int Universe::getHeight()
 
 //---------- setters
 
-void Universe::set_environment(Environment* env)
+void Universe::set_environment(sp_environment env)
 {
     this->environment = env;
 }
 
-void Universe::set_individuals(Individual** individuals, int nb_individuals)
+void Universe::set_individuals(std::vector<sp_individual> individuals)
 {
-    this->number_of_individuals = nb_individuals;
+    this->number_of_individuals = individuals.size();
     this->individuals = individuals;
 }
 
-void Universe::add_individual(Individual* individual)
+void Universe::add_individual(sp_individual individual)
 {
-    Individual** individuals_old = this->individuals;
-    this->individuals = new Individual*[this->number_of_individuals+1];
-
-    for(int i=0; i<this->number_of_individuals;i++)
+    bool isin = false;
+    for(int i=0;i<this->number_of_individuals;i++)
     {
-        this->individuals[i] = individuals_old[i];
+        if(this->individuals[i]->get_name() == individual->get_name())
+        {
+            isin = true;
+            break;
+        }
     }
-    this->individuals[this->number_of_individuals] = individual;
-
-    this->number_of_individuals++;
+    
+    if(!isin)
+    {
+        this->individuals.push_back(individual);
+        this->number_of_individuals++;
+    } 
 }
 
 void Universe::remove_individual(int pos)
 {
-    Individual** individuals_old = this->individuals;
-    
     this->number_of_individuals--;
-    this->individuals = new Individual*[this->number_of_individuals];
-
-    int shift = 0;
-    for(int i=0; i<this->number_of_individuals;i++)
-    {
-        if(i==pos) 
-        {
-            delete this->individuals[i];
-            shift = 1;   
-        }
-        this->individuals[i] = individuals_old[i+shift];
-    }
+    this->individuals.erase(this->individuals.begin() + pos);
 }
 
 //---------- other
@@ -313,7 +301,7 @@ std::string Universe::is_ready()
     }
 
         
-    if(this->individuals == nullptr || this->number_of_individuals == 0)
+    if(this->individuals.size() == 0 || this->number_of_individuals == 0)
     {
         is_ready = false;
         message += "individuals, ";

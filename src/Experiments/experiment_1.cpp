@@ -29,7 +29,7 @@ int experiment_1()
     logger_write(0, FLAG_INIT + "Beginning of experiment 1");
 
     int experiment_result = 0;
-    Framework* framework_experiment_1 = new Framework();
+    sp_framework framework_experiment_1 = std::make_shared<Framework>();
 
     experiment_result = experiment_1_1(framework_experiment_1);
     //experiment_result = experiment_1_2(framework_experiment_1, 1);
@@ -42,7 +42,7 @@ int experiment_1()
 
 //-------------------- Experiment 1.1
 
-int experiment_1_1(Framework* framework)
+int experiment_1_1(sp_framework framework)
 {
     logger_write(0, FLAG_INIT + "Beginning of experiment 1.1");
 
@@ -55,7 +55,7 @@ int experiment_1_1(Framework* framework)
     double b = 0;
 
     // environment
-    EnvironmentLinear* env_linear = new EnvironmentLinear(env_name, dim, w, b);
+    sp_environment_linear env_linear = std::make_shared<EnvironmentLinear>(env_name, dim, w, b);
     logger_write(2, FLAG_INFO + FLAG_DETAILS + env_linear->to_string());
 
 
@@ -67,29 +67,29 @@ int experiment_1_1(Framework* framework)
     std::vector<int> nb_epochs(1,100);
 
     // individuals
-    Individual* individuals[nb_individuals];
+    std::vector<sp_individual> individuals(nb_individuals);
     for(int i=0; i<nb_individuals;i++)
     {
-        individuals[i] = (Individual*) new IndividualLinear(name_individuals[i], nb_epochs[i], 4);
+        individuals[i] = std::make_shared<IndividualLinear>(name_individuals[i], nb_epochs[i], 4);
     }
 
 
     //----- Creating buffer
 
-    BufferLinear* buffer_linear = new BufferLinear();
+    sp_buffer buffer_linear = std::make_shared<BufferLinear>();
 
 
     //---------- Creating universe
 
     std::string name_universe = "universe experiment 1.1";
-    Universe* universe = new Universe(name_universe, individuals, nb_individuals, (Environment*) env_linear, (Buffer*) buffer_linear); 
+    sp_universe universe = std::make_shared<Universe>(name_universe, individuals, env_linear, buffer_linear); 
 
 
     //---------- Creating framework
 
     int nb_universes = 1;
-    Universe* universes[] = { universe };
-    framework->set_universes(nb_universes, universes);
+    std::vector<sp_universe> universes{ universe };
+    framework->set_universes(universes);
 
 
 
@@ -114,7 +114,7 @@ int experiment_1_1(Framework* framework)
 
 //-------------------- Experiment 1.2
 
-int experiment_1_2(Framework* framework, int dim)
+int experiment_1_2(sp_framework framework, int dim)
 {
     logger_write(0, FLAG_INIT + "Beginning of experiment 1.2");
 
@@ -134,7 +134,7 @@ int experiment_1_2(Framework* framework, int dim)
     double b = rand_gen::rand_double(-rand_bound, rand_bound);
 
     // environment
-    EnvironmentLinear* env_linear = new EnvironmentLinear(env_name, dim, w, b);
+    sp_environment_linear env_linear = std::make_shared<EnvironmentLinear>(env_name, dim, w, b);
 
 
     //---------- Creating individuals
@@ -145,30 +145,30 @@ int experiment_1_2(Framework* framework, int dim)
     std::vector<int> nb_epochs(1, 100);
 
     // individuals
-    Individual* individuals[nb_individuals];
+    std::vector<sp_individual> individuals(nb_individuals);
     for(int i=0; i<nb_individuals;i++)
     {
-        individuals[i] = (Individual*) new IndividualLinear(name_individuals[i], nb_epochs[i]);
+        individuals[i] = std::make_shared<IndividualLinear>(name_individuals[i], nb_epochs[i]);
     }
 
 
     //----- Creating buffer
 
-    BufferLinear* buffer_linear = new BufferLinear();
+    sp_bufferlinear buffer_linear = std::make_shared<BufferLinear>();
 
 
     //---------- Creating universe
 
     std::string name_universe = "universe experiment 1.1";
-    Universe* universe = new Universe(name_universe, individuals, nb_individuals, (Environment*) env_linear, (Buffer*) buffer_linear);
+    sp_universe universe = std::make_shared<Universe>(name_universe, individuals, env_linear, buffer_linear);
     universe->show();
 
 
     //---------- Creating framework
 
     int nb_universes = 1;
-    Universe* universes[] = { universe };
-    framework->set_universes(nb_universes, universes);
+    std::vector<sp_universe> universes{ universe };
+    framework->set_universes(universes);
 
 
 

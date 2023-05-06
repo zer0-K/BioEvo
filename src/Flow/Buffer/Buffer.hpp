@@ -52,10 +52,9 @@ public:
      * For example, if there are 4 individuals, it considers the environment output is an array of 4 individuals' inputs
      * 
      * @param[in] individuals individuals
-     * @param[in] nb_individuals number of individuals
      * @param[in] environment environment
     */
-    void feed_ins_and_outs(Individual** individuals, int nb_individuals, Environment* environment);
+    void feed_ins_and_outs(std::vector<sp_individual> individuals, sp_environment environment);
 
     //----- other
     std::string to_string();

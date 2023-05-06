@@ -66,3 +66,5 @@ public:
     virtual boost::json::object to_json();
     virtual std::string is_ready();
 };
+
+typedef std::shared_ptr<Individual> sp_individual;

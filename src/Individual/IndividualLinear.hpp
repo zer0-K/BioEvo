@@ -58,3 +58,5 @@ private:
     std::string to_string() override;
     boost::json::object to_json() override;
 };
+
+typedef std::shared_ptr<IndividualLinear> sp_individual_linear;

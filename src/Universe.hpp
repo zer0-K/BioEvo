@@ -17,11 +17,11 @@ protected:
     int max_number_of_individuals;  ///< maximum number of individuals in the universe
     std::vector<int> epochs_individuals;    ///< number of epochs for the individuals
 
-    Individual** individuals;   ///< individuals living in the universe
-    Environment* environment;   ///< environment with which the individual interacts
-    Buffer* buffer;             ///< buffer, to feed individual's input with environment's output and vice-vesra
+    std::vector<sp_individual> individuals;   ///< individuals living in the universe
+    sp_environment environment;   ///< environment with which the individual interacts
+    sp_buffer buffer;             ///< buffer, to feed individual's input with environment's output and vice-vesra
         
-    std::map<Individual*, double> solutions;     ///< solutions of the problem
+    std::map<sp_individual, double> solutions;     ///< solutions of the problem
 
     int t;  ///< time
 
@@ -43,23 +43,21 @@ public:
      * 
      * @param[in] name name of the universe
      * @param[in] individuals individuals at beginning of the universe
-     * @param[in] nb_individuals number of individuals
      * @param[in] environment environment
      * @param[in] buffer buffer
     */
-    Universe(std::string name, Individual** individuals, int nb_individuals, Environment* environment, Buffer* buffer);
+    Universe(std::string name, std::vector<sp_individual> individuals, sp_environment environment, sp_buffer buffer);
 
      /**
      * @brief Constructor
      * 
      * @param[in] name name of the universe
      * @param[in] individuals individuals at beginning of the universe
-     * @param[in] nb_individuals number of individuals
      * @param[in] nb_max_individuals max number of individuals
      * @param[in] environment environment
      * @param[in] buffer buffer
     */
-    Universe(std::string name, Individual** individuals, int nb_individuals, int nb_max_individuals, Environment* environment, Buffer* buffer);
+    Universe(std::string name, std::vector<sp_individual> individuals, int nb_max_individuals, sp_environment environment, sp_buffer buffer);
 
     /**
      * @brief Initialize everything so that first step is smooth
@@ -113,7 +111,7 @@ public:
      * @param[in] outputs output (predictions) of the individuals
      * @param[in] nb_flows number of individuals
     */
-    double* compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows);
+    std::vector<double> compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows);
 
     /**
      * @brief Show the universe
@@ -123,15 +121,15 @@ public:
     //----- getters
     std::string get_name();
     int get_nb_individuals();
-    Individual** get_individuals();
-    Individual* get_individual(int pos);
+    std::vector<sp_individual> get_individuals();
+    sp_individual get_individual(int pos);
     int getWidth();
     int getHeight();
 
     //----- setters
-    void set_environment(Environment* env);
-    void set_individuals(Individual** individuals, int nb_individuals);
-    void add_individual(Individual* individual);
+    void set_environment(sp_environment env);
+    void set_individuals(std::vector<sp_individual> individuals);
+    void add_individual(sp_individual individual);
     void remove_individual(int pos);
 
     //----- other

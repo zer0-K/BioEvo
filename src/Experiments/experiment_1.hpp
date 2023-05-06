@@ -19,7 +19,7 @@ extern int experiment_1();
  * 
  * @param[out] framework framework of the experience
 */
-extern int experiment_1_1(Framework* framework);
+extern int experiment_1_1(sp_framework framework);
 
 /**
  * @brief Linear model dimension n
@@ -27,4 +27,4 @@ extern int experiment_1_1(Framework* framework);
  * @param[out] framework framework of the experience
  * @param[in] dim dimension of the linear model
 */
-extern int experiment_1_2(Framework* framework, int dim);
+extern int experiment_1_2(sp_framework framework, int dim);

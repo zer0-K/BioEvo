@@ -26,7 +26,7 @@ std::vector<boost::json::object> convert_to_objs(std::string instr_txt)
     return instructions;
 }
 
-std::string exec_instr(Framework* framework, std::string instr_name, boost::json::object* instr_params)
+std::string exec_instr(sp_framework framework, std::string instr_name, boost::json::object* instr_params)
 { 
     if(instr_name == "ADD_UNIVERSE")
         return add_universe(framework, instr_params);
@@ -36,7 +36,7 @@ std::string exec_instr(Framework* framework, std::string instr_name, boost::json
         return set_individuals(framework, instr_params);
 }
 
-std::string add_universe(Framework* framework, boost::json::object* params)
+std::string add_universe(sp_framework framework, boost::json::object* params)
 {
     boost::json::value* jname = params->if_contains("name");
     boost::json::value* jenvironment = params->if_contains("environment");
@@ -48,7 +48,7 @@ std::string add_universe(Framework* framework, boost::json::object* params)
 
         std::string name = boost::json::value_to<std::string>(*jname);
 
-        framework->add_universe(new Universe(name));
+        framework->add_universe(std::make_shared<Universe>(name));
 
         if(jenvironment != nullptr)
         {
@@ -81,7 +81,7 @@ std::string add_universe(Framework* framework, boost::json::object* params)
     }
 }
 
-std::string add_environment(Framework* framework, boost::json::object* params)
+std::string add_environment(sp_framework framework, boost::json::object* params)
 {
     boost::json::value* jname_universe = params->if_contains("universe name");
     boost::json::object* jenvironment = params->if_contains("environment")->if_object();
@@ -101,8 +101,10 @@ std::string add_environment(Framework* framework, boost::json::object* params)
             int dim = 1;
             std::vector<double> w(dim, 3);
             double b = 4;
-            Environment* env = (Environment*) new EnvironmentLinear(env_name, dim, w, b);
+            sp_environment env = std::make_shared<EnvironmentLinear>(env_name, dim, w, b);
             framework->set_environment(env, universe_name);
+
+            return "Success";
         }
         else
         {
@@ -119,7 +121,7 @@ std::string add_environment(Framework* framework, boost::json::object* params)
     }
 }
 
-std::string set_individuals(Framework* framework, boost::json::object* params)
+std::string set_individuals(sp_framework framework, boost::json::object* params)
 {
     boost::json::value* jname_universe = params->if_contains("universe name");
     boost::json::value* jnb_individuals = params->if_contains("nb individuals");
@@ -130,16 +132,16 @@ std::string set_individuals(Framework* framework, boost::json::object* params)
         std::string universe_name = boost::json::value_to<std::string>(*jname_universe);
         int nb_individuals = boost::json::value_to<int>(*jnb_individuals);
 
-        Individual** individuals = new Individual*[nb_individuals];
+        std::vector<sp_individual> individuals = std::vector<sp_individual>(nb_individuals);
 
         for(int i=0;i<nb_individuals;i++)
         {
             std::string name_individual = boost::json::value_to<std::string>(*(jindividuals->at(i).if_object()->if_contains("name")));
             int dimension_individual = boost::json::value_to<int>(*(jindividuals->at(i).if_object()->if_contains("dimension")));
-            individuals[i] = (Individual*) new IndividualLinear(name_individual, dimension_individual);
+            individuals[i] = std::make_shared<IndividualLinear>(name_individual, dimension_individual);
         }
 
-        framework->set_individuals(individuals, nb_individuals, universe_name); 
+        framework->set_individuals(individuals, universe_name); 
 
         return "Success";
     }

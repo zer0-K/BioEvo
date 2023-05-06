@@ -1,0 +1,5 @@
+TODO :
+
+clean logs
+shared pointers for Pair and boost objetcs
+less verbose code ( use 'auto')
