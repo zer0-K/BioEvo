@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Flow.hpp"
 #include "../Utils/Math/Pair.hpp"
 
@@ -14,7 +16,7 @@ private:
      * An individual input in a linear model is an array of tagged points for learning
     */
     Pair<double,double>*** output_values;
-    int* nb_vals;   ///< number of values for each individuals
+    std::vector<int> nb_vals;   ///< number of values for each individuals
 
 public:
     /**
@@ -23,14 +25,14 @@ public:
      * @param[in] vals output of the environment 
      * @param[in] nb_vals number of values
     */
-    OutputLinearEnvironment(Pair<double,double>*** vals, int nb_vals[]);
+    OutputLinearEnvironment(Pair<double,double>*** vals, std::vector<int> nb_vals);
 
     /**
      * getters
     */
 
     Pair<double,double>*** get_values();
-    int* get_nb_vals();
+    std::vector<int> get_nb_vals();
 };
 
 typedef std::shared_ptr<OutputLinearEnvironment> sp_output_linear_environment;

@@ -11,7 +11,7 @@
 #include "../Flow/InputLinearEnvironment.hpp"
 #include "../Flow/OutputLinearEnvironment.hpp"
 
-EnvironmentLinear::EnvironmentLinear(std::string name, int dimension, double w[], double b)
+EnvironmentLinear::EnvironmentLinear(std::string name, int dimension, std::vector<double> w, double b)
     :Environment::Environment(name)
 {
     logger_write(2, FLAG_INIT + "Creating linear model environment...");
@@ -20,10 +20,11 @@ EnvironmentLinear::EnvironmentLinear(std::string name, int dimension, double w[]
     this->w = w;
     this->b = b;
 
+    // TODO : create non empty initial output ?
     this->input = std::make_shared<InputLinearEnvironment>();
 
     logger_write(2,FLAG_INIT + name + " created. Linear model dimension : " + std::to_string(dimension) \
-        + ", weights : " + convert_str(w, dimension) +", biases : " + std::to_string(b));
+        + ", weights : " + convert_str(w) +", biases : " + std::to_string(b));
 }
 
 Pair<double,double>** EnvironmentLinear::generate_random_output(int individual_index, int nb_vals)
@@ -34,10 +35,12 @@ Pair<double,double>** EnvironmentLinear::generate_random_output(int individual_i
     for(int epoch=0; epoch<nb_vals; epoch++)
     {
         // create a random feature
-        double* random_x = new double[this->dimension];
+        std::vector<double> random_x(this->dimension);
         for(int d=0; d<this->dimension;d++)
         {
-            random_x[d] = rand()%1000 - 500;
+            random_x.push_back(
+                rand()%1000 - 500
+            );
         }
 
         // compute its image
@@ -50,10 +53,11 @@ Pair<double,double>** EnvironmentLinear::generate_random_output(int individual_i
     return generated_vals;
 }
 
-void EnvironmentLinear::generate_random_ouputs(int nb_individuals, int nb_epochs_learn[])
+void EnvironmentLinear::generate_random_outputs(std::vector<int> nb_epochs_learn)
 {
     logger_write(2, FLAG_INFO + FLAG_EVOLVE + "Creating output of " + this->name);
 
+    size_t nb_individuals = nb_epochs_learn.size();
 
     // generate input for each individual
     Pair<double,double>** output_vals[nb_individuals]; 
@@ -69,7 +73,7 @@ void EnvironmentLinear::generate_random_ouputs(int nb_individuals, int nb_epochs
     logger_write(3, FLAG_INFO + FLAG_EVOLVE + FLAG_DETAILS + convert_str(output_vals[0], nb_epochs_learn[0], this->dimension));
 }
 
-double EnvironmentLinear::compute_linear(double x[])
+double EnvironmentLinear::compute_linear(std::vector<double> x)
 {
     // compute the linear transformation w1*x1 + ... + wn*xn + b
     double res = 0;
@@ -82,20 +86,20 @@ double EnvironmentLinear::compute_linear(double x[])
     return res;
 }
 
-void EnvironmentLinear::evolve(int nb_individuals, int nb_epochs[])
+void EnvironmentLinear::evolve(std::vector<int> nb_epochs)
 {
     logger_write(1, FLAG_INFO + FLAG_EVOLVE + FLAG_BEGIN + "Evolving + " + this->name);
 
-    this->generate_random_ouputs(nb_individuals, nb_epochs);
+    this->generate_random_outputs(nb_epochs);
 
     logger_write(1, FLAG_INFO + FLAG_EVOLVE + FLAG_END + this->name + " evolved");
 }
 
-void EnvironmentLinear::init(int nb_individuals, int nb_epochs[])
+void EnvironmentLinear::init(std::vector<int> nb_epochs)
 {
     logger_write(1, FLAG_INIT + FLAG_BEGIN + "Initializing " + this->name);
 
-    this->generate_random_ouputs(nb_individuals, nb_epochs);
+    this->generate_random_outputs(nb_epochs);
 
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " initialized");
 }
@@ -111,11 +115,7 @@ void EnvironmentLinear::compute(int nb_individuals, int nb_vals)
     }
 
     // set output
-    int* nb_vals_array = new int[nb_individuals];
-    for(int i=0;i<nb_individuals;i++)
-    {
-        nb_vals_array[i] = nb_vals;
-    }
+    std::vector<int> nb_vals_array(nb_individuals, nb_vals);
     this->output = std::make_shared<OutputLinearEnvironment>(outputs, nb_vals_array);
 
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " has computed values");
@@ -127,12 +127,10 @@ std::string EnvironmentLinear::to_string()
 {
     std::string res = Environment::to_string();
 
-    res += " dimension : " +std::to_string(this->dimension) + " weights : ";
-    for(int i =0; i<this->dimension;i++)
-    {
-        res += std::to_string(this->w[i]) + " ";
-    }
-    res += "bias : " + std::to_string(this->b);
+    res     +=      " dimension : " +std::to_string(this->dimension) + " weights : ";
+    for(int i =0; i<this->dimension;i++) {
+        res +=      std::to_string(this->w[i]) + " "; }
+    res     +=      "bias : " + std::to_string(this->b);
 
     return res;
 }
@@ -141,26 +139,12 @@ boost::json::object EnvironmentLinear::to_json()
 {
     boost::json::object jenv = Environment::to_json();
 
-    jenv["dimension"] = this->dimension;
+    jenv["dimension"]   =   this->dimension;
     boost::json::array arr_weights;
-    for(int i=0;i<this->dimension;i++)
-        arr_weights.emplace_back(this->w[i]);
-    jenv["weights"] = arr_weights;
-    jenv["bias"] = this->b;
+    for(int i=0;i<this->dimension;i++) {
+        arr_weights.emplace_back(this->w[i]); }
+    jenv["weights"]     =   arr_weights;
+    jenv["bias"]        =   this->b;
 
-    /*
-    std::string res = Environment::to_json();
-    res.replace(res.size()-1,1,"");
-
-    res += ",'dimension':" +std::to_string(this->dimension) + ",'weights':[";
-    for(int i =0; i<this->dimension;i++)
-    {
-        res += std::to_string(this->w[i]) + ",";
-    }
-    res.replace(res.size()-1,1,"");
-    res += "],'bias':" + std::to_string(this->b);
-    res += "}";
-
-    return res;*/
     return jenv;
 }

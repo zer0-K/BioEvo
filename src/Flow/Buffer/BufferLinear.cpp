@@ -18,7 +18,7 @@ std::vector<sp_flow> BufferLinear::transform_environment_out_to_individuals_in(s
         environment_ouput
     );
     Pair<double,double>*** output_values = outlinenv->get_values();
-    int* nb_vals = outlinenv->get_nb_vals();
+    std::vector<int> nb_vals = outlinenv->get_nb_vals();
 
     std::vector<sp_flow> individuals_inputs;
     for(int i=0; i<nb_individuals; i++)

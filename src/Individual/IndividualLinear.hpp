@@ -7,8 +7,8 @@ class IndividualLinear : public Individual
 {
 private:
     int dimension;  ///< dimension 
-    Trait<double>** w;  ///< coefficients of the linear model
-    Trait<double>* b;   ///< affine term
+    std::vector<std::shared_ptr<Trait<double>>> w;  ///< coefficients of the linear model
+    std::shared_ptr<Trait<double>> b;   ///< affine term
 
     // ad hoc params
     int learning_method;    ///< learning method
@@ -43,7 +43,7 @@ private:
     std::shared_ptr<Flow> compute(std::shared_ptr<Flow> x) override;
 
     // learning methods
-    void update_params_1(double x[], double f_x, double f_x_true);
+    void update_params_1(std::vector<double> x, double f_x, double f_x_true);
 
     /**
      * @brief compute f_x for a given x
@@ -52,7 +52,7 @@ private:
      * 
      * @return f(x)
     */
-    double compute_single(double x[]);
+    double compute_single(std::vector<double> x);
 
     //-----other
     std::string to_string() override;

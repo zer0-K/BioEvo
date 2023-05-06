@@ -51,7 +51,7 @@ int experiment_1_1(Framework* framework)
     // params
     std::string env_name = "environment linear model 1";
     int dim = 4;
-    double w[] = { 3, -33, 0, 100 };
+    std::vector<double> w{ 3, -33, 0, 100 };
     double b = 0;
 
     // environment
@@ -64,7 +64,7 @@ int experiment_1_1(Framework* framework)
     // params
     int nb_individuals = 1;
     std::string name_individuals[] = { "individual 1"};
-    int nb_epochs[] = { 100 };
+    std::vector<int> nb_epochs(1,100);
 
     // individuals
     Individual* individuals[nb_individuals];
@@ -126,7 +126,7 @@ int experiment_1_2(Framework* framework, int dim)
 
     // params
     std::string env_name = "environment linear model 2";
-    double* w = new double[dim];
+    std::vector<double> w(dim);
     for(int d=0;d<dim;d++)
     {
         w[d] = rand_gen::rand_double(-rand_bound,rand_bound);
@@ -142,7 +142,7 @@ int experiment_1_2(Framework* framework, int dim)
     // params
     int nb_individuals = 1;
     std::string name_individuals[] = { "individual 1"};
-    int nb_epochs[] = { 100 };
+    std::vector<int> nb_epochs(1, 100);
 
     // individuals
     Individual* individuals[nb_individuals];

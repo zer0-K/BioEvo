@@ -38,7 +38,7 @@ public:
     * @param[in] nb_inviduals number of individuals of the current generation
     * @param[in] nb_epochs number of epochs for these individuals
     */
-    virtual void evolve(int nb_individuals, int nb_epochs[]) = 0;
+    virtual void evolve(std::vector<int> nb_epochs) = 0;
 
     /**
     * @brief Creates the initial output of the environment to feed the first generation of individuals 
@@ -46,7 +46,7 @@ public:
     * @param[in] nb_inviduals number of individuals of the current generation
     * @param[in] nb_epochs number of epochs for these individuals
     */
-    virtual void init(int nb_individuals, int nb_epochs[]) = 0;
+    virtual void init(std::vector<int> nb_epochs) = 0;
 
     /**
      * @brief Compute some values for the individual

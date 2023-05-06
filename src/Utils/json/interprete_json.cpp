@@ -99,7 +99,7 @@ std::string add_environment(Framework* framework, boost::json::object* params)
             // set the environment to the universe   
             // TODO : for the moment, linear environment
             int dim = 1;
-            double w[] = { 3 };
+            std::vector<double> w(dim, 3);
             double b = 4;
             Environment* env = (Environment*) new EnvironmentLinear(env_name, dim, w, b);
             framework->set_environment(env, universe_name);

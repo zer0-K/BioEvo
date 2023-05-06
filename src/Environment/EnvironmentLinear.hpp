@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Environment.hpp"
 #include "../Utils/Math/Pair.hpp"
 
@@ -8,7 +10,7 @@ class EnvironmentLinear : public Environment
 {
 protected:
     int dimension;  ///< dimension 
-    double* w;     ///< the coefficients of the linear model
+    std::vector<double> w;     ///< the coefficients of the linear model
     double b;   ///< affine term
 
     /**
@@ -17,10 +19,9 @@ protected:
      * Generate the output for each individual
      * The individuals can have different learning number of epochs
      * 
-     * @param[in] nb_individuals number of individuals
      * @param[in] nb_epochs_learn numbers of epochs for learning for each individual
     */
-    void generate_random_ouputs(int nb_individuals, int nb_epochs_learn[]);
+    void generate_random_outputs(std::vector<int> nb_epochs_learn);
 
     /**
      * @brief Generate a random output for a given individual
@@ -37,7 +38,7 @@ protected:
      * 
      * @param[in] x feature to transform
     */
-    double compute_linear(double x[]);
+    double compute_linear(std::vector<double> x);
 
 public:
     /**
@@ -48,13 +49,13 @@ public:
      * @param[in] w linear coefficients of the linear model
      * @param[in] b affine term 
     */
-    EnvironmentLinear(std::string name, int dimension, double w[], double b);
+    EnvironmentLinear(std::string name, int dimension, std::vector<double> w, double b);
 
     /// @see Environment::evolve
-    void evolve(int nb_individuals, int nb_epochs[]) override;
+    void evolve(std::vector<int> nb_epochs) override;
 
     /// @see Environment::evolve
-    void init(int nb_individuals, int nb_epochs[]) override;
+    void init(std::vector<int> nb_epochs) override;
 
     /// @see Environment::compute
     void compute(int nb_individuals, int nb_vals) override;

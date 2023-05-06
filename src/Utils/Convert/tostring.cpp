@@ -98,7 +98,7 @@ std::string convert_str(std::map<const std::string, std::vector<std::string>> ma
 
 std::string convert_str(Pair<double,double>* pair, int dimension)
 {
-    return "( " + convert_str(pair->get_x(), dimension) + " ; " + std::to_string(pair->get_f_x()) + " )";
+    return "( " + convert_str(pair->get_x()) + " ; " + std::to_string(pair->get_f_x()) + " )";
 }
 
 std::string convert_str(Pair<double,double>* pairs[], int nb_vals, int dimension)

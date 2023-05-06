@@ -32,7 +32,7 @@ std::string InputLinearIndividual::to_string(int dimension)
     for(int i=0;i<std::min(nb_vals, MAX_ARRAY_PRINT);i++)
     {
         double f_x = this->input_values[i]->get_f_x();
-        res += "f(" + convert_str(this->input_values[i]->get_x(), dimension) + ") = " + std::to_string(f_x);
+        res += "f(" + convert_str(this->input_values[i]->get_x()) + ") = " + std::to_string(f_x);
     }
 
     return res;

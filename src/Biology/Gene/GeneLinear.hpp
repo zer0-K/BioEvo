@@ -22,3 +22,5 @@ public:
     std::string to_string();
     std::string to_json();
 };
+
+typedef std::shared_ptr<GeneLinear> sp_genelinear;

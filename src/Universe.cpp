@@ -38,14 +38,14 @@ Universe::Universe(std::string name, Individual** individuals, int nb_individual
     this->environment = environment;
     this->buffer = buffer;
 
-    this->epochs_individuals = new int[nb_individuals];
+    this->epochs_individuals = std::vector<int>(nb_individuals);
     for(int i=0;i<nb_individuals;i++)
     {
         this->epochs_individuals[i] = DEFAULT_NB_EPOCHS_LEARN;
     }
 
     // init some stuff to before first step
-    this->environment->init(nb_individuals, epochs_individuals);
+    this->environment->init(epochs_individuals);
 
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " created");
 }
@@ -62,7 +62,7 @@ void Universe::init()
 
 void Universe::next_step_environment()
 {
-    this->environment->evolve(this->number_of_individuals, this->epochs_individuals);
+    this->environment->evolve(this->epochs_individuals);
 }
 
 void Universe::next_step_individual(int individual_index)

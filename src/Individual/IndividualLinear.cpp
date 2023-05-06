@@ -21,15 +21,18 @@ IndividualLinear::IndividualLinear(std::string name, int nb_epoch_learn, int dim
     this->init();
 
     this->dimension = dimension;
-    this->w = new Trait<double>*[dimension];
+    this->w = std::vector<std::shared_ptr<Trait<double>>>(dimension);
 
     for(int d=0;d<dimension;d++)
     {
-        this->w[d] = new Trait<double>(rand()%50 - 25);
-        ((AbstractTrait*)this->w[d])->set_name("weight " + std::to_string(d));
+        this->w[d] = std::make_shared<Trait<double>>(rand()%50 - 25);
+        sp_abstracttrait weight_trait = this->w[d];
+        weight_trait->set_name("weight " + std::to_string(d));
     }
-    this->b = new Trait<double>(0);
-    ((AbstractTrait*)this->b)->set_name("bias");
+
+    this->b = std::make_shared<Trait<double>>(0);
+    sp_abstracttrait bias_trait = this->b;
+    bias_trait->set_name("bias");
 
     Pair<double,double>* input_vals[1];
     this->output = std::make_shared<OutputLinearIndividual>(input_vals, 0);
@@ -59,7 +62,7 @@ sp_flow IndividualLinear::compute(sp_flow x)
     Pair<double,double>** new_vals = new Pair<double,double>*[nb_vals];
     for(int i=0;i<nb_vals;i++)
     {
-        double* x = vals_pairs[i]->get_x();
+        std::vector<double> x = vals_pairs[i]->get_x();
 
         double f_x = this->compute_single(x);
         switch (this->learning_method)
@@ -78,7 +81,7 @@ sp_flow IndividualLinear::compute(sp_flow x)
     return std::make_shared<OutputLinearIndividual>(new_vals, nb_vals);
 }
 
-void IndividualLinear::update_params_1(double x[], double f_x, double f_x_true)
+void IndividualLinear::update_params_1(std::vector<double> x, double f_x, double f_x_true)
 {
     // 
     // Here the algo learns with a certain random die-and-retry
@@ -112,7 +115,7 @@ void IndividualLinear::update_params_1(double x[], double f_x, double f_x_true)
     logger_write(1, FLAG_INFO + FLAG_DETAILS + "Params updated : " + this->to_string());
 }
 
-double IndividualLinear::compute_single(double x[])
+double IndividualLinear::compute_single(std::vector<double> x)
 {
     // compute the linear transformation w1*x1 + ... + wn*xn + b
     double res = 0;

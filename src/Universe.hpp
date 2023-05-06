@@ -15,7 +15,7 @@ protected:
 
     int number_of_individuals;      ///< current number of individuals in the universe
     int max_number_of_individuals;  ///< maximum number of individuals in the universe
-    int* epochs_individuals;    ///< number of epochs for the individuals
+    std::vector<int> epochs_individuals;    ///< number of epochs for the individuals
 
     Individual** individuals;   ///< individuals living in the universe
     Environment* environment;   ///< environment with which the individual interacts

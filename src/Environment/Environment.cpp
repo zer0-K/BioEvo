@@ -69,14 +69,6 @@ boost::json::object Environment::to_json()
 
     jenv["name"] = this->name;
 
-    /*
-    std::string res = "{";
-
-    res += "'name':" + this->name + ",'number of epochs':" + std::to_string(this->number_of_epochs);
-    res += ",'input':" + this->input->to_json() + ",'output':" + this->output->to_json();
-    res += "}";
-
-    return res;:*/
     return jenv;
 }
 
