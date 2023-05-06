@@ -1,6 +1,6 @@
 #include "ConfigRunner.hpp"
 
-#include "../Convert/json_interprete.hpp"
+#include "../json/interprete_json.hpp"
 
 ConfigRunner::ConfigRunner(Framework* framework)
 {

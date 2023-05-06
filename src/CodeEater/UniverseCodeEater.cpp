@@ -13,7 +13,7 @@ UniverseCodeEater::UniverseCodeEater(EatingProcessor* eating_processor, CodeEate
 UniverseCodeEater::UniverseCodeEater(EatingProcessor* eating_processor, CodeEater*** code_eaters, 
     const int width, const int height, int starting_width, int starting_height)
     : Universe(width, height)
-{
+{ 
     // set eating process
     this->eating_processor = eating_processor;
 

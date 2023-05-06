@@ -115,7 +115,7 @@ void Framework::next_step(int universe_index)
     this->universes[universe_index]->next_step();
 }
 
-void Framework::test(Result* result, int universe_index, int nb_vals)
+void Framework::test(int universe_index, int nb_vals)
 {
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_BEGIN + "Test");
 
@@ -133,8 +133,6 @@ void Framework::test(Result* result, int universe_index, int nb_vals)
     {
         solutions[i] = new Solution(universe->get_individuals()[i], gaps[i]);
     }
-
-    result->set_solutions(solutions, universe->get_nb_individuals());
 
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Test");
 }

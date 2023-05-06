@@ -1,11 +1,10 @@
-#pragma
+#pragma once
 
 #include <string>
 #include <vector>
 #include <map>
 
 #include "../Math/Pair.hpp"
-#include "../Result/Result.hpp"
 
 extern const int MAX_ARRAY_PRINT;
 

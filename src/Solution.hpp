@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Individual.hpp"
+#include "Individual/Individual.hpp"
 
 /// @brief evolutionary solutions of an optimisation
 class Solution

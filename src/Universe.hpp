@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PreprocessingDefinitions.hpp"
-#include "Buffer.hpp"
+#include "Flow/Buffer/Buffer.hpp"
 #include <map>
 #include <string>
 
@@ -10,9 +10,8 @@ class Universe
 {
 protected:
     std::string name;   ///< name of the universe
-
-    int width;  ///< width of the universe
-    int height; ///< height of the universe
+    int width;  /// { temporary, for code eater
+    int height; /// { temporary, for code eater
 
     int number_of_individuals;      ///< current number of individuals in the universe
     int max_number_of_individuals;  ///< maximum number of individuals in the universe
@@ -36,15 +35,9 @@ public:
      * @param[in] name name of the universe
     */
     Universe(std::string name);
-    
-    /**
-     * @brief Constructor
-     * 
-     * @param[in] width width of the universe
-     * @param[in] height height of the universe
-    */
-    Universe(const int width, const int height);
 
+    Universe(int width, int height);    /// { temporary, for code eater
+    
     /**
      * @brief Constructor
      * 

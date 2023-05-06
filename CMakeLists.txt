@@ -22,92 +22,115 @@ FIND_PACKAGE(Boost COMPONENTS asio beast json)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 
-# ********************************* Common *********************************
-
-set(HEADERS_COMMON_BASIC src/Server/Server.hpp 
-    src/PreprocessingDefinitions.hpp src/Constants.hpp src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp 
-    src/Utils/Convert/tostring.hpp src/Utils/Convert/toarray.hpp src/Utils/Convert/json_interprete.hpp
-    src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp
-    src/Utils/Config/config.hpp src/Utils/Config/ConfigRunner.hpp
-    src/Utils/Result/Result.hpp src/Utils/Result/Result1.hpp
-    src/Universe.hpp src/Framework.hpp src/ExperimentOld.hpp src/Individual.hpp src/Environment.hpp src/Buffer.hpp src/Flow.hpp
-    src/Solution.hpp)
-set(SOURCES_COMMON_BASIC src/Server/Server.cpp
-    src/Constants.cpp src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp 
-    src/Utils/Convert/tostring.cpp src/Utils/Convert/toarray.cpp
-    src/Utils/Config/config.cpp src/Utils/Config/ConfigRunner.cpp
-    src/Utils/Math/RandomGen.cpp src/Utils/Convert/json_interprete.cpp
-    src/Utils/Result/Result.cpp src/Utils/Result/Result1.cpp
-    src/Universe.cpp src/Framework.cpp src/ExperimentOld.cpp src/Individual.cpp src/Environment.cpp src/Buffer.cpp src/Flow.cpp
-    src/Solution.cpp src/main.cpp)
+# ********************************* General *********************************
 
 
-# *********************** Biology ***********************
+set(HEADERS_GENERAL src/PreprocessingDefinitions.hpp
+    src/Constants.hpp 
+    src/Framework.hpp src/Universe.hpp src/Solution.hpp
+    src/ExperimentOld.hpp)
 
-set(HEADERS_COMMON_BIO src/Biology/Gene.hpp src/Biology/AbstractTrait.hpp src/Biology/Trait.hpp)
-set(SOURCES_COMMON_BIO src/Biology/Gene.cpp)
+set(SOURCES_GENERAL src/main.cpp
+    src/Constants.cpp 
+    src/Framework.cpp src/Universe.cpp src/Solution.cpp
+    src/ExperimentOld.cpp)
 
-set(HEADERS_COMMON ${HEADERS_COMMON_BASIC} ${HEADERS_COMMON_BIO})
-set(SOURCES_COMMON ${SOURCES_COMMON_BASIC} ${SOURCES_COMMON_BIO})
+
+# ********************************* Utils *********************************
+
+set(HEADERS_UTILS src/Utils/Config/config.hpp src/Utils/Config/ConfigRunner.hpp
+    src/Utils/Convert/toarray.hpp src/Utils/Convert/tostring.hpp
+    src/Utils/json/interprete_json.hpp
+    src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp
+    src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp)
+
+set(SOURCES_UTILS src/Utils/Config/config.cpp src/Utils/Config/ConfigRunner.cpp
+    src/Utils/Convert/toarray.cpp src/Utils/Convert/tostring.cpp
+    src/Utils/json/interprete_json.cpp
+    src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp
+    src/Utils/Math/RandomGen.cpp)
+
+
+# ********************************* Server *********************************
+
+set(HEADERS_SERVER src/Server/Server.hpp)
+
+set(SOURCES_SERVER src/Server/Server.cpp)
 
 
 # ********************************* Experiments *********************************
 
-set(HEADERS_EXPERIMENTS src/Experiments/Experiment_1_00/experiment_1_00.hpp)
-set(SOURCES_EXPERIMENTS src/Experiments/Experiment_1_00/experiment_1_00.cpp)
+set(HEADERS_EXPERIMENTS src/Experiments/experiment_1.hpp)
+
+set(SOURCES_EXPERIMENTS src/Experiments/experiment_1.cpp)
 
 
-# ********************************* Classical algos *********************************
+# ********************************* Flow *********************************
 
-# ********************** Experiment 1 **********************
+set(HEADERS_FLOW src/Flow/Flow.hpp src/Flow/FlowList.hpp
+    src/Flow/FlowLinear1_x.hpp src/Flow/FlowLinear1_f_x.hpp
+    src/Flow/InputLinearEnvironment.hpp src/Flow/InputLinearIndividual.hpp src/Flow/OutputLinearEnvironment.hpp src/Flow/OutputLinearIndividual.hpp
+    src/Flow/Buffer/Buffer.hpp src/Flow/Buffer/BufferLinear.hpp)
 
-
-set(HEADERS_CLASSIC_LINEAR 
-    src/Experiments/Experiment_1_00/Flow/InputLinearIndividual.hpp
-        src/Experiments/Experiment_1_00/Flow/OutputLinearIndividual.hpp
-        src/Experiments/Experiment_1_00/Flow/InputLinearEnvironment.hpp
-        src/Experiments/Experiment_1_00/Flow/OutputLinearEnvironment.hpp
-    src/Experiments/Experiment_1_00/EnvironmentLinear.hpp
-    src/Experiments/Experiment_1_00/Individuals/LinearRegressionIndividual.hpp
-    src/Experiments/Experiment_1_00/Flow/BufferLinear.hpp
-    src/Experiments/Experiment_1_00/GeneLinear.hpp)
-set(SOURCES_CLASSIC_LINEAR 
-    src/Experiments/Experiment_1_00/Flow/InputLinearIndividual.cpp
-        src/Experiments/Experiment_1_00/Flow/OutputLinearIndividual.cpp
-        src/Experiments/Experiment_1_00/Flow/InputLinearEnvironment.cpp
-        src/Experiments/Experiment_1_00/Flow/OutputLinearEnvironment.cpp
-    src/Experiments/Experiment_1_00/EnvironmentLinear.cpp
-    src/Experiments/Experiment_1_00/Individuals/LinearRegressionIndividual.cpp
-    src/Experiments/Experiment_1_00/Flow/BufferLinear.cpp
-    src/Experiments/Experiment_1_00/GeneLinear.cpp)
+set(SOURCES_FLOW src/Flow/Flow.cpp src/Flow/FlowList.cpp
+    src/Flow/FlowLinear1_x.cpp src/Flow/FlowLinear1_f_x.cpp
+    src/Flow/InputLinearEnvironment.cpp src/Flow/InputLinearIndividual.cpp src/Flow/OutputLinearEnvironment.cpp src/Flow/OutputLinearIndividual.cpp
+    src/Flow/Buffer/Buffer.cpp src/Flow/Buffer/BufferLinear.cpp)
 
 
+# ********************************* Biology *********************************
 
-set(HEADERS_CLASSIC src/ClassicalAlgos/ClassicalUniverse.hpp
-    ${HEADERS_CLASSIC_LINEAR}) 
-set(SOURCES_CLASSIC src/ClassicalAlgos/ClassicalUniverse.cpp
-    ${SOURCES_CLASSIC_LINEAR})
+set(HEADERS_BIOLOGY src/Biology/AbstractTrait.hpp src/Biology/Trait.hpp
+    src/Biology/Gene/Gene.hpp src/Biology/Gene/GeneLinear.hpp)
+
+set(SOURCES_BIOLOGY
+    src/Biology/Gene/Gene.cpp src/Biology/Gene/GeneLinear.cpp)
+
+
+# ********************************* Environment *********************************
+
+set(HEADERS_ENVIRONMENT src/Environment/Environment.hpp src/Environment/EnvironmentLinear.hpp)
+
+set(SOURCES_ENVIRONMENT src/Environment/Environment.cpp src/Environment/EnvironmentLinear.cpp)
+
+
+# ********************************* Individual *********************************
+
+set(HEADERS_INDIVIDUAL src/Individual/Individual.hpp src/Individual/IndividualLinear.hpp)
+
+set(SOURCES_INDIVIDUAL src/Individual/Individual.cpp src/Individual/IndividualLinear.cpp)
+
 
 
 # ********************************* Code Eaters *********************************
 
-set(HEADERS src/CodeEater/ConstantsCodeEater.hpp src/CodeEater/UniverseCodeEater.hpp src/CodeEater/CodeEaters/CodeEater.hpp
+set(HEADERS_CODE_EATER src/CodeEater/ConstantsCodeEater.hpp src/CodeEater/UniverseCodeEater.hpp src/CodeEater/CodeEaters/CodeEater.hpp
     src/CodeEater/Computing/Utils/Permutation.hpp src/CodeEater/Computing/Utils/FunctionPattern.hpp src/CodeEater/Computing/Utils/ComputationResult.hpp
         src/CodeEater/Computing/FunctionPatternComputer.hpp src/CodeEater/Computing/FunctionProcessor.hpp src/CodeEater/Computing/StateChanger.hpp 
         src/CodeEater/Computing/EatingProcessor.hpp src/CodeEater/Computing/NeighborhoodManager.hpp src/CodeEater/Computing/RuleApplier.hpp
         src/CodeEater/Computing/RuleNumberComputer.hpp
-    src/CodeEater/Experiments/ExperimentOldCodeEater.hpp src/CodeEater/Experiments/ExperimentOldCodeEater1.hpp src/CodeEater/Experiments/ExperimentOldCodeEater2.hpp 
-        src/CodeEater/Experiments/ExperimentOldCodeEater3.hpp)
-set(SOURCES src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/UniverseCodeEater.cpp 
+    src/ExperimentOld.hpp src/CodeEater/Experiments/ExperimentOldCodeEater.hpp src/CodeEater/Experiments/ExperimentOldCodeEater1.hpp 
+        src/CodeEater/Experiments/ExperimentOldCodeEater2.hpp src/CodeEater/Experiments/ExperimentOldCodeEater3.hpp)
+set(SOURCES_CODE_EATER src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/UniverseCodeEater.cpp 
     src/CodeEater/Computing/Utils/Permutation.cpp src/CodeEater/Computing/Utils/FunctionPattern.cpp src/CodeEater/Computing/Utils/ComputationResult.cpp
         src/CodeEater/Computing/FunctionPatternComputer.cpp src/CodeEater/Computing/FunctionProcessor.cpp src/CodeEater/Computing/StateChanger.cpp 
         src/CodeEater/Computing/EatingProcessor.cpp src/CodeEater/Computing/NeighborhoodManager.cpp src/CodeEater/Computing/RuleApplier.cpp
         src/CodeEater/Computing/RuleNumberComputer.cpp
-    src/CodeEater/Experiments/ExperimentOldCodeEater.cpp src/CodeEater/Experiments/ExperimentOldCodeEater1.cpp src/CodeEater/Experiments/ExperimentOldCodeEater2.cpp 
-        src/CodeEater/Experiments/ExperimentOldCodeEater3.cpp)
-add_executable(bioevo ${HEADERS_COMMON} ${HEADERS_CLASSIC} ${HEADERS} ${HEADERS_EXPERIMENTS} 
-    ${SOURCES_COMMON} ${SOURCES_CLASSIC} ${SOURCES} ${SOURCES_EXPERIMENTS})
+    src/ExperimentOld.cpp src/CodeEater/Experiments/ExperimentOldCodeEater.cpp src/CodeEater/Experiments/ExperimentOldCodeEater1.cpp 
+        src/CodeEater/Experiments/ExperimentOldCodeEater2.cpp src/CodeEater/Experiments/ExperimentOldCodeEater3.cpp)
+#add_executable(bioevo ${HEADERS_GENERAL} ${HEADERS_CODE_EATER} ${HEADERS_EXPERIMENTS} 
+#    ${SOURCES_GENERAL} ${SOURCES_CODE_EATER} ${SOURCES_EXPERIMENTS})
 
+
+
+set(HEADERS_ALL ${HEADERS_GENERAL} ${HEADERS_UTILS} ${HEADERS_SERVER} ${HEADERS_EXPERIMENTS} 
+    ${HEADERS_FLOW} ${HEADERS_BIOLOGY} ${HEADERS_ENVIRONMENT} ${HEADERS_INDIVIDUAL} ${HEADERS_CODE_EATER})
+
+set(SOURCES_ALL ${SOURCES_GENERAL} ${SOURCES_UTILS} ${SOURCES_SERVER} ${SOURCES_EXPERIMENTS} 
+    ${SOURCES_FLOW} ${SOURCES_BIOLOGY} ${SOURCES_ENVIRONMENT} ${SOURCES_INDIVIDUAL} ${SOURCES_CODE_EATER})
+
+
+
+# TODO : remove ExperimentOld
+add_executable(bioevo ${HEADERS_ALL} ${SOURCES_ALL})
 target_link_libraries(bioevo ${Boost_LIBRARIES} ${LIBS} /usr/bin/lib/libboost_json.a)
-
-

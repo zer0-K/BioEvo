@@ -5,14 +5,14 @@
 #include "Server/Server.hpp"
 #include "Utils/Config/config.hpp"
 #include "Utils/Config/ConfigRunner.hpp"
-#include "Utils/Convert/json_interprete.hpp"
+#include "Utils/json/interprete_json.hpp"
 #include "ExperimentOld.hpp"
 #include "CodeEater/Experiments/ExperimentOldCodeEater.hpp"
 #include "CodeEater/Experiments/ExperimentOldCodeEater1.hpp"
 #include "CodeEater/Experiments/ExperimentOldCodeEater2.hpp"
 #include "CodeEater/Experiments/ExperimentOldCodeEater3.hpp"
 
-#include "Experiments/Experiment_1_00/experiment_1_00.hpp"
+#include "Experiments/experiment_1.hpp"
 
 int main(int argc, char* argv[])
 {

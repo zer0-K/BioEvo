@@ -2,7 +2,6 @@
 
 #include "Universe.hpp"
 #include "Solution.hpp"
-#include "Utils/Result/Result1.hpp"
 
 class Framework
 {
@@ -85,9 +84,8 @@ public:
      * 
      * @param[in] universe_index index of the universe to test
      * @param[in] nb_vals number of values for the test
-     * @param[out] result result of the test
     */
-    void test(Result* result, int universe_index, int nb_vals);
+    void test(int universe_index, int nb_vals);
 
     
     //----- setters
