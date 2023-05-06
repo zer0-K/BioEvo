@@ -4,7 +4,7 @@
 
 /// @brief Trait, generally built to be driven by some gene(s)
 template<class T>
-class Trait : AbstractTrait
+class Trait : public AbstractTrait
 {
 protected:
     T trait_value;      ///< actual trait

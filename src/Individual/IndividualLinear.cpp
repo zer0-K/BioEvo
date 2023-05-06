@@ -2,7 +2,7 @@
 
 #include "../Flow/InputLinearIndividual.hpp"
 #include "../Flow/OutputLinearIndividual.hpp"
-#include "../Constants.hpp"
+#include "../Declaration/Constants.hpp"
 #include "../Utils/Math/RandomGen.hpp"
 #include "../Utils/Log/Logger.hpp"
 #include <random> 
@@ -31,7 +31,8 @@ IndividualLinear::IndividualLinear(std::string name, int nb_epoch_learn, int dim
     this->b = new Trait<double>(0);
     ((AbstractTrait*)this->b)->set_name("bias");
 
-    this->output = (Flow*) new OutputLinearIndividual(NULL, 0);
+    Pair<double,double>* input_vals[1];
+    this->output = std::make_shared<OutputLinearIndividual>(input_vals, 0);
 }
 
 void IndividualLinear::init()
@@ -47,9 +48,11 @@ void IndividualLinear::evolve()
     this->compute(this->input);     
 }
 
-Flow* IndividualLinear::compute(Flow* x)
+sp_flow IndividualLinear::compute(sp_flow x)
 {
-    InputLinearIndividual* x_as_linear = (InputLinearIndividual*) x;
+    sp_input_linear_individual x_as_linear = std::dynamic_pointer_cast<InputLinearIndividual>(
+        x
+    );
     Pair<double,double>** vals_pairs = x_as_linear->get_values();
     int nb_vals = x_as_linear->get_nb_vals();
 
@@ -72,9 +75,7 @@ Flow* IndividualLinear::compute(Flow* x)
         new_vals[i] = new Pair<double, double>(x, f_x);
     }
 
-    OutputLinearIndividual* individual_output = new OutputLinearIndividual(new_vals, nb_vals);
-
-    return (Flow*) individual_output;
+    return std::make_shared<OutputLinearIndividual>(new_vals, nb_vals);
 }
 
 void IndividualLinear::update_params_1(double x[], double f_x, double f_x_true)

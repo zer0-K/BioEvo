@@ -7,29 +7,36 @@
 #include <iostream>
 #include <math.h>
 
-Flow* BufferLinear::transform_individuals_out_to_environment_in(Flow** individuals_ouputs)
+sp_flow BufferLinear::transform_individuals_out_to_environment_in(std::vector<sp_flow> individuals_ouputs)
 {
    return NULL; 
 }
 
-Flow** BufferLinear::transform_environment_out_to_individuals_in(Flow* environment_ouput, int nb_individuals)
+std::vector<sp_flow> BufferLinear::transform_environment_out_to_individuals_in(sp_flow environment_ouput, int nb_individuals)
 {
-    Pair<double,double>*** output_values = ((OutputLinearEnvironment*) environment_ouput)->get_values();
-    int* nb_vals = ((OutputLinearEnvironment*) environment_ouput)->get_nb_vals();
+    sp_output_linear_environment outlinenv = std::dynamic_pointer_cast<OutputLinearEnvironment>(
+        environment_ouput
+    );
+    Pair<double,double>*** output_values = outlinenv->get_values();
+    int* nb_vals = outlinenv->get_nb_vals();
 
-    Flow** individuals_inputs = new Flow*[nb_individuals];
+    std::vector<sp_flow> individuals_inputs;
     for(int i=0; i<nb_individuals; i++)
     {
-        individuals_inputs[i] = (Flow*) new InputLinearIndividual(output_values[i], nb_vals[i]);
+        individuals_inputs[i] = std::make_shared<InputLinearIndividual>(output_values[i], nb_vals[i]);
     }
 
     return individuals_inputs;
 }
 
-double BufferLinear::compute_errors(Flow* input, Flow* output)
+double BufferLinear::compute_errors(sp_flow input, sp_flow output)
 {
-    InputLinearIndividual* input_linear = (InputLinearIndividual*) input;
-    OutputLinearIndividual* output_linear = (OutputLinearIndividual*) output;
+    sp_input_linear_individual input_linear = std::dynamic_pointer_cast<InputLinearIndividual>(
+        input
+    );
+    sp_output_linear_individual output_linear = std::dynamic_pointer_cast<OutputLinearIndividual>(
+        output
+    );
 
     int nb_vals = input_linear->get_nb_vals();
     auto input_vals = input_linear->get_values();

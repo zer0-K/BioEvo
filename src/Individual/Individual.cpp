@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../PreprocessingDefinitions.hpp"
-#include "../Constants.hpp"
+#include "../Declaration/PreprocessingDefinitions.hpp"
+#include "../Declaration/Constants.hpp"
 #include "../Utils/Log/Logger.hpp"
 
 Individual::Individual(std::string name)
@@ -31,23 +31,23 @@ std::string Individual::get_name()
     return this->name;
 }
 
-Flow* Individual::get_output()
+std::shared_ptr<Flow> Individual::get_output()
 {
     return this->output;
 }
 
 //---------- setters
 
-void Individual::set_input(Flow* input)
+void Individual::set_input(std::shared_ptr<Flow> input)
 {
     // set new input
-    this->input = input;
+    this->input = std::move(input);
 }
 
-void Individual::set_output(Flow* output)
+void Individual::set_output(std::shared_ptr<Flow> output)
 {
     // set new input
-    this->output = output;
+    this->output = std::move(output);
 }
 
 void Individual::set_number_of_epochs(int nb_epoch_learn)

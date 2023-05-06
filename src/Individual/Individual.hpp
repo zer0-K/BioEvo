@@ -1,15 +1,18 @@
 #pragma once
 
 #include <string>
-#include "../Flow/Flow.hpp"
+#include <memory>
+
 #include <boost/json.hpp>
+
+#include "../Flow/Flow.hpp"
 
 /// @brief algorithm, as an individual
 class Individual
 {
 protected:
-    Flow* input;    ///< input of the individual
-    Flow* output;   ///< output of the individual
+    std::shared_ptr<Flow> input;    ///< input of the individual
+    std::shared_ptr<Flow> output;   ///< output of the individual
 
     std::string name;   ///< name of the individual
 
@@ -18,7 +21,7 @@ protected:
     /**
      * setters
     */
-    void set_output(Flow* ouput);
+    void set_output(std::shared_ptr<Flow> ouput);
 
 public:
     /**
@@ -48,14 +51,14 @@ public:
      * 
      * @return f(x)
     */
-    virtual Flow* compute(Flow* x)=0;
+    virtual std::shared_ptr<Flow> compute(std::shared_ptr<Flow> x)=0;
 
     //----- getters
     std::string get_name();
-    Flow* get_output();
+    std::shared_ptr<Flow> get_output();
 
     //----- setters
-    void set_input(Flow* input);
+    void set_input(std::shared_ptr<Flow> input);
     void set_number_of_epochs(int nb_epoch_learn);
 
     //----- other

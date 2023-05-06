@@ -22,16 +22,22 @@ FIND_PACKAGE(Boost COMPONENTS asio beast json)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 
+# ********************************* Declarations *********************************
+
+
+set(HEADERS_DECL src/Declaration/PreprocessingDefinitions.hpp src/Declaration/Constants.hpp)
+
+set(SOURCES_DECL src/Declaration/Constants.cpp)
+
+
+
 # ********************************* General *********************************
 
 
-set(HEADERS_GENERAL src/PreprocessingDefinitions.hpp
-    src/Constants.hpp 
-    src/Framework.hpp src/Universe.hpp src/Solution.hpp
+set(HEADERS_GENERAL src/Framework.hpp src/Universe.hpp src/Solution.hpp
     src/ExperimentOld.hpp)
 
 set(SOURCES_GENERAL src/main.cpp
-    src/Constants.cpp 
     src/Framework.cpp src/Universe.cpp src/Solution.cpp
     src/ExperimentOld.cpp)
 
@@ -123,10 +129,10 @@ set(SOURCES_CODE_EATER src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/Univ
 
 
 
-set(HEADERS_ALL ${HEADERS_GENERAL} ${HEADERS_UTILS} ${HEADERS_SERVER} ${HEADERS_EXPERIMENTS} 
+set(HEADERS_ALL ${HEADERS_DECL} ${HEADERS_GENERAL} ${HEADERS_UTILS} ${HEADERS_SERVER} ${HEADERS_EXPERIMENTS} 
     ${HEADERS_FLOW} ${HEADERS_BIOLOGY} ${HEADERS_ENVIRONMENT} ${HEADERS_INDIVIDUAL} ${HEADERS_CODE_EATER})
 
-set(SOURCES_ALL ${SOURCES_GENERAL} ${SOURCES_UTILS} ${SOURCES_SERVER} ${SOURCES_EXPERIMENTS} 
+set(SOURCES_ALL ${SOURCES_DECL} ${SOURCES_GENERAL} ${SOURCES_UTILS} ${SOURCES_SERVER} ${SOURCES_EXPERIMENTS} 
     ${SOURCES_FLOW} ${SOURCES_BIOLOGY} ${SOURCES_ENVIRONMENT} ${SOURCES_INDIVIDUAL} ${SOURCES_CODE_EATER})
 
 

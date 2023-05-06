@@ -4,7 +4,7 @@
 #include "../Utils/Math/Pair.hpp"
 
 /// @brief input of linear models
-class InputLinearIndividual : Flow
+class InputLinearIndividual : public Flow
 {
 private:
     /**
@@ -36,3 +36,5 @@ public:
     //---- other
     std::string to_string(int dimension);
 };
+
+typedef std::shared_ptr<InputLinearIndividual> sp_input_linear_individual;

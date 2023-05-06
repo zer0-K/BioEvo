@@ -4,7 +4,7 @@
 #include "../Utils/Math/Pair.hpp"
 
 /// @brief output of linear models 
-class OutputLinearIndividual : Flow
+class OutputLinearIndividual : public Flow
 {
 private:   
     Pair<double,double>** input_values;    ///< values for learning
@@ -26,3 +26,5 @@ public:
     Pair<double,double>** get_values();
     int get_nb_vals();
 };
+
+typedef std::shared_ptr<OutputLinearIndividual> sp_output_linear_individual;

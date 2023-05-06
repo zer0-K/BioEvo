@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Universe.hpp"
-#include "Constants.hpp"
+#include "Declaration/Constants.hpp"
 #include "Utils/Log/Logger.hpp"
 #include "Utils/Convert/tostring.hpp"
 
@@ -52,7 +52,7 @@ Universe::Universe(std::string name, Individual** individuals, int nb_individual
 
 void Universe::init()
 {
-    Flow** inputs_for_individuals = this->prepare_values(100); 
+    std::vector<sp_flow> inputs_for_individuals = this->prepare_values(100); 
 
     for(int i=0;i<this->number_of_individuals;i++)
     {
@@ -90,16 +90,16 @@ void Universe::next_step()
     this->next_step_environment();
 }
 
-Flow** Universe::prepare_values(int nb_vals)
+std::vector<sp_flow> Universe::prepare_values(int nb_vals)
 {
     // code is similar to Buffer:feed_ins_and_outs, but here it gets the env out and does nothing with individuals out
 
     this->environment->compute(this->number_of_individuals, nb_vals);
 
-    Flow* environment_out = environment->get_output();
+    sp_flow environment_out = environment->get_output();
     
     // transforms the environment output into input for the individuals 
-    Flow** inputs_for_individuals = this->buffer->transform_environment_out_to_individuals_in(environment_out, this->number_of_individuals);
+    std::vector<sp_flow> inputs_for_individuals = this->buffer->transform_environment_out_to_individuals_in(environment_out, this->number_of_individuals);
 
     // set individuals inputs
     for(int i=0;i<this->number_of_individuals;i++)
@@ -110,21 +110,21 @@ Flow** Universe::prepare_values(int nb_vals)
     return inputs_for_individuals; 
 }
 
-Flow** Universe::individuals_compute(Flow** values)
+std::vector<sp_flow> Universe::individuals_compute(std::vector<sp_flow> values)
 {
-    Flow** individuals_out = new Flow*[this->number_of_individuals];
+    std::vector<sp_flow> individuals_out;
 
     // compute individuals' outputs one by one
     for(int i=0; i<this->number_of_individuals;i++)
     {
-        Flow* individual_out = this->individuals[i]->compute(values[i]);
+        sp_flow individual_out = this->individuals[i]->compute(values[i]);
         individuals_out[i] = individual_out;
     }
 
     return individuals_out;
 }
 
-double* Universe::compute_errors(Flow** inputs, Flow** outputs, int nb_flows)
+double* Universe::compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows)
 {
     // compute the errors for each flow
     double* errors = new double[nb_flows];

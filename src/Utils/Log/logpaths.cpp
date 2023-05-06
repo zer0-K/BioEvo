@@ -1,6 +1,6 @@
 #include "logpaths.hpp"
 
-#include "../../Constants.hpp"
+#include "../../Declaration/Constants.hpp"
 
 #include <iostream>
 #include <fstream>

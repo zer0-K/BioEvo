@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../PreprocessingDefinitions.hpp"
+#include "../../Declaration/PreprocessingDefinitions.hpp"
 #include "../CodeEaters/CodeEater.hpp"
 #include "FunctionPatternComputer.hpp"
 #include "Utils/FunctionPattern.hpp"

@@ -3,15 +3,15 @@
 #include "Buffer.hpp"
 
 /// @brief buffer for linear model
-class BufferLinear : Buffer
+class BufferLinear : public Buffer
 {
 public:
     /// @see Buffer 
-    Flow* transform_individuals_out_to_environment_in(Flow** individual_ouput) override;
+    sp_flow transform_individuals_out_to_environment_in(std::vector<sp_flow> individual_ouput) override;
 
     /// @see Buffer
-    Flow** transform_environment_out_to_individuals_in(Flow* environment_ouput, int nb_individuals) override;
+    std::vector<sp_flow> transform_environment_out_to_individuals_in(sp_flow environment_ouput, int nb_individuals) override;
 
     /// @see Buffer
-    double compute_errors(Flow* input, Flow* output);
+    double compute_errors(sp_flow input, sp_flow output);
 };

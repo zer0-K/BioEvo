@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PreprocessingDefinitions.hpp"
+#include "Declaration/PreprocessingDefinitions.hpp"
 #include "Flow/Buffer/Buffer.hpp"
 #include <map>
 #include <string>
@@ -97,14 +97,14 @@ public:
      * 
      * @return inputs for the individuals
     */
-    Flow** prepare_values(int nb_vals);
+    std::vector<sp_flow> prepare_values(int nb_vals);
 
     /**
      * @brief Make the individuals compute and get their outputs
      * 
      * @param[in] vals values to compute
     */
-    Flow** individuals_compute(Flow** vals);
+    std::vector<sp_flow> individuals_compute(std::vector<sp_flow> vals);
 
     /**
      * @brief compute the errors between labels and predictions
@@ -113,7 +113,7 @@ public:
      * @param[in] outputs output (predictions) of the individuals
      * @param[in] nb_flows number of individuals
     */
-    double* compute_errors(Flow** inputs, Flow** outputs, int nb_flows);
+    double* compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows);
 
     /**
      * @brief Show the universe
@@ -139,3 +139,5 @@ public:
     boost::json::object to_json();
     std::string is_ready();
 };
+
+typedef std::shared_ptr<Universe> sp_universe;

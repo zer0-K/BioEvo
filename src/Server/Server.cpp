@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "../Constants.hpp"
+#include "../Declaration/Constants.hpp"
 #include "../Utils/Config/config.hpp"
 #include "../Utils/Convert/tostring.hpp"
 #include "../Utils/Convert/toarray.hpp"

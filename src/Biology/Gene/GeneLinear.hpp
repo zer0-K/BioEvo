@@ -5,7 +5,7 @@
 #include <string>
 
 /// @brief Gene for a linear model
-class GeneLinear : Gene
+class GeneLinear : public Gene
 {
 public:
 

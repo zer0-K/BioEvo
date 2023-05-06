@@ -3,7 +3,7 @@
 #include "Individual.hpp"
 #include "../Biology/Trait.hpp"
 
-class IndividualLinear : Individual
+class IndividualLinear : public Individual
 {
 private:
     int dimension;  ///< dimension 
@@ -40,7 +40,7 @@ private:
     void evolve() override;
 
     /// @see Individual::compute
-    Flow* compute(Flow* x) override;
+    std::shared_ptr<Flow> compute(std::shared_ptr<Flow> x) override;
 
     // learning methods
     void update_params_1(double x[], double f_x, double f_x_true);

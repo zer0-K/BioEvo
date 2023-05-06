@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../../Utils/Log/Logger.hpp"
-#include "../../Constants.hpp"
+#include "../../Declaration/Constants.hpp"
 
 Buffer::Buffer()
 {
@@ -15,8 +15,8 @@ void Buffer::feed_ins_and_outs(Individual** individuals, int nb_individuals, Env
     logger_write(3, FLAG_INFO + FLAG_EVOLVE + FLAG_BEGIN + "Feeding ins and outs");
 
     // get outputs
-    Flow* environment_out = environment->get_output();
-    Flow** individuals_out = new Flow*[nb_individuals];
+    sp_flow environment_out = environment->get_output();
+    std::vector<sp_flow> individuals_out;
     for(int i=0;i<nb_individuals;i++)
     {
         individuals_out[i] = individuals[i]->get_output();
@@ -24,8 +24,8 @@ void Buffer::feed_ins_and_outs(Individual** individuals, int nb_individuals, Env
 
 
     // transforms the outputs into inputs for the other
-    Flow* input_for_environment = this->transform_individuals_out_to_environment_in(individuals_out);
-    Flow** inputs_for_individuals = this->transform_environment_out_to_individuals_in(environment_out, nb_individuals); 
+    sp_flow input_for_environment = this->transform_individuals_out_to_environment_in(individuals_out);
+    std::vector<sp_flow> inputs_for_individuals = this->transform_environment_out_to_individuals_in(environment_out, nb_individuals); 
 
     // feed the inputs
     environment->set_input(input_for_environment);

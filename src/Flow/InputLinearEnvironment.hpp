@@ -5,7 +5,7 @@
 
 
 /// @brief input of linear environments 
-class InputLinearEnvironment : Flow
+class InputLinearEnvironment : public Flow
 {
 public:
     /**
@@ -13,3 +13,5 @@ public:
     */
     InputLinearEnvironment();
 };
+
+typedef std::shared_ptr<InputLinearEnvironment> sp_input_linear_environment;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "../Flow.hpp"
 #include "../../Individual/Individual.hpp"
 #include "../../Environment/Environment.hpp"
@@ -20,7 +22,7 @@ public:
      * 
      * @return input for the environment
      */
-    virtual Flow* transform_individuals_out_to_environment_in(Flow** individuals_ouputs) = 0;
+    virtual sp_flow transform_individuals_out_to_environment_in(std::vector<sp_flow> individuals_ouputs) = 0;
 
     /**
      * @brief Transform environment's output into individial's input
@@ -30,7 +32,7 @@ public:
      * 
      * @return inputs of the individuals
     */
-    virtual Flow** transform_environment_out_to_individuals_in(Flow* environment_ouput, int nb_individuals) = 0;
+    virtual std::vector<sp_flow> transform_environment_out_to_individuals_in(sp_flow environment_ouput, int nb_individuals) = 0;
 
     /**
      * @brief Compute the error between the label and the prediction
@@ -40,7 +42,7 @@ public:
      * 
      * @return array of the errors
     */
-    virtual double compute_errors(Flow* input, Flow* output)=0;
+    virtual double compute_errors(sp_flow input, sp_flow output)=0;
 
     /**
      * @brief Feed individuals output to environment input and environment output to individuals input
@@ -58,3 +60,5 @@ public:
     //----- other
     std::string to_string();
 };
+
+typedef std::shared_ptr<Buffer> sp_buffer;

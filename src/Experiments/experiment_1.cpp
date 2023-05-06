@@ -3,10 +3,10 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
-#include "../PreprocessingDefinitions.hpp"
+#include "../Declaration/PreprocessingDefinitions.hpp"
 #include "../Utils/Log/Logger.hpp"
 #include "../Utils/Math/RandomGen.hpp"
-#include "../Constants.hpp"
+#include "../Declaration/Constants.hpp"
 #include "../Flow/Buffer/BufferLinear.hpp"
 #include "../Environment/EnvironmentLinear.hpp"
 #include "../Individual/IndividualLinear.hpp"

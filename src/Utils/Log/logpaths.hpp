@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../PreprocessingDefinitions.hpp"
+#include "../../Declaration/PreprocessingDefinitions.hpp"
 
 #include <string>
 #include <map>

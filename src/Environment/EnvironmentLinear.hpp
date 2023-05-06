@@ -4,7 +4,7 @@
 #include "../Utils/Math/Pair.hpp"
 
 /// @brief environment generating linear functions
-class EnvironmentLinear : Environment
+class EnvironmentLinear : public Environment
 {
 protected:
     int dimension;  ///< dimension 

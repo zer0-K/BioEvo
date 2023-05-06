@@ -4,8 +4,8 @@
 #include <vector>
 #include <iostream>
 
-#include "../PreprocessingDefinitions.hpp"
-#include "../Constants.hpp"
+#include "../Declaration/PreprocessingDefinitions.hpp"
+#include "../Declaration/Constants.hpp"
 #include "../Utils/Log/Logger.hpp"
 #include "../Utils/Convert/tostring.hpp"
 #include "../Flow/InputLinearEnvironment.hpp"
@@ -20,7 +20,7 @@ EnvironmentLinear::EnvironmentLinear(std::string name, int dimension, double w[]
     this->w = w;
     this->b = b;
 
-    this->input = (Flow*) new InputLinearEnvironment();
+    this->input = std::make_shared<InputLinearEnvironment>();
 
     logger_write(2,FLAG_INIT + name + " created. Linear model dimension : " + std::to_string(dimension) \
         + ", weights : " + convert_str(w, dimension) +", biases : " + std::to_string(b));
@@ -62,7 +62,7 @@ void EnvironmentLinear::generate_random_ouputs(int nb_individuals, int nb_epochs
         // adds the generated ouput for the current individual
         output_vals[i] = this->generate_random_output(i, nb_epochs_learn[i]);
     }
-    this->output = (Flow*) new OutputLinearEnvironment(output_vals, nb_epochs_learn);
+    this->output = std::make_shared<OutputLinearEnvironment>((Pair<double,double>***)output_vals, nb_epochs_learn);
 
 
     logger_write(2, FLAG_INFO + FLAG_EVOLVE + "Output of " + this->name + " created");
@@ -116,7 +116,7 @@ void EnvironmentLinear::compute(int nb_individuals, int nb_vals)
     {
         nb_vals_array[i] = nb_vals;
     }
-    this->output = (Flow*) new OutputLinearEnvironment(outputs, nb_vals_array);
+    this->output = std::make_shared<OutputLinearEnvironment>(outputs, nb_vals_array);
 
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " has computed values");
 }

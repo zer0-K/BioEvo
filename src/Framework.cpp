@@ -1,7 +1,7 @@
 #include "Framework.hpp"
 
-#include "PreprocessingDefinitions.hpp"
-#include "Constants.hpp"
+#include "Declaration/PreprocessingDefinitions.hpp"
+#include "Declaration/Constants.hpp"
 #include "Utils/Log/Logger.hpp"
 
 #include <iostream>
@@ -122,10 +122,10 @@ void Framework::test(int universe_index, int nb_vals)
     Universe* universe = this->universes[universe_index];
 
     // create some inputs for the individuals 
-    Flow** prepared_vals = universe->prepare_values(nb_vals);
+    std::vector<sp_flow> prepared_vals = universe->prepare_values(nb_vals);
 
     // adapt the values for the individuals
-    Flow** computed_vals = universe->individuals_compute(prepared_vals);
+    std::vector<sp_flow> computed_vals = universe->individuals_compute(prepared_vals);
 
     Solution** solutions = new Solution*[universe->get_nb_individuals()];
     double* gaps = universe->compute_errors(prepared_vals, computed_vals, universe->get_nb_individuals());

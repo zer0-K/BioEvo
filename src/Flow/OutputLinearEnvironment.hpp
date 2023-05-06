@@ -4,7 +4,7 @@
 #include "../Utils/Math/Pair.hpp"
 
 /// @brief output of linear environment 
-class OutputLinearEnvironment : Flow
+class OutputLinearEnvironment : public Flow
 {
 private:
     /**
@@ -32,3 +32,5 @@ public:
     Pair<double,double>*** get_values();
     int* get_nb_vals();
 };
+
+typedef std::shared_ptr<OutputLinearEnvironment> sp_output_linear_environment;

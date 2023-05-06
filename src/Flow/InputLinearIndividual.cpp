@@ -1,7 +1,7 @@
 #include "InputLinearIndividual.hpp"
 
 #include "../Utils/Convert/tostring.hpp"
-#include "../Constants.hpp"
+#include "../Declaration/Constants.hpp"
 
 InputLinearIndividual::InputLinearIndividual(Pair<double,double>** input_vals, int nb_vals)
 {

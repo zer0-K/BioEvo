@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 
-#include "Constants.hpp"
+#include "Declaration/Constants.hpp"
 #include "Server/Server.hpp"
 #include "Utils/Config/config.hpp"
 #include "Utils/Config/ConfigRunner.hpp"

@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "ExperimentOld.hpp"
-#include "Constants.hpp"
+#include "Declaration/Constants.hpp"
 
 ExperimentOld::ExperimentOld()
     : ExperimentOld(DEFAULT_UNIVERSE_WIDTH, DEFAULT_UNIVERSE_HEIGHT)

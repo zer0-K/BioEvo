@@ -12,13 +12,8 @@ protected:
 
     int number_of_epochs;   ///< number of epochs for evolution
 
-    Flow* input;    ///< input of the environment
-    Flow* output;   ///< output of the environment
-
-    /**
-     * setters
-    */
-    void set_output(Flow* ouput);
+    sp_flow input;    ///< input of the environment
+    sp_flow output;   ///< output of the environment
 
 public:
     /**
@@ -66,10 +61,11 @@ public:
     
     //----- getters
     std::string get_name();
-    Flow* get_output();
+    sp_flow get_output();
 
     //----- setters
-    void set_input(Flow* input);
+    void set_input(sp_flow input);
+    void set_output(sp_flow output);
 
     //----- other
     std::string to_string();
@@ -77,3 +73,4 @@ public:
     std::string is_ready();
 }; 
 
+typedef std::shared_ptr<Environment> sp_environment;
