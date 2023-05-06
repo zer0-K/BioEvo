@@ -1,6 +1,6 @@
 #include "Gene.hpp"
 
-Gene::Gene(double mean, double std_dev, AbstractTrait* trait)
+Gene::Gene(double mean, double std_dev, sp_abstracttrait trait)
 {
     this->mean = mean;
     this->std_dev = std_dev;
@@ -9,7 +9,7 @@ Gene::Gene(double mean, double std_dev, AbstractTrait* trait)
 
 //---------- getters
 
-AbstractTrait* Gene::get_trait()
+sp_abstracttrait Gene::get_trait()
 {
     return this->trait_driven;
 }

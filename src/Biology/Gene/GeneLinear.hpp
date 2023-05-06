@@ -13,7 +13,7 @@ public:
      * @brief Constructor
      * @see Gene constructor
     */
-    GeneLinear(double mean, double std_dev, Trait<double>* trait);
+    GeneLinear(double mean, double std_dev, std::shared_ptr<Trait<double>> trait);
 
     /// @see Gene::drive
     void drive() override;
