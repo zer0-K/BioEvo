@@ -19,6 +19,10 @@ Individual::Individual(std::string name, int nb_epoch_learn)
     this->name = name;
     this->number_of_epochs = nb_epoch_learn;
 
+    // inputs and outputs must be initialized explicitly
+    this->input = nullptr;
+    this->output = nullptr;
+
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " created");
     logger_write(7, FLAG_INIT + FLAG_END + this->name + " number of epochs for learning : " + std::to_string(this->number_of_epochs));
 }
@@ -99,6 +103,12 @@ std::string Individual::is_ready()
     else
     {
         message = this->name + " missing content : ";
+    }
+
+    if(this->input == nullptr)
+    {
+        is_ready = false;
+        message += "input, ";
     }
 
     if(is_ready)

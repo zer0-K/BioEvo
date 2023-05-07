@@ -34,6 +34,8 @@ std::string exec_instr(sp_framework framework, std::string instr_name, boost::js
         return add_environment(framework, instr_params);
     if(instr_name == "SET_INDIVIDUALS")
         return set_individuals(framework, instr_params);
+    if(instr_name == "LAUNCH")
+        return launch(framework, instr_params);
 }
 
 std::string add_universe(sp_framework framework, boost::json::object* params)
@@ -154,4 +156,25 @@ std::string set_individuals(sp_framework framework, boost::json::object* params)
          if(jindividuals == nullptr)
             return "Error : can't set individuals : must provide the individuals"; 
     }
+}
+
+std::string launch(sp_framework framework, boost::json::object* params)
+{
+    boost::json::value* jname_universe = params->if_contains("universebname");
+    boost::json::value* jnb_steps = params->if_contains("nbbsteps");
+
+    if(jname_universe != nullptr || jnb_steps == nullptr)
+    {
+        std::string universe_name = boost::json::value_to<std::string>(*jname_universe);
+        int nb_steps = boost::json::value_to<int>(*jnb_steps);
+
+        return framework->launch(universe_name, nb_steps);
+    }
+    else
+    {
+        if(jname_universe == nullptr)
+            return "Error : can't launch experiment : must provide a universe name";
+         if(jnb_steps == nullptr)
+            return "Error : can't launch experiment : must provide a number of steps to perform";
+   }
 }

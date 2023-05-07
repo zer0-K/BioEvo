@@ -13,7 +13,7 @@ export class BioEvoMainComponent {
   configs: string[] = []
   current_config: string = "No config"
 
-  launch: string = "Launch"
+  launch_txt: string = "Launch"
 
   general_warning: string = ""
   warning_universe: string = ""
@@ -28,7 +28,9 @@ export class BioEvoMainComponent {
   env_by_univ: Map<string, string> = new Map<string,string>()
   
   new_individual: string = ""
-  indiv_by_univ: Map<string, string[]> = new Map<string, string[]>() 
+  indiv_by_univ: Map<string, string[]> = new Map<string, string[]>()
+
+  nb_steps: number = 1
 
   public constructor(private bio_evo_service: BioEvoService) { }
 
@@ -125,6 +127,16 @@ export class BioEvoMainComponent {
 
       this.env_by_univ.set(this.new_universe, "")
       this.indiv_by_univ.set(this.new_universe, [])
+
+      var instr_add_universe = { 
+        name: "ADD_UNIVERSE",
+        params: {
+          "name": this.new_universe
+        } 
+      }
+      this.bio_evo_service.exec_instruction(instr_add_universe).subscribe( res_message => {
+        this.general_warning = res_message
+      });
     }
   }
 
@@ -161,6 +173,19 @@ export class BioEvoMainComponent {
         this.indiv_by_univ.set(this.current_universe, individuals)
       }
     }
+  }
+
+  launch(): void {
+    var instr_launch = {
+      "name" : "launch",
+      "params": {
+        "universe name": this.current_universe,
+        "nb steps": this.nb_steps
+      }
+    }
+    this.bio_evo_service.exec_instruction(instr_launch).subscribe( res_message => {
+        this.general_warning = res_message
+      });
   }
  
 }

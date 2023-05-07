@@ -42,6 +42,21 @@ public:
     void init();
 
     /**
+     * @brief Initialize the given universe @see Framewok::init()
+     * 
+     * @param[in] universe_name universe to initialize
+    */
+    void init(std::string universe_name);
+
+    /**
+     * @brief launch the experiment
+     * 
+     * @param[in] universe_name universe to launch the experiment on
+     * @param[in] nb_steps number of steps to perform
+     */ 
+    std::string launch(std::string universe_name, int nb_steps);
+
+    /**
      * @brief perform one environment step
      * 
      * @param[in] universe_index index of the universe
@@ -94,9 +109,11 @@ public:
     void set_individuals(std::vector<sp_individual> individuals, int universe_nb);
     void set_individuals(std::vector<sp_individual> individuals, std::string universe_name);
 
+
     //----- other
     std::string to_string();
     boost::json::object to_json();
+    std::string is_ready(std::string universe_name);
 };
 
 typedef std::shared_ptr<Framework> sp_framework;

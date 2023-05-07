@@ -35,6 +35,49 @@ void Framework::init()
     }
 }
 
+void Framework::init(std::string universe_name)
+{
+    for(int i=0; i<this->nb_universes;i++)
+    {
+        if(this->universes[i]->get_name() == universe_name)
+        {
+            this->universes[i]->init();
+            break;
+        }
+    }
+}
+
+std::string Framework::launch(std::string universe_name, int nb_steps)
+{
+    std::string ready_message = this->is_ready(universe_name);
+    if(ready_message != "ready")
+    {
+        return ready_message;
+    }
+
+    int pos = -1;
+    for(int i=0;i<this->universes.size();i++)
+    {
+        if(this->universes[i]->get_name() == universe_name)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    // init the universe if this is is the first step ever
+    if(this->universes[pos]->get_time() == 0)
+    {
+        this->universes[pos]->init();
+    }
+    
+    for(int step=0; step<nb_steps;step++)
+    {
+        this->next_step(pos);
+    }
+}
+
+
 void Framework::insert_solution(Solution* evolved_solution)
 {
     Solution* current_solution;
@@ -135,6 +178,39 @@ void Framework::test(int universe_index, int nb_vals)
     }
 
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Test");
+}
+
+std::string Framework::is_ready(std::string universe_name)
+{
+    bool isin = false;
+    int universe_i = -1;
+    for(int i=0; i<this->universes.size();i++)
+    {
+        if(this->universes[i]->get_name() == universe_name)
+        {
+            isin = true;
+            universe_i = i;
+            break;
+        }
+    }
+
+    if(isin)
+    {
+        std::string message = this->universes[universe_i]->is_ready();
+
+        if(message == "ready")
+        {
+            return "ready";
+        }
+        else
+        {
+            return message;
+        }
+    }
+    else
+    {
+        return "No universe with given name : " + universe_name;
+    }
 }
 
 

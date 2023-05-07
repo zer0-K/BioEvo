@@ -11,8 +11,7 @@ private:
     sp_framework framework;
 
     std::vector<std::string> executed_instructions;
-    std::vector<boost::json::object>* instructions_list;
-    size_t nb_list_instructions;
+    std::vector<std::vector<boost::json::object>> instructions_list;
 
     bool is_running;
 

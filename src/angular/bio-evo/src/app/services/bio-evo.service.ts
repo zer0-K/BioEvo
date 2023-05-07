@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EnvironmentLinear } from '../classes/Environments/EnvironmentLinear';
 import { UtilsService } from './utils.service';
+import { InstantiateExpr } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class BioEvoService {
   get_info(): Observable<any> {
     return this.http.get(this.apiUrl + this.info, {responseType: 'text'})
   }
-  
+
   test(): Observable<any> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("page",1);
@@ -38,8 +39,20 @@ export class BioEvoService {
     return this.http.get(this.apiUrl + "time", {responseType: 'text', params:queryParams})
   } 
 
-  exec_instr(json_instructions: string): Observable<any> {
+  exec_instructions(json_instructions: string): Observable<any> {
+    debugger
     return this.http.post(this.apiUrl+this.post, json_instructions)
+  }
+
+  exec_instruction(instruction: Object): Observable<any> {
+    var instructions: Object = {
+      "nb instructions": 2,
+      "instruction 1": instruction,
+      "instruction 2": {
+        name: "END"
+      }
+    }
+    return this.exec_instructions(JSON.stringify(instructions));
   }
 }
 

@@ -9,7 +9,7 @@ export class ConfigBuilder {
         if( ! (name in config) )
         {
             var instr = new Map<string, any>()
-            instr.set("nb instructions", 0)
+            instr.set("nb_instructions", 0)
 
             this.configs.set(name, instr)
         }
@@ -20,9 +20,9 @@ export class ConfigBuilder {
         if( cfg_name in this.configs )
         {
             // increment number of instructions
-            var nb_instr = this.configs.get(cfg_name)?.get("nb instructions")
+            var nb_instr = this.configs.get(cfg_name)?.get("nb_instructions")
             nb_instr += 1
-            this.configs.get(cfg_name)?.set("nb instructions", nb_instr)
+            this.configs.get(cfg_name)?.set("nb_instructions", nb_instr)
 
             // add instruction
             this.configs.get(cfg_name)?.set(

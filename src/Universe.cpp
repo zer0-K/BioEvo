@@ -167,6 +167,11 @@ sp_individual Universe::get_individual(int pos)
     return this->individuals[pos];
 }
 
+int Universe::get_time()
+{
+    return this->t;
+}
+
 int Universe::getWidth()
 {
     return this->width;
