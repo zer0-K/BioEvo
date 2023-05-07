@@ -167,6 +167,11 @@ sp_individual Universe::get_individual(int pos)
     return this->individuals[pos];
 }
 
+sp_environment Universe::get_environment()
+{
+    return this->environment;
+}
+
 int Universe::get_time()
 {
     return this->t;

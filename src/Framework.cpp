@@ -55,15 +55,7 @@ std::string Framework::launch(std::string universe_name, int nb_steps)
         return ready_message;
     }
 
-    int pos = -1;
-    for(int i=0;i<this->universes.size();i++)
-    {
-        if(this->universes[i]->get_name() == universe_name)
-        {
-            pos = i;
-            break;
-        }
-    }
+    int pos = this->get_universe_pos(universe_name); 
 
     // init the universe if this is is the first step ever
     if(this->universes[pos]->get_time() == 0)
@@ -180,39 +172,6 @@ void Framework::test(int universe_index, int nb_vals)
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Test");
 }
 
-std::string Framework::is_ready(std::string universe_name)
-{
-    bool isin = false;
-    int universe_i = -1;
-    for(int i=0; i<this->universes.size();i++)
-    {
-        if(this->universes[i]->get_name() == universe_name)
-        {
-            isin = true;
-            universe_i = i;
-            break;
-        }
-    }
-
-    if(isin)
-    {
-        std::string message = this->universes[universe_i]->is_ready();
-
-        if(message == "ready")
-        {
-            return "ready";
-        }
-        else
-        {
-            return message;
-        }
-    }
-    else
-    {
-        return "No universe with given name : " + universe_name;
-    }
-}
-
 
 //---------- setters
 
@@ -224,18 +183,8 @@ void Framework::set_universes(std::vector<sp_universe> universes)
 
 void Framework::add_universe(sp_universe universe)
 {
-    // check if the universe already exists or not first
-    bool isin = false;
-    for(int i=0;i<this->nb_universes;i++)
-    {
-        if(this->universes[i]->get_name() == universe->get_name())
-        {
-            isin = true;
-            break;
-        }
-    }
-
-    if(!isin)
+    // add universe only if it does not already exist
+    if(this->get_universe_pos(universe->get_name()) == -1)
     {
         this->universes.push_back(universe);
         this->nb_universes++;
@@ -279,6 +228,41 @@ void Framework::set_individuals(std::vector<sp_individual> individuals, std::str
     }
 }
 
+void Framework::add_individual(sp_individual individual, std::string universe_name)
+{
+    int pos = this->get_universe_pos(universe_name);
+
+    if(pos != -1)
+    {
+        this->universes[pos]->add_individual(individual);
+    }
+}
+
+
+//---------- getters
+
+int Framework::get_universe_pos(std::string universe_name)
+{
+    for(int i=0;i<this->universes.size();i++)
+    {
+        if(this->universes[i]->get_name() == universe_name)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+sp_environment Framework::get_environment(std::string universe_name)
+{
+    int pos = this->get_universe_pos(universe_name);
+
+    if(pos == -1)
+        return nullptr;
+
+    return this->universes[pos]->get_environment();
+}
 
 //---------- other
 
@@ -304,4 +288,27 @@ boost::json::object Framework::to_json()
     jframework["universes"] = juniv;
 
     return jframework;
+}
+
+std::string Framework::is_ready(std::string universe_name)
+{
+    int univ_pos = this->get_universe_pos(universe_name);
+
+    if(univ_pos != -1)
+    {
+        std::string message = this->universes[univ_pos]->is_ready();
+
+        if(message == "ready")
+        {
+            return "ready";
+        }
+        else
+        {
+            return message;
+        }
+    }
+    else
+    {
+        return "No universe with given name : " + universe_name;
+    }
 }

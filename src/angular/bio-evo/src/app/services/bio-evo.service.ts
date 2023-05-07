@@ -40,8 +40,7 @@ export class BioEvoService {
   } 
 
   exec_instructions(json_instructions: string): Observable<any> {
-    debugger
-    return this.http.post(this.apiUrl+this.post, json_instructions)
+    return this.http.post(this.apiUrl+this.post, json_instructions, {responseType: 'text'})
   }
 
   exec_instruction(instruction: Object): Observable<any> {

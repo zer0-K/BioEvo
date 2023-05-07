@@ -34,6 +34,10 @@ std::string exec_instr(sp_framework framework, std::string instr_name, boost::js
         return add_environment(framework, instr_params);
     if(instr_name == "SET_INDIVIDUALS")
         return set_individuals(framework, instr_params);
+    if(instr_name == "ADD_INDIVIDUAL")
+        return add_individual(framework, instr_params);
+    if(instr_name == "ADD_INDIVIDUALS")
+        return add_individuals(framework, instr_params);
     if(instr_name == "LAUNCH")
         return launch(framework, instr_params);
 }
@@ -49,6 +53,12 @@ std::string add_universe(sp_framework framework, boost::json::object* params)
         std::string message = "";
 
         std::string name = boost::json::value_to<std::string>(*jname);
+
+        if(name == "")
+            return "Error : can't add universe, please provide a name for the universe";
+        else if (framework->get_universe_pos(name) != -1)
+            return "Error : can't add " + name + ", already exists";
+
 
         framework->add_universe(std::make_shared<Universe>(name));
 
@@ -98,6 +108,12 @@ std::string add_environment(sp_framework framework, boost::json::object* params)
         {
             std::string env_name = boost::json::value_to<std::string>(*jenv_name);
 
+            if(env_name == "")
+                return "Error : can't add universe, please provide a name for the environment";
+            else if (framework->get_universe_pos(universe_name) == -1)
+                return "Error : can't add " + env_name + " to " + universe_name + " : universe does not exist";
+
+
             // set the environment to the universe   
             // TODO : for the moment, linear environment
             int dim = 1;
@@ -125,9 +141,9 @@ std::string add_environment(sp_framework framework, boost::json::object* params)
 
 std::string set_individuals(sp_framework framework, boost::json::object* params)
 {
-    boost::json::value* jname_universe = params->if_contains("universe name");
+    boost::json::value* jname_universe  = params->if_contains("universe name");
     boost::json::value* jnb_individuals = params->if_contains("nb individuals");
-    boost::json::array* jindividuals = params->if_contains("individuals")->if_array();
+    boost::json::array* jindividuals    = params->if_contains("individuals")->if_array();
 
     if(jname_universe != nullptr && jnb_individuals !=nullptr && jindividuals != nullptr)
     {
@@ -138,8 +154,11 @@ std::string set_individuals(sp_framework framework, boost::json::object* params)
 
         for(int i=0;i<nb_individuals;i++)
         {
-            std::string name_individual = boost::json::value_to<std::string>(*(jindividuals->at(i).if_object()->if_contains("name")));
-            int dimension_individual = boost::json::value_to<int>(*(jindividuals->at(i).if_object()->if_contains("dimension")));
+            // get the characteristics of the individual
+            std::string name_individual =   boost::json::value_to<std::string>( *(jindividuals->at(i).if_object()->if_contains("name"))     );
+            int dimension_individual    =   boost::json::value_to<int>(         *(jindividuals->at(i).if_object()->if_contains("dimension")));
+            
+            // add the individual
             individuals[i] = std::make_shared<IndividualLinear>(name_individual, dimension_individual);
         }
 
@@ -158,10 +177,73 @@ std::string set_individuals(sp_framework framework, boost::json::object* params)
     }
 }
 
+std::string add_individual(sp_framework framework, boost::json::object* params)
+{
+    boost::json::value* jname_universe  = params->if_contains("universe name");
+    boost::json::object* jindividual    = params->if_contains("individual")->if_object();
+
+    if(jname_universe != nullptr && jindividual != nullptr)
+    {
+        // get the characteristics
+        std::string universe_name   =   boost::json::value_to<std::string>( *jname_universe                         );
+        std::string name_individual =   boost::json::value_to<std::string>( *(jindividual->if_contains("name"))     );
+        int dimension_individual    =   boost::json::value_to<int>(         *(jindividual->if_contains("dimension")));
+
+        sp_individual individual = std::make_shared<IndividualLinear>(name_individual, dimension_individual);
+        framework->add_individual(individual, universe_name);
+
+        return "Success";
+    }
+    else
+    {
+        if(jname_universe == nullptr)
+            return "Error : can't add individual : must provide the name of the universe to link the individuals to";
+         if(jindividual == nullptr)
+            return "Error : can't add individual : must provide the individuals"; 
+    }
+}
+
+std::string add_individuals(sp_framework framework, boost::json::object* params)
+{
+    boost::json::value* jname_universe = params->if_contains("universe name");
+    boost::json::value* jnb_individuals = params->if_contains("nb individuals");
+    boost::json::array* jindividuals = params->if_contains("individuals")->if_array();
+
+    if(jname_universe != nullptr && jnb_individuals !=nullptr && jindividuals != nullptr)
+    {
+        std::string universe_name = boost::json::value_to<std::string>(*jname_universe);
+        int nb_individuals = boost::json::value_to<int>(*jnb_individuals);
+
+        for(int i=0;i<nb_individuals;i++)
+        {
+            // get the characteristics of the individual
+            std::string name_individual = boost::json::value_to<std::string>(*(jindividuals->at(i).if_object()->if_contains("name")));
+            int dimension_individual = boost::json::value_to<int>(*(jindividuals->at(i).if_object()->if_contains("dimension")));
+
+            // create the individual
+            sp_individual individual = std::make_shared<IndividualLinear>(name_individual, dimension_individual);
+
+            // add the individual
+            framework->add_individual(individual, universe_name);
+        } 
+
+        return "Success";
+    }
+    else
+    {
+        if(jname_universe == nullptr)
+            return "Error : can't add individuals : must provide the name of the universe to link the individuals to";
+        if(jnb_individuals == nullptr)
+            return "Error : can't add individuals : must provide the number of individuals to set";
+         if(jindividuals == nullptr)
+            return "Error : can't add individuals : must provide the individuals"; 
+    }
+}
+
 std::string launch(sp_framework framework, boost::json::object* params)
 {
-    boost::json::value* jname_universe = params->if_contains("universebname");
-    boost::json::value* jnb_steps = params->if_contains("nbbsteps");
+    boost::json::value* jname_universe  = params->if_contains("universebname");
+    boost::json::value* jnb_steps       = params->if_contains("nbbsteps");
 
     if(jname_universe != nullptr || jnb_steps == nullptr)
     {

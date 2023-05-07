@@ -123,6 +123,7 @@ public:
     int get_nb_individuals();
     std::vector<sp_individual> get_individuals();
     sp_individual get_individual(int pos);
+    sp_environment get_environment();
     int get_time();
     int getWidth();
     int getHeight();

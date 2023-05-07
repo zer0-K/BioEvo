@@ -108,71 +108,92 @@ export class BioEvoMainComponent {
   }
 
   add_universe(): void {
-    var isin = false
-    this.universes.forEach( (universe: string) => {
-      if(universe === this.new_universe) {
-        isin = true
-      }
-    })
+    this.warning_universe = "";
 
-    if(isin) {
-      this.warning_universe = this.new_universe + " already exists !"
-    } else if (this.new_universe === "") {
-      this.warning_universe = "Please give a name to the universe"
-    } else {
-      this.warning_universe = ""
-
-      this.universes.push(this.new_universe)
-      this.current_universe = this.new_universe
-
-      this.env_by_univ.set(this.new_universe, "")
-      this.indiv_by_univ.set(this.new_universe, [])
-
-      var instr_add_universe = { 
-        name: "ADD_UNIVERSE",
-        params: {
-          "name": this.new_universe
-        } 
-      }
-      this.bio_evo_service.exec_instruction(instr_add_universe).subscribe( res_message => {
-        this.general_warning = res_message
-      });
+    var instr_add_universe = { 
+      name: "ADD_UNIVERSE",
+      params: {
+        name: this.new_universe
+      } 
     }
+ 
+    this.bio_evo_service.exec_instruction(instr_add_universe).subscribe( res_message => {
+      this.general_warning = res_message
+
+      if(res_message === "Success")
+      {
+        this.universes.push(this.new_universe)
+        this.current_universe = this.new_universe
+
+        this.env_by_univ.set(this.new_universe, "")
+        this.indiv_by_univ.set(this.new_universe, [])
+      }
+      else
+      {
+        this.warning_universe = res_message
+      } 
+  });
+         
   }
 
   add_environment(): void {
-    debugger
+    this.warning_environment = ""
 
-    if(this.new_environment === "") {
-      this.warning_environment = "Please give a name to the new environment"
-    } else {
-      this.warning_environment = ""
+    var instr_set_env = {
+      name: "ADD_ENVIRONMENT",
+      params: {
+        "universe name": this.current_universe,
+        "environment": {
+          name: this.new_environment
+        }
+      }
+    }
 
-      this.env_by_univ.set(this.current_universe, this.new_environment)
-    } 
+    this.bio_evo_service.exec_instruction(instr_set_env).subscribe( res_message => {
+      this.general_warning = res_message
+
+      if(res_message === "Success")
+      {
+        this.env_by_univ.set(this.current_universe, this.new_environment)
+      }
+      else
+      {
+        this.warning_environment = res_message
+      } 
+    })
   }
 
   add_individual(): void { 
-    var individuals = this.indiv_by_univ.get(this.current_universe)
-    if(individuals != undefined) {
-      var isin = false
-      individuals.forEach((individual: string) => {
-        if(individual === this.new_individual) {
-          isin = true
+    this.warning_individual = "" 
+
+    var instr_set_env = {
+      name: "ADD_INDIVIDUAL",
+      params: {
+        "universe name": this.current_universe,
+        "individual": {
+          name: this.new_individual,
+          dimension: 10
         }
-      })
-
-      if(isin) {
-        this.warning_individual = this.new_individual + " already exists"
-      } else if (this.new_individual === "") {
-        this.warning_individual = "Please give a name to the individual"
-      } else {
-        this.warning_individual = ""
-
-        individuals.push(this.new_individual)
-        this.indiv_by_univ.set(this.current_universe, individuals)
       }
     }
+
+    this.bio_evo_service.exec_instruction(instr_set_env).subscribe( res_message => {
+      this.general_warning = res_message
+
+      if(res_message === "Success")
+      {
+        var individuals = this.indiv_by_univ.get(this.current_universe)
+
+        this.env_by_univ.set(this.current_universe, this.new_environment)
+
+        individuals?.push(this.new_individual)
+        this.indiv_by_univ.set(this.current_universe, individuals??[])
+      }
+      else
+      {
+        this.warning_individual = res_message
+      } 
+    }) 
   }
 
   launch(): void {

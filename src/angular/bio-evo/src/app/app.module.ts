@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatListModule } from '@angular/material/list'
 
+import { NgChartsModule } from 'ng2-charts';
+
 import { BioEvoMainComponent } from './bio-evo-main/bio-evo-main.component';
 
 
@@ -36,6 +38,7 @@ import { BioEvoMainComponent } from './bio-evo-main/bio-evo-main.component';
     MatDialogModule,
     MatListModule,
     MatDividerModule,
+    NgChartsModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

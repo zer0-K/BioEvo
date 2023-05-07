@@ -108,7 +108,12 @@ public:
     void set_environment(sp_environment env, std::string universe_name);
     void set_individuals(std::vector<sp_individual> individuals, int universe_nb);
     void set_individuals(std::vector<sp_individual> individuals, std::string universe_name);
+    void add_individual(sp_individual individual, std::string universe_name);
 
+
+    //----- getters
+    int get_universe_pos(std::string universe_name);
+    sp_environment get_environment(std::string universe_name);
 
     //----- other
     std::string to_string();

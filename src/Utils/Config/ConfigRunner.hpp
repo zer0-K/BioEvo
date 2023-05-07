@@ -21,7 +21,12 @@ public:
 
     void add_instructions(std::vector<boost::json::object> instructions);
 
-    void continue_exec();
+    /**
+     * @brief execute the instructions in the instruction set
+     * 
+     * @return message (success, error,...)
+    */
+    std::string continue_exec();
 
     bool is_executing();
 };

@@ -17,9 +17,10 @@ void ConfigRunner::add_instructions(std::vector<boost::json::object> instruction
     this->instructions_list.push_back(instructions); 
 }
 
-void ConfigRunner::continue_exec()
+std::string ConfigRunner::continue_exec()
 {
     this->is_running = true;
+    std::string message = "";
 
     while(this->is_running)
     {
@@ -45,7 +46,13 @@ void ConfigRunner::continue_exec()
             else
             {
                 boost::json::object* params = instr["params"].if_object();
-                exec_instr(this->framework, instr_name, params);
+                message = exec_instr(this->framework, instr_name, params);
+
+                if(message != "Success")
+                {
+                    this->is_running = false;
+                    return message;
+                }
             }
 
             // remove 'break' instruction
@@ -58,6 +65,8 @@ void ConfigRunner::continue_exec()
             this->is_running = false;
         }
     }
+
+    return message;
 }
 
 bool ConfigRunner::is_executing()

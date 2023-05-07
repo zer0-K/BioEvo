@@ -127,19 +127,22 @@ void Server::manage_post()
 
     if(url_target == "/bio-evo-api/instr")
     {
+        response_.set(http::field::content_type, "text/plain");
+
         std::string body_instructions = request_.body();  
         std::vector<boost::json::object> instrs = convert_to_objs(body_instructions);
 
         if(cr->is_executing())
         {
-            response_.set(http::field::content_type, "text/plain");
             beast::ostream(response_.body())
                 << "config runner is currently running";
         }
         else
         {
             cr->add_instructions(instrs);
-            cr->continue_exec();
+            std::string message = cr->continue_exec();
+
+            beast::ostream(response_.body())    <<  message; 
         }
     }
     else if(url_target == "/bio-evo-api/apply-config")
