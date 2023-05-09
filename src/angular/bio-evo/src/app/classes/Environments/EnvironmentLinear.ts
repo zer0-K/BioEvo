@@ -1,8 +1,7 @@
 
 
-export class EnvironmentLinear {
+export class EnvironmentParamsLinear {
     public name: string = ""
-
     public dimension: number
     public w: number[]
     public b: number

@@ -10,6 +10,7 @@
 #include "../Utils/Convert/toarray.hpp"
 #include "../Framework.hpp"
 #include "../Utils/json/interprete_json.hpp"
+#include "../Utils/Builder.hpp"
 #include "../Environment/EnvironmentLinear.hpp"
 
 namespace beast = boost::beast;     // from <boost/beast.hpp>
@@ -163,6 +164,20 @@ void Server::manage_post()
             cr->continue_exec();
         }
     }
+    else if(url_target == "/bio-evo-api/build-object")
+    {
+        std::string object_txt = request_.body();
+        boost::json::value jobject_info = boost::json::parse(object_txt);
+
+        if( auto p = jobject_info.if_object())
+        {
+            std::string universe_name = boost::json::value_to<std::string>(((*p)["universe name"]));
+            std::string entity_type = boost::json::value_to<std::string>(((*p)["entity type"]));
+            boost::json::object params = *( ( (*p)["params"] ).if_object() );
+
+            Builder::create_entity(framework, universe_name, entity_type, params);
+        }
+    }
 }
 
 void Server::create_response()
@@ -176,9 +191,43 @@ void Server::create_response()
     {
         response_.set(http::field::content_type, "text/plain"); 
 
+        boost::json::object info;
+
+        boost::json::array individual_types;
+        for(int i=0;i<INDIVIDUAL_TYPES.size();i++)
+            individual_types.emplace_back(INDIVIDUAL_TYPES[i]);
+        info["individual types"] = individual_types;
+
+        boost::json::array environment_types;
+        for(int i=0;i<ENVIRONMENT_TYPES.size();i++)
+            environment_types.emplace_back(ENVIRONMENT_TYPES[i]);
+        info["environment types"] = environment_types;
+
+        // environment types and individual types        
+        beast::ostream(response_.body())
+            << info;
+    }
+    else if(url_target == "/bio-evo-api/current-info")
+    {
+        response_.set(http::field::content_type, "text/plain"); 
+
         // universes, environments and individuals        
         beast::ostream(response_.body())
             << framework->to_json();
+    }
+    else if(url_target == "/bio-evo-api/get-info-type")
+    {
+        response_.set(http::field::content_type, "text/plain"); 
+
+        std::string entity_type = parsed_args[1];
+
+        int pos = 0;
+        pos = entity_type.find('=');
+        entity_type.erase(0, pos+1);
+
+        // universes, environments and individuals        
+        beast::ostream(response_.body())
+            << Builder::get_type_descr(entity_type); 
     }
     else if(url_target == "/bio-evo-api/get-configs")
     {

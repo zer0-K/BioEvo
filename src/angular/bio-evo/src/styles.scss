@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use '../../../themes.scss' as *;
+
+// framework component styles
+@use '@nebular/theme/styles/globals' as *;
+
+// install the framework styles
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -45,7 +45,7 @@ std::string exec_instr(sp_framework framework, std::string instr_name, boost::js
 std::string add_universe(sp_framework framework, boost::json::object* params)
 {
     boost::json::value* jname = params->if_contains("name");
-    boost::json::value* jenvironment = params->if_contains("environment");
+    boost::json::value* jenvironment = params->if_contains("current environment");
     boost::json::value* jindividuals = params->if_contains("individuals");
 
     if(jname != nullptr)
@@ -66,7 +66,7 @@ std::string add_universe(sp_framework framework, boost::json::object* params)
         {
             boost::json::object* params_jenv = new boost::json::object();
             (*params_jenv)["universe name"] = name;
-            (*params_jenv)["environment"] = *jenvironment;
+            (*params_jenv)["current environment"] = *jenvironment;
             message += add_environment(framework, params_jenv);
 
             if(message.substr(0, 5) == "Error")
@@ -96,7 +96,7 @@ std::string add_universe(sp_framework framework, boost::json::object* params)
 std::string add_environment(sp_framework framework, boost::json::object* params)
 {
     boost::json::value* jname_universe = params->if_contains("universe name");
-    boost::json::object* jenvironment = params->if_contains("environment")->if_object();
+    boost::json::object* jenvironment = params->if_contains("current environment")->if_object();
 
     if(jname_universe != nullptr && jenvironment != nullptr)
     {
@@ -242,7 +242,7 @@ std::string add_individuals(sp_framework framework, boost::json::object* params)
 
 std::string launch(sp_framework framework, boost::json::object* params)
 {
-    boost::json::value* jname_universe  = params->if_contains("universebname");
+    boost::json::value* jname_universe  = params->if_contains("universe name");
     boost::json::value* jnb_steps       = params->if_contains("nbbsteps");
 
     if(jname_universe != nullptr || jnb_steps == nullptr)

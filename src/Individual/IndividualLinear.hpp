@@ -33,6 +33,13 @@ private:
     */
     IndividualLinear(std::string name, int nb_epoch_learn, int dimension);
 
+    /**
+     * @brief Constructor from json
+     * 
+     * @param[in] params params to build the object
+    */
+    IndividualLinear(boost::json::object params);
+
     /// @brief init
     void init();
 
@@ -56,7 +63,18 @@ private:
 
     //-----other
     std::string to_string() override;
-    boost::json::object to_json() override;
+    boost::json::object object_to_json() override;
+
+    static boost::json::object type_to_json()
+    {
+        boost::json::object jindividual = Individual::type_to_json();
+
+        jindividual["dimension"]    = TYPE_INT;
+        jindividual["weights"]      = TYPE_LIST + "-" + TYPE_DOUBLE;
+        jindividual["bias"]         = TYPE_DOUBLE;
+
+        return jindividual;
+    }
 };
 
 typedef std::shared_ptr<IndividualLinear> sp_individual_linear;

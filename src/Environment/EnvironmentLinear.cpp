@@ -27,6 +27,45 @@ EnvironmentLinear::EnvironmentLinear(std::string name, int dimension, std::vecto
         + ", weights : " + convert_str(w) +", biases : " + std::to_string(b));
 }
 
+EnvironmentLinear::EnvironmentLinear(boost::json::object params)
+    :Environment::Environment(params)
+{
+    boost::json::value* jdim = params.if_contains("dimension");
+    boost::json::value* jweights = params.if_contains("weights");
+    boost::json::value* jbias = params.if_contains("bias");
+
+    // dimension
+    if(jdim != nullptr)
+        this->dimension = boost::json::value_to<int>(*jdim);
+    else
+        this->dimension = INDIV_LINEAR_DEFAULT_DIMENSION;
+
+    // bias
+    if(jbias != nullptr)
+        this->b = boost::json::value_to<double>(*jbias);
+    else
+        this->b = INDIV_LINEAR_DEFAULT_BIAS;
+
+    // weights
+    this->w = std::vector<double>(dimension);
+    if(jweights != nullptr && jweights->if_array() != nullptr)
+    {
+        boost::json::array* arr_weights = jweights->if_array(); 
+
+        for(int d=0;d<dimension;d++)
+        {
+            this->w[d] = boost::json::value_to<double>(arr_weights->at(d)); 
+        }
+    }
+    else
+    {
+        for(int d=0;d<dimension;d++)
+        {
+            this->w[d] = rand()%50 - 25;
+        }   
+    }
+}
+
 Pair<double,double>** EnvironmentLinear::generate_random_output(int individual_index, int nb_vals)
 {
     auto generated_vals = new Pair<double,double>*[nb_vals];
@@ -135,9 +174,9 @@ std::string EnvironmentLinear::to_string()
     return res;
 }
 
-boost::json::object EnvironmentLinear::to_json()
+boost::json::object EnvironmentLinear::object_to_json()
 {
-    boost::json::object jenv = Environment::to_json();
+    boost::json::object jenv = Environment::object_to_json();
 
     jenv["dimension"]   =   this->dimension;
     boost::json::array arr_weights;

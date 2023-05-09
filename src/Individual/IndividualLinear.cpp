@@ -38,6 +38,57 @@ IndividualLinear::IndividualLinear(std::string name, int nb_epoch_learn, int dim
     this->output = std::make_shared<OutputLinearIndividual>(input_vals, 0);
 }
 
+IndividualLinear::IndividualLinear(boost::json::object params)
+    :Individual::Individual(params)
+{
+    this->init();
+
+    boost::json::value* jdim = params.if_contains("dimension");
+    boost::json::value* jweights = params.if_contains("weights");
+    boost::json::value* jbias = params.if_contains("bias");
+
+    // dimension
+    if(jdim != nullptr)
+        this->dimension = boost::json::value_to<int>(*jdim);
+    else
+        this->dimension = INDIV_LINEAR_DEFAULT_DIMENSION;
+
+    // bias
+    double bias;
+    if(jbias != nullptr)
+        bias = boost::json::value_to<double>(*jbias); 
+    else
+        bias = INDIV_LINEAR_DEFAULT_BIAS;
+    this->b = std::make_shared<Trait<double>>(bias);
+    sp_abstracttrait bias_trait = this->b;
+    bias_trait->set_name("bias");
+
+    // weights
+    this->w = std::vector<std::shared_ptr<Trait<double>>>(dimension);
+    if(jweights != nullptr && jweights->if_array() != nullptr)
+    {
+        boost::json::array* arr_weights = jweights->if_array(); 
+
+        for(int d=0;d<dimension;d++)
+        {
+            this->w[d] = std::make_shared<Trait<double>>(
+                boost::json::value_to<double>(arr_weights->at(d))
+            );
+            sp_abstracttrait weight_trait = this->w[d];
+            weight_trait->set_name("weight " + std::to_string(d)); 
+        }
+    }
+    else
+    {
+        for(int d=0;d<dimension;d++)
+        {
+            this->w[d] = std::make_shared<Trait<double>>(rand()%50 - 25);
+            sp_abstracttrait weight_trait = this->w[d];
+            weight_trait->set_name("weight " + std::to_string(d));
+        }   
+    }
+}
+
 void IndividualLinear::init()
 {
     this->learning_method = 1;
@@ -145,9 +196,9 @@ std::string IndividualLinear::to_string()
     return res;
 }
 
-boost::json::object IndividualLinear::to_json()
+boost::json::object IndividualLinear::object_to_json()
 {
-    boost::json::object jindividual = Individual::to_json();
+    boost::json::object jindividual = Individual::object_to_json();
 
     jindividual["dimension"] = this->dimension;
     boost::json::array arr_weights;
@@ -157,18 +208,6 @@ boost::json::object IndividualLinear::to_json()
     jindividual["bias"] = this->b->get_value();
     jindividual["error"] = this->prec_diff;
 
-    /*
-    std::string res = Individual::to_json();
-    res.replace(res.size()-1,1,"");
-
-    res += ",'dimension':" + std::to_string(this->dimension) + ",'weights':[";
-    for(int i=0;i<this->dimension;i++)
-    {
-        res += std::to_string(this->w[i]->get_value()) + ",";
-    }
-    res += ",'bias':" + std::to_string(b->get_value());
-    res += ",'prec error (relative)':" + std::to_string(this->prec_diff);
-
-    return res;*/
     return jindividual;
 }
+

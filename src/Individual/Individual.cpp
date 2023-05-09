@@ -13,10 +13,10 @@ Individual::Individual(std::string name)
 }
 
 Individual::Individual(std::string name, int nb_epoch_learn)
+    :Entity::Entity(name)
 {
     logger_write(1, FLAG_INIT + FLAG_BEGIN + "Creating individual. name : " + name);
 
-    this->name = name;
     this->number_of_epochs = nb_epoch_learn;
 
     // inputs and outputs must be initialized explicitly
@@ -27,13 +27,13 @@ Individual::Individual(std::string name, int nb_epoch_learn)
     logger_write(7, FLAG_INIT + FLAG_END + this->name + " number of epochs for learning : " + std::to_string(this->number_of_epochs));
 }
 
+Individual::Individual(boost::json::object params)
+    :Entity::Entity(params)
+{
+    this->number_of_epochs = DEFAULT_NB_EPOCHS_LEARN;
+}
 
 //---------- getters
-
-std::string Individual::get_name()
-{
-    return this->name;
-}
 
 std::shared_ptr<Flow> Individual::get_output()
 {
@@ -61,6 +61,16 @@ void Individual::set_number_of_epochs(int nb_epoch_learn)
 
 //---------- other
 
+boost::json::object Individual::object_to_json()
+{
+    boost::json::object jindividual;
+
+    jindividual["name"] = name;
+    jindividual["nb epochs"] = number_of_epochs;
+
+    return jindividual;
+}
+
 std::string Individual::to_string()
 {
     std::string res = "";
@@ -69,25 +79,6 @@ std::string Individual::to_string()
     res += "(input : " + this->input->to_string() + " ; output : " + this->output->to_string() + ")";
 
     return res;
-}
-
-boost::json::object Individual::to_json()
-{
-    boost::json::object jindividual;
-
-    jindividual["name"] = this->name;
-    jindividual["nb_epoch"] = this->number_of_epochs;
-
-    /*
-    std::string res = "{";
-
-    res += "'name':" + this->name + ",'number of epochs'" + std::to_string(this->number_of_epochs);
-    res += "'input':" + this->input->to_json() + ",'output':" + this->output->to_json();
-    res += "}";
-
-    return res;*/
-
-    return jindividual;
 }
 
 std::string Individual::is_ready()

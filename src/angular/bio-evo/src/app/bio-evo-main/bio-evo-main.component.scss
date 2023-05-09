@@ -1,3 +1,5 @@
+@use '../../../../../themes.scss' as *;
+
 .main-div {
   margin: 25px;
 }
@@ -9,6 +11,15 @@
 .bio-evo-header button {
   margin-left: 50px;
   margin-top: 8px;
+}
+
+mat-card {
+  width: fit-content;  
+  padding: 10px
+}
+
+.universe-content {
+  display: flex;
 }
 
 .current-info p {

@@ -28,21 +28,29 @@ extern const int DEFAULT_NB_EPOCHS_LEARN;       ///< default number of epoch for
 extern const int DEFAULT_NB_EPOCHS_EVO;         ///< default number of epoch for evolution (several lifetimes)
 
 
+//-------------------- Linear
+
+//----- environment
+
+extern const std::string ENV_NAME_LINEAR;
+extern const int ENV_LINEAR_DEFAULT_DIMENSION;
+extern const double ENV_LINEAR_DEFAULT_BIAS;
+
+//----- individuals
+
+extern const std::string INDIVIDUAL_NAME_LINEAR_LEARN;
+extern const std::string INDIVIDUAL_NAME_LINEAR_SELECT;
+extern const int INDIV_LINEAR_DEFAULT_DIMENSION;
+extern const double INDIV_LINEAR_DEFAULT_BIAS;
+
 //-------------------- Info on contents
+
+extern std::vector<std::string> ENVIRONMENT_TYPES;
+extern std::vector<std::string> INDIVIDUAL_TYPES;
 
 //---------- universe names
 
 extern const std::string UNIVERSE_NAME_CLASSICAL;
-
-//---------- environment names
-
-// classical algos
-extern const std::string ENV_NAME_LINEAR;
-
-//---------- individual names
-
-extern const std::string INDIVIDUAL_NAME_LINEAR_LEARN;
-extern const std::string INDIVIDUAL_NAME_LINEAR_SELECT;
 
 
 //-------------------- All info on contents
@@ -51,6 +59,13 @@ extern std::vector<std::string> UNIVERSE_NAMES;
 extern std::map<const std::string, std::vector<std::string>> ENV_NAMES_BY_UNIVERSE;
 extern std::map<const std::string, std::vector<std::string>> INDIVIDUAL_NAMES_BY_ENV;
 
+
+//-------------------- Types
+
+extern std::string TYPE_INT;
+extern std::string TYPE_STRING;
+extern std::string TYPE_DOUBLE;
+extern std::string TYPE_LIST;
 
 //-------------------- Log flags
 

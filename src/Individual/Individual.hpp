@@ -1,20 +1,14 @@
 #pragma once
 
-#include <string>
-#include <memory>
-
-#include <boost/json.hpp>
-
+#include "../Entity.hpp"
 #include "../Flow/Flow.hpp"
 
 /// @brief algorithm, as an individual
-class Individual
+class Individual : public Entity
 {
 protected:
     std::shared_ptr<Flow> input;    ///< input of the individual
     std::shared_ptr<Flow> output;   ///< output of the individual
-
-    std::string name;   ///< name of the individual
 
     int number_of_epochs;   ///< number of epochs for learning
     
@@ -39,6 +33,11 @@ public:
     */
     Individual(std::string name, int nb_epch_learn);
 
+    /**
+     * @brief @see Entity constructor
+    */
+    Individual(boost::json::object params);
+
    /**
     * @brief Perform the computation, making the individual evolve according to the laws we define
     */
@@ -54,7 +53,6 @@ public:
     virtual std::shared_ptr<Flow> compute(std::shared_ptr<Flow> x)=0;
 
     //----- getters
-    std::string get_name();
     std::shared_ptr<Flow> get_output();
 
     //----- setters
@@ -62,9 +60,14 @@ public:
     void set_number_of_epochs(int nb_epoch_learn);
 
     //----- other
+    boost::json::object object_to_json() override;
     virtual std::string to_string();
-    virtual boost::json::object to_json();
     virtual std::string is_ready();
+
+    static boost::json::object type_to_json()
+    {
+        return Entity::type_to_json();
+    }
 };
 
 typedef std::shared_ptr<Individual> sp_individual;

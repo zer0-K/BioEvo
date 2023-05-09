@@ -5,11 +5,13 @@
             <p>Current universe : {{current_universe}}</p>
         </div>
 
-        <button mat-button>Refresh</button>
+        <button mat-button (click)="get_current_info()">Refresh</button>
 
         <p style="color: red;">{{general_warning}}</p>
 
         <button (click)="launch()">{{launch_txt}}</button>
+
+        <button (click)="test()">Test</button>
     </div>
 
     <mat-accordion class="example-headers-align" multi>
@@ -90,23 +92,38 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <p style="color: red;" *ngIf="current_universe === &quot;&quot;">
-                No universe selected
-            </p>
+            <div class="universe-content">
+                <div>
+                    <p style="color: red;" *ngIf="current_universe === &quot;&quot;">
+                        No universe selected
+                    </p>
 
-            <p style="color: red;" *ngIf="current_universe !== &quot;&quot;">
-                {{warning_environment}}
-            </p>
+                    <p style="color: red;" *ngIf="current_universe !== &quot;&quot;">
+                        {{warning_environment}}
+                    </p>
 
-            <mat-form-field *ngIf="env_by_univ.get(current_universe) === &quot;&quot;" appearance="fill">
-                <mat-label>Create environment for {{current_universe}}</mat-label>
-                <input matInput [(ngModel)]="new_environment">   
-            </mat-form-field>
+                    <mat-form-field *ngIf="env_by_univ.get(current_universe) === &quot;&quot;" appearance="fill">
+                        <mat-label>Create environment for {{current_universe}}</mat-label>
+                        <input matInput [(ngModel)]="new_environment">   
+                    </mat-form-field>
 
-            <button mat-button *ngIf="env_by_univ.get(current_universe) === &quot;&quot;"
-                (click)="add_environment()">Add</button>
+                    <button mat-button *ngIf="env_by_univ.get(current_universe) === &quot;&quot;"
+                        (click)="add_environment()">Add</button>
 
-            <p>{{env_by_univ.get(current_universe)}}</p>
+                    <p>{{env_by_univ.get(current_universe)}}</p>
+                </div>
+
+                <div>
+                    <mat-selection-list>
+                        <mat-list-option *ngFor="let env_type of environment_types">
+                            <div>
+                                <p>{{env_type}}</p>
+                            </div>
+                        </mat-list-option> 
+                        <mat-divider></mat-divider>
+                    </mat-selection-list>
+                </div>
+            </div>
 
         </mat-expansion-panel>
 
@@ -124,33 +141,55 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <p style="color: red;" *ngIf="current_universe === &quot;&quot;">
-                No universe selected
-            </p>
+            <div class="universe-content">
+                <mat-card size="medium">
+                    <p style="color: red;" *ngIf="current_universe === &quot;&quot;">
+                        No universe selected
+                    </p>
 
-            <p style="color: red;" *ngIf="current_universe !== &quot;&quot;">
-                {{warning_individual}}
-            </p>
+                    <p style="color: red;" *ngIf="current_universe !== &quot;&quot;">
+                        {{warning_individual}}
+                    </p>
 
-            <mat-form-field *ngIf="current_universe !== &quot;&quot;"
-                appearance="fill">
-                <mat-label>Create individidual for {{current_universe}}</mat-label>
-                <input matInput [(ngModel)]="new_individual">   
-            </mat-form-field>
+                    <mat-form-field *ngIf="current_universe !== &quot;&quot;"
+                        appearance="fill">
+                        <mat-label>Create individidual for {{current_universe}}</mat-label>
+                        <input matInput [(ngModel)]="new_individual">   
+                    </mat-form-field>
 
-            <button mat-button *ngIf="current_universe !== &quot;&quot;"
-                (click)="add_individual()">Add</button>
+                    <mat-radio-group *ngIf="current_universe !== &quot;&quot;"
+                        [(ngModel)]="selected_indiv_type">
+                        <mat-radio-button *ngFor="let indiv_type of individual_types" [value]="indiv_type">
+                            {{indiv_type}}
+                        </mat-radio-button> 
+                    </mat-radio-group>
 
-            <mat-selection-list *ngIf="current_universe !== &quot;&quot;"
-                multiple="false">
-                <mat-list-option *ngFor="let individual_name of indiv_by_univ.get(current_universe)">
-                    <div matListItemLine>
-                        <p>{{individual_name}}</p>
-                        <button mat-button style="color: red;">remove</button>
-                    </div>
-                </mat-list-option> 
-                <mat-divider></mat-divider>
-            </mat-selection-list>
+                    <div *ngIf="selected_indiv_type === 'linear'">
+
+                        <mat-form-field appearance="fill">
+                            <mat-label>Dimension</mat-label>
+                            <input matInput [(ngModel)]="new_individual">   
+                        </mat-form-field>
+
+                        <button mat-button *ngIf="current_universe !== &quot;&quot;"
+                            (click)="add_individual()">Add</button>
+                    </div>                    
+
+                </mat-card>  
+
+                <mat-card size="medium">
+                    <mat-selection-list *ngIf="current_universe !== &quot;&quot;"
+                        multiple="false">
+                        <mat-list-option *ngFor="let individual_name of indiv_by_univ.get(current_universe)">
+                            <div matListItemLine>
+                                <p>{{individual_name}}</p>
+                                <button mat-button style="color: red;">remove</button>
+                            </div>
+                        </mat-list-option> 
+                        <mat-divider></mat-divider>
+                    </mat-selection-list>
+                </mat-card>
+            </div>
 
         </mat-expansion-panel>
 
@@ -167,7 +206,7 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <bubbletree></bubbletree>
+
 
         </mat-expansion-panel>
 

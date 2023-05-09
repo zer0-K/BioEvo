@@ -18,7 +18,8 @@ protected:
     std::vector<int> epochs_individuals;    ///< number of epochs for the individuals
 
     std::vector<sp_individual> individuals;   ///< individuals living in the universe
-    sp_environment environment;   ///< environment with which the individual interacts
+    sp_environment current_environment;   ///< environment with which the individual interacts
+    std::vector<sp_environment> environments;   ///< all possible environments
     sp_buffer buffer;             ///< buffer, to feed individual's input with environment's output and vice-vesra
         
     std::map<sp_individual, double> solutions;     ///< solutions of the problem
@@ -124,12 +125,15 @@ public:
     std::vector<sp_individual> get_individuals();
     sp_individual get_individual(int pos);
     sp_environment get_environment();
+    std::vector<sp_environment> get_environments();
     int get_time();
     int getWidth();
     int getHeight();
 
     //----- setters
+    void set_environment(std::string env_name);
     void set_environment(sp_environment env);
+    void add_environment(sp_environment env);
     void set_individuals(std::vector<sp_individual> individuals);
     void add_individual(sp_individual individual);
     void remove_individual(int pos);

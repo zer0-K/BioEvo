@@ -6,7 +6,7 @@ import { BioEvoService } from '../services/bio-evo.service';
 @Component({
   selector: 'app-bio-evo-main',
   templateUrl: './bio-evo-main.component.html',
-  styleUrls: ['./bio-evo-main.component.css']
+  styleUrls: ['./bio-evo-main.component.scss']
 })
 export class BioEvoMainComponent {
   config_builder: ConfigBuilder = new ConfigBuilder()
@@ -23,11 +23,17 @@ export class BioEvoMainComponent {
   current_universe: string = ""
   universes: string[] = []
   new_universe: string = "My universe"
+  can_add_universe: boolean = false
   
+  environment_types: string[] = []
   new_environment: string = ""  
+  can_add_env: boolean = false
   env_by_univ: Map<string, string> = new Map<string,string>()
   
+  individual_types: string[] = []
   new_individual: string = ""
+  can_add_individual: boolean = false
+  selected_indiv_type: string = "linear"
   indiv_by_univ: Map<string, string[]> = new Map<string, string[]>()
 
   nb_steps: number = 1
@@ -41,20 +47,26 @@ export class BioEvoMainComponent {
         this.configs.push(cfg_name.replace('../config/', '').replace('.conf.json', ''))
       })
     })
+
+    this.bio_evo_service.get_info().subscribe( info_txt => {
+      var info = JSON.parse(info_txt)
+
+      this.individual_types = info["individual types"] ?? []
+      this.environment_types = info["environment types"] ?? []
+    })
   }
 
   select_config(cfg_name: string): void {
     this.current_config = cfg_name
 
     this.bio_evo_service.apply_config(cfg_name).subscribe(res => {
-      this.get_info()
+      this.get_current_info()
     })
   }
 
-  get_info(): void {
-    this.bio_evo_service.get_info().subscribe(info_res => {
+  get_current_info(): void {
+    this.bio_evo_service.get_current_info().subscribe(info_res => {
       this.general_warning = ""
-      debugger
       
       var info_data = JSON.parse(info_res)
       if("universes" in info_data && info_data["universes"] != "null")
@@ -70,9 +82,9 @@ export class BioEvoMainComponent {
           var universe_full = universes_full[universe_name]
           this.universes.push(universe_name)
 
-          if("environment" in universe_full && universe_full["environment"] != "null")
+          if("current environment" in universe_full && universe_full["current environment"] != "null")
           {
-            var env_full = universe_full["environment"]
+            var env_full = universe_full["current environment"]
 
             this.env_by_univ.set(universe_name, env_full["name"])
           }
@@ -143,7 +155,7 @@ export class BioEvoMainComponent {
       name: "ADD_ENVIRONMENT",
       params: {
         "universe name": this.current_universe,
-        "environment": {
+        "current environment": {
           name: this.new_environment
         }
       }
@@ -207,6 +219,13 @@ export class BioEvoMainComponent {
     this.bio_evo_service.exec_instruction(instr_launch).subscribe( res_message => {
         this.general_warning = res_message
       });
+  }
+
+  test(): void {
+    this.bio_evo_service.get_info_type("EnvironmentLinear").subscribe( res => {
+      debugger
+      var test = res
+    })
   }
  
 }

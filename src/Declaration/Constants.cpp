@@ -27,20 +27,33 @@ const int DEFAULT_NB_EPOCHS_EVO                 = 100;
 
 //-------------------- Info on contents
 
-//---------- universe names
+std::vector<std::string> ENVIRONMENT_TYPES = std::vector<std::string> {
+    "linear"
+};
+std::vector<std::string> INDIVIDUAL_TYPES = std::vector<std::string> {
+    "linear"
+};
 
-const std::string UNIVERSE_NAME_CLASSICAL   = "universe classical algos";
+//-------------------- Linear
 
-//---------- environment names
 
-// classical algos
+//----- environment
+
 const std::string ENV_NAME_LINEAR   = "environment linear models";
+const int ENV_LINEAR_DEFAULT_DIMENSION = 4;
+const double ENV_LINEAR_DEFAULT_BIAS = 0;
 
-//---------- individual names
+//----- individuals
 
 const std::string INDIVIDUAL_NAME_LINEAR_LEARN  = "individual linear model learn";
 const std::string INDIVIDUAL_NAME_LINEAR_SELECT = "individual linear model select";
+const int INDIV_LINEAR_DEFAULT_DIMENSION = 4;
+const double INDIV_LINEAR_DEFAULT_BIAS = 0;
 
+
+//---------- universe names
+
+const std::string UNIVERSE_NAME_CLASSICAL   = "universe classical algos";
 
 //-------------------- All info on contents
 
@@ -68,6 +81,13 @@ std::map<const std::string, std::vector<std::string>> INDIVIDUAL_NAMES_BY_ENV = 
     }
 };
 
+
+//-------------------- types
+
+std::string TYPE_INT    = "int";
+std::string TYPE_STRING = "string";
+std::string TYPE_DOUBLE = "double";
+std::string TYPE_LIST   = "list";
 
 
 //-------------------- Log flags

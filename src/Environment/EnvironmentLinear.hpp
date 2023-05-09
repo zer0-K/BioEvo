@@ -51,6 +51,11 @@ public:
     */
     EnvironmentLinear(std::string name, int dimension, std::vector<double> w, double b);
 
+    /**
+     * @brief @see Entity constructor
+    */
+    EnvironmentLinear(boost::json::object params);
+
     /// @see Environment::evolve
     void evolve(std::vector<int> nb_epochs) override;
 
@@ -62,7 +67,18 @@ public:
 
     //----- other
     std::string to_string();
-    boost::json::object to_json();
+    boost::json::object object_to_json() override;
+
+    static boost::json::object type_to_json()
+    {
+        boost::json::object jenv = Environment::type_to_json();
+
+        jenv["dimension"]   =   TYPE_INT;
+        jenv["weights"]     =   TYPE_LIST + "-" + TYPE_DOUBLE;
+        jenv["bias"]        =   TYPE_DOUBLE;
+
+        return jenv;
+    }
 };
 
 typedef std::shared_ptr<EnvironmentLinear> sp_environment_linear;

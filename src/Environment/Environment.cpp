@@ -1,4 +1,5 @@
 #include "Environment.hpp"
+
 #include "../Declaration/PreprocessingDefinitions.hpp"
 #include "../Declaration/Constants.hpp"
 #include "../Utils/Log/Logger.hpp"
@@ -10,23 +11,23 @@ Environment::Environment(std::string name)
 }
 
 Environment::Environment(std::string name, int nb_epochs_evo)
+    :Entity::Entity(name)
 {
     logger_write(2, FLAG_INIT + "Creating environment. name : " + name);
 
-    this->name = name;
     this->number_of_epochs = nb_epochs_evo;
 
     logger_write(1, FLAG_INIT + this->name + " created");
     logger_write(7, FLAG_INIT + FLAG_END + this->name + " number of epochs for evolution : " + std::to_string(this->number_of_epochs));
 }
 
+Environment::Environment(boost::json::object params)
+    :Entity::Entity(params)
+{
+
+}
 
 //---------- getters
-
-std::string Environment::get_name()
-{
-    return this->name;
-}
 
 sp_flow Environment::get_output()
 {
@@ -63,7 +64,7 @@ std::string Environment::to_string()
     return res;
 }
 
-boost::json::object Environment::to_json()
+boost::json::object Environment::object_to_json()
 {
     boost::json::object jenv;
 

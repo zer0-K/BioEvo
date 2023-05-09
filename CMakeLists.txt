@@ -35,22 +35,24 @@ set(SOURCES_DECL src/Declaration/Constants.cpp)
 
 
 set(HEADERS_GENERAL src/Framework.hpp src/Universe.hpp src/Solution.hpp
-    src/ExperimentOld.hpp)
+    src/Entity.hpp src/ExperimentOld.hpp)
 
 set(SOURCES_GENERAL src/main.cpp
     src/Framework.cpp src/Universe.cpp src/Solution.cpp
-    src/ExperimentOld.cpp)
+    src/Entity.cpp src/ExperimentOld.cpp)
 
 
 # ********************************* Utils *********************************
 
-set(HEADERS_UTILS src/Utils/Config/config.hpp src/Utils/Config/ConfigRunner.hpp
+set(HEADERS_UTILS src/Utils/Builder.hpp 
+    src/Utils/Config/config.hpp src/Utils/Config/ConfigRunner.hpp
     src/Utils/Convert/toarray.hpp src/Utils/Convert/tostring.hpp
     src/Utils/json/interprete_json.hpp
     src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp
     src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp)
 
-set(SOURCES_UTILS src/Utils/Config/config.cpp src/Utils/Config/ConfigRunner.cpp
+set(SOURCES_UTILS
+    src/Utils/Config/config.cpp src/Utils/Config/ConfigRunner.cpp
     src/Utils/Convert/toarray.cpp src/Utils/Convert/tostring.cpp
     src/Utils/json/interprete_json.cpp
     src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp

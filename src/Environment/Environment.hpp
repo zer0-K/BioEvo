@@ -1,15 +1,14 @@
 #pragma once
 
-#include "../Flow/Flow.hpp"
 #include <string>
-#include <boost/json.hpp>
+
+#include "../Entity.hpp"
+#include "../Flow/Flow.hpp"
 
 /// @brief environment
-class Environment
+class Environment : public Entity
 {
 protected:
-    std::string name;   ///< name of the environment
-
     int number_of_epochs;   ///< number of epochs for evolution
 
     sp_flow input;    ///< input of the environment
@@ -31,6 +30,10 @@ public:
     */
     Environment(std::string name, int nb_epochs_evo);
 
+    /**
+     * @brief @see Entity constructor
+    */
+    Environment(boost::json::object params);
     
     /**
     * @brief Perform the computation, making the environment evolve according to the laws we define
@@ -60,7 +63,6 @@ public:
 
     
     //----- getters
-    std::string get_name();
     sp_flow get_output();
 
     //----- setters
@@ -69,8 +71,13 @@ public:
 
     //----- other
     std::string to_string();
-    boost::json::object to_json();
+    boost::json::object object_to_json() override;
     std::string is_ready();
+
+    static boost::json::object type_to_json()
+    {
+        return Entity::type_to_json();
+    }
 }; 
 
 typedef std::shared_ptr<Environment> sp_environment;

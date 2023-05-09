@@ -17,8 +17,10 @@ Universe::Universe(std::string name)
     this->number_of_individuals = 0;
     this->max_number_of_individuals = DEFAULT_NB_MAX_INDIVIDUALS;
     this->individuals = std::vector<sp_individual>();
-    this->environment = nullptr;
+    this->current_environment = nullptr;
     this->buffer = nullptr;
+
+    this->environments = std::vector<sp_environment>();
 }
 
 Universe::Universe(std::string name, std::vector<sp_individual> individuals, sp_environment environment, sp_buffer buffer)
@@ -35,13 +37,16 @@ Universe::Universe(std::string name, std::vector<sp_individual> individuals, int
     this->number_of_individuals = individuals.size();
     this-> max_number_of_individuals = nb_max_individuals;
     this->individuals = individuals;
-    this->environment = environment;
+    this->current_environment = environment;
     this->buffer = buffer;
 
     this->epochs_individuals = std::vector<int>(this->number_of_individuals, DEFAULT_NB_EPOCHS_LEARN);
 
     // init some stuff to before first step
-    this->environment->init(epochs_individuals);
+    this->current_environment->init(epochs_individuals);
+
+    this->environments = std::vector<sp_environment>();
+    this->environments.push_back(environment);
 
     logger_write(1, FLAG_INIT + FLAG_END + this->name + " created");
 }
@@ -58,7 +63,7 @@ void Universe::init()
 
 void Universe::next_step_environment()
 {
-    this->environment->evolve(this->epochs_individuals);
+    this->current_environment->evolve(this->epochs_individuals);
 }
 
 void Universe::next_step_individual(int individual_index)
@@ -77,7 +82,7 @@ void Universe::next_step_individuals()
 void Universe::next_step()
 {
     // first, feed inputs with the outputs of the other
-    this->buffer->feed_ins_and_outs(this->individuals, this->environment);
+    this->buffer->feed_ins_and_outs(this->individuals, this->current_environment);
 
     // TODO allow the experimenter to act between each of the steps ?
 
@@ -90,9 +95,9 @@ std::vector<sp_flow> Universe::prepare_values(int nb_vals)
 {
     // code is similar to Buffer:feed_ins_and_outs, but here it gets the env out and does nothing with individuals out
 
-    this->environment->compute(this->number_of_individuals, nb_vals);
+    this->current_environment->compute(this->number_of_individuals, nb_vals);
 
-    sp_flow environment_out = environment->get_output();
+    sp_flow environment_out = current_environment->get_output();
     
     // transforms the environment output into input for the individuals 
     std::vector<sp_flow> inputs_for_individuals = this->buffer->transform_environment_out_to_individuals_in(environment_out, this->number_of_individuals);
@@ -135,7 +140,7 @@ std::vector<double> Universe::compute_errors(std::vector<sp_flow> inputs, std::v
 void Universe::show()
 {
     std::cout<<"Universe name : "<<this->name<<std::endl;
-    std::cout<<"\tEnvironment name : "<<this->environment->get_name()<<std::endl;
+    std::cout<<"\tEnvironment name : "<<this->current_environment->get_name()<<std::endl;
     std::cout<<"\tIndividuals : "<<std::endl;
     for(int i=0; i<this->number_of_individuals; i++)
     {
@@ -169,7 +174,12 @@ sp_individual Universe::get_individual(int pos)
 
 sp_environment Universe::get_environment()
 {
-    return this->environment;
+    return this->current_environment;
+}
+
+std::vector<sp_environment> Universe::get_environments()
+{
+    return this->environments;
 }
 
 int Universe::get_time()
@@ -189,9 +199,39 @@ int Universe::getHeight()
 
 //---------- setters
 
+void Universe::set_environment(std::string env_name)
+{
+    for(int i=0; this->environments.size(); i++)
+    {
+        if(this->environments[i]->get_name() == env_name)
+        {
+            this->current_environment = this->environments[i];
+        }
+    }
+}
+
 void Universe::set_environment(sp_environment env)
 {
-    this->environment = env;
+    this->current_environment = env;
+}
+
+void Universe::add_environment(sp_environment env)
+{
+    bool isin = false;
+
+    for(int i=0; i<this->environments.size();i++)
+    {
+        if(this->environments[i]->get_name() == env->get_name())
+        {
+            isin = true;
+            break;
+        }
+    }
+
+    if(!isin)
+    {
+        this->environments.push_back(env);
+    }
 }
 
 void Universe::set_individuals(std::vector<sp_individual> individuals)
@@ -238,7 +278,7 @@ std::string Universe::to_string()
     {
         res += " " + this->individuals[i]->to_string();
     }
-    res += " ; environment : " + this->environment->to_string();
+    res += " ; environment : " + this->current_environment->to_string();
     res += " ; buffer : " + this->buffer->to_string();
 
     return res;
@@ -250,35 +290,30 @@ boost::json::object Universe::to_json()
 
     juniverse["name"] = this->name;
 
-    if(this->environment == nullptr)
-        juniverse["environment"] = "null";
+    if(this->current_environment == nullptr)
+        juniverse["current environment"] = "null";
     else
-        juniverse["environment"] = this->environment->to_json();
+        juniverse["current environment"] = this->current_environment->object_to_json();
+
+    if(this->environments.empty())
+    {
+        juniverse["environments"] = "null";
+    }
+    else
+    {
+        boost::json::object jenvs;
+        for(int i=0;this->environments.size();i++)
+            jenvs[this->environments[i]->get_name()] = this->environments[i]->object_to_json();
+        juniverse["environments"] = jenvs;
+    }
 
     juniverse["nb individuals"] = this->number_of_individuals;
     juniverse["max_nb_individuals"] = this->max_number_of_individuals;
     boost::json::object jindividuals;
     for(int i=0;i<this->number_of_individuals;i++)
-        jindividuals[this->individuals[i]->get_name()] = this->individuals[i]->to_json();   
+        jindividuals[this->individuals[i]->get_name()] = this->individuals[i]->object_to_json();   
     juniverse["individuals"] = jindividuals;
 
-    /*
-    std::string res = "{";
-
-    res += "name:" + this->name + ",nb_individuals:" + std::to_string(this->number_of_individuals);
-    res += ",'max nb individuals':" + std::to_string(this->max_number_of_individuals);
-    res += ",'epochs for individuals':" + convert_str(this->epochs_individuals, this->get_nb_individuals());
-    res += ",'individuals':[";
-    for(int i=0;i<this->number_of_individuals;i++)
-    {
-        res += this->individuals[i]->to_json() +",";
-    }
-    res.replace( res.size()-1, 1, "");
-    res += "],'environment':" + this->environment->to_json();
-    res += ",'buffer':" + this->buffer->to_json();
-    res += "}";
-
-    return res;*/
     return juniverse;
 }
 
@@ -300,14 +335,14 @@ std::string Universe::is_ready()
     }
 
         
-    if(this->environment == nullptr)
+    if(this->current_environment == nullptr)
     {
         message += "environment, ";
         is_ready = false;
     }
     else
     {
-        env_message = this->environment->is_ready(); 
+        env_message = this->current_environment->is_ready(); 
     }
 
         

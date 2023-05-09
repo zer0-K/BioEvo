@@ -10,7 +10,7 @@
         "name": "ADD_ENVIRONMENT",
         "params": {
             "universe name": "universe test config",
-            "environment":  {
+            "current environment":  {
                 "name": "environment test config"
             }
         }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EnvironmentLinear } from '../classes/Environments/EnvironmentLinear';
+import { EnvironmentParamsLinear } from '../classes/Environments/EnvironmentLinear';
 import { UtilsService } from './utils.service';
 import { InstantiateExpr } from '@angular/compiler';
 
@@ -15,6 +15,8 @@ export class BioEvoService {
   cfg: string = "get-configs"
   cfg_apply: string = "apply-config"
   info: string = "info"
+  current_info: string = "current-info"
+  info_type: string = "get-info-type"
 
   env_linear:string = "environment-linear"
   
@@ -27,8 +29,20 @@ export class BioEvoService {
     return this.http.post(this.apiUrl + this.cfg_apply, '../config/' + cfg_name + '.conf.json')
   } 
 
+  get_current_info(): Observable<any> {
+    return this.http.get(this.apiUrl + this.current_info, {responseType: 'text'})
+  }
+
   get_info(): Observable<any> {
     return this.http.get(this.apiUrl + this.info, {responseType: 'text'})
+  }
+
+  get_info_type(entity_type: string): Observable<any> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("entity-type", entity_type);
+
+
+    return this.http.get(this.apiUrl + this.info_type, {responseType: 'text', params:queryParams})
   }
 
   test(): Observable<any> {
