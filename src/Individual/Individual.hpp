@@ -1,22 +1,11 @@
 #pragma once
 
 #include "../Entity.hpp"
-#include "../Flow/Flow.hpp"
+#include "../Biology/QuantumData/QuantumDataAbstract.hpp"
 
 /// @brief algorithm, as an individual
 class Individual : public Entity
 {
-protected:
-    std::shared_ptr<Flow> input;    ///< input of the individual
-    std::shared_ptr<Flow> output;   ///< output of the individual
-
-    int number_of_epochs;   ///< number of epochs for learning
-    
-    /**
-     * setters
-    */
-    void set_output(std::shared_ptr<Flow> ouput);
-
 public:
     /**
      * @brief Constructor
@@ -24,14 +13,6 @@ public:
      * @param[in] name name of the individual
     */
     Individual(std::string name);
-    
-    /**
-     * @brief Constructor
-     * 
-     * @param[in] name name of the individual
-     * @param[in] nb_epoch_learn number of epochs for learning
-    */
-    Individual(std::string name, int nb_epch_learn);
 
     /**
      * @brief @see Entity constructor
@@ -50,14 +31,7 @@ public:
      * 
      * @return f(x)
     */
-    virtual std::shared_ptr<Flow> compute(std::shared_ptr<Flow> x)=0;
-
-    //----- getters
-    std::shared_ptr<Flow> get_output();
-
-    //----- setters
-    void set_input(std::shared_ptr<Flow> input);
-    void set_number_of_epochs(int nb_epoch_learn);
+    virtual QuantumDataAbstract compute(QuantumDataAbstract x)=0;
 
     //----- other
     boost::json::object object_to_json() override;

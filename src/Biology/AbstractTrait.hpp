@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-/// @brief empty trait for abstraction
+/// @brief empty trait for template abstraction
 class AbstractTrait
 {
 protected:

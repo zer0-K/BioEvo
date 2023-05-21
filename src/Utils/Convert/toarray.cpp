@@ -15,12 +15,11 @@ double* to_double_array(std::string arr_str)
 
 double* to_double_array(std::string arr_str, size_t len)
 {
-    double parsed_doubles[len];
-
     if(len == 0)
-        return parsed_doubles;
+        return nullptr;
 
-    
+    double* parsed_doubles = new double[len];
+   
     size_t pos = 1;
     int i=0;
     while ((pos = arr_str.find(',')) != std::string::npos) {
@@ -29,4 +28,6 @@ double* to_double_array(std::string arr_str, size_t len)
         i++;
     }
     parsed_doubles[len-1] = stod(arr_str.substr(arr_str.length()-1));
+
+    return parsed_doubles;
 }

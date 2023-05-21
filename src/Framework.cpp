@@ -8,9 +8,9 @@
 
 Framework::Framework()
 {
-    this->nb_universes = 0;
-    this->nb_max_solutions = DEFAULT_NB_MAX_SOLUTIONS;
-    this->current_nb_solutions = 0;
+    nb_universes = 0;
+    nb_max_solutions = DEFAULT_NB_MAX_SOLUTIONS;
+    current_nb_solutions = 0;
 }
 
 Framework::Framework(std::vector<sp_universe> universes)
@@ -27,46 +27,23 @@ Framework::Framework(std::vector<sp_universe> universes, int nb_max_solutions)
     this->current_nb_solutions = 0;
 }
 
-void Framework::init()
-{
-    for(int i=0; i<this->nb_universes;i++)
-    {
-        this->universes[i]->init();
-    }
-}
-
-void Framework::init(std::string universe_name)
-{
-    for(int i=0; i<this->nb_universes;i++)
-    {
-        if(this->universes[i]->get_name() == universe_name)
-        {
-            this->universes[i]->init();
-            break;
-        }
-    }
-}
 
 std::string Framework::launch(std::string universe_name, int nb_steps)
 {
-    std::string ready_message = this->is_ready(universe_name);
+    std::string ready_message = is_ready(universe_name);
     if(ready_message != "ready")
     {
         return ready_message;
     }
 
-    int pos = this->get_universe_pos(universe_name); 
+    int pos = get_universe_pos(universe_name); 
 
-    // init the universe if this is is the first step ever
-    if(this->universes[pos]->get_time() == 0)
-    {
-        this->universes[pos]->init();
-    }
-    
     for(int step=0; step<nb_steps;step++)
     {
-        this->next_step(pos);
+        next_step(pos);
     }
+    
+    return "Success";
 }
 
 
@@ -75,47 +52,27 @@ void Framework::insert_solution(Solution* evolved_solution)
     Solution* current_solution;
 
     // for the moment, insert sort
-    for(int i=this->current_nb_solutions-1; i>=0; i--)
+    for(int i=current_nb_solutions-1; i>=0; i--)
     {
 
-        current_solution = this->evolved_solutions[i];
+        current_solution = evolved_solutions[i];
 
         if(evolved_solution->is_better(current_solution))
         {
-            // if our model is better, downgrade current solution
-            if(i==this->nb_max_solutions)
+            if(i!=nb_max_solutions)
             {
-                delete current_solution;
-            }
-            else
-            {
-                this->evolved_solutions[i+1] = current_solution;
+                evolved_solutions[i+1] = current_solution;
             }
         } 
         else
         {
-            // our solution is worse than current one, downgrade new solution
-            if(i==this->nb_max_solutions)
+            if(i!=nb_max_solutions)
             {
-#if LOG_LEVEL > 0
-                //std::string log_text = "New evolved solution is worse than all evolved solutions already found";
-                //std::string flags[] = { FLAG_INFO };
-                //logger_write(flags, 1, log_text);
-#endif
-                delete evolved_solution;
-            }
-            else
-            {
-#if LOG_LEVEL > 0
-                //std::string log_text = "New evolved solution is inserted at rank " + std::to_string(i);
-                //std::string flags[] = { FLAG_INFO };
-                //logger_write(flags, 1, log_text);
-#endif
-                this->evolved_solutions[i+1] = evolved_solution;
+                evolved_solutions[i+1] = evolved_solution;
 
-                if(this->current_nb_solutions<this->nb_max_solutions)
+                if(current_nb_solutions<nb_max_solutions)
                 {
-                    this->current_nb_solutions = this->current_nb_solutions+1;
+                    current_nb_solutions = current_nb_solutions+1;
                 }
             }
             // no need to continue loop, we have inserted our new solution
@@ -123,50 +80,28 @@ void Framework::insert_solution(Solution* evolved_solution)
         }
     }
 
-    if(this->current_nb_solutions==0)
+    if(current_nb_solutions==0)
     {
-        this->evolved_solutions[0] = evolved_solution;
+        evolved_solutions[0] = evolved_solution;
     }
-}
-
-void Framework::next_step_environment(int universe_index)
-{
-   this->universes[universe_index]->next_step_environment();
-}
-
-void Framework::next_step_individual(int universe_index, int individual_index)
-{
-    this->universes[universe_index]->next_step_individual(individual_index);
-}
-
-void Framework::next_step_individuals(int universe_index)
-{
-    this->universes[universe_index]->next_step_individuals();
-
 }
 
 void Framework::next_step(int universe_index)
 {
-    this->universes[universe_index]->next_step();
+    universes[universe_index]->next_step();
 }
 
 void Framework::test(int universe_index, int nb_vals)
 {
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_BEGIN + "Test");
 
-    sp_universe universe = this->universes[universe_index];
-
-    // create some inputs for the individuals 
-    std::vector<sp_flow> prepared_vals = universe->prepare_values(nb_vals);
-
-    // adapt the values for the individuals
-    std::vector<sp_flow> computed_vals = universe->individuals_compute(prepared_vals);
+    sp_universe universe = universes[universe_index];
 
     Solution** solutions = new Solution*[universe->get_nb_individuals()];
-    std::vector<double> gaps = universe->compute_errors(prepared_vals, computed_vals, universe->get_nb_individuals());
+    //std::vector<double> gaps = universe->compute_errors(universe->get_nb_individuals());
     for(int i=0; i<universe->get_nb_individuals();i++)
     {
-        solutions[i] = new Solution(universe->get_individuals()[i], gaps[i]);
+        //solutions[i] = new Solution(universe->get_individuals()[i], gaps[i]);
     }
 
     logger_write(0, FLAG_INFO + FLAG_FRAMEWORK + FLAG_END + "Test");
@@ -184,25 +119,25 @@ void Framework::set_universes(std::vector<sp_universe> universes)
 void Framework::add_universe(sp_universe universe)
 {
     // add universe only if it does not already exist
-    if(this->get_universe_pos(universe->get_name()) == -1)
+    if(get_universe_pos(universe->get_name()) == -1)
     {
-        this->universes.push_back(universe);
-        this->nb_universes++;
+        universes.push_back(universe);
+        nb_universes++;
     }
 }
 
 void Framework::set_environment(sp_environment env, int universe_nb)
 {
-    this->universes[universe_nb]->set_environment(env);
+    universes[universe_nb]->set_environment(env);
 }
 
 void Framework::set_environment(sp_environment env, std::string universe_name)
 {
-    for(int i=0; i<this->nb_universes;i++)
+    for(int i=0; i<nb_universes;i++)
     {
-        if( this->universes[i]->get_name().compare(universe_name)==0 )
+        if( universes[i]->get_name().compare(universe_name)==0 )
         {
-            this->set_environment(env, i);
+            set_environment(env, i);
             break;
         }
     }
@@ -210,19 +145,19 @@ void Framework::set_environment(sp_environment env, std::string universe_name)
     
 void Framework::set_individuals(std::vector<sp_individual> individuals, int universe_nb)
 {
-    if(universe_nb<this->nb_universes)
+    if(universe_nb<nb_universes)
     {
-        this->universes[universe_nb]->set_individuals(individuals);
+        universes[universe_nb]->set_individuals(individuals);
     }
 }
 
 void Framework::set_individuals(std::vector<sp_individual> individuals, std::string universe_name)
 {
-    for(int i=0; i<this->nb_universes;i++)
+    for(int i=0; i<nb_universes;i++)
     {
-        if( this->universes[i]->get_name() == universe_name )
+        if( universes[i]->get_name() == universe_name )
         {
-            this->set_individuals(individuals, i);
+            set_individuals(individuals, i);
             break;
         }
     }
@@ -230,11 +165,11 @@ void Framework::set_individuals(std::vector<sp_individual> individuals, std::str
 
 void Framework::add_individual(sp_individual individual, std::string universe_name)
 {
-    int pos = this->get_universe_pos(universe_name);
+    int pos = get_universe_pos(universe_name);
 
     if(pos != -1)
     {
-        this->universes[pos]->add_individual(individual);
+        universes[pos]->add_individual(individual);
     }
 }
 
@@ -243,9 +178,9 @@ void Framework::add_individual(sp_individual individual, std::string universe_na
 
 int Framework::get_universe_pos(std::string universe_name)
 {
-    for(int i=0;i<this->universes.size();i++)
+    for(int i=0;i<universes.size();i++)
     {
-        if(this->universes[i]->get_name() == universe_name)
+        if(universes[i]->get_name() == universe_name)
         {
             return i;
         }
@@ -256,12 +191,12 @@ int Framework::get_universe_pos(std::string universe_name)
 
 sp_environment Framework::get_environment(std::string universe_name)
 {
-    int pos = this->get_universe_pos(universe_name);
+    int pos = get_universe_pos(universe_name);
 
     if(pos == -1)
         return nullptr;
 
-    return this->universes[pos]->get_environment();
+    return universes[pos]->get_environment();
 }
 
 //---------- other
@@ -270,9 +205,9 @@ std::string Framework::to_string()
 {
     std::string res = "";
 
-    for(int i=0;i<this->nb_universes;i++)
+    for(int i=0;i<nb_universes;i++)
     {
-        res += this->universes[i]->get_name() + " : " + this->universes[i]->to_string();
+        res += universes[i]->get_name() + " : " + universes[i]->to_string();
     }
 
     return res;
@@ -283,8 +218,8 @@ boost::json::object Framework::to_json()
     boost::json::object jframework;
 
     boost::json::object juniv;
-    for(int i=0; i<this->nb_universes;i++)
-        juniv[this->universes[i]->get_name()] = this->universes[i]->to_json();
+    for(int i=0; i<nb_universes;i++)
+        juniv[universes[i]->get_name()] = universes[i]->to_json();
     jframework["universes"] = juniv;
 
     return jframework;
@@ -292,11 +227,11 @@ boost::json::object Framework::to_json()
 
 std::string Framework::is_ready(std::string universe_name)
 {
-    int univ_pos = this->get_universe_pos(universe_name);
+    int univ_pos = get_universe_pos(universe_name);
 
     if(univ_pos != -1)
     {
-        std::string message = this->universes[univ_pos]->is_ready();
+        std::string message = universes[univ_pos]->is_ready();
 
         if(message == "ready")
         {

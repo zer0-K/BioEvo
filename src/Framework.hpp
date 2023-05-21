@@ -34,20 +34,6 @@ public:
     */
     Framework(std::vector<sp_universe> universes, int nb_max_solutions);
 
-    
-
-    /**
-     * @brief Initialize everything so that the first step is smooth
-    */
-    void init();
-
-    /**
-     * @brief Initialize the given universe @see Framewok::init()
-     * 
-     * @param[in] universe_name universe to initialize
-    */
-    void init(std::string universe_name);
-
     /**
      * @brief launch the experiment
      * 
@@ -55,28 +41,6 @@ public:
      * @param[in] nb_steps number of steps to perform
      */ 
     std::string launch(std::string universe_name, int nb_steps);
-
-    /**
-     * @brief perform one environment step
-     * 
-     * @param[in] universe_index index of the universe
-    */
-    void next_step_environment(int universe_index);
-
-    /**
-     * @brief perform one step for the given individual
-     * 
-     * @param[in] individual_index index of the individual in the array of individuals
-     * @param[in] universe_index index of the universe
-    */
-    void next_step_individual(int universe_index, int individual_nb);
-
-    /**
-     * @brief perform on step for all the individuals
-     * 
-     * @param[in] universe_index index of the universe
-    */
-    void next_step_individuals(int universe_index);
 
     /**
      * @brief Perform one step

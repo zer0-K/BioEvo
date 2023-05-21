@@ -73,33 +73,25 @@ set(HEADERS_EXPERIMENTS src/Experiments/experiment_1.hpp)
 set(SOURCES_EXPERIMENTS src/Experiments/experiment_1.cpp)
 
 
-# ********************************* Flow *********************************
-
-set(HEADERS_FLOW src/Flow/Flow.hpp src/Flow/FlowList.hpp
-    src/Flow/FlowLinear1_x.hpp src/Flow/FlowLinear1_f_x.hpp
-    src/Flow/InputLinearEnvironment.hpp src/Flow/InputLinearIndividual.hpp src/Flow/OutputLinearEnvironment.hpp src/Flow/OutputLinearIndividual.hpp
-    src/Flow/Buffer/Buffer.hpp src/Flow/Buffer/BufferLinear.hpp)
-
-set(SOURCES_FLOW src/Flow/Flow.cpp src/Flow/FlowList.cpp
-    src/Flow/FlowLinear1_x.cpp src/Flow/FlowLinear1_f_x.cpp
-    src/Flow/InputLinearEnvironment.cpp src/Flow/InputLinearIndividual.cpp src/Flow/OutputLinearEnvironment.cpp src/Flow/OutputLinearIndividual.cpp
-    src/Flow/Buffer/Buffer.cpp src/Flow/Buffer/BufferLinear.cpp)
-
-
 # ********************************* Biology *********************************
 
 set(HEADERS_BIOLOGY src/Biology/AbstractTrait.hpp src/Biology/Trait.hpp
+    src/Biology/QuantumData/QuantumDataAbstract.hpp src/Biology/QuantumData/QuantumData.hpp src/Biology/QuantumData/TestData.hpp
+        src/Biology/QuantumData/ValidationData.hpp
     src/Biology/Gene/Gene.hpp src/Biology/Gene/GeneLinear.hpp)
 
 set(SOURCES_BIOLOGY
+    src/Biology/QuantumData/TestData.cpp src/Biology/QuantumData/ValidationData.cpp
     src/Biology/Gene/Gene.cpp src/Biology/Gene/GeneLinear.cpp)
 
 
 # ********************************* Environment *********************************
 
-set(HEADERS_ENVIRONMENT src/Environment/Environment.hpp src/Environment/EnvironmentLinear.hpp)
+set(HEADERS_ENVIRONMENT src/Environment/Environment.hpp
+    src/Environment/EnvironmentClassical.hpp src/Environment/EnvironmentLinear.hpp)
 
-set(SOURCES_ENVIRONMENT src/Environment/Environment.cpp src/Environment/EnvironmentLinear.cpp)
+set(SOURCES_ENVIRONMENT src/Environment/Environment.cpp
+    src/Environment/EnvironmentClassical.cpp src/Environment/EnvironmentLinear.cpp)
 
 
 # ********************************* Individual *********************************

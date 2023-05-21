@@ -11,11 +11,11 @@ GeneLinear::GeneLinear(double mean, double std_dev, std::shared_ptr<Trait<double
 void GeneLinear::drive()
 {
     // random gaussian value
-    double val_gen = rand_gen::rand_normal(this->mean, this->std_dev);
+    double val_gen = rand_gen::rand_normal(mean, std_dev);
 
     // set value
     std::shared_ptr<Trait<double>> trait = std::dynamic_pointer_cast<Trait<double>>(
-        this->trait_driven
+        trait_driven
     );
     trait->set_value(val_gen);
 }

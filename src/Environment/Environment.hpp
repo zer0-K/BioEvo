@@ -1,34 +1,31 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "../Entity.hpp"
-#include "../Flow/Flow.hpp"
+#include "../Biology/QuantumData/QuantumDataAbstract.hpp"
 
 /// @brief environment
 class Environment : public Entity
 {
 protected:
-    int number_of_epochs;   ///< number of epochs for evolution
-
-    sp_flow input;    ///< input of the environment
-    sp_flow output;   ///< output of the environment
+    /**
+     * @brief Values of the environment
+     * 
+     * The environment is constitued of a list of values,
+     * which can be split between test and validation data
+    */
+    std::vector<QuantumDataAbstract> env_values;
 
 public:
     /**
      * @brief Constructor
      * 
      * @param[in] name name of the environment
+     * @param[in] size size of the environment
     */
-    Environment(std::string name);
-
-    /**
-     * @brief Constructor
-     * 
-     * @param[in] name name of the environment
-     * @param[in] nb_epochs_evo number of epochs for evolution
-    */
-    Environment(std::string name, int nb_epochs_evo);
+    Environment(std::string name, size_t size);
 
     /**
      * @brief @see Entity constructor
@@ -37,38 +34,15 @@ public:
     
     /**
     * @brief Perform the computation, making the environment evolve according to the laws we define
-    * 
-    * @param[in] nb_inviduals number of individuals of the current generation
-    * @param[in] nb_epochs number of epochs for these individuals
     */
-    virtual void evolve(std::vector<int> nb_epochs) = 0;
+    virtual void evolve() = 0;
 
     /**
-    * @brief Creates the initial output of the environment to feed the first generation of individuals 
-    * 
-    * @param[in] nb_inviduals number of individuals of the current generation
-    * @param[in] nb_epochs number of epochs for these individuals
-    */
-    virtual void init(std::vector<int> nb_epochs) = 0;
-
-    /**
-     * @brief Compute some values for the individual
-     * 
-     * The values computes are stored in the environment output
-     * 
-     * @param[in] nb_individuals number of individuals
-     * @param[in] nb_vals number of values to compute for the individuals
-    */
-    virtual void compute(int nb_individuals, int nb_vals) = 0;
+     * @brief Init the values
+     */
+    virtual void init_values() = 0;
 
     
-    //----- getters
-    sp_flow get_output();
-
-    //----- setters
-    void set_input(sp_flow input);
-    void set_output(sp_flow output);
-
     //----- other
     std::string to_string();
     boost::json::object object_to_json() override;

@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Declaration/PreprocessingDefinitions.hpp"
-#include "Flow/Buffer/Buffer.hpp"
 #include <map>
 #include <string>
+
+#include "Environment/Environment.hpp"
+#include "Individual/Individual.hpp"
 
 /// @brief universe for the experiments
 class Universe
@@ -20,7 +22,6 @@ protected:
     std::vector<sp_individual> individuals;   ///< individuals living in the universe
     sp_environment current_environment;   ///< environment with which the individual interacts
     std::vector<sp_environment> environments;   ///< all possible environments
-    sp_buffer buffer;             ///< buffer, to feed individual's input with environment's output and vice-vesra
         
     std::map<sp_individual, double> solutions;     ///< solutions of the problem
 
@@ -45,9 +46,8 @@ public:
      * @param[in] name name of the universe
      * @param[in] individuals individuals at beginning of the universe
      * @param[in] environment environment
-     * @param[in] buffer buffer
     */
-    Universe(std::string name, std::vector<sp_individual> individuals, sp_environment environment, sp_buffer buffer);
+    Universe(std::string name, std::vector<sp_individual> individuals, sp_environment environment);
 
      /**
      * @brief Constructor
@@ -56,63 +56,13 @@ public:
      * @param[in] individuals individuals at beginning of the universe
      * @param[in] nb_max_individuals max number of individuals
      * @param[in] environment environment
-     * @param[in] buffer buffer
     */
-    Universe(std::string name, std::vector<sp_individual> individuals, int nb_max_individuals, sp_environment environment, sp_buffer buffer);
-
-    /**
-     * @brief Initialize everything so that first step is smooth
-    */
-    void init();
-
-    /**
-     * @brief perform one environment step 
-    */
-    void next_step_environment();
-
-    /**
-     * @brief perform one step for the given individual
-     * 
-     * @param[in] individual_index index of the individual in the array of individuals
-    */
-    void next_step_individual(int individual_nb);
-
-    /**
-     * @brief perform on step for all the individuals
-    */
-    void next_step_individuals();
+    Universe(std::string name, std::vector<sp_individual> individuals, int nb_max_individuals, sp_environment environment);
 
     /**
      * @brief Proceed to the next step
     */
     void next_step();
-
-    /**
-     * @brief Prepare some values for the individuals
-     * 
-     * Make the environment compute values and set them into the individuals inputs
-     * 
-     * @param[in] nb_values number of values to prepare
-     * 
-     * @return inputs for the individuals
-    */
-    std::vector<sp_flow> prepare_values(int nb_vals);
-
-    /**
-     * @brief Make the individuals compute and get their outputs
-     * 
-     * @param[in] vals values to compute
-    */
-    std::vector<sp_flow> individuals_compute(std::vector<sp_flow> vals);
-
-    /**
-     * @brief compute the errors between labels and predictions
-     * 
-     * @param[in] inputs input given to the individuals
-     * @param[in] outputs output (predictions) of the individuals
-     * @param[in] nb_flows number of individuals
-    */
-    std::vector<double> compute_errors(std::vector<sp_flow> inputs, std::vector<sp_flow> outputs, int nb_flows);
 
     /**
      * @brief Show the universe

@@ -40,6 +40,8 @@ std::string exec_instr(sp_framework framework, std::string instr_name, boost::js
         return add_individuals(framework, instr_params);
     if(instr_name == "LAUNCH")
         return launch(framework, instr_params);
+
+    return "Error : given instruction (" + instr_name + ") does not exist";
 }
 
 std::string add_universe(sp_framework framework, boost::json::object* params)
@@ -119,7 +121,7 @@ std::string add_environment(sp_framework framework, boost::json::object* params)
             int dim = 1;
             std::vector<double> w(dim, 3);
             double b = 4;
-            sp_environment env = std::make_shared<EnvironmentLinear>(env_name, dim, w, b);
+            sp_environment env = std::make_shared<EnvironmentLinear>(env_name, 80, 20, dim, w, b);
             framework->set_environment(env, universe_name);
 
             return "Success";
@@ -134,8 +136,7 @@ std::string add_environment(sp_framework framework, boost::json::object* params)
         if(jname_universe == nullptr)
             return "Error : can't add environment : must provide the name of the universe to link the environment to";
 
-        if(jenvironment == nullptr)
-            return "Error : can't add environment : must provide a minimal environment";
+        return "Error : can't add environment : must provide a minimal environment";
     }
 }
 
@@ -172,8 +173,7 @@ std::string set_individuals(sp_framework framework, boost::json::object* params)
             return "Error : can't set individuals : must provide the name of the universe to link the individuals to";
         if(jnb_individuals == nullptr)
             return "Error : can't set individuals : must provide the number of individuals to set";
-         if(jindividuals == nullptr)
-            return "Error : can't set individuals : must provide the individuals"; 
+        return "Error : can't set individuals : must provide the individuals"; 
     }
 }
 
@@ -198,8 +198,7 @@ std::string add_individual(sp_framework framework, boost::json::object* params)
     {
         if(jname_universe == nullptr)
             return "Error : can't add individual : must provide the name of the universe to link the individuals to";
-         if(jindividual == nullptr)
-            return "Error : can't add individual : must provide the individuals"; 
+        return "Error : can't add individual : must provide the individuals"; 
     }
 }
 
@@ -235,8 +234,7 @@ std::string add_individuals(sp_framework framework, boost::json::object* params)
             return "Error : can't add individuals : must provide the name of the universe to link the individuals to";
         if(jnb_individuals == nullptr)
             return "Error : can't add individuals : must provide the number of individuals to set";
-         if(jindividuals == nullptr)
-            return "Error : can't add individuals : must provide the individuals"; 
+        return "Error : can't add individuals : must provide the individuals"; 
     }
 }
 
@@ -256,7 +254,7 @@ std::string launch(sp_framework framework, boost::json::object* params)
     {
         if(jname_universe == nullptr)
             return "Error : can't launch experiment : must provide a universe name";
-         if(jnb_steps == nullptr)
-            return "Error : can't launch experiment : must provide a number of steps to perform";
+
+        return "Error : can't launch experiment : must provide a number of steps to perform";
    }
 }

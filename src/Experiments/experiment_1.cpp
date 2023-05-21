@@ -7,12 +7,14 @@
 #include "../Utils/Log/Logger.hpp"
 #include "../Utils/Math/RandomGen.hpp"
 #include "../Declaration/Constants.hpp"
-#include "../Flow/Buffer/BufferLinear.hpp"
 #include "../Environment/EnvironmentLinear.hpp"
 #include "../Individual/IndividualLinear.hpp"
 
 
 //---------- constants
+
+double lower_bound = 0;
+double upper_bound = 10000;
 
 const int NB_SUFFIXES_EXPERIMENT_1 = 2;
 
@@ -54,8 +56,11 @@ int experiment_1_1(sp_framework framework)
     std::vector<double> w{ 3, -33, 0, 100 };
     double b = 0;
 
+    size_t size_test = 80;
+    size_t size_validation = 20;
+
     // environment
-    sp_environment_linear env_linear = std::make_shared<EnvironmentLinear>(env_name, dim, w, b);
+    sp_environment_linear env_linear = std::make_shared<EnvironmentLinear>(env_name, size_test, size_validation, dim, w, b);
     logger_write(2, FLAG_INFO + FLAG_DETAILS + env_linear->to_string());
 
 
@@ -64,25 +69,19 @@ int experiment_1_1(sp_framework framework)
     // params
     int nb_individuals = 1;
     std::string name_individuals[] = { "individual 1"};
-    std::vector<int> nb_epochs(1,100);
 
     // individuals
     std::vector<sp_individual> individuals(nb_individuals);
     for(int i=0; i<nb_individuals;i++)
     {
-        individuals[i] = std::make_shared<IndividualLinear>(name_individuals[i], nb_epochs[i], 4);
+        individuals[i] = std::make_shared<IndividualLinear>(name_individuals[i], 4);
     }
-
-
-    //----- Creating buffer
-
-    sp_buffer buffer_linear = std::make_shared<BufferLinear>();
 
 
     //---------- Creating universe
 
     std::string name_universe = "universe experiment 1.1";
-    sp_universe universe = std::make_shared<Universe>(name_universe, individuals, env_linear, buffer_linear); 
+    sp_universe universe = std::make_shared<Universe>(name_universe, individuals, env_linear); 
 
 
     //---------- Creating framework
@@ -97,7 +96,6 @@ int experiment_1_1(sp_framework framework)
     
     auto t1 = std::chrono::high_resolution_clock::now();
     int universe_index = 0;
-    framework->init();
     framework->next_step(universe_index);
 
     // time stuff
@@ -116,76 +114,4 @@ int experiment_1_1(sp_framework framework)
 
 int experiment_1_2(sp_framework framework, int dim)
 {
-    logger_write(0, FLAG_INIT + "Beginning of experiment 1.2");
-
-    //---------- Hyper parameters
-
-    int rand_bound = 20;
-
-    //---------- Creating environment
-
-    // params
-    std::string env_name = "environment linear model 2";
-    std::vector<double> w(dim);
-    for(int d=0;d<dim;d++)
-    {
-        w[d] = rand_gen::rand_double(-rand_bound,rand_bound);
-    }
-    double b = rand_gen::rand_double(-rand_bound, rand_bound);
-
-    // environment
-    sp_environment_linear env_linear = std::make_shared<EnvironmentLinear>(env_name, dim, w, b);
-
-
-    //---------- Creating individuals
-
-    // params
-    int nb_individuals = 1;
-    std::string name_individuals[] = { "individual 1"};
-    std::vector<int> nb_epochs(1, 100);
-
-    // individuals
-    std::vector<sp_individual> individuals(nb_individuals);
-    for(int i=0; i<nb_individuals;i++)
-    {
-        individuals[i] = std::make_shared<IndividualLinear>(name_individuals[i], nb_epochs[i]);
-    }
-
-
-    //----- Creating buffer
-
-    sp_bufferlinear buffer_linear = std::make_shared<BufferLinear>();
-
-
-    //---------- Creating universe
-
-    std::string name_universe = "universe experiment 1.1";
-    sp_universe universe = std::make_shared<Universe>(name_universe, individuals, env_linear, buffer_linear);
-    universe->show();
-
-
-    //---------- Creating framework
-
-    int nb_universes = 1;
-    std::vector<sp_universe> universes{ universe };
-    framework->set_universes(universes);
-
-
-
-    //---------- Experiment begins here ----------
-    
-    auto t1 = std::chrono::high_resolution_clock::now();
-    int universe_index = 0;
-    framework->next_step(universe_index);
-
-    // time stuff
-    auto t2 = std::chrono::high_resolution_clock::now();
-    auto exec_duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-    std::cout<<"Exec time of one step : "<<exec_duration.count()<<std::endl;
-
-    logger_write(0, FLAG_INFO + "End of experiment 1.1");
-
-    return 0;
 }
-double lower_bound = 0;
-    double upper_bound = 10000;

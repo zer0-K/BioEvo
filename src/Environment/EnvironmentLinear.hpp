@@ -2,11 +2,11 @@
 
 #include <vector>
 
-#include "Environment.hpp"
+#include "EnvironmentClassical.hpp"
 #include "../Utils/Math/Pair.hpp"
 
 /// @brief environment generating linear functions
-class EnvironmentLinear : public Environment
+class EnvironmentLinear : public EnvironmentClassical
 {
 protected:
     int dimension;  ///< dimension 
@@ -14,22 +14,11 @@ protected:
     double b;   ///< affine term
 
     /**
-     * @brief Generate a random output
+     * @brief generate a random x to compute the linear transformation from
      * 
-     * Generate the output for each individual
-     * The individuals can have different learning number of epochs
-     * 
-     * @param[in] nb_epochs_learn numbers of epochs for learning for each individual
+     * @return random x
     */
-    void generate_random_outputs(std::vector<int> nb_epochs_learn);
-
-    /**
-     * @brief Generate a random output for a given individual
-     * 
-     * @param[in] individual_index index of the individual
-     * @param[in] nb_vals number of values to generate 
-    */
-    Pair<double,double>** generate_random_output(int individual_index, int nb_vals);
+    std::vector<double> generate_random_x();
     
     /**
      * @brief Compute the linear transormation
@@ -45,11 +34,13 @@ public:
      * @brief Constructor
      * 
      * @param[in] name name of the environment
+     * @param[in] size_test size of test data
+     * @param[in] size_validation size of validation
      * @param[in] dimension dimension of the linear model
      * @param[in] w linear coefficients of the linear model
      * @param[in] b affine term 
     */
-    EnvironmentLinear(std::string name, int dimension, std::vector<double> w, double b);
+    EnvironmentLinear(std::string name, size_t size_test, size_t size_validation, int dimension, std::vector<double> w, double b);
 
     /**
      * @brief @see Entity constructor
@@ -57,13 +48,10 @@ public:
     EnvironmentLinear(boost::json::object params);
 
     /// @see Environment::evolve
-    void evolve(std::vector<int> nb_epochs) override;
+    void evolve() override;
 
-    /// @see Environment::evolve
-    void init(std::vector<int> nb_epochs) override;
-
-    /// @see Environment::compute
-    void compute(int nb_individuals, int nb_vals) override;
+    /// @see Environment::init_values
+    void init_values() override;
 
     //----- other
     std::string to_string();

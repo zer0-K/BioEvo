@@ -4,62 +4,27 @@
 #include "../Declaration/Constants.hpp"
 #include "../Utils/Log/Logger.hpp"
 
-Environment::Environment(std::string name)
-    :Environment::Environment(name, DEFAULT_NB_EPOCHS_EVO)
-{
-    // do nothing here
-}
-
-Environment::Environment(std::string name, int nb_epochs_evo)
+Environment::Environment(std::string name, size_t size)
     :Entity::Entity(name)
 {
-    logger_write(2, FLAG_INIT + "Creating environment. name : " + name);
-
-    this->number_of_epochs = nb_epochs_evo;
-
-    logger_write(1, FLAG_INIT + this->name + " created");
-    logger_write(7, FLAG_INIT + FLAG_END + this->name + " number of epochs for evolution : " + std::to_string(this->number_of_epochs));
+    env_values = std::vector<QuantumDataAbstract>(size);
 }
 
 Environment::Environment(boost::json::object params)
     :Entity::Entity(params)
 {
+    // only set size
+    boost::json::value* jsize = params.if_contains("size");
 
-}
-
-//---------- getters
-
-sp_flow Environment::get_output()
-{
-    return this->output;
-}
-
-//---------- setters
-
-void Environment::set_input(sp_flow input)
-{
-    logger_write(2, FLAG_INFO + FLAG_BEGIN + "Setting input of " + this->name);
-    
-    this->input = input;
-    
-    logger_write(2, FLAG_INFO + FLAG_END + "Input of " + this->name + ". Input : " + input->to_string());
-}
-
-void Environment::set_output(sp_flow output)
-{
-    logger_write(2, FLAG_INFO + FLAG_BEGIN + "Setting output of " + this->name);
-
-    this->output = output;
-
-    logger_write(2, FLAG_INFO + FLAG_END + "Input of " + this->name + " set");
+    if(jsize != nullptr)
+        env_values = std::vector<QuantumDataAbstract>(boost::json::value_to<int>(*jsize));
 }
 
 std::string Environment::to_string()
 {
     std::string res = "";
 
-    res += this->name + " : " + std::to_string(this->number_of_epochs) + " epochs ";
-    res += "(input : " + this->input->to_string() + " ; output : " + this->output->to_string() + ")";
+    res += name + " : size : " + std::to_string(env_values.size());
 
     return res;
 }
@@ -68,7 +33,8 @@ boost::json::object Environment::object_to_json()
 {
     boost::json::object jenv;
 
-    jenv["name"] = this->name;
+    jenv["name"] = name;
+    jenv["size"] = env_values.size();
 
     return jenv;
 }
@@ -78,14 +44,14 @@ std::string Environment::is_ready()
     bool is_ready = true;
     std::string message = "Environment missing content : ";
 
-    if(this->name == "")
+    if(name == "")
     {
         is_ready = false;
         message += "name, ";
     }
     else
     {
-        message = "Missing content of " + this->name + " : ";
+        message = "Missing content of " + name + " : ";
     } 
 
     if(is_ready)

@@ -26,14 +26,6 @@ private:
     IndividualLinear(std::string name, int dimension);
 
     /**
-     * @brief Constructor
-     * @see Individual constructor
-     * 
-     * @param[in] dimension dimension of the model
-    */
-    IndividualLinear(std::string name, int nb_epoch_learn, int dimension);
-
-    /**
      * @brief Constructor from json
      * 
      * @param[in] params params to build the object
@@ -47,7 +39,7 @@ private:
     void evolve() override;
 
     /// @see Individual::compute
-    std::shared_ptr<Flow> compute(std::shared_ptr<Flow> x) override;
+    QuantumDataAbstract compute(QuantumDataAbstract x) override;
 
     // learning methods
     void update_params_1(std::vector<double> x, double f_x, double f_x_true);
