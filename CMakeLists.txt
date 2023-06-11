@@ -17,120 +17,174 @@ set(CMAKE_BUILD_TYPE Debug)
 
 # ********************************* External libraries *********************************
 
-set(Boost_INCLUDE_DIR "/home/adrien/Disque/Programmation/Packages/cpp/boost_1_81_0")
-FIND_PACKAGE(Boost COMPONENTS asio beast json)
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
-
-
-# ********************************* Declarations *********************************
-
-
-set(HEADERS_DECL src/Declaration/PreprocessingDefinitions.hpp src/Declaration/Constants.hpp)
-
-set(SOURCES_DECL src/Declaration/Constants.cpp)
-
-
-
-# ********************************* General *********************************
-
-
-set(HEADERS_GENERAL src/Framework.hpp src/Universe.hpp src/Solution.hpp
-    src/Entity.hpp src/ExperimentOld.hpp)
-
-set(SOURCES_GENERAL src/main.cpp
-    src/Framework.cpp src/Universe.cpp src/Solution.cpp
-    src/Entity.cpp src/ExperimentOld.cpp)
+#set(Boost_INCLUDE_DIR "/home/adrien/Disque/Programmation/Packages/cpp/boost_1_81_0")
+#FIND_PACKAGE(Boost COMPONENTS asio beast json)
+#INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 
 # ********************************* Utils *********************************
 
-set(HEADERS_UTILS src/Utils/Builder.hpp 
-    src/Utils/Config/config.hpp src/Utils/Config/ConfigRunner.hpp
-    src/Utils/Convert/toarray.hpp src/Utils/Convert/tostring.hpp
-    src/Utils/json/interprete_json.hpp
-    src/Utils/Log/logpaths.hpp src/Utils/Log/Logger.hpp
-    src/Utils/Math/Pair.hpp src/Utils/Math/RandomGen.hpp)
+set(HEADERS_UTILS src/Utils/Constants.hpp src/Utils/Colors.hpp)
 
-set(SOURCES_UTILS
-    src/Utils/Config/config.cpp src/Utils/Config/ConfigRunner.cpp
-    src/Utils/Convert/toarray.cpp src/Utils/Convert/tostring.cpp
-    src/Utils/json/interprete_json.cpp
-    src/Utils/Log/logpaths.cpp src/Utils/Log/Logger.cpp
-    src/Utils/Math/RandomGen.cpp)
+set(SOURCES_UTILS)
 
 
-# ********************************* Server *********************************
+# ********************************* General *********************************
 
-set(HEADERS_SERVER src/Server/Server.hpp)
+set(HEADERS_GENERAL 
+    src/General/Entity.hpp src/General/VoidEntity.hpp src/General/Place.hpp)
 
-set(SOURCES_SERVER src/Server/Server.cpp)
+set(SOURCES_GENERAL 
+    src/General/Entity.cpp src/General/VoidEntity.cpp src/General/Place.cpp)
 
 
 # ********************************* Experiments *********************************
 
-set(HEADERS_EXPERIMENTS src/Experiments/experiment_1.hpp)
+set(HEADERS_EXPERIMENTS src/Experiment/Experiment.hpp
+    src/Experiment/ExperimentRunner.hpp)
 
-set(SOURCES_EXPERIMENTS src/Experiments/experiment_1.cpp)
+set(SOURCES_EXPERIMENTS src/Experiment/Experiment.cpp
+    src/Experiment/ExperimentRunner.cpp)
 
 
-# ********************************* Biology *********************************
+# ********************************* Universe *********************************
 
-set(HEADERS_BIOLOGY src/Biology/AbstractTrait.hpp src/Biology/Trait.hpp
-    src/Biology/QuantumData/QuantumDataAbstract.hpp src/Biology/QuantumData/QuantumData.hpp src/Biology/QuantumData/TestData.hpp
-        src/Biology/QuantumData/ValidationData.hpp
-    src/Biology/Gene/Gene.hpp src/Biology/Gene/GeneLinear.hpp)
+set(HEADERS_UNIVERSE src/Universe/Universe.hpp)
 
-set(SOURCES_BIOLOGY
-    src/Biology/QuantumData/TestData.cpp src/Biology/QuantumData/ValidationData.cpp
-    src/Biology/Gene/Gene.cpp src/Biology/Gene/GeneLinear.cpp)
+set(SOURCES_UNIVERSE src/Universe/Universe.cpp)
 
 
 # ********************************* Environment *********************************
 
-set(HEADERS_ENVIRONMENT src/Environment/Environment.hpp
-    src/Environment/EnvironmentClassical.hpp src/Environment/EnvironmentLinear.hpp)
+set(HEADERS_ENVIRONMENT src/Environment/Environment.hpp)
 
-set(SOURCES_ENVIRONMENT src/Environment/Environment.cpp
-    src/Environment/EnvironmentClassical.cpp src/Environment/EnvironmentLinear.cpp)
+set(SOURCES_ENVIRONMENT src/Environment/Environment.cpp)
 
 
 # ********************************* Individual *********************************
 
-set(HEADERS_INDIVIDUAL src/Individual/Individual.hpp src/Individual/IndividualLinear.hpp)
+set(HEADERS_INDIVIDUAL src/Individual/Individual.hpp)
 
-set(SOURCES_INDIVIDUAL src/Individual/Individual.cpp src/Individual/IndividualLinear.cpp)
-
-
-
-# ********************************* Code Eaters *********************************
-
-set(HEADERS_CODE_EATER src/CodeEater/ConstantsCodeEater.hpp src/CodeEater/UniverseCodeEater.hpp src/CodeEater/CodeEaters/CodeEater.hpp
-    src/CodeEater/Computing/Utils/Permutation.hpp src/CodeEater/Computing/Utils/FunctionPattern.hpp src/CodeEater/Computing/Utils/ComputationResult.hpp
-        src/CodeEater/Computing/FunctionPatternComputer.hpp src/CodeEater/Computing/FunctionProcessor.hpp src/CodeEater/Computing/StateChanger.hpp 
-        src/CodeEater/Computing/EatingProcessor.hpp src/CodeEater/Computing/NeighborhoodManager.hpp src/CodeEater/Computing/RuleApplier.hpp
-        src/CodeEater/Computing/RuleNumberComputer.hpp
-    src/ExperimentOld.hpp src/CodeEater/Experiments/ExperimentOldCodeEater.hpp src/CodeEater/Experiments/ExperimentOldCodeEater1.hpp 
-        src/CodeEater/Experiments/ExperimentOldCodeEater2.hpp src/CodeEater/Experiments/ExperimentOldCodeEater3.hpp)
-set(SOURCES_CODE_EATER src/CodeEater/CodeEaters/CodeEater.cpp src/CodeEater/UniverseCodeEater.cpp 
-    src/CodeEater/Computing/Utils/Permutation.cpp src/CodeEater/Computing/Utils/FunctionPattern.cpp src/CodeEater/Computing/Utils/ComputationResult.cpp
-        src/CodeEater/Computing/FunctionPatternComputer.cpp src/CodeEater/Computing/FunctionProcessor.cpp src/CodeEater/Computing/StateChanger.cpp 
-        src/CodeEater/Computing/EatingProcessor.cpp src/CodeEater/Computing/NeighborhoodManager.cpp src/CodeEater/Computing/RuleApplier.cpp
-        src/CodeEater/Computing/RuleNumberComputer.cpp
-    src/ExperimentOld.cpp src/CodeEater/Experiments/ExperimentOldCodeEater.cpp src/CodeEater/Experiments/ExperimentOldCodeEater1.cpp 
-        src/CodeEater/Experiments/ExperimentOldCodeEater2.cpp src/CodeEater/Experiments/ExperimentOldCodeEater3.cpp)
-#add_executable(bioevo ${HEADERS_GENERAL} ${HEADERS_CODE_EATER} ${HEADERS_EXPERIMENTS} 
-#    ${SOURCES_GENERAL} ${SOURCES_CODE_EATER} ${SOURCES_EXPERIMENTS})
+set(SOURCES_INDIVIDUAL src/Individual/Individual.cpp)
 
 
 
-set(HEADERS_ALL ${HEADERS_DECL} ${HEADERS_GENERAL} ${HEADERS_UTILS} ${HEADERS_SERVER} ${HEADERS_EXPERIMENTS} 
-    ${HEADERS_FLOW} ${HEADERS_BIOLOGY} ${HEADERS_ENVIRONMENT} ${HEADERS_INDIVIDUAL} ${HEADERS_CODE_EATER})
-
-set(SOURCES_ALL ${SOURCES_DECL} ${SOURCES_GENERAL} ${SOURCES_UTILS} ${SOURCES_SERVER} ${SOURCES_EXPERIMENTS} 
-    ${SOURCES_FLOW} ${SOURCES_BIOLOGY} ${SOURCES_ENVIRONMENT} ${SOURCES_INDIVIDUAL} ${SOURCES_CODE_EATER})
+# ****************************************************************** Models ******************************************************************
 
 
+# ********************************* Classical computer science *********************************
 
-# TODO : remove ExperimentOld
-add_executable(bioevo ${HEADERS_ALL} ${SOURCES_ALL})
-target_link_libraries(bioevo ${Boost_LIBRARIES} ${LIBS} /usr/bin/lib/libboost_json.a)
+set(HEADERS_MODEL_CLASSICAL_INFO 
+    src/Models/ClassicalInfo/Universe/UniverseClassicalInfo.hpp
+# experiments
+    src/Models/ClassicalInfo/Experiment/ConsoleApp.hpp)
+
+set(SOURCES_MODEL_CLASSICAL_INFO 
+    src/Models/ClassicalInfo/Universe/UniverseClassicalInfo.cpp
+# experiments
+    src/Models/ClassicalInfo/Experiment/ConsoleApp.cpp)
+
+
+# ********************************* Theoretical computer science *********************************
+
+set(HEADERS_MODEL_TH_INFO )
+
+set(SOURCES_MODEL_TH_INFO )
+
+
+# ********************************* Maths *********************************
+
+set(HEADERS_MODEL_MATHS )
+
+set(SOURCES_MODEL_MATHS )
+
+
+# ********************************* Classical ML algos *********************************
+
+set(HEADERS_MODEL_CLASSICAL_ALGOS )
+
+set(SOURCES_MODEL_CLASSICAL_ALGOS )
+
+
+# ********************************* Evolutionary algorithms *********************************
+
+set(HEADERS_MODEL_EVO_ALGO )
+
+set(SOURCES_MODEL_EVO_ALGO )
+
+
+# ********************************* Evolutionary biology *********************************
+
+set(HEADERS_MODEL_BIO_EVO )
+
+set(SOURCES_MODEL_BIO_EVO )
+
+
+# ********************************* Code eaters *********************************
+
+set(HEADERS_MODEL_CODE_EATERS )
+
+set(SOURCES_MODEL_CODE_EATERS )
+
+
+# ********************************* Economy *********************************
+
+set(HEADERS_MODEL_ECONOMY )
+
+set(SOURCES_MODEL_ECONOMY )
+
+
+# ********************************* Finance *********************************
+
+set(HEADERS_MODEL_FINANCE )
+
+set(SOURCES_MODEL_FINANCE )
+
+
+# ********************************* Unit tests *********************************
+
+set(HEADERS_UNIT_TEST 
+# classical info
+    src/UnitTest/ClassicalInfo/test_1_empty.hpp
+# theoretical info
+# maths
+# classical algos
+# evolutionary algorithms
+# evolutionary biology
+# code eaters
+# economy
+# finance
+    )
+
+set(SOURCES_UNIT_TEST )
+
+
+set(HEADERS_MODELS ${HEADERS_MODEL_CLASSICAL_INFO} ${HEADERS_MODEL_TH_INFO} ${HEADERS_MODEL_MATHS} 
+    ${HEADERS_MODEL_CLASSICAL_ALGOS} ${HEADERS_MODEL_EVO_ALGO} ${HEADERS_MODEL_BIO_EVO} 
+    ${HEADERS_MODEL_CODE_EATERS} ${HEADERS_MODEL_ECONOMY} ${HEADERS_MODEL_FINANCE})
+
+set(SOURCES_MODELS ${SOURCES_MODEL_CLASSICAL_INFO} ${SOURCES_MODEL_TH_INFO} ${SOURCES_MODEL_MATHS} 
+    ${SOURCES_MODEL_CLASSICAL_ALGOS} ${SOURCES_MODEL_EVO_ALGO} ${SOURCES_MODEL_BIO_EVO} 
+    ${SOURCES_MODEL_CODE_EATERS} ${SOURCES_MODEL_ECONOMY} ${SOURCES_MODEL_FINANCE})
+
+
+set(HEADERS_FRAMEWORK ${HEADERS_GENERAL} ${HEADERS_UNIVERSE} ${HEADERS_INDIVIDUAL} ${HEADERS_ENVIRONMENT} ${HEADERS_UTILS} 
+    ${HEADERS_EXPERIMENTS} ${HEADERS_UNIT_TEST})
+
+set(SOURCES_FRAMEWORK ${SOURCES_GENERAL} ${SOURCES_UNIVERSE} ${SOURCES_INDIVIDUAL} ${SOURCES_ENVIRONMENT} ${SOURCES_UTILS}
+    ${SOURCES_EXPERIMENTS} ${SOURCES_UNIT_TEST})
+
+
+add_executable(classical_info src/Models/ClassicalInfo/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_INFO} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_INFO})
+target_link_libraries(classical_info ${LIBS})
+
+
+add_executable(unit_tests src/UnitTest/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS})
+target_link_libraries(unit_tests ${LIBS})
+
+add_executable(bioevo src/main.cpp ${HEADERS_FRAMEWORK} ${SOURCES_FRAMEWORK})
+target_link_libraries(bioevo ${LIBS})
