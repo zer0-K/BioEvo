@@ -87,84 +87,107 @@ set(SOURCES_MODEL_CLASSICAL_INFO
 
 # ********************************* Theoretical computer science *********************************
 
-set(HEADERS_MODEL_TH_INFO )
+set(HEADERS_MODEL_TH_INFO 
+    src/Models/TheoreticalInfo/Universe/UniverseTheoreticalInfo.hpp)
 
-set(SOURCES_MODEL_TH_INFO )
+set(SOURCES_MODEL_TH_INFO 
+    src/Models/TheoreticalInfo/Universe/UniverseTheoreticalInfo.cpp
+# experiments
+    #src/Models/TheoreticalInfo/Experiment/.cpp
+    )
 
 
 # ********************************* Maths *********************************
 
-set(HEADERS_MODEL_MATHS )
+set(HEADERS_MODEL_MATHS
+    src/Models/Maths/Universe/UniverseMaths.hpp)
 
-set(SOURCES_MODEL_MATHS )
+set(SOURCES_MODEL_MATHS 
+    src/Models/Maths/Universe/UniverseMaths.cpp
+# experiments
+    #src/Models/Maths/Experiment/main.cpp
+    )
 
 
 # ********************************* Classical ML algos *********************************
 
-set(HEADERS_MODEL_CLASSICAL_ALGOS )
+set(HEADERS_MODEL_CLASSICAL_ALGOS 
+    src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.hpp)
 
-set(SOURCES_MODEL_CLASSICAL_ALGOS )
+set(SOURCES_MODEL_CLASSICAL_ALGOS
+    src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.cpp
+# experiments
+    #src/Models/ClassicalAlgos/Experiment/main.cpp
+    )
 
 
 # ********************************* Evolutionary algorithms *********************************
 
-set(HEADERS_MODEL_EVO_ALGO )
+set(HEADERS_MODEL_EVO_ALGOS
+    src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp)
 
-set(SOURCES_MODEL_EVO_ALGO )
+set(SOURCES_MODEL_EVO_ALGOS
+    src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp
+# experiments
+    #src/Models/EvoAlgos/Experiment/main.cpp
+    )
 
 
 # ********************************* Evolutionary biology *********************************
 
-set(HEADERS_MODEL_BIO_EVO )
+set(HEADERS_MODEL_BIO_EVO
+    src/Models/BioEvo/Universe/UniverseBioEvo.hpp)
 
-set(SOURCES_MODEL_BIO_EVO )
+set(SOURCES_MODEL_BIO_EVO 
+    src/Models/BioEvo/Universe/UniverseBioEvo.cpp
+# experiments
+    #src/Models/BioEvo/Experiment/main.cpp
+    )
 
 
 # ********************************* Code eaters *********************************
 
-set(HEADERS_MODEL_CODE_EATERS )
+set(HEADERS_MODEL_CODE_EATERS
+    src/Models/CodeEaters/Universe/UniverseCodeEaters.hpp)
 
-set(SOURCES_MODEL_CODE_EATERS )
+set(SOURCES_MODEL_CODE_EATERS
+    src/Models/CodeEaters/Universe/UniverseCodeEaters.cpp
+# experiments
+    #src/Models/CodeEaters/Experiment/main.cpp
+    )
 
 
 # ********************************* Economy *********************************
 
-set(HEADERS_MODEL_ECONOMY )
+set(HEADERS_MODEL_ECONOMY
+    src/Models/Economy/Universe/UniverseEconomy.hpp)
 
-set(SOURCES_MODEL_ECONOMY )
+set(SOURCES_MODEL_ECONOMY
+    src/Models/Economy/Universe/UniverseEconomy.cpp
+# experiments
+    #src/Models/Economy/Experiment/main.cpp
+    )
 
 
 # ********************************* Finance *********************************
 
-set(HEADERS_MODEL_FINANCE )
+set(HEADERS_MODEL_FINANCE
+    src/Models/Finance/Universe/UniverseFinance.hpp)
 
-set(SOURCES_MODEL_FINANCE )
-
-
-# ********************************* Unit tests *********************************
-
-set(HEADERS_UNIT_TEST 
-# classical info
-    src/UnitTest/ClassicalInfo/test_1_empty.hpp
-# theoretical info
-# maths
-# classical algos
-# evolutionary algorithms
-# evolutionary biology
-# code eaters
-# economy
-# finance
+set(SOURCES_MODEL_FINANCE
+    src/Models/Finance/Universe/UniverseFinance.cpp
+# experiments
+    #src/Models/Finance/Experiment/.cpp
     )
 
-set(SOURCES_UNIT_TEST )
 
 
 set(HEADERS_MODELS ${HEADERS_MODEL_CLASSICAL_INFO} ${HEADERS_MODEL_TH_INFO} ${HEADERS_MODEL_MATHS} 
-    ${HEADERS_MODEL_CLASSICAL_ALGOS} ${HEADERS_MODEL_EVO_ALGO} ${HEADERS_MODEL_BIO_EVO} 
+    ${HEADERS_MODEL_CLASSICAL_ALGOS} ${HEADERS_MODEL_EVO_ALGOS} ${HEADERS_MODEL_BIO_EVO} 
     ${HEADERS_MODEL_CODE_EATERS} ${HEADERS_MODEL_ECONOMY} ${HEADERS_MODEL_FINANCE})
 
 set(SOURCES_MODELS ${SOURCES_MODEL_CLASSICAL_INFO} ${SOURCES_MODEL_TH_INFO} ${SOURCES_MODEL_MATHS} 
-    ${SOURCES_MODEL_CLASSICAL_ALGOS} ${SOURCES_MODEL_EVO_ALGO} ${SOURCES_MODEL_BIO_EVO} 
+    ${SOURCES_MODEL_CLASSICAL_ALGOS} ${SOURCES_MODEL_EVO_ALGOS} ${SOURCES_MODEL_BIO_EVO} 
     ${SOURCES_MODEL_CODE_EATERS} ${SOURCES_MODEL_ECONOMY} ${SOURCES_MODEL_FINANCE})
 
 
@@ -175,16 +198,171 @@ set(SOURCES_FRAMEWORK ${SOURCES_GENERAL} ${SOURCES_UNIVERSE} ${SOURCES_INDIVIDUA
     ${SOURCES_EXPERIMENTS} ${SOURCES_UNIT_TEST})
 
 
+
 add_executable(classical_info src/Models/ClassicalInfo/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_INFO} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_INFO})
 target_link_libraries(classical_info ${LIBS})
 
+add_executable(classical_th_info src/Models/TheoreticalInfo/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_TH_INFO} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_TH_INFO})
+target_link_libraries(classical_th_info ${LIBS})
 
-add_executable(unit_tests src/UnitTest/main.cpp 
+add_executable(classical_maths src/Models/Maths/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_MATHS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_MATHS})
+target_link_libraries(classical_maths ${LIBS})
+
+add_executable(classical_algos src/Models/ClassicalAlgos/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_ALGOS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_ALGOS})
+target_link_libraries(classical_algos ${LIBS})
+
+add_executable(classical_evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_EVO_ALGOS})
+target_link_libraries(classical_evo_algos ${LIBS})
+
+add_executable(classical_bioevo src/Models/BioEvo/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_BIO_EVO} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_BIO_EVO})
+target_link_libraries(classical_bioevo ${LIBS})
+
+add_executable(classical_code_eaters src/Models/CodeEaters/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CODE_EATERS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CODE_EATERS})
+target_link_libraries(classical_code_eaters ${LIBS})
+
+add_executable(classical_economy src/Models/Economy/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_ECONOMY} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_ECONOMY})
+target_link_libraries(classical_economy ${LIBS})
+
+add_executable(classical_finance src/Models/Finance/Experiment/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_FINANCE} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_FINANCE})
+target_link_libraries(classical_finance ${LIBS})
+
+
+
+# ********************************* Unit tests *********************************
+
+
+# ********** evolutionary biology
+
+set(HEADERS_UNIT_TESTS_BIO_EVO 
+    src/UnitTests/BioEvo/test_1_empty.hpp)
+
+add_executable(unit_tests_bio_evo src/UnitTests/BioEvo/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_BIO_EVO} ${HEADERS_UNIT_TESTS_BIO_EVO} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_BIO_EVO})
+target_link_libraries(unit_tests_bio_evo ${LIBS})
+
+# ********** classical algos
+
+set(HEADERS_UNIT_TESTS_CLASSICAL_ALGOS 
+    src/UnitTests/ClassicalAlgos/test_1_empty.hpp)
+
+add_executable(unit_tests_classical_algos src/UnitTests/ClassicalAlgos/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_ALGOS} ${HEADERS_UNIT_TESTS_CLASSICAL_ALGOS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_ALGOS})
+target_link_libraries(unit_tests_classical_algos ${LIBS})
+
+
+# ********** classical computer science
+
+set(HEADERS_UNIT_TESTS_CLASSICAL_INFO 
+    src/UnitTests/ClassicalInfo/test_1_empty.hpp)
+
+add_executable(unit_tests_classical_info src/UnitTests/ClassicalInfo/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_INFO} ${HEADERS_UNIT_TESTS_CLASSICAL_INFO} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_INFO})
+target_link_libraries(unit_tests_classical_info ${LIBS})
+
+
+# ********** code eaters
+
+set(HEADERS_UNIT_TESTS_CODE_EATERS
+    src/UnitTests/CodeEaters/test_1_empty.hpp)
+
+add_executable(unit_tests_code_eaters src/UnitTests/CodeEaters/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CODE_EATERS} ${HEADERS_UNIT_TESTS_CODE_EATERS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CODE_EATERS})
+target_link_libraries(unit_tests_code_eaters ${LIBS})
+
+
+# ********** economy
+
+set(HEADERS_UNIT_TESTS_ECONOMY
+    src/UnitTests/Economy/test_1_empty.hpp)
+
+add_executable(unit_tests_economy src/UnitTests/Economy/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_ECONOMY} ${HEADERS_UNIT_TESTS_ECONOMY} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_ECONOMY})
+target_link_libraries(unit_tests_economy ${LIBS})
+
+
+# ********** evolutionary algorithms
+
+set(HEADERS_UNIT_TESTS_EVO_ALGOS
+    src/UnitTests/EvoAlgos/test_1_empty.hpp)
+
+add_executable(unit_tests_evo_algos src/UnitTests/EvoAlgos/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} ${HEADERS_UNIT_TESTS_EVO_ALGOS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_EVO_ALGOS})
+target_link_libraries(unit_tests_evo_algos ${LIBS})
+
+
+# ********** finance
+
+set(HEADERS_UNIT_TESTS_FINANCE
+    src/UnitTests/Finance/test_1_empty.hpp)
+
+add_executable(unit_tests_finance src/UnitTests/Finance/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_FINANCE} ${HEADERS_UNIT_TESTS_FINANCE} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_FINANCE})
+target_link_libraries(unit_tests_finance ${LIBS})
+
+
+# ********** maths
+
+set(HEADERS_UNIT_TESTS_MATHS
+    src/UnitTests/Maths/test_1_empty.hpp)
+
+add_executable(unit_tests_maths src/UnitTests/Maths/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_MATHS} ${HEADERS_UNIT_TESTS_MATHS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_MATHS})
+target_link_libraries(unit_tests_maths ${LIBS})
+
+
+# ********** theorical computer science
+
+set(HEADERS_UNIT_TESTS_TH_INFO
+    src/UnitTests/TheoreticalInfo/test_1_empty.hpp)
+
+add_executable(unit_tests_th_info src/UnitTests/TheoreticalInfo/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_TH_INFO} ${HEADERS_UNIT_TESTS_TH_INFO} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_TH_INFO})
+target_link_libraries(unit_tests_th_info ${LIBS})
+
+
+
+# ********** all
+
+set(HEADERS_UNIT_TESTS_ALL 
+    HEADERS_UNIT_TESTS_BIO_EVO HEADERS_UNIT_TESTS_CLASSICAL_ALGOS HEADERS_UNIT_TESTS_CLASSICAL_INFO 
+    HEADERS_UNIT_TESTS_CODE_EATERS HEADERS_UNIT_TESTS_ECONOMY HEADERS_UNIT_TESTS_EVO_ALGOS 
+    HEADERS_UNIT_TESTS_FINANCE HEADERS_UNIT_TESTS_MATHS HEADERS_UNIT_TESTS_TH_INFO)
+
+set(SOURCES_UNIT_TESTS_ALL )
+
+add_executable(unit_tests src/UnitTests/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS})
 target_link_libraries(unit_tests ${LIBS})
+
+
 
 add_executable(bioevo src/main.cpp ${HEADERS_FRAMEWORK} ${SOURCES_FRAMEWORK})
 target_link_libraries(bioevo ${LIBS})
