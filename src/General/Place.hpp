@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.hpp"
+#include "../Entities/Entity.hpp"
 
 class Place;
 typedef std::shared_ptr<Place> sp_place;

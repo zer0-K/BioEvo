@@ -4,12 +4,10 @@ void launch_tests_classical_info()
 {
     bool is_passed = true;
 
+    std::cout << "Unit test classical info : ";
+
     is_passed = is_passed && launch_test_classical_info_empty();
 
     std::cout << "Unit test classical info : ";
-    if(is_passed)
-        std::cout << greencol << "passed" << defcol;
-    else
-        std::cout << redcol << "not passed" << defcol;
-    std::cout << std::endl;
+    passed_print(is_passed, 0);
 }

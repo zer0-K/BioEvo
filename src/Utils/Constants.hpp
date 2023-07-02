@@ -19,6 +19,9 @@ const ColorMod redcol(FG_RED);
 // ---------------------------------------- entity types
 
 const std::string TYPE_VOID = "void";
+const std::string TYPE_BOOL = "bool";
+const std::string TYPE_INT = "int";
+const std::string TYPE_LINEAR = "linear";
 
 
 // ---------------------------------------- Experiment names

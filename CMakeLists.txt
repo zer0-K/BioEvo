@@ -24,18 +24,26 @@ set(CMAKE_BUILD_TYPE Debug)
 
 # ********************************* Utils *********************************
 
-set(HEADERS_UTILS src/Utils/Constants.hpp src/Utils/Colors.hpp)
+set(HEADERS_UTILS src/Utils/Functions.hpp src/Utils/Constants.hpp src/Utils/Colors.hpp
+    src/Utils/Maths/RandomGen.hpp)
 
 set(SOURCES_UTILS)
 
 
 # ********************************* General *********************************
 
-set(HEADERS_GENERAL 
-    src/General/Entity.hpp src/General/VoidEntity.hpp src/General/Place.hpp)
+set(HEADERS_GENERAL src/General/Place.hpp)
 
-set(SOURCES_GENERAL 
-    src/General/Entity.cpp src/General/VoidEntity.cpp src/General/Place.cpp)
+set(SOURCES_GENERAL src/General/Place.cpp)
+
+
+# ********************************* Entities *********************************
+
+set(HEADERS_ENTITIES src/Entities/Entity.hpp src/Entities/VoidEntity.hpp
+    )
+
+set(SOURCES_ENTITIES src/Entities/Entity.cpp src/Entities/VoidEntity.cpp
+    )
 
 
 # ********************************* Experiments *********************************
@@ -105,31 +113,48 @@ set(HEADERS_MODEL_MATHS
 set(SOURCES_MODEL_MATHS 
     src/Models/Maths/Universe/UniverseMaths.cpp
 # experiments
-    #src/Models/Maths/Experiment/main.cpp
+    #src/Models/Maths/Experiment/.cpp
     )
 
 
 # ********************************* Classical ML algos *********************************
 
 set(HEADERS_MODEL_CLASSICAL_ALGOS 
+# Biology
+    src/Models/ClassicalAlgos/Biology/AbstractTrait.hpp src/Models/ClassicalAlgos/Biology/Trait.hpp 
+    src/Models/ClassicalAlgos/Biology/Gene/Gene.hpp
+# Individuals
+    # Algos
+    src/Models/ClassicalAlgos/Individuals/IndividualLinear.hpp
+    # Entities
+    src/Models/ClassicalAlgos/Individuals/LinearEntity.hpp
+# Universes
     src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.hpp)
 
 set(SOURCES_MODEL_CLASSICAL_ALGOS
+# Biology
+    src/Models/ClassicalAlgos/Biology/Gene/Gene.cpp
+# Individuals
+    # Algos
+    src/Models/ClassicalAlgos/Individuals/IndividualLinear.cpp
+    # Entities
+    src/Models/ClassicalAlgos/Individuals/LinearEntity.cpp
+# Universes
     src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.cpp
 # experiments
-    #src/Models/ClassicalAlgos/Experiment/main.cpp
+    #src/Models/ClassicalAlgos/Experiment/.cpp
     )
 
 
 # ********************************* Evolutionary algorithms *********************************
 
-set(HEADERS_MODEL_EVO_ALGOS
+set(HEADERS_MODEL_EVO_ALGInstruction.hppOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp)
 
 set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp
 # experiments
-    #src/Models/EvoAlgos/Experiment/main.cpp
+    #src/Models/EvoAlgos/Experiment/.cpp
     )
 
 
@@ -141,7 +166,7 @@ set(HEADERS_MODEL_BIO_EVO
 set(SOURCES_MODEL_BIO_EVO 
     src/Models/BioEvo/Universe/UniverseBioEvo.cpp
 # experiments
-    #src/Models/BioEvo/Experiment/main.cpp
+    #src/Models/BioEvo/Experiment/.cpp
     )
 
 
@@ -153,7 +178,7 @@ set(HEADERS_MODEL_CODE_EATERS
 set(SOURCES_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.cpp
 # experiments
-    #src/Models/CodeEaters/Experiment/main.cpp
+    #src/Models/CodeEaters/Experiment/.cpp
     )
 
 
@@ -165,7 +190,7 @@ set(HEADERS_MODEL_ECONOMY
 set(SOURCES_MODEL_ECONOMY
     src/Models/Economy/Universe/UniverseEconomy.cpp
 # experiments
-    #src/Models/Economy/Experiment/main.cpp
+    #src/Models/Economy/Experiment/.cpp
     )
 
 
@@ -191,10 +216,10 @@ set(SOURCES_MODELS ${SOURCES_MODEL_CLASSICAL_INFO} ${SOURCES_MODEL_TH_INFO} ${SO
     ${SOURCES_MODEL_CODE_EATERS} ${SOURCES_MODEL_ECONOMY} ${SOURCES_MODEL_FINANCE})
 
 
-set(HEADERS_FRAMEWORK ${HEADERS_GENERAL} ${HEADERS_UNIVERSE} ${HEADERS_INDIVIDUAL} ${HEADERS_ENVIRONMENT} ${HEADERS_UTILS} 
+set(HEADERS_FRAMEWORK ${HEADERS_GENERAL} ${HEADERS_ENTITIES} ${HEADERS_INSTR} ${HEADERS_UNIVERSE} ${HEADERS_INDIVIDUAL} ${HEADERS_ENVIRONMENT} ${HEADERS_UTILS} 
     ${HEADERS_EXPERIMENTS} ${HEADERS_UNIT_TEST})
 
-set(SOURCES_FRAMEWORK ${SOURCES_GENERAL} ${SOURCES_UNIVERSE} ${SOURCES_INDIVIDUAL} ${SOURCES_ENVIRONMENT} ${SOURCES_UTILS}
+set(SOURCES_FRAMEWORK ${SOURCES_GENERAL} ${SOURCES_ENTITIES} ${SOURCES_INSTR} ${SOURCES_UNIVERSE} ${SOURCES_INDIVIDUAL} ${SOURCES_ENVIRONMENT} ${SOURCES_UTILS}
     ${SOURCES_EXPERIMENTS} ${SOURCES_UNIT_TEST})
 
 
@@ -284,7 +309,14 @@ target_link_libraries(unit_tests_classical_info ${LIBS})
 # ********** code eaters
 
 set(HEADERS_UNIT_TESTS_CODE_EATERS
-    src/UnitTests/CodeEaters/test_1_empty.hpp)
+    src/UnitTests/CodeEaters/test_1_empty.hpp
+        src/UnitTests/CodeEaters/test_1_1.hpp
+        src/UnitTests/CodeEaters/test_1_2.hpp
+    src/UnitTests/CodeEaters/test_2_operations.hpp
+        src/UnitTests/CodeEaters/test_2_1.hpp
+            src/UnitTests/CodeEaters/test_2_1_1.hpp
+    std/UnitTests/CodeEaters/test_3_metadata.hpp
+        src/UnitTests/CodeEaters/test_3_1_time.hpp)
 
 add_executable(unit_tests_code_eaters src/UnitTests/CodeEaters/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CODE_EATERS} ${HEADERS_UNIT_TESTS_CODE_EATERS} 

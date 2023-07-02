@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Utils/Functions.hpp"
 #include "../../Utils/Constants.hpp"
 #include "../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 
@@ -39,20 +40,12 @@ bool launch_test_evo_algos_empty()
         {
             std::cout << "\t\tEmpty evo algos universe of size "
                 << size_universe << " : ";
-            if(is_passed)
-                std::cout << greencol << "passed" << defcol;
-            else
-                std::cout << redcol << "not passed" << defcol;
-            std::cout << std::endl;
+            passed_print(res, 2);
         } 
     }
 
     std::cout << "\tUnit test empty evo algos universe : ";
-    if(is_passed)
-        std::cout << greencol << "passed" << defcol;
-    else
-        std::cout << redcol << "not passed" << defcol;
-    std::cout << std::endl;
+    passed_print(is_passed, 1);
 
     return is_passed;
 }
@@ -104,5 +97,3 @@ bool check_universe(sp_univ_evo_algos universe, int expected_size)
 
     return is_passed;
 }
-
-

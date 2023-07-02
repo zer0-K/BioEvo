@@ -1,6 +1,6 @@
 #include "Universe.hpp"
 
-#include "../General/VoidEntity.hpp"
+#include "../Entities/VoidEntity.hpp"
 
 Universe::Universe(int size_universe, std::string name)
 {

@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Utils/Functions.hpp"
 #include "../../Utils/Constants.hpp"
 #include "../../Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.hpp"
 
@@ -39,20 +40,12 @@ bool launch_test_classical_algos_empty()
         {
             std::cout << "\t\tEmpty classical algos universe of size "
                 << size_universe << " : ";
-            if(is_passed)
-                std::cout << greencol << "passed" << defcol;
-            else
-                std::cout << redcol << "not passed" << defcol;
-            std::cout << std::endl;
+            passed_print(res, 2);
         } 
     }
 
     std::cout << "\tUnit test empty classical algos universe : ";
-    if(is_passed)
-        std::cout << greencol << "passed" << defcol;
-    else
-        std::cout << redcol << "not passed" << defcol;
-    std::cout << std::endl;
+    passed_print(is_passed, 1);
 
     return is_passed;
 }
