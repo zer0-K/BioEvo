@@ -39,11 +39,13 @@ set(SOURCES_GENERAL src/General/Place.cpp)
 
 # ********************************* Entities *********************************
 
-set(HEADERS_ENTITIES src/Entities/Entity.hpp src/Entities/VoidEntity.hpp
-    )
+set(HEADERS_ENTITIES src/Entities/Entity.hpp src/Entities/EntityVoid.hpp
+    src/Entities/Entity.hpp src/Entities/EntityInt.hpp
+        src/Entities/Entity.hpp src/Entities/EntityBool.hpp)
 
-set(SOURCES_ENTITIES src/Entities/Entity.cpp src/Entities/VoidEntity.cpp
-    )
+set(SOURCES_ENTITIES src/Entities/Entity.cpp src/Entities/EntityVoid.cpp
+    src/Entities/Entity.hpp src/Entities/EntityInt.cpp
+        src/Entities/Entity.hpp src/Entities/EntityBool.cpp)
 
 
 # ********************************* Experiments *********************************
@@ -173,10 +175,16 @@ set(SOURCES_MODEL_BIO_EVO
 # ********************************* Code eaters *********************************
 
 set(HEADERS_MODEL_CODE_EATERS
-    src/Models/CodeEaters/Universe/UniverseCodeEaters.hpp)
+    src/Models/CodeEaters/Universe/UniverseCodeEaters.hpp
+# entities
+    src/Models/CodeEaters/Entities/EntityUnaryId.hpp
+        src/Models/CodeEaters/Entities/EntityUnaryNot.hpp)
 
 set(SOURCES_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.cpp
+# entities
+    src/Models/CodeEaters/Entities/EntityUnaryId.cpp
+        src/Models/CodeEaters/Entities/EntityUnaryNot.cpp
 # experiments
     #src/Models/CodeEaters/Experiment/.cpp
     )
@@ -315,8 +323,8 @@ set(HEADERS_UNIT_TESTS_CODE_EATERS
     src/UnitTests/CodeEaters/test_2_operations.hpp
         src/UnitTests/CodeEaters/test_2_1.hpp
             src/UnitTests/CodeEaters/test_2_1_1.hpp
-    std/UnitTests/CodeEaters/test_3_metadata.hpp
-        src/UnitTests/CodeEaters/test_3_1_time.hpp)
+    src/UnitTests/CodeEaters/test_3_metadata.hpp
+        src/UnitTests/CodeEaters/test_3_1.hpp)
 
 add_executable(unit_tests_code_eaters src/UnitTests/CodeEaters/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CODE_EATERS} ${HEADERS_UNIT_TESTS_CODE_EATERS} 

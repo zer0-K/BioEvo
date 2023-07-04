@@ -7,98 +7,217 @@
 #include "../../Utils/Functions.hpp"
 #include "../../Utils/Constants.hpp"
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
+#include "../../Entities/EntityBool.hpp"
+#include "../../Entities/EntityInt.hpp"
+#include "../../Models/CodeEaters/Entities/EntityUnaryId.hpp"
+#include "../../Models/CodeEaters/Entities/EntityUnaryNot.hpp"
 
-/**
- * @brief Test simple boolean operations with code eaters
-*/
-bool launch_test_code_eaters_operations_booleans_basic()
+namespace ut_ce
 {
-    bool test_id(void);     
-
-    bool is_passed = true;
-
-    is_passed &= test_id();
-
-    std::cout << "\t\t\tBasic boolean operations : ";
-    passed_print(is_passed, 3);
-
-    return is_passed;
-}
-
-/**
- * @brief test identity function
-*/
-bool test_id()
-{
-    sp_univ_code_eaters build_universe_code_eaters(int);    
-    bool check_universe(sp_univ_code_eaters, int);
-
-    bool is_passed = true;
-
-    // build code eaters universe of wanted size
-    sp_univ_code_eaters universe_code_eaters = build_universe_code_eaters(2);
-
-    // TODO
-    int size_universe = 1;
-
-    // check if built universe is correct
-    bool res = check_universe(universe_code_eaters, size_universe);
-
-    if(verbose_unit_tests)
+    /**
+     * @brief Test simple boolean operations with code eaters
+    */
+    bool launch_test_code_eaters_operations_booleans_basic()
     {
-        std::cout << "\t\t\t\tEmpty code eaters universe of size "
-            << size_universe << " : ";
-        passed_print(res, 1);
+        bool test_code_eaters_operations_booleans_uid(void);
+        bool test_code_eaters_operations_booleans_unot(void);
+
+        bool is_passed = true;
+
+        is_passed &= test_code_eaters_operations_booleans_uid();
+        is_passed &= test_code_eaters_operations_booleans_unot();
+
+        std::cout << "\t\t\tBasic boolean operations : ";
+        passed_print(is_passed, 1);
+
+        return is_passed;
     }
 
-    return is_passed;
-}
-
-/**
- * @brief Create a universe (for evolutionary biology) of given size with void entities
-*/
-sp_univ_code_eaters build_universe_code_eaters(int size_universe)
-{
-    sp_univ_code_eaters universe_code_eaters = std::make_shared<UniverseCodeEaters>(
-        size_universe,
-        "code eaters universe"
-    );
-
-    return universe_code_eaters;
-}
-
-/**
- * @brief Test if the built universe is full of void entities
-*/
-bool check_universe(sp_univ_code_eaters universe, int expected_size)
-{
-    bool is_passed = true;
-
-    std::vector<sp_place> places = universe->get_places();
-
-    if(verbose_unit_tests && places.size() != expected_size)
+    /**
+     * @brief test unitary id
+    */
+    bool test_code_eaters_operations_booleans_uid()
     {
-        std::cout << "\t\t\t\tError : wrong universe size" << std::endl;
-        std::cout << "\t\t\t\t\tExpected size : " << expected_size 
-            << ", actual size : " << places.size()
-            << std::endl;
-        is_passed = false;
-    }
+        bool is_passed = true;
 
-    for(int i=0; i<expected_size; i++)
-    {
-        sp_entity entity = places[i]->get_entity();
-        
-        if(verbose_unit_tests && entity->get_type() != TYPE_VOID)
+        sp_entity_uid entity_uid = std::make_shared<EntityUnaryId>("unitary id entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- true entity
+
+        sp_entity_bool entity_true = std::make_shared<EntityBool>("entity true", true);
+        entity_true->init();
+
+        res = entity_uid->exec(std::vector<sp_entity>{entity_true});
+
+        if(res.size() != 1 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true)
         {
-            std::cout << "\t\t\t\tError : wrong entity type" << std::endl;
-            std::cout << "\t\t\t\t\tExpected  : " << TYPE_VOID 
-                << ", actual : " << entity->get_type()
-                << std::endl;
-            is_passed = false; 
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary id did not work on true entity" << std::endl;
         }
+
+
+        //----- false entity
+
+        sp_entity_bool entity_false = std::make_shared<EntityBool>("entity false", false);
+        entity_false->init();
+
+        res = entity_uid->exec(std::vector<sp_entity>{entity_false});
+
+        if(res.size() != 1 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary id did not work on false entity" << std::endl;
+        }
+
+
+        //----- int entity
+
+        sp_entity_int entity_int = std::make_shared<EntityInt>("entity int", 12);
+        entity_int->init();
+
+        res = entity_uid->exec(std::vector<sp_entity>{entity_int});
+
+        if(res.size() != 1 || res[0]->has_value_bool() || !res[0]->get_value_int() )
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary id did not work on int entity" << std::endl;
+        }
+
+
+        //----- list of bool entities
+
+        std::vector<sp_entity> entities_bool = {
+            std::make_shared<EntityBool>("entity bool list 0", true),
+            std::make_shared<EntityBool>("entity bool list 1", true),
+            std::make_shared<EntityBool>("entity bool list 2", false),
+            std::make_shared<EntityBool>("entity bool list 3", true),
+            std::make_shared<EntityBool>("entity bool list 4", false)
+        };
+        for(int i=0;i<entities_bool.size();i++)
+        {
+            entities_bool[i]->init();
+        }
+
+        res = entity_uid->exec(entities_bool);
+
+        if(res.size() != 5 
+            || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || !res[1]->has_value_bool() || res[1]->get_value_bool() != true
+            || !res[2]->has_value_bool() || res[2]->get_value_bool() != false
+            || !res[3]->has_value_bool() || res[3]->get_value_bool() != true
+            || !res[4]->has_value_bool() || res[4]->get_value_bool() != false
+            )
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary id did not work on list entity" << std::endl;
+        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - unitary id : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
     }
 
-    return is_passed;
-}
+    /**
+     * @brief test unitary not 
+    */
+    bool test_code_eaters_operations_booleans_unot()
+    {
+        bool is_passed = true;
 
+        sp_entity_unot entity_unot = std::make_shared<EntityUnaryNot>("unitary not entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- true entity
+
+        sp_entity_bool entity_true = std::make_shared<EntityBool>("entity true", true);
+        entity_true->init();
+
+        res = entity_unot->exec(std::vector<sp_entity>{entity_true});
+
+        if(res.size() != 1 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary not did not work on true entity" << std::endl;
+        }
+
+
+        //----- false entity
+
+        sp_entity_bool entity_false = std::make_shared<EntityBool>("entity false", false);
+        entity_false->init();
+
+        res = entity_unot->exec(std::vector<sp_entity>{entity_false});
+
+        if(res.size() != 1 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary not did not work on false entity" << std::endl;
+        }
+
+
+        //----- int entity
+
+        sp_entity_int entity_int = std::make_shared<EntityInt>("entity int", 12);
+        entity_int->init();
+
+        res = entity_unot->exec(std::vector<sp_entity>{entity_int});
+
+        if(res.size() != 1 || res[0]->has_value_bool() || !res[0]->get_value_int() )
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary not did not work on int entity" << std::endl;
+        }
+
+
+        //----- list of bool entities
+
+        std::vector<sp_entity> entities_bool = {
+            std::make_shared<EntityBool>("entity bool list 0", true),
+            std::make_shared<EntityBool>("entity bool list 1", true),
+            std::make_shared<EntityBool>("entity bool list 2", false),
+            std::make_shared<EntityBool>("entity bool list 3", true),
+            std::make_shared<EntityBool>("entity bool list 4", false)
+        };
+        for(int i=0;i<entities_bool.size();i++)
+        {
+            entities_bool[i]->init();
+        }
+
+        res = entity_unot->exec(entities_bool);
+
+        if(res.size() != 5 
+            || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || !res[1]->has_value_bool() || res[1]->get_value_bool() != false
+            || !res[2]->has_value_bool() || res[2]->get_value_bool() != true
+            || !res[3]->has_value_bool() || res[3]->get_value_bool() != false
+            || !res[4]->has_value_bool() || res[4]->get_value_bool() != true 
+            )
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : unitary not did not work on list entity" << std::endl;
+        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - unitary not : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+
+}

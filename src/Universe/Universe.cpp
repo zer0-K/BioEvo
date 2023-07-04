@@ -1,6 +1,7 @@
 #include "Universe.hpp"
 
-#include "../Entities/VoidEntity.hpp"
+#include "../Utils/Constants.hpp"
+#include "../Entities/EntityVoid.hpp"
 
 Universe::Universe(int size_universe, std::string name)
 {
@@ -10,7 +11,8 @@ Universe::Universe(int size_universe, std::string name)
 
     for(int i=0; i<size_universe; i++)
     {
-        sp_entity entity = std::make_shared<VoidEntity>("entity void " + std::to_string(i));
+        sp_entity entity = std::make_shared<EntityVoid>("entity void " + std::to_string(i));
+        entity->init();
 
         sp_place place = std::make_shared<Place>(entity, i);
 
@@ -33,17 +35,36 @@ Universe::Universe(std::string name, std::vector<sp_place> places, std::vector<s
 
 void Universe::exec()
 {
-    sp_entity entity;
+    sp_entity working_entity;
+    sp_entity handled_entity;
+    sp_entity result_entity;
+    sp_entity_void void_entity;
     int place_index=0;
 
     for(int i=0;i<places.size();i++)
     {
-        entity = places[i]->get_entity();
-        place_index = entity->get_working_place_index();
+        // get working entity and index of where it want to work on
+        working_entity = places[i]->get_entity();
+        place_index = working_entity->get_working_place_index();
 
-        entity = entity->exec(places[place_index]->get_entity())[0];
+        // get entity to work on and set a void entity there
+        handled_entity = places[place_index]->get_entity();
+        void_entity = std::make_shared<EntityVoid>("void entity");
+        void_entity->init();
+        places[place_index]->set_entity(void_entity);
 
-        places[place_index]->set_entity(entity);
+
+        // get result and apply
+        result_entity = result_entity->exec(places[place_index]->get_entity())[0];
+        if( places[place_index]->get_entity()->get_type() == TYPE_VOID )
+        {
+            places[place_index]->set_entity(result_entity);
+        }
+        else
+        {
+            // nothing
+            // will handle this later for concurrency stuff
+        } 
     }
 }
 

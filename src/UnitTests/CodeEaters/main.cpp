@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[])
 {
-    launch_tests_code_eaters();    
+    ut_ce::launch_tests_code_eaters();    
 
     return 0;
 }

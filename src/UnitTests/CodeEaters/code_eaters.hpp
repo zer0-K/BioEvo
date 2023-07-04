@@ -3,15 +3,20 @@
 #include "test_1_empty.hpp"
 #include "test_2_operations.hpp"
 
-void launch_tests_code_eaters()
+namespace ut_ce 
 {
-    bool is_passed = true;
 
-    std::cout << "Unit tests code eaters : " << std::endl;
+    void launch_tests_code_eaters()
+    {
+        bool is_passed = true;
 
-    is_passed &= launch_tests_code_eaters_empty();
-    is_passed &= launch_tests_code_eaters_operations();
+        std::cout << "Unit tests code eaters : " << std::endl;
 
-    std::cout << "Unit tests code eaters : ";
-    passed_print(is_passed, 0);
+        is_passed &= launch_tests_code_eaters_empty();
+        is_passed &= launch_tests_code_eaters_operations();
+
+        std::cout << "Unit tests code eaters : ";
+        passed_print(is_passed, 0);
+    }
+
 }

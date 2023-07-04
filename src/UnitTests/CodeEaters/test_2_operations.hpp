@@ -2,16 +2,19 @@
 
 #include "test_2_1.hpp"
 
-bool launch_tests_code_eaters_operations()
+namespace ut_ce
 {
-    bool is_passed = true;
+    bool launch_tests_code_eaters_operations()
+    {
+        bool is_passed = true;
 
-    std::cout << "\tOperations : " << std::endl;
+        std::cout << "\tOperations : " << std::endl;
 
-    is_passed &= launch_tests_code_eaters_operations_booleans();
+        is_passed &= launch_tests_code_eaters_operations_booleans();
 
-    std::cout << "\tOperations : ";
-    passed_print(is_passed, 1);
+        std::cout << "\tOperations : ";
+        passed_print(is_passed, 1);
 
-    return is_passed;
+        return is_passed;
+    }
 }

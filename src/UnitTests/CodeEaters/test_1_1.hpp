@@ -8,99 +8,104 @@
 #include "../../Utils/Constants.hpp"
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
 
-/**
- * @brief Test universes of void entities
-*/
-bool launch_test_code_eaters_void()
+namespace ut_ce
 {
-    sp_univ_code_eaters build_void_universe_code_eaters(int);    
-    bool check_universe_void(sp_univ_code_eaters, int);
 
-    bool is_passed = true;
-
-    // sizes
-    std::vector<int> sizes{
-        0, 1, 2, 10, 100
-    };
-
-    for(int i=0; i<sizes.size(); i++)
+    /**
+     * @brief Test universes of void entities
+    */
+    bool launch_test_code_eaters_void()
     {
-        int size_universe = sizes[i];
+        sp_univ_code_eaters build_universe_code_eaters_void(int);    
+        bool check_universe_code_eaters_void(sp_univ_code_eaters, int);
 
-        // build code eaters universe of wanted size
-        sp_univ_code_eaters universe_code_eaters = build_void_universe_code_eaters(size_universe);
+        bool is_passed = true;
 
-        // check if built universe is correct
-        bool res = check_universe_void(universe_code_eaters, size_universe);
+        // sizes
+        std::vector<int> sizes{
+            0, 1, 2, 10, 100
+        };
 
-        is_passed &= res;
-
-        if(verbose_unit_tests)
+        for(int i=0; i<sizes.size(); i++)
         {
-            std::cout << "\t\t\tCode eaters universe of void entities of size "
-                << size_universe << " : ";
-            passed_print(res, 1);
-        } 
-    }
+            int size_universe = sizes[i];
 
-    std::cout << "\t\tUnit test code eaters universe of void entities : ";
-    passed_print(is_passed, 1);
+            // build code eaters universe of wanted size
+            sp_univ_code_eaters universe_code_eaters = build_universe_code_eaters_void(size_universe);
 
-    return is_passed;
-}
+            // check if built universe is correct
+            bool res = check_universe_code_eaters_void(universe_code_eaters, size_universe);
 
-/**
- * @brief Create a universe (for evolutionary biology) of given size with void entities
-*/
-sp_univ_code_eaters build_void_universe_code_eaters(int size_universe)
-{
-    sp_univ_code_eaters universe_code_eaters = std::make_shared<UniverseCodeEaters>(
-        size_universe,
-        "code eaters universe void"
-    );
+            is_passed &= res;
 
-    return universe_code_eaters;
-}
-
-/**
- * @brief Test if the built universe is full of void entities
-*/
-bool check_universe_void(sp_univ_code_eaters universe, int expected_size)
-{
-    bool is_passed = true;
-
-    std::vector<sp_place> places = universe->get_places();
-
-    if(places.size() != expected_size)
-    {
-        is_passed = false;
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "\t\t\tError : wrong universe size" << std::endl;
-            std::cout << "\t\t\t\tExpected size : " << expected_size 
-                << ", actual size : " << places.size()
-                << std::endl;
+            if(verbose_unit_tests)
+            {
+                std::cout << "\t\t\tCode eaters universe of void entities of size "
+                    << size_universe << " : ";
+                passed_print(res, 1);
+            } 
         }
+
+        std::cout << "\t\tUnit test code eaters universe of void entities : ";
+        passed_print(is_passed, 1);
+
+        return is_passed;
     }
 
-    for(int i=0; i<expected_size; i++)
+    /**
+     * @brief Create a universe (for evolutionary biology) of given size with void entities
+    */
+    sp_univ_code_eaters build_universe_code_eaters_void(int size_universe)
     {
-        sp_entity entity = places[i]->get_entity();
-        
-        if(entity->get_type() != TYPE_VOID)
+        sp_univ_code_eaters universe_code_eaters = std::make_shared<UniverseCodeEaters>(
+            size_universe,
+            "code eaters universe void"
+        );
+
+        return universe_code_eaters;
+    }
+
+    /**
+     * @brief Test if the built universe is full of void entities
+    */
+    bool check_universe_code_eaters_void(sp_univ_code_eaters universe, int expected_size)
+    {
+        bool is_passed = true;
+
+        std::vector<sp_place> places = universe->get_places();
+
+        if(places.size() != expected_size)
         {
             is_passed = false;
 
             if(verbose_unit_tests)
             {
-                std::cout << "\t\t\tError : wrong entity type" << std::endl;
-                std::cout << "\t\t\t\tExpected  : " << TYPE_VOID 
-                    << ", actual : " << entity->get_type()
+                std::cout << "\t\t\tError : wrong universe size" << std::endl;
+                std::cout << "\t\t\t\tExpected size : " << expected_size 
+                    << ", actual size : " << places.size()
                     << std::endl;
-            } 
+            }
         }
+
+        for(int i=0; i<expected_size; i++)
+        {
+            sp_entity entity = places[i]->get_entity();
+            
+            if(entity->get_type() != TYPE_VOID)
+            {
+                is_passed = false;
+
+                if(verbose_unit_tests)
+                {
+                    std::cout << "\t\t\tError : wrong entity type" << std::endl;
+                    std::cout << "\t\t\t\tExpected  : " << TYPE_VOID 
+                        << ", actual : " << entity->get_type()
+                        << std::endl;
+                } 
+            }
+        }
+
+        return is_passed;
     }
 
-    return is_passed;
 }

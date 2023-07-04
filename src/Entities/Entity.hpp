@@ -29,12 +29,13 @@ protected:
 
 public:
 
-    Entity(std::string entity_name, std::string entity_type);
-    Entity(std::string entity_name, std::string entity_type, int val);
-    Entity(std::string entity_name, std::string entity_type, double val);
-    Entity(std::string entity_name, std::string entity_type, std::string val);
-    Entity(std::string entity_name, std::string entity_type, bool val);
+    Entity(std::string entity_name);
+    Entity(std::string entity_name, int val);
+    Entity(std::string entity_name, double val);
+    Entity(std::string entity_name, std::string val);
+    Entity(std::string entity_name, bool val);
 
+    virtual void init() {};
     /**
      * @brief execute the current entity
     */

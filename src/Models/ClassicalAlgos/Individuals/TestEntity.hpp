@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../Entities/VoidEntity.hpp"
+#include "../../../Entities/EntityVoid.hpp"
 
 class TestEntity : public Entity
 {

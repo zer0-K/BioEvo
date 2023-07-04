@@ -1,40 +1,40 @@
 #include "Entity.hpp"
 
-Entity::Entity(std::string entity_name, std::string type)
+Entity::Entity(std::string entity_name)
 {
     name = entity_name;
-    this->type = type;
 
     has_int = false;
     has_double = false;
     has_str = false;
+    has_bool = false;
 
     working_place_index = 0;
 }
 
-Entity::Entity(std::string entity_name, std::string entity_type, int val)
-    :Entity::Entity(entity_name, entity_type)
+Entity::Entity(std::string entity_name, int val)
+    :Entity::Entity(entity_name)
 {
     has_int = true;
     value_int = val;
 }
 
-Entity::Entity(std::string entity_name, std::string entity_type, double val)
-    :Entity::Entity(entity_name, entity_type)
+Entity::Entity(std::string entity_name, double val)
+    :Entity::Entity(entity_name)
 {
     has_double = true;
     value_double = val;
 }
 
-Entity::Entity(std::string entity_name, std::string entity_type, std::string val)
-    :Entity::Entity(entity_name, entity_type)
+Entity::Entity(std::string entity_name, std::string val)
+    :Entity::Entity(entity_name)
 {
     has_str= true;
     value_str = val;
 }
 
-Entity::Entity(std::string entity_name, std::string entity_type, bool val)
-    :Entity::Entity(entity_name, entity_type)
+Entity::Entity(std::string entity_name, bool val)
+    :Entity::Entity(entity_name)
 {
     has_bool = true;
     value_bool = val;

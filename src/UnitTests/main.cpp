@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     launch_tests_bio_evo();
     launch_tests_classical_algos();
     launch_tests_classical_info();
-    launch_tests_code_eaters();
+    ut_ce::launch_tests_code_eaters();
     launch_tests_economy();
     launch_tests_evo_algos();
     launch_tests_finance();

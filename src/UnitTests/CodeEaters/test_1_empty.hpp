@@ -3,17 +3,23 @@
 #include "test_1_1.hpp"
 #include "test_1_2.hpp"
 
-bool launch_tests_code_eaters_empty()
+
+namespace ut_ce
 {
-    bool is_passed = true;
 
-    std::cout << "\tEmpty :" << std::endl;
+    bool launch_tests_code_eaters_empty()
+    {
+        bool is_passed = true;
 
-    is_passed &= launch_test_code_eaters_void();
-    is_passed &= launch_test_code_eaters_types();
+        std::cout << "\tEmpty :" << std::endl;
 
-    std::cout << "\tEmpty : ";
-    passed_print(is_passed, 1);
+        is_passed &= launch_test_code_eaters_void();
+        is_passed &= launch_test_code_eaters_types();
 
-    return is_passed;
+        std::cout << "\tEmpty : ";
+        passed_print(is_passed, 1);
+
+        return is_passed;
+    }
+    
 }

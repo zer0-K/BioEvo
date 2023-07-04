@@ -20,7 +20,13 @@ const ColorMod redcol(FG_RED);
 
 const std::string TYPE_VOID = "void";
 const std::string TYPE_BOOL = "bool";
-const std::string TYPE_INT = "int";
+const std::string TYPE_INT  = "int";
+
+const std::string TYPE_LIST = "list";
+
+const std::string TYPE_UID = "unary id";
+const std::string TYPE_UNOT = "unary not";
+
 const std::string TYPE_LINEAR = "linear";
 
 
