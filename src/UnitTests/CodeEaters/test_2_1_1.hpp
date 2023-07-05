@@ -11,6 +11,12 @@
 #include "../../Entities/EntityInt.hpp"
 #include "../../Models/CodeEaters/Entities/EntityUnaryId.hpp"
 #include "../../Models/CodeEaters/Entities/EntityUnaryNot.hpp"
+#include "../../Models/CodeEaters/Entities/EntityAnd.hpp"
+#include "../../Models/CodeEaters/Entities/EntityOr.hpp"
+#include "../../Models/CodeEaters/Entities/EntityXor.hpp"
+#include "../../Models/CodeEaters/Entities/EntityNand.hpp"
+#include "../../Models/CodeEaters/Entities/EntityNor.hpp"
+#include "../../Models/CodeEaters/Entities/EntityNxor.hpp"
 
 namespace ut_ce
 {
@@ -21,11 +27,25 @@ namespace ut_ce
     {
         bool test_code_eaters_operations_booleans_uid(void);
         bool test_code_eaters_operations_booleans_unot(void);
+        bool test_code_eaters_operations_booleans_and(void);
+        bool test_code_eaters_operations_booleans_or(void);
+        bool test_code_eaters_operations_booleans_xor(void);
+        bool test_code_eaters_operations_booleans_nand(void);
+        bool test_code_eaters_operations_booleans_nor(void);
+        bool test_code_eaters_operations_booleans_nxor(void);
 
         bool is_passed = true;
 
+        std::cout << "\t\t\tBasic boolean operations : " << std::endl;
+
         is_passed &= test_code_eaters_operations_booleans_uid();
         is_passed &= test_code_eaters_operations_booleans_unot();
+        is_passed &= test_code_eaters_operations_booleans_and();
+        is_passed &= test_code_eaters_operations_booleans_or();
+        is_passed &= test_code_eaters_operations_booleans_xor();
+        is_passed &= test_code_eaters_operations_booleans_nand();
+        is_passed &= test_code_eaters_operations_booleans_nor();
+        is_passed &= test_code_eaters_operations_booleans_nxor();
 
         std::cout << "\t\t\tBasic boolean operations : ";
         passed_print(is_passed, 1);
@@ -219,5 +239,725 @@ namespace ut_ce
         return is_passed;
     }
 
+    /**
+     * @brief test AND 
+    */
+    bool test_code_eaters_operations_booleans_and()
+    {
+        bool is_passed = true;
 
+        sp_entity_and entity_and = std::make_shared<EntityAnd>("and entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- explicitly test all possibilities 
+
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
+        sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
+        entity_res->init();
+        entity_lop->init();
+        entity_rop->init();
+
+        std::vector<sp_entity> entries = {
+            entity_res, 
+            entity_lop,
+            entity_rop
+        };
+
+
+        // 1x1
+
+        res = entity_and->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : AND did not work on true true" << std::endl;
+        }
+
+        // 1x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_and->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : AND did not work on true false" << std::endl;
+        }
+
+        // 0x1
+
+        entries[1]->set_value_bool(false);
+        entries[2]->set_value_bool(true);
+        res = entity_and->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : AND did not work on false true" << std::endl;
+        }
+
+        // 0x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_and->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : AND did not work on false false" << std::endl;
+        }
+
+
+        //----- oversized and undersized arrays
+
+        // oversize
+
+        sp_entity_bool entity_over = std::make_shared<EntityBool>("entity over", true);
+        entity_over->init();
+        entries.push_back(entity_over);
+
+        res = entity_and->exec(entries);
+
+        if(res.size() != 4 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false
+            || res[3]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : AND did not work on oversized list of entities" << std::endl;
+        }
+
+        // undersize
+
+        entries.pop_back();
+        entries.pop_back();
+        res = entity_and->exec(entries);
+
+        if(res.size() != 2 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : AND did not work on undersized list of entities" << std::endl;
+        }
+
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - and : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * @brief test OR 
+    */
+    bool test_code_eaters_operations_booleans_or()
+    {
+        bool is_passed = true;
+
+        sp_entity_or entity_or = std::make_shared<EntityOr>("or entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- explicitly test all possibilities 
+
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
+        sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
+        entity_res->init();
+        entity_lop->init();
+        entity_rop->init();
+
+        std::vector<sp_entity> entries = {
+            entity_res, 
+            entity_lop,
+            entity_rop
+        };
+
+
+        // 1x1
+
+        res = entity_or->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : OR did not work on true true" << std::endl;
+        }
+
+        // 1x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_or->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : OR did not work on true false" << std::endl;
+        }
+
+        // 0x1
+
+        entries[1]->set_value_bool(false);
+        entries[2]->set_value_bool(true);
+        res = entity_or->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : OR did not work on false true" << std::endl;
+        }
+
+        // 0x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_or->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : OR did not work on false false" << std::endl;
+        }
+
+
+        //----- oversized and undersized arrays
+
+        // oversize
+
+        sp_entity_bool entity_over = std::make_shared<EntityBool>("entity over", true);
+        entity_over->init();
+        entries.push_back(entity_over);
+
+        res = entity_or->exec(entries);
+
+        if(res.size() != 4 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false
+            || res[3]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : OR did not work on oversized list of entities" << std::endl;
+        }
+
+        // undersize
+
+        entries.pop_back();
+        entries.pop_back();
+        res = entity_or->exec(entries);
+
+        if(res.size() != 2 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : OR did not work on undersized list of entities" << std::endl;
+        }
+
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - or : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * @brief test XOR 
+    */
+    bool test_code_eaters_operations_booleans_xor()
+    {
+        bool is_passed = true;
+
+        sp_entity_xor entity_xor = std::make_shared<EntityXor>("xor entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- explicitly test all possibilities 
+
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
+        sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
+        entity_res->init();
+        entity_lop->init();
+        entity_rop->init();
+
+        std::vector<sp_entity> entries = {
+            entity_res, 
+            entity_lop,
+            entity_rop
+        };
+
+
+        // 1x1
+
+        res = entity_xor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : XOR did not work on true true" << std::endl;
+        }
+
+        // 1x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_xor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : XOR did not work on true false" << std::endl;
+        }
+
+        // 0x1
+
+        entries[1]->set_value_bool(false);
+        entries[2]->set_value_bool(true);
+        res = entity_xor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : XOR did not work on false true" << std::endl;
+        }
+
+        // 0x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_xor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : XOR did not work on false false" << std::endl;
+        }
+
+
+        //----- oversized and undersized arrays
+
+        // oversize
+
+        sp_entity_bool entity_over = std::make_shared<EntityBool>("entity over", true);
+        entity_over->init();
+        entries.push_back(entity_over);
+
+        res = entity_xor->exec(entries);
+
+        if(res.size() != 4 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false
+            || res[3]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : XOR did not work on oversized list of entities" << std::endl;
+        }
+
+        // undersize
+
+        entries.pop_back();
+        entries.pop_back();
+        res = entity_xor->exec(entries);
+
+        if(res.size() != 2 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : XOR did not work on undersized list of entities" << std::endl;
+        }
+
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - xor : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * @brief test NAND 
+    */
+    bool test_code_eaters_operations_booleans_nand()
+    {
+        bool is_passed = true;
+
+        sp_entity_nand entity_nand = std::make_shared<EntityNand>("and entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- explicitly test all possibilities 
+
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
+        sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
+        entity_res->init();
+        entity_lop->init();
+        entity_rop->init();
+
+        std::vector<sp_entity> entries = {
+            entity_res, 
+            entity_lop,
+            entity_rop
+        };
+
+
+        // 1x1
+
+        res = entity_nand->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NAND did not work on true true" << std::endl;
+        }
+
+        // 1x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_nand->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NAND did not work on true false" << std::endl;
+        }
+
+        // 0x1
+
+        entries[1]->set_value_bool(false);
+        entries[2]->set_value_bool(true);
+        res = entity_nand->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NAND did not work on false true" << std::endl;
+        }
+
+        // 0x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_nand->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NAND did not work on false false" << std::endl;
+        }
+
+
+        //----- oversized and undersized arrays
+
+        // oversize
+
+        sp_entity_bool entity_over = std::make_shared<EntityBool>("entity over", true);
+        entity_over->init();
+        entries.push_back(entity_over);
+
+        res = entity_nand->exec(entries);
+
+        if(res.size() != 4 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false
+            || res[3]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NAND did not work on oversized list of entities" << std::endl;
+        }
+
+        // undersize
+
+        entries.pop_back();
+        entries.pop_back();
+        res = entity_nand->exec(entries);
+
+        if(res.size() != 2 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NAND did not work on undersized list of entities" << std::endl;
+        }
+
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - nand : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * @brief test NOR 
+    */
+    bool test_code_eaters_operations_booleans_nor()
+    {
+        bool is_passed = true;
+
+        sp_entity_nor entity_nor = std::make_shared<EntityNor>("or entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- explicitly test all possibilities 
+
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
+        sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
+        entity_res->init();
+        entity_lop->init();
+        entity_rop->init();
+
+        std::vector<sp_entity> entries = {
+            entity_res, 
+            entity_lop,
+            entity_rop
+        };
+
+
+        // 1x1
+
+        res = entity_nor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NOR did not work on true true" << std::endl;
+        }
+
+        // 1x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_nor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NOR did not work on true false" << std::endl;
+        }
+
+        // 0x1
+
+        entries[1]->set_value_bool(false);
+        entries[2]->set_value_bool(true);
+        res = entity_nor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NOR did not work on false true" << std::endl;
+        }
+
+        // 0x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_nor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NOR did not work on false false" << std::endl;
+        }
+
+
+        //----- oversized and undersized arrays
+
+        // oversize
+
+        sp_entity_bool entity_over = std::make_shared<EntityBool>("entity over", true);
+        entity_over->init();
+        entries.push_back(entity_over);
+
+        res = entity_nor->exec(entries);
+
+        if(res.size() != 4 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false
+            || res[3]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NOR did not work on oversized list of entities" << std::endl;
+        }
+
+        // undersize
+
+        entries.pop_back();
+        entries.pop_back();
+        res = entity_nor->exec(entries);
+
+        if(res.size() != 2 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NOR did not work on undersized list of entities" << std::endl;
+        }
+
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - nor : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * @brief test NXOR 
+    */
+    bool test_code_eaters_operations_booleans_nxor()
+    {
+        bool is_passed = true;
+
+        sp_entity_nxor entity_nxor = std::make_shared<EntityNxor>("nxor entity");
+        std::vector<sp_entity> res;
+
+
+        //---------- test on bool entities and other types
+
+
+        //----- explicitly test all possibilities 
+
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
+        sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
+        entity_res->init();
+        entity_lop->init();
+        entity_rop->init();
+
+        std::vector<sp_entity> entries = {
+            entity_res, 
+            entity_lop,
+            entity_rop
+        };
+
+
+        // 1x1
+
+        res = entity_nxor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NXOR did not work on true true" << std::endl;
+        }
+
+        // 1x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_nxor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != true || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NXOR did not work on true false" << std::endl;
+        }
+
+        // 0x1
+
+        entries[1]->set_value_bool(false);
+        entries[2]->set_value_bool(true);
+        res = entity_nxor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != false
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NXOR did not work on false true" << std::endl;
+        }
+
+        // 0x0
+
+        entries[2]->set_value_bool(false);
+        res = entity_nxor->exec(entries);
+
+        if(res.size() != 3 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NXOR did not work on false false" << std::endl;
+        }
+
+
+        //----- oversized and undersized arrays
+
+        // oversize
+
+        sp_entity_bool entity_over = std::make_shared<EntityBool>("entity over", true);
+        entity_over->init();
+        entries.push_back(entity_over);
+
+        res = entity_nxor->exec(entries);
+
+        if(res.size() != 4 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false || res[2]->get_value_bool() != false
+            || res[3]->get_value_bool() != true)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NXOR did not work on oversized list of entities" << std::endl;
+        }
+
+        // undersize
+
+        entries.pop_back();
+        entries.pop_back();
+        res = entity_nxor->exec(entries);
+
+        if(res.size() != 2 || !res[0]->has_value_bool() || res[0]->get_value_bool() != true
+            || res[1]->get_value_bool() != false)
+        {
+            is_passed = false;
+            std::cout << "\t\t\t\tError : NXOR did not work on undersized list of entities" << std::endl;
+        }
+
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\t\tTest code eaters - boolean functions - nxor : ";
+            passed_print(is_passed, 1);
+        }
+
+        return is_passed;
+    }
+
+ 
 }

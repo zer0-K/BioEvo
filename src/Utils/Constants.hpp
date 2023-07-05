@@ -26,6 +26,14 @@ const std::string TYPE_LIST = "list";
 
 const std::string TYPE_UID = "unary id";
 const std::string TYPE_UNOT = "unary not";
+const std::string TYPE_AND = "and";
+const std::string TYPE_OR = "or";
+const std::string TYPE_XOR = "xor";
+const std::string TYPE_NAND = "nand";
+const std::string TYPE_NOR = "nor";
+const std::string TYPE_NXOR = "nxor";
+
+const std::string TYPE_COPY = "copy";
 
 const std::string TYPE_LINEAR = "linear";
 

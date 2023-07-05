@@ -16,8 +16,7 @@ namespace ut_ce
     */
     bool launch_test_code_eaters_void()
     {
-        sp_univ_code_eaters build_universe_code_eaters_void(int);    
-        bool check_universe_code_eaters_void(sp_univ_code_eaters, int);
+        bool test_code_eaters_void_single(int);
 
         bool is_passed = true;
 
@@ -26,28 +25,45 @@ namespace ut_ce
             0, 1, 2, 10, 100
         };
 
+        std::cout << "\t\tUnit test code eaters universe of void entities : " << std::endl;
+
         for(int i=0; i<sizes.size(); i++)
         {
             int size_universe = sizes[i];
 
-            // build code eaters universe of wanted size
-            sp_univ_code_eaters universe_code_eaters = build_universe_code_eaters_void(size_universe);
-
-            // check if built universe is correct
-            bool res = check_universe_code_eaters_void(universe_code_eaters, size_universe);
-
-            is_passed &= res;
-
-            if(verbose_unit_tests)
-            {
-                std::cout << "\t\t\tCode eaters universe of void entities of size "
-                    << size_universe << " : ";
-                passed_print(res, 1);
-            } 
+            is_passed &= test_code_eaters_void_single(size_universe);
         }
 
         std::cout << "\t\tUnit test code eaters universe of void entities : ";
         passed_print(is_passed, 1);
+
+        return is_passed;
+    }
+
+    /**
+     * @brief run a single unit test for void entitiy universe
+    */
+    bool test_code_eaters_void_single(int size)
+    {
+        sp_univ_code_eaters build_universe_code_eaters_void(int);    
+        bool check_universe_code_eaters_void(sp_univ_code_eaters, int);
+
+        bool is_passed = true;
+
+        // build code eaters universe of wanted size
+        sp_univ_code_eaters universe_code_eaters = build_universe_code_eaters_void(size);
+
+        // check if built universe is correct
+        bool res = check_universe_code_eaters_void(universe_code_eaters, size);
+
+        is_passed &= res;
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\tCode eaters universe of void entities of size "
+                << size << " : ";
+            passed_print(res, 1);
+        }
 
         return is_passed;
     }

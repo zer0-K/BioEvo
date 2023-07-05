@@ -18,39 +18,73 @@ namespace ut_ce
     */
     bool launch_test_code_eaters_types()
     {
-        bool run_single_type(int, std::string);
+        bool run_single_type_bool(std::vector<int>);
+        bool run_single_type_int(std::vector<int>);
 
         bool is_passed = true;
-        bool is_passed_bool = true;
-        bool is_passed_int = true;
 
         // sizes
         std::vector<int> sizes{
             1, 2, 10, 100
         };
 
+        std::cout << "\t\tUnit test code eaters universe of basic type entities : " << std::endl;
+
+
+        is_passed &= run_single_type_bool(sizes);
+        is_passed &= run_single_type_int(sizes);
+
+
+        std::cout << "\t\tUnit test code eaters universe of basic type entities : ";
+        passed_print(is_passed, 1);
+
+        return is_passed;
+    }
+
+    /**
+     * @brief Unit test for bools
+    */
+    bool run_single_type_bool(std::vector<int> sizes)
+    {
+        bool run_single_type(int, std::string);
+
+        bool is_passed = true;
+
         for(int i=0; i<sizes.size(); i++)
         {
             int size_universe = sizes[i];
-
-            is_passed_bool &= run_single_type(size_universe, TYPE_BOOL);
-            is_passed_int &= run_single_type(size_universe, TYPE_INT);
+            is_passed &= run_single_type(size_universe, TYPE_BOOL);
         }
 
         if(verbose_unit_tests)
         {
             std::cout << "\t\t\tUnit test code eaters universe of bool entities : ";
-            passed_print(is_passed_bool, 1);
-
-            std::cout << "\t\t\tUnit test code eaters universe of int entities : ";
-            passed_print(is_passed_int, 1); 
+            passed_print(is_passed, 1);
         }
 
-        is_passed = is_passed_bool
-            && is_passed_int;
+        return is_passed;
+    }
 
-        std::cout << "\t\tUnit test code eaters universe of basic type entities : ";
-        passed_print(is_passed, 1);
+    /**
+     * @brief Unit test for ints 
+    */
+    bool run_single_type_int(std::vector<int> sizes)
+    {
+        bool run_single_type(int, std::string);
+
+        bool is_passed = true;
+
+        for(int i=0; i<sizes.size(); i++)
+        {
+            int size_universe = sizes[i];
+            is_passed &= run_single_type(size_universe, TYPE_INT);
+        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\t\t\tUnit test code eaters universe of int entities : ";
+            passed_print(is_passed, 1);
+        }
 
         return is_passed;
     }

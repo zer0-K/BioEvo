@@ -177,14 +177,18 @@ set(SOURCES_MODEL_BIO_EVO
 set(HEADERS_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.hpp
 # entities
-    src/Models/CodeEaters/Entities/EntityUnaryId.hpp
-        src/Models/CodeEaters/Entities/EntityUnaryNot.hpp)
+    src/Models/CodeEaters/Entities/EntityUnaryId.hpp src/Models/CodeEaters/Entities/EntityUnaryNot.hpp
+        src/Models/CodeEaters/Entities/EntityAnd.hpp src/Models/CodeEaters/Entities/EntityOr.hpp
+        src/Models/CodeEaters/Entities/EntityXor.hpp src/Models/CodeEaters/Entities/EntityNand.hpp 
+        src/Models/CodeEaters/Entities/EntityNor.hpp src/Models/CodeEaters/Entities/EntityNxor.hpp)
 
 set(SOURCES_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.cpp
 # entities
-    src/Models/CodeEaters/Entities/EntityUnaryId.cpp
-        src/Models/CodeEaters/Entities/EntityUnaryNot.cpp
+    src/Models/CodeEaters/Entities/EntityUnaryId.cpp src/Models/CodeEaters/Entities/EntityUnaryNot.cpp
+        src/Models/CodeEaters/Entities/EntityAnd.cpp src/Models/CodeEaters/Entities/EntityOr.cpp
+        src/Models/CodeEaters/Entities/EntityXor.cpp src/Models/CodeEaters/Entities/EntityNand.cpp 
+        src/Models/CodeEaters/Entities/EntityNor.cpp src/Models/CodeEaters/Entities/EntityNxor.cpp
 # experiments
     #src/Models/CodeEaters/Experiment/.cpp
     )
