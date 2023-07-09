@@ -85,6 +85,7 @@ namespace ut_ce
 
         // 1x0
 
+        entries[0]->set_value_bool(false);
         entries[1]->set_value_bool(true);
         entries[2]->set_value_bool(false);
         res = entity_xor->exec(entries);
@@ -98,6 +99,7 @@ namespace ut_ce
 
         // 0x1
 
+        entries[0]->set_value_bool(false);
         entries[1]->set_value_bool(false);
         entries[2]->set_value_bool(true);
         res = entity_xor->exec(entries);
@@ -111,6 +113,7 @@ namespace ut_ce
 
         // 0x0
 
+        entries[0]->set_value_bool(true);
         entries[1]->set_value_bool(false);
         entries[2]->set_value_bool(false);
         res = entity_xor->exec(entries);

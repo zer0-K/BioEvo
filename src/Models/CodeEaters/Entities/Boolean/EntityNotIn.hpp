@@ -3,9 +3,9 @@
 #include "EntityOperationBoolean.hpp"
 
 /**
- * @brief boolean id gate
+ * @brief boolean not gate
 */
-class EntityUnaryId : public EntityOperationBoolean
+class EntityNotIn : public EntityOperationBoolean
 {
 public:
     using EntityOperationBoolean::EntityOperationBoolean;
@@ -14,4 +14,5 @@ public:
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
 };
 
-typedef std::shared_ptr<EntityUnaryId> sp_entity_uid;
+typedef std::shared_ptr<EntityNotIn> sp_entity_notin;
+

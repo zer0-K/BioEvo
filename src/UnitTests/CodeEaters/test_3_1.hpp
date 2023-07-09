@@ -9,8 +9,8 @@
 #include "../../Entities/EntityBool.hpp"
 #include "../../Entities/EntityInt.hpp"
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
-#include "../../Models/CodeEaters/Entities/Boolean/EntityUnaryId.hpp"
-#include "../../Models/CodeEaters/Entities/Boolean/EntityUnaryNot.hpp"
+#include "../../Models/CodeEaters/Entities/Boolean/EntityBoolId.hpp"
+#include "../../Models/CodeEaters/Entities/Boolean/EntityNot.hpp"
 #include "../../Models/CodeEaters/Entities/Boolean/EntityAnd.hpp"
 #include "../../Models/CodeEaters/Entities/Boolean/EntityNand.hpp"
 #include "../../Models/CodeEaters/Entities/Boolean/EntityAndIn.hpp"
@@ -62,8 +62,10 @@ namespace ut_ce
 
         // boolean operations
 
-        sp_entity_uid entity_uid = std::make_shared<EntityUnaryId>("unitary id entity");
-        sp_entity_unot entity_unot = std::make_shared<EntityUnaryNot>("unitary not entity");
+        sp_entity_boolid entity_boolid = std::make_shared<EntityBoolId>("boolean id entity");
+        sp_entity_not entity_not = std::make_shared<EntityNot>("not entity");
+        sp_entity_boolidin entity_boolidin = std::make_shared<EntityBoolIdIn>("in place boolean id entity");
+        sp_entity_notin entity_notin = std::make_shared<EntityNotIn>("in place not entity");
 
         sp_entity_and entity_and = std::make_shared<EntityAnd>("and entity");
         sp_entity_nand entity_nand = std::make_shared<EntityNand>("nand entity");
@@ -82,8 +84,10 @@ namespace ut_ce
 
 
 
-        entity_uid->init();
-        entity_unot->init();
+        entity_boolid->init();
+        entity_not->init();
+        entity_boolidin->init();
+        entity_notin->init();
 
         entity_and->init();
         entity_nand->init();
@@ -102,8 +106,10 @@ namespace ut_ce
 
 
 
-        entity_uid->set_op_counter(op_counter);
-        entity_unot->set_op_counter(op_counter);
+        entity_boolid->set_op_counter(op_counter);
+        entity_not->set_op_counter(op_counter);
+        entity_boolidin->set_op_counter(op_counter);
+        entity_notin->set_op_counter(op_counter);
 
         entity_and->set_op_counter(op_counter);
         entity_nand->set_op_counter(op_counter);
@@ -147,8 +153,10 @@ namespace ut_ce
 
         //----- execute
 
-        entities_1 = entity_uid->exec(entities_1);
-        entities_1 = entity_unot->exec(entities_1);
+        entities_2 = entity_boolid->exec(entities_2);
+        entities_2 = entity_not->exec(entities_2);
+        entities_1 = entity_boolidin->exec(entities_1);
+        entities_1 = entity_notin->exec(entities_1);
 
         entities_3 = entity_and->exec(entities_3);
         entities_3 = entity_nand->exec(entities_3);
@@ -173,7 +181,8 @@ namespace ut_ce
             std::cout << "\t\twrong result size" << std::endl;
         }
 
-        if(op_counter->get_count(TYPE_UID) != 1 || op_counter->get_count(TYPE_UNOT) != 1)
+        if(op_counter->get_count(TYPE_BOOLID) != 1 || op_counter->get_count(TYPE_NOT) != 1
+            || op_counter->get_count(TYPE_BOOLIDIN) != 1 || op_counter->get_count(TYPE_NOTIN) != 1)
         {
             is_passed = false;
             std::cout << "\tError : counters did not work on boolean ids " << std::endl;
@@ -201,14 +210,17 @@ namespace ut_ce
         }
 
 
-        // test id again
+        // test id again : on int, double and str, it should not trigger counter
 
-        entities_3 = entity_uid->exec(entities_3);
-        if(op_counter->get_count(TYPE_UID) != 4)
+        sp_entity_int entity_int = std::make_shared<EntityInt>("int entity", 12);
+        entity_int->init();
+        entities_1 = entity_boolidin->exec(std::vector<sp_entity>{entity_int});
+        if(op_counter->get_count(TYPE_BOOLIDIN) != 1)
         {
             is_passed = false;
-            std::cout << "\tError : counters did not work on boolan multiple id " << std::endl;
+            std::cout << "\tError : counter was triggered on in place bool id with int entity " << std::endl;           
         }
+
 
         if(verbose_unit_tests)
         {

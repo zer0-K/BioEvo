@@ -58,7 +58,7 @@ namespace ut_ce
 
         //----- explicitly test all possibilities 
 
-        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", true);
+        sp_entity_bool entity_res = std::make_shared<EntityBool>("entity res", false);
         sp_entity_bool entity_lop = std::make_shared<EntityBool>("entity left", true);
         sp_entity_bool entity_rop = std::make_shared<EntityBool>("entity right", true);
         entity_res->init();
@@ -85,6 +85,7 @@ namespace ut_ce
 
         // 1x0
 
+        entries[0]->set_value_bool(false);
         entries[1]->set_value_bool(true);
         entries[2]->set_value_bool(false);
         res = entity_or->exec(entries);
@@ -98,6 +99,7 @@ namespace ut_ce
 
         // 0x1
 
+        entries[0]->set_value_bool(false);
         entries[1]->set_value_bool(false);
         entries[2]->set_value_bool(true);
         res = entity_or->exec(entries);
@@ -111,6 +113,7 @@ namespace ut_ce
 
         // 0x0
 
+        entries[0]->set_value_bool(true);
         entries[1]->set_value_bool(false);
         entries[2]->set_value_bool(false);
         res = entity_or->exec(entries);
@@ -208,6 +211,7 @@ namespace ut_ce
 
         // 1x0
 
+        entries[0]->set_value_bool(true);
         entries[1]->set_value_bool(true);
         entries[2]->set_value_bool(false);
         res = entity_nor->exec(entries);
@@ -221,6 +225,7 @@ namespace ut_ce
 
         // 0x1
 
+        entries[0]->set_value_bool(true);
         entries[1]->set_value_bool(false);
         entries[2]->set_value_bool(true);
         res = entity_nor->exec(entries);
@@ -234,6 +239,7 @@ namespace ut_ce
 
         // 0x0
 
+        entries[0]->set_value_bool(false);
         entries[1]->set_value_bool(false);
         entries[2]->set_value_bool(false);
         res = entity_nor->exec(entries);

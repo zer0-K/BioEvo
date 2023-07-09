@@ -179,7 +179,8 @@ set(HEADERS_MODEL_CODE_EATERS
 # entities
     src/Models/CodeEaters/Entities/EntityOperation.hpp
         src/Models/CodeEaters/Entities/Boolean/EntityOperationBoolean.hpp
-            src/Models/CodeEaters/Entities/Boolean/EntityUnaryId.hpp src/Models/CodeEaters/Entities/Boolean/EntityUnaryNot.hpp
+            src/Models/CodeEaters/Entities/Boolean/EntityBoolId.hpp src/Models/CodeEaters/Entities/Boolean/EntityBoolIdIn.hpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNot.hpp src/Models/CodeEaters/Entities/Boolean/EntityNotIn.hpp
             src/Models/CodeEaters/Entities/Boolean/EntityAnd.hpp src/Models/CodeEaters/Entities/Boolean/EntityAndIn.hpp
                 src/Models/CodeEaters/Entities/Boolean/EntityNand.hpp src/Models/CodeEaters/Entities/Boolean/EntityNandIn.hpp
             src/Models/CodeEaters/Entities/Boolean/EntityOr.hpp src/Models/CodeEaters/Entities/Boolean/EntityOrIn.hpp
@@ -196,7 +197,8 @@ set(SOURCES_MODEL_CODE_EATERS
 # entities
     src/Models/CodeEaters/Entities/EntityOperation.cpp
         src/Models/CodeEaters/Entities/Boolean/EntityOperationBoolean.cpp
-            src/Models/CodeEaters/Entities/Boolean/EntityUnaryId.cpp src/Models/CodeEaters/Entities/Boolean/EntityUnaryNot.cpp
+            src/Models/CodeEaters/Entities/Boolean/EntityBoolId.cpp src/Models/CodeEaters/Entities/Boolean/EntityBoolIdIn.cpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNot.cpp src/Models/CodeEaters/Entities/Boolean/EntityNotIn.cpp
             src/Models/CodeEaters/Entities/Boolean/EntityAnd.cpp src/Models/CodeEaters/Entities/Boolean/EntityAndIn.cpp
                 src/Models/CodeEaters/Entities/Boolean/EntityNand.cpp src/Models/CodeEaters/Entities/Boolean/EntityNandIn.cpp
             src/Models/CodeEaters/Entities/Boolean/EntityOr.cpp src/Models/CodeEaters/Entities/Boolean/EntityOrIn.cpp

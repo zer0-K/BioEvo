@@ -36,8 +36,10 @@ const std::string TYPE_OP_BOOL = "operation boolean";
 const std::string TYPE_OP_INT = "operation int";
 
 
-const std::string TYPE_UID = "unary id";
-const std::string TYPE_UNOT = "unary not";
+const std::string TYPE_BOOLID = "boolean id";
+const std::string TYPE_NOT = "not";
+const std::string TYPE_BOOLIDIN = "in place boolean id";
+const std::string TYPE_NOTIN = "in place not";
 const std::string TYPE_AND = "and";
 const std::string TYPE_NAND = "nand";
 const std::string TYPE_ANDIN = "andin";
