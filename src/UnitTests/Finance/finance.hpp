@@ -9,5 +9,5 @@ void launch_tests_finance()
     is_passed &= launch_test_finance_empty();
 
     std::cout << "Unit test finance : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

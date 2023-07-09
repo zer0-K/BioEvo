@@ -11,13 +11,13 @@ namespace ut_ce
     {
         bool is_passed = true;
 
-        std::cout << "\tEmpty :" << std::endl;
+        std::cout << "Code eaters - empty :" << std::endl;
 
         is_passed &= launch_test_code_eaters_void();
-        is_passed &= launch_test_code_eaters_types();
+        is_passed &= launch_test_code_eaters_basic_types();
 
-        std::cout << "\tEmpty : ";
-        passed_print(is_passed, 1);
+        std::cout << "Code eaters - empty : ";
+        passed_print(is_passed);
 
         return is_passed;
     }

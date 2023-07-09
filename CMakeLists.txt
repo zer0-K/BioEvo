@@ -177,18 +177,36 @@ set(SOURCES_MODEL_BIO_EVO
 set(HEADERS_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.hpp
 # entities
-    src/Models/CodeEaters/Entities/EntityUnaryId.hpp src/Models/CodeEaters/Entities/EntityUnaryNot.hpp
-        src/Models/CodeEaters/Entities/EntityAnd.hpp src/Models/CodeEaters/Entities/EntityOr.hpp
-        src/Models/CodeEaters/Entities/EntityXor.hpp src/Models/CodeEaters/Entities/EntityNand.hpp 
-        src/Models/CodeEaters/Entities/EntityNor.hpp src/Models/CodeEaters/Entities/EntityNxor.hpp)
+    src/Models/CodeEaters/Entities/EntityOperation.hpp
+        src/Models/CodeEaters/Entities/Boolean/EntityOperationBoolean.hpp
+            src/Models/CodeEaters/Entities/Boolean/EntityUnaryId.hpp src/Models/CodeEaters/Entities/Boolean/EntityUnaryNot.hpp
+            src/Models/CodeEaters/Entities/Boolean/EntityAnd.hpp src/Models/CodeEaters/Entities/Boolean/EntityAndIn.hpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNand.hpp src/Models/CodeEaters/Entities/Boolean/EntityNandIn.hpp
+            src/Models/CodeEaters/Entities/Boolean/EntityOr.hpp src/Models/CodeEaters/Entities/Boolean/EntityOrIn.hpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNor.hpp src/Models/CodeEaters/Entities/Boolean/EntityNorIn.hpp
+            src/Models/CodeEaters/Entities/Boolean/EntityXor.hpp src/Models/CodeEaters/Entities/Boolean/EntityXorIn.hpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNxor.hpp src/Models/CodeEaters/Entities/Boolean/EntityNxorIn.hpp
+        src/Models/CodeEaters/Entities/Int/EntityOperationInt.hpp
+            src/Models/CodeEaters/Entities/Int/EntityIncr.hpp
+    src/Models/CodeEaters/Entities/Meta/EntityMeta.hpp
+        src/Models/CodeEaters/Entities/Meta/EntityOpCounter.hpp)
 
 set(SOURCES_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.cpp
 # entities
-    src/Models/CodeEaters/Entities/EntityUnaryId.cpp src/Models/CodeEaters/Entities/EntityUnaryNot.cpp
-        src/Models/CodeEaters/Entities/EntityAnd.cpp src/Models/CodeEaters/Entities/EntityOr.cpp
-        src/Models/CodeEaters/Entities/EntityXor.cpp src/Models/CodeEaters/Entities/EntityNand.cpp 
-        src/Models/CodeEaters/Entities/EntityNor.cpp src/Models/CodeEaters/Entities/EntityNxor.cpp
+    src/Models/CodeEaters/Entities/EntityOperation.cpp
+        src/Models/CodeEaters/Entities/Boolean/EntityOperationBoolean.cpp
+            src/Models/CodeEaters/Entities/Boolean/EntityUnaryId.cpp src/Models/CodeEaters/Entities/Boolean/EntityUnaryNot.cpp
+            src/Models/CodeEaters/Entities/Boolean/EntityAnd.cpp src/Models/CodeEaters/Entities/Boolean/EntityAndIn.cpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNand.cpp src/Models/CodeEaters/Entities/Boolean/EntityNandIn.cpp
+            src/Models/CodeEaters/Entities/Boolean/EntityOr.cpp src/Models/CodeEaters/Entities/Boolean/EntityOrIn.cpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNor.cpp src/Models/CodeEaters/Entities/Boolean/EntityNorIn.cpp
+            src/Models/CodeEaters/Entities/Boolean/EntityXor.cpp src/Models/CodeEaters/Entities/Boolean/EntityXorIn.cpp
+                src/Models/CodeEaters/Entities/Boolean/EntityNxor.cpp src/Models/CodeEaters/Entities/Boolean/EntityNxorIn.cpp
+        src/Models/CodeEaters/Entities/Int/EntityOperationInt.cpp
+            src/Models/CodeEaters/Entities/Int/EntityIncr.cpp
+    src/Models/CodeEaters/Entities/Meta/EntityMeta.cpp
+        src/Models/CodeEaters/Entities/Meta/EntityOpCounter.cpp
 # experiments
     #src/Models/CodeEaters/Experiment/.cpp
     )
@@ -327,6 +345,8 @@ set(HEADERS_UNIT_TESTS_CODE_EATERS
     src/UnitTests/CodeEaters/test_2_operations.hpp
         src/UnitTests/CodeEaters/test_2_1.hpp
             src/UnitTests/CodeEaters/test_2_1_1.hpp
+        src/UnitTests/CodeEaters/test_2_2.hpp
+            src/UnitTests/CodeEaters/test_2_2_1.hpp
     src/UnitTests/CodeEaters/test_3_metadata.hpp
         src/UnitTests/CodeEaters/test_3_1.hpp)
 

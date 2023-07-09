@@ -9,5 +9,5 @@ void launch_tests_maths()
     is_passed &= launch_test_maths_empty();
 
     std::cout << "Unit test maths : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

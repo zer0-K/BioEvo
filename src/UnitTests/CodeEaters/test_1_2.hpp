@@ -16,27 +16,26 @@ namespace ut_ce
     /**
      * @brief Test universes with entities for each type
     */
-    bool launch_test_code_eaters_types()
+    bool launch_test_code_eaters_basic_types()
     {
         bool run_single_type_bool(std::vector<int>);
         bool run_single_type_int(std::vector<int>);
 
         bool is_passed = true;
 
+        std::cout << "Code eaters - empty - basic types : " << std::endl;
+
         // sizes
         std::vector<int> sizes{
             1, 2, 10, 100
         };
 
-        std::cout << "\t\tUnit test code eaters universe of basic type entities : " << std::endl;
-
-
         is_passed &= run_single_type_bool(sizes);
         is_passed &= run_single_type_int(sizes);
 
 
-        std::cout << "\t\tUnit test code eaters universe of basic type entities : ";
-        passed_print(is_passed, 1);
+        std::cout << "Code eaters - empty - basic types : ";
+        passed_print(is_passed);
 
         return is_passed;
     }
@@ -58,8 +57,8 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "\t\t\tUnit test code eaters universe of bool entities : ";
-            passed_print(is_passed, 1);
+            std::cout << "Code eaters - empty - basic types - bool : ";
+            passed_print(is_passed);
         }
 
         return is_passed;
@@ -82,8 +81,8 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "\t\t\tUnit test code eaters universe of int entities : ";
-            passed_print(is_passed, 1);
+            std::cout << "Code eaters - empty - basic types - int : ";
+            passed_print(is_passed);
         }
 
         return is_passed;
@@ -107,10 +106,10 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "\t\t\t\tCode eaters universe of "
-                << type_code_eater <<" entities of size "
+            std::cout << "Code eaters - empty - basic types - "
+                << type_code_eater <<" - size "
                 << size << " : ";
-            passed_print(is_passed, 1);
+            passed_print(is_passed);
         } 
 
         return is_passed;
@@ -183,8 +182,8 @@ namespace ut_ce
 
             if(verbose_unit_tests)
             {
-                std::cout << "\t\t\t\tError : wrong universe size" << std::endl;
-                std::cout << "\t\t\t\t\tExpected size : " << expected_size 
+                std::cout << "\tError : wrong universe size" << std::endl;
+                std::cout << "\t\tExpected size : " << expected_size 
                     << ", actual size : " << places.size()
                     << std::endl;
             }
@@ -216,8 +215,8 @@ namespace ut_ce
 
             if(verbose_unit_tests)
             {
-                std::cout << "\t\t\t\tError : wrong entity type" << std::endl
-                    << "\t\t\t\t\tExpected  : " << expected_type 
+                std::cout << "\tError : wrong entity type" << std::endl
+                    << "\t\tExpected  : " << expected_type 
                     << ", actual : "            << entity->get_type()
                     << std::endl;
             } 
@@ -239,8 +238,8 @@ namespace ut_ce
 
             if(verbose_unit_tests)
             {
-                std::cout << "\t\t\t\tError : wrong entity type" << std::endl
-                    << "\t\t\t\t\tExpected  : " << entity_type 
+                std::cout << "\t\tError : wrong entity type" << std::endl
+                    << "\t\t\tExpected  : " << entity_type 
                     << ", actual : "        << entity->get_type()
                     << std::endl;
             }
@@ -254,7 +253,7 @@ namespace ut_ce
 
                 if(verbose_unit_tests)
                 {
-                    std::cout << "\t\t\t\tError : bool entity has no bool value" << std::endl;
+                    std::cout << "\tError : bool entity has no bool value" << std::endl;
                 }
             }
 
@@ -264,8 +263,8 @@ namespace ut_ce
 
                 if(verbose_unit_tests)
                 {
-                    std::cout << "\t\t\t\tError : wrong entity value" << std::endl
-                        << "\t\t\t\t\tExpected  : " << func_1_2_bool(i) 
+                    std::cout << "\tError : wrong entity value" << std::endl
+                        << "\t\tExpected  : " << func_1_2_bool(i) 
                         << ", actual : "        << entity->get_value_bool()
                         << std::endl;
                 }
@@ -279,7 +278,7 @@ namespace ut_ce
 
                 if(verbose_unit_tests)
                 {
-                    std::cout << "\t\t\t\tError : int entity has no int value" << std::endl;
+                    std::cout << "\tError : int entity has no int value" << std::endl;
                 }
             }
 
@@ -289,8 +288,8 @@ namespace ut_ce
 
                 if(verbose_unit_tests)
                 {
-                    std::cout << "\t\t\t\tError : wrong entity value" << std::endl
-                        << "\t\t\t\t\tExpected  : " << func_1_2_int(i) 
+                    std::cout << "\tError : wrong entity value" << std::endl
+                        << "\t\tExpected  : " << func_1_2_int(i) 
                         << ", actual : "        << entity->get_value_int()
                         << std::endl;
                 }

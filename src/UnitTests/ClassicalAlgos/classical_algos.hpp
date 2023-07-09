@@ -9,5 +9,5 @@ void launch_tests_classical_algos()
     is_passed &= launch_test_classical_algos_empty();
 
     std::cout << "Unit test classical algorithms : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

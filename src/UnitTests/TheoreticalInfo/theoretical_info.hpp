@@ -9,5 +9,5 @@ void launch_tests_th_info()
     is_passed &= launch_test_th_info_empty();
 
     std::cout << "Unit test theoretical computer science : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

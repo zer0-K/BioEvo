@@ -40,12 +40,12 @@ bool launch_test_finance_empty()
         {
             std::cout << "\t\tEmpty finance universe of size "
                 << size_universe << " : ";
-            passed_print(res, 2);
+            passed_print(res);
         } 
     }
 
     std::cout << "\tUnit test empty finance universe : ";
-    passed_print(is_passed, 1);
+    passed_print(is_passed);
 
     return is_passed;
 }
@@ -75,7 +75,7 @@ bool check_universe(sp_univ_finance universe, int expected_size)
     if(verbose_unit_tests && places.size() != expected_size)
     {
         std::cout << "\t\t\tError : wrong universe size" << std::endl;
-        std::cout << "\t\t\t\tExpected size : " << expected_size 
+        std::cout << "\t\tExpected size : " << expected_size 
             << ", actual size : " << places.size()
             << std::endl;
         is_passed = false;
@@ -88,7 +88,7 @@ bool check_universe(sp_univ_finance universe, int expected_size)
         if(verbose_unit_tests && entity->get_type() != TYPE_VOID)
         {
             std::cout << "\t\t\tError : wrong entity type" << std::endl;
-            std::cout << "\t\t\t\tExpected  : " << TYPE_VOID 
+            std::cout << "\t\tExpected  : " << TYPE_VOID 
                 << ", actual : " << entity->get_type()
                 << std::endl;
             is_passed = false; 

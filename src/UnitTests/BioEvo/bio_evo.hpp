@@ -9,5 +9,5 @@ void launch_tests_bio_evo()
     is_passed &= launch_test_bio_evo_empty();
 
     std::cout << "Unit test evolutionary biology : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

@@ -10,12 +10,12 @@ namespace ut_ce
     {
         bool is_passed = true;
 
-        std::cout << "\t\tBoolean operations : " << std::endl;
+        std::cout << "Code eaters - operations - booleans : " << std::endl;
 
         is_passed &= launch_test_code_eaters_operations_booleans_basic();
 
-        std::cout << "\t\tBoolean operations : ";
-        passed_print(is_passed, 1);
+        std::cout << "Code eaters - operations - booleans : ";
+        passed_print(is_passed);
 
         return is_passed;
     }

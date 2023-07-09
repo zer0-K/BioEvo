@@ -20,12 +20,12 @@ namespace ut_ce
 
         bool is_passed = true;
 
+        std::cout << "Code eaters - empty - void : " << std::endl;
+
         // sizes
         std::vector<int> sizes{
             0, 1, 2, 10, 100
         };
-
-        std::cout << "\t\tUnit test code eaters universe of void entities : " << std::endl;
 
         for(int i=0; i<sizes.size(); i++)
         {
@@ -34,8 +34,8 @@ namespace ut_ce
             is_passed &= test_code_eaters_void_single(size_universe);
         }
 
-        std::cout << "\t\tUnit test code eaters universe of void entities : ";
-        passed_print(is_passed, 1);
+        std::cout << "Code eaters - empty - void : ";
+        passed_print(is_passed);
 
         return is_passed;
     }
@@ -60,9 +60,9 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "\t\t\tCode eaters universe of void entities of size "
+            std::cout << "Code eaters - empty - void - size "
                 << size << " : ";
-            passed_print(res, 1);
+            passed_print(res);
         }
 
         return is_passed;
@@ -96,8 +96,8 @@ namespace ut_ce
 
             if(verbose_unit_tests)
             {
-                std::cout << "\t\t\tError : wrong universe size" << std::endl;
-                std::cout << "\t\t\t\tExpected size : " << expected_size 
+                std::cout << "\tError : wrong universe size" << std::endl;
+                std::cout << "\t\tExpected size : " << expected_size 
                     << ", actual size : " << places.size()
                     << std::endl;
             }
@@ -113,8 +113,8 @@ namespace ut_ce
 
                 if(verbose_unit_tests)
                 {
-                    std::cout << "\t\t\tError : wrong entity type" << std::endl;
-                    std::cout << "\t\t\t\tExpected  : " << TYPE_VOID 
+                    std::cout << "\tError : wrong entity type" << std::endl;
+                    std::cout << "\t\tExpected  : " << TYPE_VOID 
                         << ", actual : " << entity->get_type()
                         << std::endl;
                 } 

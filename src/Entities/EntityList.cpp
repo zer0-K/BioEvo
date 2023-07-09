@@ -5,6 +5,7 @@
 void EntityList::init()
 {
     type = TYPE_LIST;
+    add_type(TYPE_LIST);
 }
 
 std::vector<sp_entity> EntityList::exec(std::vector<sp_entity> entries)

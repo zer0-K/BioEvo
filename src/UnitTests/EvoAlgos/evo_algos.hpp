@@ -9,5 +9,5 @@ void launch_tests_evo_algos()
     is_passed &= launch_test_evo_algos_empty();
 
     std::cout << "Unit test evolutionary algorithms : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

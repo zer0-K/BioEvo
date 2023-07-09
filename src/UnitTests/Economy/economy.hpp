@@ -9,5 +9,5 @@ void launch_tests_economy()
     is_passed &= launch_test_economy_empty();
 
     std::cout << "Unit test economy : ";
-    passed_print(is_passed, 0);
+    passed_print(is_passed);
 }

@@ -9,12 +9,12 @@ namespace ut_ce
     {
         bool is_passed = true;
 
-        std::cout << "\tMetadata : " << std::endl;
+        std::cout << "Code eaters - meta : " << std::endl;
 
-        is_passed &= launch_tests_code_eaters_metadata();
+        is_passed &= launch_test_code_eaters_metadata_counter();
 
-        std::cout << "\tMetadata : ";
-        passed_print(is_passed, 1);
+        std::cout << "Code eaters - meta : ";
+        passed_print(is_passed);
 
         return is_passed;
     }
