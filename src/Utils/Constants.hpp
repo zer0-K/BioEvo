@@ -54,6 +54,14 @@ const std::string TYPE_XORIN = "xorin";
 const std::string TYPE_NXORIN = "nxorin";
 
 const std::string TYPE_INCR = "increment";
+const std::string TYPE_ADDINT = "int addition";
+const std::string TYPE_ADDINTIN = "in place int addition";
+const std::string TYPE_SUBINT = "int substraction";
+const std::string TYPE_SUBINTIN = "in place int substraction";
+const std::string TYPE_MULTINT = "int multiplication";
+const std::string TYPE_MULTINTIN = "in place int multiplication";
+const std::string TYPE_DIVINT = "int division";
+const std::string TYPE_DIVINTIN = "in place int division";
 
 const std::string TYPE_COPY = "copy";
 

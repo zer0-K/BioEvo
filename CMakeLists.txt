@@ -188,7 +188,11 @@ set(HEADERS_MODEL_CODE_EATERS
             src/Models/CodeEaters/Entities/Boolean/EntityXor.hpp src/Models/CodeEaters/Entities/Boolean/EntityXorIn.hpp
                 src/Models/CodeEaters/Entities/Boolean/EntityNxor.hpp src/Models/CodeEaters/Entities/Boolean/EntityNxorIn.hpp
         src/Models/CodeEaters/Entities/Int/EntityOperationInt.hpp
-            src/Models/CodeEaters/Entities/Int/EntityIncr.hpp
+            src/Models/CodeEaters/Entities/Int/EntityIncr.hpp 
+            src/Models/CodeEaters/Entities/Int/EntityAddInt.hpp src/Models/CodeEaters/Entities/Int/EntityAddIntIn.hpp
+                src/Models/CodeEaters/Entities/Int/EntitySubInt.hpp src/Models/CodeEaters/Entities/Int/EntitySubIntIn.hpp
+            src/Models/CodeEaters/Entities/Int/EntityMultInt.hpp src/Models/CodeEaters/Entities/Int/EntityMultIntIn.hpp
+                src/Models/CodeEaters/Entities/Int/EntityDivInt.hpp src/Models/CodeEaters/Entities/Int/EntityDivIntIn.hpp
     src/Models/CodeEaters/Entities/Meta/EntityMeta.hpp
         src/Models/CodeEaters/Entities/Meta/EntityOpCounter.hpp)
 
@@ -206,7 +210,11 @@ set(SOURCES_MODEL_CODE_EATERS
             src/Models/CodeEaters/Entities/Boolean/EntityXor.cpp src/Models/CodeEaters/Entities/Boolean/EntityXorIn.cpp
                 src/Models/CodeEaters/Entities/Boolean/EntityNxor.cpp src/Models/CodeEaters/Entities/Boolean/EntityNxorIn.cpp
         src/Models/CodeEaters/Entities/Int/EntityOperationInt.cpp
-            src/Models/CodeEaters/Entities/Int/EntityIncr.cpp
+            src/Models/CodeEaters/Entities/Int/EntityIncr.cpp 
+            src/Models/CodeEaters/Entities/Int/EntityAddInt.cpp src/Models/CodeEaters/Entities/Int/EntityAddIntIn.cpp
+                src/Models/CodeEaters/Entities/Int/EntitySubInt.cpp src/Models/CodeEaters/Entities/Int/EntitySubIntIn.cpp
+            src/Models/CodeEaters/Entities/Int/EntityMultInt.cpp src/Models/CodeEaters/Entities/Int/EntityMultIntIn.cpp
+                src/Models/CodeEaters/Entities/Int/EntityDivInt.cpp src/Models/CodeEaters/Entities/Int/EntityDivIntIn.cpp
     src/Models/CodeEaters/Entities/Meta/EntityMeta.cpp
         src/Models/CodeEaters/Entities/Meta/EntityOpCounter.cpp
 # experiments
@@ -347,8 +355,12 @@ set(HEADERS_UNIT_TESTS_CODE_EATERS
     src/UnitTests/CodeEaters/test_2_operations.hpp
         src/UnitTests/CodeEaters/test_2_1.hpp
             src/UnitTests/CodeEaters/test_2_1_1.hpp
+                src/UnitTests/CodeEaters/test_2_1_1_1.hpp src/UnitTests/CodeEaters/test_2_1_1_2.hpp
+                src/UnitTests/CodeEaters/test_2_1_1_3.hpp src/UnitTests/CodeEaters/test_2_1_1_4.hpp
         src/UnitTests/CodeEaters/test_2_2.hpp
             src/UnitTests/CodeEaters/test_2_2_1.hpp
+                src/UnitTests/CodeEaters/test_2_2_1_1.hpp src/UnitTests/CodeEaters/test_2_2_1_2.hpp
+                src/UnitTests/CodeEaters/test_2_2_1_3.hpp
     src/UnitTests/CodeEaters/test_3_metadata.hpp
         src/UnitTests/CodeEaters/test_3_1.hpp)
 

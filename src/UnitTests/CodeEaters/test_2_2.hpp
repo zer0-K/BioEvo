@@ -12,7 +12,7 @@ namespace ut_ce
 
         std::cout << "Code eaters - operations - int : " << std::endl;
 
-        is_passed &= launch_test_code_eaters_operations_ints_basic();
+        is_passed &= launch_test_code_eaters_operations_int_basic();
 
         std::cout << "Code eaters - operations - int : ";
         passed_print(is_passed);
