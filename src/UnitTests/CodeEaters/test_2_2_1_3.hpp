@@ -8,10 +8,10 @@
 #include "../../Utils/Constants.hpp"
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
 #include "../../Entities/EntityInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityMultInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityMultIntIn.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityDivInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityDivIntIn.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityMultInt.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityMultIntIn.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityDivInt.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityDivIntIn.hpp"
 
 namespace ut_ce
 {
@@ -378,7 +378,7 @@ namespace ut_ce
         entries = entity_divintin->exec(entries);
 
         if(entries.size() != 2 || !entries[0]->has_value_int() || entries[0]->get_value_int() != lint/rint
-            || entries[1]->get_value_int() != rint || entries[2]->get_value_int() != lint)
+            || entries[1]->get_value_int() != rint)
         {
             is_passed = false;
             std::cout << "\tError : in place int division did not work on " << lint

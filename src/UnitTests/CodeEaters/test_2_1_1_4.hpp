@@ -9,10 +9,10 @@
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
 #include "../../Entities/EntityBool.hpp"
 #include "../../Entities/EntityInt.hpp"
-#include "../../Models/CodeEaters/Entities/Boolean/EntityXor.hpp"
-#include "../../Models/CodeEaters/Entities/Boolean/EntityNxor.hpp"
-#include "../../Models/CodeEaters/Entities/Boolean/EntityXorIn.hpp"
-#include "../../Models/CodeEaters/Entities/Boolean/EntityNxorIn.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Boolean/EntityXor.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Boolean/EntityNxor.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Boolean/EntityXorIn.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Boolean/EntityNxorIn.hpp"
 
 namespace ut_ce
 {

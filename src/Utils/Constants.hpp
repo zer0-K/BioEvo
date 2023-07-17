@@ -25,6 +25,19 @@ const std::string TYPE_INT  = "int";
 
 const std::string TYPE_LIST = "list";
 
+// -------------------- CLASSICAL ALGOS
+
+
+const std::string CA_DATA  = "classical data";
+const std::string CA_DATA_TEST = "classical test data";
+const std::string CA_DATA_VALIDATION = "classical validation data";
+
+const std::string CA_INDIVIDUAL = "classical algo";
+const std::string CA_LIN_SIMP = "simple linear";
+
+
+// -------------------- CODE EATER
+
 
 const std::string TYPE_META = "meta";
 const std::string TYPE_OP_COUNTER = "operation counter";
@@ -64,6 +77,9 @@ const std::string TYPE_DIVINT = "int division";
 const std::string TYPE_DIVINTIN = "in place int division";
 
 const std::string TYPE_COPY = "copy";
+const std::string TYPE_SHUFFLE = "shuffle";
+
+const std::string TYPE_CE = "code eater";
 
 const std::string TYPE_LINEAR = "linear";
 

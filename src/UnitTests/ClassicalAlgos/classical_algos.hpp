@@ -1,13 +1,22 @@
+#pragma once
+
 #include "test_1_empty.hpp"
+#include "test_2_genes.hpp"
 
-void launch_tests_classical_algos()
+namespace ut_ca
 {
-    bool is_passed = true;
 
-    std::cout << "Unit test classical algorithms : " << std::endl;
+    void launch_tests_classical_algos()
+    {
+        bool is_passed = true;
 
-    is_passed &= launch_test_classical_algos_empty();
+        std::cout << "Unit test classical algorithms : " << std::endl;
 
-    std::cout << "Unit test classical algorithms : ";
-    passed_print(is_passed);
+        is_passed &= launch_tests_classical_algos_empty();
+        is_passed &= launch_tests_classical_algos_genes();
+
+        std::cout << "Unit test classical algorithms : ";
+        passed_print(is_passed);
+    } 
+
 }

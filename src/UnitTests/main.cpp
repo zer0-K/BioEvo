@@ -11,7 +11,7 @@
 int main(int argc, char* argv[])
 {
     launch_tests_bio_evo();
-    launch_tests_classical_algos();
+    ut_ca::launch_tests_classical_algos();
     launch_tests_classical_info();
     ut_ce::launch_tests_code_eaters();
     launch_tests_economy();

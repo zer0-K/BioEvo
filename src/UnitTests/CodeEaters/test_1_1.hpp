@@ -54,15 +54,13 @@ namespace ut_ce
         sp_univ_code_eaters universe_code_eaters = build_universe_code_eaters_void(size);
 
         // check if built universe is correct
-        bool res = check_universe_code_eaters_void(universe_code_eaters, size);
-
-        is_passed &= res;
+        is_passed = check_universe_code_eaters_void(universe_code_eaters, size);
 
         if(verbose_unit_tests)
         {
             std::cout << "Code eaters - empty - void - size "
                 << size << " : ";
-            passed_print(res);
+            passed_print(is_passed);
         }
 
         return is_passed;

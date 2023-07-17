@@ -9,7 +9,7 @@
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
 #include "../../Entities/EntityBool.hpp"
 #include "../../Entities/EntityInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityIncr.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityIncr.hpp"
 
 namespace ut_ce
 {

@@ -8,10 +8,10 @@
 #include "../../Utils/Constants.hpp"
 #include "../../Models/CodeEaters/Universe/UniverseCodeEaters.hpp"
 #include "../../Entities/EntityInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityAddInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntityAddIntIn.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntitySubInt.hpp"
-#include "../../Models/CodeEaters/Entities/Int/EntitySubIntIn.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityAddInt.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntityAddIntIn.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntitySubInt.hpp"
+#include "../../Models/CodeEaters/Entities/Base/Int/EntitySubIntIn.hpp"
 
 namespace ut_ce
 {

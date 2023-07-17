@@ -10,7 +10,7 @@ class rand_gen
 public:
     std::default_random_engine generator;
     std::normal_distribution<double> normal;
-    static void* rg;
+    static rand_gen* rg;
 
 private:
 
@@ -24,10 +24,10 @@ public:
     static double rand_double(int low_bound, int up_bound)
     {
         if(rg == NULL)
-            rg = (void*) new rand_gen();
+            rg = new rand_gen();
 
         std::uniform_real_distribution<double> unif(low_bound,up_bound);
-        double random_double = unif(((rand_gen*)rg)->generator);
+        double random_double = unif(rg->generator);
      
         return random_double;
     }
@@ -35,11 +35,11 @@ public:
     static double rand_normal(double mean, double std_dev)
     {
         if(rg == NULL)
-            rg = (void*) new rand_gen();
+            rg = new rand_gen();
 
-        double random_double = ((rand_gen*)rg)->normal(((rand_gen*)rg)->generator);
+        double random_double = rg->normal(((rand_gen*)rg)->generator);
         return mean + std_dev * random_double;
     }
 };
 
-void* rand_gen::rg = NULL;
+inline rand_gen* rand_gen::rg = NULL;

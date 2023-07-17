@@ -124,33 +124,42 @@ set(SOURCES_MODEL_MATHS
 set(HEADERS_MODEL_CLASSICAL_ALGOS 
 # Biology
     src/Models/ClassicalAlgos/Biology/AbstractTrait.hpp src/Models/ClassicalAlgos/Biology/Trait.hpp 
-    src/Models/ClassicalAlgos/Biology/Gene/Gene.hpp
-# Individuals
-    # Algos
-    src/Models/ClassicalAlgos/Individuals/IndividualLinear.hpp
-    # Entities
-    src/Models/ClassicalAlgos/Individuals/LinearEntity.hpp
+    src/Models/ClassicalAlgos/Biology/Gene/Gene.hpp src/Models/ClassicalAlgos/Biology/Gene/GeneGaussian.hpp
+# Algos
+    src/Models/ClassicalAlgos/Individuals/ClassicalIndividual.hpp
+        src/Models/ClassicalAlgos/Individuals/LinearSimple.hpp
+# Data
+    src/Models/ClassicalAlgos/Data/ClassicalData.hpp
+        src/Models/ClassicalAlgos/Data/ClassicalTestData.hpp src/Models/ClassicalAlgos/Data/ClassicalValidationData.hpp 
+    src/Models/ClassicalAlgos/Data/Generation/DataGenerator.hpp
+        src/Models/ClassicalAlgos/Data/Generation/DataGeneratorLinear.hpp
 # Universes
-    src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.hpp)
+    src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.hpp
+# Experiments
+    src/Models/ClassicalAlgos/Experiment/LinearAlgos.hpp
+        src/Models/ClassicalAlgos/Experiment/SimpleLinearAlgos.hpp)
 
 set(SOURCES_MODEL_CLASSICAL_ALGOS
 # Biology
-    src/Models/ClassicalAlgos/Biology/Gene/Gene.cpp
-# Individuals
-    # Algos
-    src/Models/ClassicalAlgos/Individuals/IndividualLinear.cpp
-    # Entities
-    src/Models/ClassicalAlgos/Individuals/LinearEntity.cpp
+    src/Models/ClassicalAlgos/Biology/Gene/Gene.cpp src/Models/ClassicalAlgos/Biology/Gene/GeneGaussian.cpp
+# Algos
+    src/Models/ClassicalAlgos/Individuals/ClassicalIndividual.cpp
+        src/Models/ClassicalAlgos/Individuals/LinearSimple.cpp
+# Data
+    src/Models/ClassicalAlgos/Data/ClassicalData.cpp
+        src/Models/ClassicalAlgos/Data/ClassicalTestData.cpp src/Models/ClassicalAlgos/Data/ClassicalValidationData.cpp 
+    src/Models/ClassicalAlgos/Data/Generation/DataGenerator.cpp
+        src/Models/ClassicalAlgos/Data/Generation/DataGeneratorLinear.cpp
 # Universes
     src/Models/ClassicalAlgos/Universe/UniverseClassicalAlgos.cpp
-# experiments
-    #src/Models/ClassicalAlgos/Experiment/.cpp
-    )
+# Experiments
+    src/Models/ClassicalAlgos/Experiment/LinearAlgos.cpp
+        src/Models/ClassicalAlgos/Experiment/SimpleLinearAlgos.cpp)
 
 
 # ********************************* Evolutionary algorithms *********************************
 
-set(HEADERS_MODEL_EVO_ALGInstruction.hppOS
+set(HEADERS_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp)
 
 set(SOURCES_MODEL_EVO_ALGOS
@@ -177,46 +186,48 @@ set(SOURCES_MODEL_BIO_EVO
 set(HEADERS_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.hpp
 # entities
-    src/Models/CodeEaters/Entities/EntityOperation.hpp
-        src/Models/CodeEaters/Entities/Boolean/EntityOperationBoolean.hpp
-            src/Models/CodeEaters/Entities/Boolean/EntityBoolId.hpp src/Models/CodeEaters/Entities/Boolean/EntityBoolIdIn.hpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNot.hpp src/Models/CodeEaters/Entities/Boolean/EntityNotIn.hpp
-            src/Models/CodeEaters/Entities/Boolean/EntityAnd.hpp src/Models/CodeEaters/Entities/Boolean/EntityAndIn.hpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNand.hpp src/Models/CodeEaters/Entities/Boolean/EntityNandIn.hpp
-            src/Models/CodeEaters/Entities/Boolean/EntityOr.hpp src/Models/CodeEaters/Entities/Boolean/EntityOrIn.hpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNor.hpp src/Models/CodeEaters/Entities/Boolean/EntityNorIn.hpp
-            src/Models/CodeEaters/Entities/Boolean/EntityXor.hpp src/Models/CodeEaters/Entities/Boolean/EntityXorIn.hpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNxor.hpp src/Models/CodeEaters/Entities/Boolean/EntityNxorIn.hpp
-        src/Models/CodeEaters/Entities/Int/EntityOperationInt.hpp
-            src/Models/CodeEaters/Entities/Int/EntityIncr.hpp 
-            src/Models/CodeEaters/Entities/Int/EntityAddInt.hpp src/Models/CodeEaters/Entities/Int/EntityAddIntIn.hpp
-                src/Models/CodeEaters/Entities/Int/EntitySubInt.hpp src/Models/CodeEaters/Entities/Int/EntitySubIntIn.hpp
-            src/Models/CodeEaters/Entities/Int/EntityMultInt.hpp src/Models/CodeEaters/Entities/Int/EntityMultIntIn.hpp
-                src/Models/CodeEaters/Entities/Int/EntityDivInt.hpp src/Models/CodeEaters/Entities/Int/EntityDivIntIn.hpp
-    src/Models/CodeEaters/Entities/Meta/EntityMeta.hpp
-        src/Models/CodeEaters/Entities/Meta/EntityOpCounter.hpp)
+    src/Models/CodeEaters/Entities/CodeEaters/CodeEater.hpp
+    src/Models/CodeEaters/Entities/Base/EntityOperation.hpp
+        src/Models/CodeEaters/Entities/Base/Boolean/EntityOperationBoolean.hpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityBoolId.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityBoolIdIn.hpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNot.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNotIn.hpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityAnd.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityAndIn.hpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNand.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNandIn.hpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityOr.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityOrIn.hpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNor.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNorIn.hpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityXor.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityXorIn.hpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNxor.hpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNxorIn.hpp
+        src/Models/CodeEaters/Entities/Base/Int/EntityOperationInt.hpp
+            src/Models/CodeEaters/Entities/Base/Int/EntityIncr.hpp 
+            src/Models/CodeEaters/Entities/Base/Int/EntityAddInt.hpp src/Models/CodeEaters/Entities/Base/Int/EntityAddIntIn.hpp
+                src/Models/CodeEaters/Entities/Base/Int/EntitySubInt.hpp src/Models/CodeEaters/Entities/Base/Int/EntitySubIntIn.hpp
+            src/Models/CodeEaters/Entities/Base/Int/EntityMultInt.hpp src/Models/CodeEaters/Entities/Base/Int/EntityMultIntIn.hpp
+                src/Models/CodeEaters/Entities/Base/Int/EntityDivInt.hpp src/Models/CodeEaters/Entities/Base/Int/EntityDivIntIn.hpp
+    src/Models/CodeEaters/Entities/Base/Meta/EntityMetaOp.hpp
+        src/Models/CodeEaters/Entities/Base/Meta/EntityOpCounter.hpp)
 
 set(SOURCES_MODEL_CODE_EATERS
     src/Models/CodeEaters/Universe/UniverseCodeEaters.cpp
 # entities
-    src/Models/CodeEaters/Entities/EntityOperation.cpp
-        src/Models/CodeEaters/Entities/Boolean/EntityOperationBoolean.cpp
-            src/Models/CodeEaters/Entities/Boolean/EntityBoolId.cpp src/Models/CodeEaters/Entities/Boolean/EntityBoolIdIn.cpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNot.cpp src/Models/CodeEaters/Entities/Boolean/EntityNotIn.cpp
-            src/Models/CodeEaters/Entities/Boolean/EntityAnd.cpp src/Models/CodeEaters/Entities/Boolean/EntityAndIn.cpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNand.cpp src/Models/CodeEaters/Entities/Boolean/EntityNandIn.cpp
-            src/Models/CodeEaters/Entities/Boolean/EntityOr.cpp src/Models/CodeEaters/Entities/Boolean/EntityOrIn.cpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNor.cpp src/Models/CodeEaters/Entities/Boolean/EntityNorIn.cpp
-            src/Models/CodeEaters/Entities/Boolean/EntityXor.cpp src/Models/CodeEaters/Entities/Boolean/EntityXorIn.cpp
-                src/Models/CodeEaters/Entities/Boolean/EntityNxor.cpp src/Models/CodeEaters/Entities/Boolean/EntityNxorIn.cpp
-        src/Models/CodeEaters/Entities/Int/EntityOperationInt.cpp
-            src/Models/CodeEaters/Entities/Int/EntityIncr.cpp 
-            src/Models/CodeEaters/Entities/Int/EntityAddInt.cpp src/Models/CodeEaters/Entities/Int/EntityAddIntIn.cpp
-                src/Models/CodeEaters/Entities/Int/EntitySubInt.cpp src/Models/CodeEaters/Entities/Int/EntitySubIntIn.cpp
-            src/Models/CodeEaters/Entities/Int/EntityMultInt.cpp src/Models/CodeEaters/Entities/Int/EntityMultIntIn.cpp
-                src/Models/CodeEaters/Entities/Int/EntityDivInt.cpp src/Models/CodeEaters/Entities/Int/EntityDivIntIn.cpp
-    src/Models/CodeEaters/Entities/Meta/EntityMeta.cpp
-        src/Models/CodeEaters/Entities/Meta/EntityOpCounter.cpp
+    src/Models/CodeEaters/Entities/CodeEaters/CodeEater.cpp
+    src/Models/CodeEaters/Entities/Base/EntityOperation.cpp
+        src/Models/CodeEaters/Entities/Base/Boolean/EntityOperationBoolean.cpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityBoolId.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityBoolIdIn.cpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNot.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNotIn.cpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityAnd.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityAndIn.cpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNand.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNandIn.cpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityOr.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityOrIn.cpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNor.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNorIn.cpp
+            src/Models/CodeEaters/Entities/Base/Boolean/EntityXor.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityXorIn.cpp
+                src/Models/CodeEaters/Entities/Base/Boolean/EntityNxor.cpp src/Models/CodeEaters/Entities/Base/Boolean/EntityNxorIn.cpp
+        src/Models/CodeEaters/Entities/Base/Int/EntityOperationInt.cpp
+            src/Models/CodeEaters/Entities/Base/Int/EntityIncr.cpp 
+            src/Models/CodeEaters/Entities/Base/Int/EntityAddInt.cpp src/Models/CodeEaters/Entities/Base/Int/EntityAddIntIn.cpp
+                src/Models/CodeEaters/Entities/Base/Int/EntitySubInt.cpp src/Models/CodeEaters/Entities/Base/Int/EntitySubIntIn.cpp
+            src/Models/CodeEaters/Entities/Base/Int/EntityMultInt.cpp src/Models/CodeEaters/Entities/Base/Int/EntityMultIntIn.cpp
+                src/Models/CodeEaters/Entities/Base/Int/EntityDivInt.cpp src/Models/CodeEaters/Entities/Base/Int/EntityDivIntIn.cpp
+    src/Models/CodeEaters/Entities/Base/Meta/EntityMetaOp.cpp
+        src/Models/CodeEaters/Entities/Base/Meta/EntityOpCounter.cpp
 # experiments
     #src/Models/CodeEaters/Experiment/.cpp
     )
@@ -269,45 +280,45 @@ add_executable(classical_info src/Models/ClassicalInfo/Experiment/main.cpp
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_INFO})
 target_link_libraries(classical_info ${LIBS})
 
-add_executable(classical_th_info src/Models/TheoreticalInfo/Experiment/main.cpp 
+add_executable(th_info src/Models/TheoreticalInfo/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_TH_INFO} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_TH_INFO})
-target_link_libraries(classical_th_info ${LIBS})
+target_link_libraries(th_info ${LIBS})
 
-add_executable(classical_maths src/Models/Maths/Experiment/main.cpp 
+add_executable(maths src/Models/Maths/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_MATHS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_MATHS})
-target_link_libraries(classical_maths ${LIBS})
+target_link_libraries(maths ${LIBS})
 
 add_executable(classical_algos src/Models/ClassicalAlgos/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_ALGOS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_ALGOS})
 target_link_libraries(classical_algos ${LIBS})
 
-add_executable(classical_evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
+add_executable(evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_EVO_ALGOS})
-target_link_libraries(classical_evo_algos ${LIBS})
+target_link_libraries(evo_algos ${LIBS})
 
-add_executable(classical_bioevo src/Models/BioEvo/Experiment/main.cpp 
+add_executable(bioevo src/Models/BioEvo/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_BIO_EVO} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_BIO_EVO})
-target_link_libraries(classical_bioevo ${LIBS})
+target_link_libraries(bioevo ${LIBS})
 
-add_executable(classical_code_eaters src/Models/CodeEaters/Experiment/main.cpp 
+add_executable(code_eaters src/Models/CodeEaters/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CODE_EATERS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CODE_EATERS})
-target_link_libraries(classical_code_eaters ${LIBS})
+target_link_libraries(code_eaters ${LIBS})
 
-add_executable(classical_economy src/Models/Economy/Experiment/main.cpp 
+add_executable(economy src/Models/Economy/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_ECONOMY} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_ECONOMY})
-target_link_libraries(classical_economy ${LIBS})
+target_link_libraries(economy ${LIBS})
 
-add_executable(classical_finance src/Models/Finance/Experiment/main.cpp 
+add_executable(finance src/Models/Finance/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_FINANCE} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_FINANCE})
-target_link_libraries(classical_finance ${LIBS})
+target_link_libraries(finance ${LIBS})
 
 
 
@@ -327,7 +338,9 @@ target_link_libraries(unit_tests_bio_evo ${LIBS})
 # ********** classical algos
 
 set(HEADERS_UNIT_TESTS_CLASSICAL_ALGOS 
-    src/UnitTests/ClassicalAlgos/test_1_empty.hpp)
+    src/UnitTests/ClassicalAlgos/test_1_empty.hpp
+    src/UnitTests/ClassicalAlgos/test_2_genes.hpp
+            src/UnitTests/ClassicalAlgos/test_2_1.hpp)
 
 add_executable(unit_tests_classical_algos src/UnitTests/ClassicalAlgos/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_ALGOS} ${HEADERS_UNIT_TESTS_CLASSICAL_ALGOS} 
@@ -442,5 +455,5 @@ target_link_libraries(unit_tests ${LIBS})
 
 
 
-add_executable(bioevo src/main.cpp ${HEADERS_FRAMEWORK} ${SOURCES_FRAMEWORK})
-target_link_libraries(bioevo ${LIBS})
+add_executable(bioevo_all src/main.cpp ${HEADERS_FRAMEWORK} ${SOURCES_FRAMEWORK})
+target_link_libraries(bioevo_all ${LIBS})
