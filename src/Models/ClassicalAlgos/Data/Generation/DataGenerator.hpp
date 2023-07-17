@@ -6,8 +6,6 @@
 class DataGenerator
 {
 public:
-    DataGenerator();
-
     /**
      * @brief automatic init
     */

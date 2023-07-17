@@ -51,6 +51,5 @@ void LinearAlgos::launch()
         break;
     }
 
-    experiment->init();
     experiment->launch();
 }

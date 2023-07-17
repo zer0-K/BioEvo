@@ -4,6 +4,31 @@
 
 #include "../../../../Utils/Maths/RandomGen.hpp"
 
+DataGeneratorLinear::DataGeneratorLinear()
+{
+    int mode;
+
+    std::cout << "Initialiazing data generator. Choose mode : " << std::endl;
+    std::cout << "\t0 - auto" << std::endl;
+    std::cout << "\t1- custom" << std::endl;
+
+    std::cin >> mode;
+
+    switch(mode)
+    {
+        case 0:
+            init_default();
+            break;
+        case 1:
+            init_custom();
+            break;
+        default:
+            init_default();
+            break;
+    }
+
+}
+
 void DataGeneratorLinear::init_default()
 {
     coeffs = {  1.0, 3.14, -8.1, 0.44   };
@@ -22,9 +47,11 @@ void DataGeneratorLinear::init_custom()
         std::cin >> dim;
     }
 
+    coeffs = std::vector<double>(dim);
+
     for(int i=0; i<dim; i++)
     {
-        std::cout << "Enter coeff " << i << "(double) : ";
+        std::cout << "Enter coeff " << i << " (double) : ";
         std::cin >> coeffs[i];
     }
 

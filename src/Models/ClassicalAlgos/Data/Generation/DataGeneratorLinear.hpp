@@ -10,7 +10,8 @@ protected:
     std::vector<double> coeffs;
 
 public:
-    using DataGenerator::DataGenerator;
+    DataGeneratorLinear();
+    //using DataGenerator::DataGenerator;
 
     /// @see DataGenerator::init_default
     void init_default() override;

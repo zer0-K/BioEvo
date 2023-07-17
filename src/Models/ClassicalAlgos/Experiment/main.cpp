@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
 
     std::cin >> experiment_nb;
 
+    exec_experiment(experiment_nb);
+
     return 0;
 }
 
@@ -33,6 +35,5 @@ void exec_experiment(int experiment_number)
         break;
     }
 
-    experiment->init();
     experiment->launch();
 }
