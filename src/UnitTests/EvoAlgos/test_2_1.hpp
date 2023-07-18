@@ -3,6 +3,7 @@
 #pragma once
 
 #include "test_2_1_1.hpp"
+#include "test_2_1_2.hpp"
 
 namespace ut_ea
 {
@@ -14,6 +15,7 @@ namespace ut_ea
         std::cout << "Evo algos - x86 - basic :" << std::endl;
 
         is_passed &= launch_tests_evo_algos_x86_basic_move(); 
+        is_passed &= launch_tests_evo_algos_x86_basic_maths(); 
 
         std::cout << "Evo algos - x86 - basic : ";
         passed_print(is_passed);

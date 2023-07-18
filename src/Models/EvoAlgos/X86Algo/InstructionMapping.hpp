@@ -1,11 +1,11 @@
 #pragma once
 
-enum instruction {
+enum instruction { 
     XXX,    // does nothing
     MOV,    // move data into data
-    MOVIN,  // move input into data
-    MOVOUT, // move data into output
     CPY,    // copy data into data
+    CPYIN,  // move input into data
+    CPYOUT, // move data into output
     INC,    // increment data
     DEC,    // decrement data
     ADD,    // add data

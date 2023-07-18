@@ -39,7 +39,17 @@ void X86Algo::exec_instruction(int instr, int addr1, int addr2)
             break;
 
         case instruction::MOV:
-            // moves the second address into the first one
+            // moves data at second address into the first one
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr2];
+                data[addr2] = 0;
+            }
+            break;
+
+        case instruction::CPY:
+            // copy data at second address into first one
             if(addr1>=0 && addr2>=0
                 && addr1<data.size() && addr2<data.size())
             {
@@ -47,8 +57,8 @@ void X86Algo::exec_instruction(int instr, int addr1, int addr2)
             }
             break;
 
-        case instruction::MOVIN:
-            // moves the input data into the first address
+        case instruction::CPYIN:
+            // copies the input into memory
             if(addr1>=0 && addr2>=0
                 && addr1<data.size() && addr2<input.size())
             {
@@ -56,12 +66,66 @@ void X86Algo::exec_instruction(int instr, int addr1, int addr2)
             }
             break;
 
-        case instruction::MOVOUT:
-            // moves the input data into the first address
+        case instruction::CPYOUT:
+            // copies data to output
             if(addr1>=0 && addr2>=0
                 && addr1<output.size() && addr2<data.size())
             {
                 output[addr1] = data[addr2];
+            }
+            break;
+
+        case instruction::INC:
+            // increment data at first address
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] + 1;
+            }
+            break;
+
+         case instruction::DEC:
+            // decrement data at first address
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] - 1;
+            }
+            break;
+
+        case instruction::ADD:
+            // add the data in the two addresses into the first one
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] + data[addr2];
+            }
+            break;
+
+        case instruction::SUB:
+            // substract the data in the two addresses into the first one
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] - data[addr2];
+            }
+            break;
+
+        case instruction::MUL:
+            // multiply the data in the two addresses into the first one
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] * data[addr2];
+            }
+            break;
+
+        case instruction::DIV:
+            // divide the data in the two addresses into the first one
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] / data[addr2];
             }
             break;
 
