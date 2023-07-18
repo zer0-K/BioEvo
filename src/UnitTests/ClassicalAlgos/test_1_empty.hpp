@@ -1,4 +1,4 @@
-//-------------------- EMPTY
+//-------------------- CLASSICAL ALGOS - EMPTY
 
 #pragma once
 
@@ -43,13 +43,13 @@ namespace ut_ca
     */
     bool classical_algos_test_empty_universe(int size)
     {
-        sp_univ_algos classical_algos_empty_build_universe(int);    
-        bool classical_algos_empty_check_universe(sp_univ_algos, int);
+        sp_univ_classical_algos classical_algos_empty_build_universe(int);    
+        bool classical_algos_empty_check_universe(sp_univ_classical_algos, int);
 
         bool is_passed = true;
 
         // build info universe of wanted size
-        sp_univ_algos universe_algos = classical_algos_empty_build_universe(size);
+        sp_univ_classical_algos universe_algos = classical_algos_empty_build_universe(size);
 
         // check if built universe is correct
         is_passed = classical_algos_empty_check_universe(universe_algos, size);
@@ -67,9 +67,9 @@ namespace ut_ca
     /**
      * @brief Create a universe (for classical algorithms) of given size with void entities
      */
-    sp_univ_algos classical_algos_empty_build_universe(int size_universe)
+    sp_univ_classical_algos classical_algos_empty_build_universe(int size_universe)
     {
-        sp_univ_algos universe_algos = std::make_shared<UniverseClassicalAlgos>(
+        sp_univ_classical_algos universe_algos = std::make_shared<UniverseClassicalAlgos>(
             size_universe,
             "empty classical algos universe"
         );
@@ -80,7 +80,7 @@ namespace ut_ca
     /**
      * @brief Test if the built universe is full of void entities
     */
-    bool classical_algos_empty_check_universe(sp_univ_algos universe, int expected_size)
+    bool classical_algos_empty_check_universe(sp_univ_classical_algos universe, int expected_size)
     {
         bool is_passed = true;
 

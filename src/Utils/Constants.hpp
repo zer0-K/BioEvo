@@ -84,6 +84,13 @@ const std::string TYPE_CE = "code eater";
 const std::string TYPE_LINEAR = "linear";
 
 
+// -------------------- EVO ALGOS
+
+const std::string X86_ALGO = "x86 algo";
+const int DEFAULT_X86_DATA_SIZE = 1000;
+const int DEFAULT_X86_CODE_SIZE = 1000;
+
+
 // ---------------------------------------- Experiment names
 
 const std::string name_exp_console_app = "console app";

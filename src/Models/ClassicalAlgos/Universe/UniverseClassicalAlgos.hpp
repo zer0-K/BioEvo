@@ -12,4 +12,4 @@ public:
     void exec();
 };
 
-typedef std::shared_ptr<UniverseClassicalAlgos> sp_univ_algos;
+typedef std::shared_ptr<UniverseClassicalAlgos> sp_univ_classical_algos;
