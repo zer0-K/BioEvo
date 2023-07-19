@@ -404,7 +404,8 @@ set(HEADERS_UNIT_TESTS_EVO_ALGOS
     src/UnitTests/EvoAlgos/test_1_empty.hpp
     src/UnitTests/EvoAlgos/test_2_x86.hpp
         src/UnitTests/EvoAlgos/test_2_1.hpp
-            src/UnitTests/EvoAlgos/test_2_1_1.hpp src/UnitTests/EvoAlgos/test_2_1_2.hpp)
+            src/UnitTests/EvoAlgos/test_2_1_1.hpp src/UnitTests/EvoAlgos/test_2_1_2.hpp
+            src/UnitTests/EvoAlgos/test_2_1_3.hpp src/UnitTests/EvoAlgos/test_2_1_4.hpp)
 
 add_executable(unit_tests_evo_algos src/UnitTests/EvoAlgos/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} ${HEADERS_UNIT_TESTS_EVO_ALGOS} 

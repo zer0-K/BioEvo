@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - BASIC - CONDITIONS
+//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - BASIC - JUMPS
 
 #pragma once
 
