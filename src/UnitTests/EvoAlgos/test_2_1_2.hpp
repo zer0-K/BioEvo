@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - MOVE
+//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - BASIC - ARITHMETICS
 
 #pragma once
 
@@ -24,7 +24,7 @@ namespace ut_ea
 
         bool is_passed = true;
 
-        std::cout << "Evo algos - x86 - maths :" << std::endl;
+        std::cout << "Evo algos - x86 - basic - maths :" << std::endl;
 
         is_passed &= launch_test_evo_algos_x86_basic_INC(); 
         is_passed &= launch_test_evo_algos_x86_basic_DEC();
@@ -33,7 +33,7 @@ namespace ut_ea
         is_passed &= launch_test_evo_algos_x86_basic_MUL();
         is_passed &= launch_test_evo_algos_x86_basic_DIV();
 
-        std::cout << "Evo algos - x86 - maths : ";
+        std::cout << "Evo algos - x86 - basic - maths : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -80,7 +80,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - maths - incrementation : ";
+            std::cout << "Evo algos - x86 - basic - maths - incrementation : ";
             passed_print(is_passed);
         }
 
@@ -128,7 +128,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - maths - decrementation : ";
+            std::cout << "Evo algos - x86 - basic - maths - decrementation : ";
             passed_print(is_passed);
         }
 
@@ -177,7 +177,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - maths - addition : ";
+            std::cout << "Evo algos - x86 - basic - maths - addition : ";
             passed_print(is_passed);
         }
 
@@ -226,7 +226,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - maths - substraction : ";
+            std::cout << "Evo algos - x86 - basic - maths - substraction : ";
             passed_print(is_passed);
         }
 
@@ -275,7 +275,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - maths - multiplication : ";
+            std::cout << "Evo algos - x86 - basic - maths - multiplication : ";
             passed_print(is_passed);
         }
 
@@ -324,7 +324,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - maths - division : ";
+            std::cout << "Evo algos - x86 - basic - maths - division : ";
             passed_print(is_passed);
         }
 

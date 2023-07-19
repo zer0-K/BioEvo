@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - MOVE
+//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - BASIC - MOVE
 
 #pragma once
 
@@ -21,13 +21,13 @@ namespace ut_ea
 
         bool is_passed = true;
 
-        std::cout << "Evo algos - x86 - move :" << std::endl;
+        std::cout << "Evo algos - x86 - basic - move :" << std::endl;
 
         is_passed &= launch_test_evo_algos_x86_basic_CPYINOUT(); 
         is_passed &= launch_test_evo_algos_x86_basic_MOV(); 
         is_passed &= launch_test_evo_algos_x86_basic_CPY(); 
 
-        std::cout << "Evo algos - x86 - move : ";
+        std::cout << "Evo algos - x86 - basic - move : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -73,7 +73,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - move - copy in/out : ";
+            std::cout << "Evo algos - x86 - basic - move - copy in/out : ";
             passed_print(is_passed);
         }
 
@@ -122,7 +122,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - move - move : ";
+            std::cout << "Evo algos - x86 - basic - move - move : ";
             passed_print(is_passed);
         }
 
@@ -171,7 +171,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - move - copy : ";
+            std::cout << "Evo algos - x86 - basic - move - copy : ";
             passed_print(is_passed);
         }
 

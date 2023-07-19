@@ -14,7 +14,10 @@ enum instruction {
     DIV,    // divide data
     CMP,    // compare data
     JMP,    // jump prog 
-    JLE,
-    JGE,
+    JRA,    // jump relative add (curr prog ptr + x)
+    JRS,    // jump relative substract (curr prog ptr - x)
+    JE,
+    JL,
+    JG,
     HALT    // halt
 };

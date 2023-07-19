@@ -18,13 +18,18 @@ void X86Algo::init()
 
 std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 {
-    while(program_counter>=0 && program_counter<code.size())
+    // to prevent infinite loops
+    int instr_counter = 0;
+
+    while(program_counter>=0 && program_counter<code.size()
+        && instr_counter < 100000)
     {
         std::array<int,3> code_line = code.at(program_counter);
 
         exec_instruction(code_line[0], code_line[1], code_line[2]);
 
         program_counter++;
+        instr_counter++;
     }
 
     return entries;
@@ -76,20 +81,20 @@ void X86Algo::exec_instruction(int instr, int addr1, int addr2)
             break;
 
         case instruction::INC:
-            // increment data at first address
+            // increment data at second address into first one
             if(addr1>=0 && addr2>=0
                 && addr1<data.size() && addr2<data.size())
             {
-                data[addr1] = data[addr1] + 1;
+                data[addr1] = data[addr2] + 1;
             }
             break;
 
          case instruction::DEC:
-            // decrement data at first address
+            // decrement data at second address into first one
             if(addr1>=0 && addr2>=0
                 && addr1<data.size() && addr2<data.size())
             {
-                data[addr1] = data[addr1] - 1;
+                data[addr1] = data[addr2] - 1;
             }
             break;
 
@@ -127,6 +132,124 @@ void X86Algo::exec_instruction(int instr, int addr1, int addr2)
             {
                 data[addr1] = data[addr1] / data[addr2];
             }
+            break;
+
+        case instruction::CMP:
+            // compare data 1 if addr1<addr2, -1 if > and 0 if =
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size())
+            {
+                data[addr1] = data[addr1] == data[addr2] ? 0 :
+                                ( data[addr1] < data[addr2] ? 1 : -1 );
+            }
+            break;
+
+
+        case instruction::JMP:
+            // set prog ptr to given position at index of second address
+            // set current prog ptr in first address
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && data[addr2]>=0 && data[addr2]<code.size())
+            {                
+                int temp = program_counter;
+
+                // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter = data[addr2] - 1;
+
+                // ! prog ptr BEFORE being incremented !
+                data[addr1] = temp;
+            }
+            break;
+
+
+        case instruction::JRA:
+            // shift positively the prog ptr according to data at second address
+            // set current prog ptr in first address
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && program_counter + data[addr2] >= 0 
+                && program_counter + data[addr2] < code.size())
+            {
+                int temp = program_counter;
+                
+                // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter += data[addr2] - 1;
+
+                // ! prog ptr BEFORE being incremented !
+                data[addr1] = temp;
+            }
+            break;
+
+        case instruction::JRS:
+            // shift negatively the prog ptr according to data at second address
+            // set current prog ptr in first address
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && program_counter - data[addr2] >= 0 
+                && program_counter - data[addr2] < code.size())
+            {
+                int temp = program_counter;
+                
+                // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter = (program_counter - data[addr2]) - 1;
+
+                // ! prog ptr BEFORE being incremented !
+                data[addr1] = temp;
+            }
+            break;
+
+
+        case instruction::JE:
+            // jump at address at addr1 if data at addr2 is equal to 0
+            // does not set old prog ptr
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && data[addr1]>=0 && data[addr1]<code.size())
+            {
+                if(data[addr2] == 0)
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter = data[addr1] - 1;
+                }
+            }
+            break;
+
+
+        case instruction::JL:
+            // jump at address at addr1 if data at addr2 is < 0
+            // does not set old prog ptr
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && data[addr1]>=0 && data[addr1]<code.size())
+            {
+                if(data[addr2] < 0)
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter = data[addr1] - 1;
+               }
+            }
+            break;
+
+
+        case instruction::JG:
+            // jump at address at addr1 if data at addr2 is > 0
+            // does not set old prog ptr
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && data[addr1]>=0 && data[addr1]<code.size())
+            {
+                if(data[addr2] > 0)
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter = data[addr1] - 1;
+               }
+            }
+            break;
+
+        case instruction::HALT:
+            // set prog ptr at end of code ('-1' because prog ptr is incremented at end of instr exec)
+            program_counter = code.size() - 1;
             break;
 
         default:
