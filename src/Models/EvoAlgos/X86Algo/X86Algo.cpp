@@ -37,6 +37,12 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 
 void X86Algo::exec_instruction(int instr, int addr1, int addr2)
 {
+    exec_instruction_basic(instr, addr1, addr2);
+    exec_instruction_meta(instr, addr1, addr2);
+}
+
+void X86Algo::exec_instruction_basic(int instr, int addr1, int addr2)
+{
     switch(instr)
     {
         case instruction::XXX:
@@ -199,6 +205,22 @@ void X86Algo::exec_instruction(int instr, int addr1, int addr2)
             }
             break;
 
+        case instruction::JRE:
+            // add val at addr1 to prog ptr if at addr2 is equal to 0
+            // does not set old prog ptr
+            if(addr1>=0 && addr2>=0
+                && addr1<data.size() && addr2<data.size()
+                && data[addr1]>=0 && data[addr1]<code.size()
+                && program_counter + data[addr1] >= 0 
+                && program_counter + data[addr1] < code.size())
+            {
+                if(data[addr2] == 0)
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter += data[addr1] - 1;
+                }
+            }
+            break;
 
         case instruction::JE:
             // jump at address at addr1 if data at addr2 is equal to 0
@@ -292,6 +314,13 @@ void X86Algo::set_input(std::vector<int> in)
     {
         input[i] = in[i];
     }
+}
+
+//----- getters
+
+std::vector<std::array<int, 3>> X86Algo::get_code()
+{
+    return code;
 }
 
 std::vector<int> X86Algo::get_output()

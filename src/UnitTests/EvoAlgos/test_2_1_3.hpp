@@ -19,6 +19,7 @@ namespace ut_ea
         bool launch_test_evo_algos_x86_basic_JMP(void);
         bool launch_test_evo_algos_x86_basic_JRA(void);
         bool launch_test_evo_algos_x86_basic_JRS(void);
+        bool launch_test_evo_algos_x86_basic_JRE(void);
         bool launch_test_evo_algos_x86_basic_JE(void);
         bool launch_test_evo_algos_x86_basic_JL(void);
         bool launch_test_evo_algos_x86_basic_JG(void);
@@ -31,6 +32,7 @@ namespace ut_ea
         is_passed &= launch_test_evo_algos_x86_basic_JMP(); 
         is_passed &= launch_test_evo_algos_x86_basic_JRA(); 
         is_passed &= launch_test_evo_algos_x86_basic_JRS(); 
+        is_passed &= launch_test_evo_algos_x86_basic_JRE(); 
         is_passed &= launch_test_evo_algos_x86_basic_JE(); 
         is_passed &= launch_test_evo_algos_x86_basic_JL(); 
         is_passed &= launch_test_evo_algos_x86_basic_JG(); 
@@ -212,7 +214,6 @@ namespace ut_ea
         return is_passed;
     }
 
-
     /**
      * relative negative jump
     */
@@ -263,6 +264,62 @@ namespace ut_ea
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jrs : ";
+            passed_print(is_passed);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * relative positive jump if equal to 0
+    */
+    bool launch_test_evo_algos_x86_basic_JRE()
+    {
+        bool is_passed = true;
+
+        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        algo->init();
+
+        // code
+        std::vector<std::array<int,3>> code {
+            // copy args
+            { instruction::CPYIN, 0, 0},
+            { instruction::CPYIN, 1, 1},
+            { instruction::CPYIN, 2, 2},
+            // jump to code at line given in third arg
+            { instruction::JRE, 0, 2},
+            // should be ignored
+            { instruction::XXX, 0, 0},
+            { instruction::CPYOUT, 0, 0},
+            // line 6
+            { instruction::CPYOUT, 1, 1}
+        };
+        algo->set_code(code, 0);
+
+        // input
+        std::vector<int> input {
+            3, 667, 0
+        };
+        algo->set_input_size(input.size());
+        algo->set_input(input);
+
+        // output
+        algo->set_output_size(2);
+
+        // execute
+        algo->exec(std::vector<sp_entity>(0));
+
+        // check result
+        auto res = algo->get_output();
+
+        if(res[0] != 0 || res[1] != 667)
+        {
+            is_passed = false;
+        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - x86 - basic - jumps - jre : ";
             passed_print(is_passed);
         }
 

@@ -10,12 +10,14 @@ namespace ut_ca
     {
         bool is_passed = true;
 
-        std::cout << "Unit test classical algorithms : " << std::endl;
+        std::cout << std::endl << "******************** CLASSICAL ALGOS ********************" << std::endl << std::endl;
+
+        std::cout << "Unit test classical algorithms : " << std::endl << std::endl;
 
         is_passed &= launch_tests_classical_algos_empty();
         is_passed &= launch_tests_classical_algos_genes();
 
-        std::cout << "Unit test classical algorithms : ";
+        std::cout << std::endl << "Unit test classical algorithms : ";
         passed_print(is_passed);
     } 
 

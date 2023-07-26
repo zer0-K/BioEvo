@@ -16,8 +16,14 @@ enum instruction {
     JMP,    // jump prog 
     JRA,    // jump relative add (curr prog ptr + x)
     JRS,    // jump relative substract (curr prog ptr - x)
-    JE,
-    JL,
-    JG,
-    HALT    // halt
+    JRE,    // jump relative add if equal to 0
+    JE,     // jump if equal to 0
+    JL,     // jump if < 0
+    JG,     // jump if > 0
+    HALT,   // halt
+    // ******* instructions EvoX
+    GINS,   // gene insertion
+    GDEL,   // gene deletion
+    GSET,   // set gene value
+    GADD    // add value to gene
 };

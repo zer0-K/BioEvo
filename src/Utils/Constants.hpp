@@ -90,6 +90,8 @@ const std::string X86_ALGO = "x86 algo";
 const int DEFAULT_X86_DATA_SIZE = 1000;
 const int DEFAULT_X86_CODE_SIZE = 1000;
 
+const std::string EVOX = "evo x86 algo";
+
 
 // ---------------------------------------- Experiment names
 

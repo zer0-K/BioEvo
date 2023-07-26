@@ -16,6 +16,8 @@ bool launch_test_th_info_empty()
 
     bool is_passed = true;
 
+    std::cout << "Th info - empty : ";
+
     // sizes
     std::vector<int> sizes{
         0, 1, 2, 10, 100
@@ -38,13 +40,13 @@ bool launch_test_th_info_empty()
 
         if(verbose_unit_tests)
         {
-            std::cout << "\t\tEmpty theoretical computer science universe of size "
+            std::cout << "Th info - empty - size "
                 << size_universe << " : ";
             passed_print(res);
         } 
     }
 
-    std::cout << "\tUnit test empty theoretical computer science universe : ";
+    std::cout << "Th info - empty : ";
     passed_print(is_passed);
 
     return is_passed;
@@ -74,8 +76,8 @@ bool check_universe(sp_univ_th_info universe, int expected_size)
 
     if(verbose_unit_tests && places.size() != expected_size)
     {
-        std::cout << "\t\t\tError : wrong universe size" << std::endl;
-        std::cout << "\t\tExpected size : " << expected_size 
+        std::cout << "\t\tError : wrong universe size" << std::endl;
+        std::cout << "\tExpected size : " << expected_size 
             << ", actual size : " << places.size()
             << std::endl;
         is_passed = false;
@@ -87,8 +89,8 @@ bool check_universe(sp_univ_th_info universe, int expected_size)
         
         if(verbose_unit_tests && entity->get_type() != TYPE_VOID)
         {
-            std::cout << "\t\t\tError : wrong entity type" << std::endl;
-            std::cout << "\t\tExpected  : " << TYPE_VOID 
+            std::cout << "\t\tError : wrong entity type" << std::endl;
+            std::cout << "\tExpected  : " << TYPE_VOID 
                 << ", actual : " << entity->get_type()
                 << std::endl;
             is_passed = false; 

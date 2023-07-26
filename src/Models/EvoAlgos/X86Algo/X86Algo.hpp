@@ -5,7 +5,7 @@
 #include "../../../Entities/Entity.hpp"
 
 /**
- * @brief x86 evolutionary algorithm
+ * @brief x86-like base algorithm
  * 
  * Small computer close to x86 architecture
 */
@@ -47,6 +47,8 @@ public:
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
 
     void exec_instruction(int instr, int addr1, int addr2);
+    void exec_instruction_basic(int instr, int addr1, int addr2);
+    virtual void exec_instruction_meta(int instr, int addr1, int addr2) {};
 
     // setters
     void set_data_size(int n);
@@ -57,6 +59,7 @@ public:
     void set_input(std::vector<int> in);
 
     // getters
+    std::vector<std::array<int, 3>> get_code();
     std::vector<int> get_output();
 };
 

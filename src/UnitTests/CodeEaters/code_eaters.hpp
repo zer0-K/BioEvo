@@ -11,13 +11,15 @@ namespace ut_ce
     {
         bool is_passed = true;
 
-        std::cout << "Unit tests code eaters : " << std::endl;
+        std::cout << std::endl << "******************** CODE EATERS ********************" << std::endl << std::endl;
+
+        std::cout << "Unit tests code eaters : " << std::endl << std::endl;
 
         is_passed &= launch_tests_code_eaters_empty();
         is_passed &= launch_tests_code_eaters_operations();
         is_passed &= launch_tests_code_eaters_metadata();
 
-        std::cout << "Unit tests code eaters : ";
+        std::cout << std::endl << "Unit tests code eaters : ";
         passed_print(is_passed);
     }
 

@@ -78,7 +78,6 @@ namespace ut_ea
         }
 
         return is_passed;
-
     }
 
     /**
@@ -128,7 +127,6 @@ namespace ut_ea
         }
 
         return is_passed;
-
     }
 
 }

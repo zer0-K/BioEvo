@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - MOVE
+//-------------------- EVOLUTIONARY ALGOS - X86 ALGO - basic
 
 #pragma once
 
