@@ -111,12 +111,18 @@ namespace ut_ea
             bool ok = x86_comp_code(expected_codes[i], code_res);
             is_passed &= ok;
 
-            if(verbose_unit_tests)
+            if(verbose_unit_tests_1)
             {
                 std::cout << "Evo algos - evox - genes - basic - empty " << i << " : ";
                 passed_print(ok);
             }
        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - evox - genes - basic - empty : ";
+            passed_print(is_passed);
+        }
 
         return is_passed;
     }
@@ -203,12 +209,18 @@ namespace ut_ea
             bool ok = x86_comp_code(expected_codes[i], code_res);
             is_passed &= ok;
 
-            if(verbose_unit_tests)
+            if(verbose_unit_tests_1)
             {
                 std::cout << "Evo algos - evox - genes - basic - incomplete " << i << " : ";
                 passed_print(ok);
             } 
        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - evox - genes - basic - incomplete : ";
+            passed_print(is_passed);
+        }
 
         return is_passed;
     }
@@ -225,7 +237,7 @@ namespace ut_ea
 
         //---------- GENOME
 
-        // several genomes coding incomplete instructions
+        // genomes coding simple programs
         // 
         std::vector<int> genome_1 { 
             instruction::CPYIN, 0, 0,   // 0
@@ -281,12 +293,18 @@ namespace ut_ea
             bool ok = x86_comp_output(expected_outs[i], out_res);
             is_passed &= ok;
 
-            if(verbose_unit_tests)
+            if(verbose_unit_tests_1)
             {
                 std::cout << "Evo algos - evox - genes - basic - simple " << i << " : ";
                 passed_print(ok);
             } 
        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - evox - genes - basic - simple : ";
+            passed_print(is_passed);
+        }
 
         return is_passed;
     }

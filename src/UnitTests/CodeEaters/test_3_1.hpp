@@ -226,7 +226,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "\tTest code eaters - meta - counters - bool : ";
+            std::cout << "Code eaters - meta - counters - bool : ";
             passed_print(is_passed);
         }
 

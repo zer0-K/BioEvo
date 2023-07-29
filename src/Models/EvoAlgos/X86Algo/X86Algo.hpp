@@ -19,6 +19,7 @@ protected:
      * Everything is treated as integers here
     */
     std::vector<int> data;
+    std::vector<std::vector<int>> data_debug;
 
     // inputs and outputs of the program
     std::vector<int> input;
@@ -41,6 +42,9 @@ protected:
     int program_counter;
 
 public:
+    bool debug;
+    int data_debug_window;
+
     using Entity::Entity;
 
     void init() override;
@@ -61,6 +65,9 @@ public:
     // getters
     std::vector<std::array<int, 3>> get_code();
     std::vector<int> get_output();
+
+    // utils
+    void print_data_debug();
 };
 
 typedef std::shared_ptr<X86Algo> sp_x86algo;

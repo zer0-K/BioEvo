@@ -14,12 +14,24 @@ void X86Algo::init()
     set_data_size(DEFAULT_X86_DATA_SIZE);
     set_input_size(1);
     set_output_size(1);
+
+    debug = false;
+    data_debug_window = 6;
+    data_debug = std::vector<std::vector<int>>(0);
 }
 
 std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 {
+    // execution starts at pos 0
+    program_counter = 0;
+
     // to prevent infinite loops
     int instr_counter = 0;
+
+    if(debug)
+    {
+        data_debug.push_back(data);
+    }
 
     while(program_counter>=0 && program_counter<code.size()
         && instr_counter < 100000)
@@ -30,6 +42,11 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 
         program_counter++;
         instr_counter++;
+
+        if(debug)
+        {
+            data_debug.push_back(data);
+        }
     }
 
     return entries;
@@ -326,4 +343,50 @@ std::vector<std::array<int, 3>> X86Algo::get_code()
 std::vector<int> X86Algo::get_output()
 {
     return output;
+}
+
+// utils
+
+void X86Algo::print_data_debug()
+{
+    if(debug)
+    {
+        std::cout << std::endl << std::endl;
+        std::cout << "******************** debug x86 algo ********************";
+        std::cout << std::endl << std::endl;
+
+        std::cout << "Input : " << std::endl;
+
+        for(int i=0; i<input.size();i++)
+        {
+            std::cout << input[i] << "\t";
+        }
+
+        std::cout << std::endl << std::endl;
+
+        std::cout << "Data accross execution : " << std::endl;
+
+        for(int i=0; i<data_debug.size();i++)
+        {
+            std::cout << i << " : \t";
+
+            for(int j=0; j<data_debug_window;j++)
+            {
+                std::cout << data_debug[i][j] << "\t";
+            }
+
+            std::cout << std::endl;
+        }
+
+        std::cout << std::endl << std::endl;
+
+        std::cout << "Output : " << std::endl;
+
+        for(int i=0; i<output.size();i++)
+        {
+            std::cout << output[i] << "\t";
+        }
+
+        std::cout << std::endl << std::endl;
+    }
 }

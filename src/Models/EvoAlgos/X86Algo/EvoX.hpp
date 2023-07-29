@@ -30,6 +30,9 @@ public:
 
     // getters
     std::vector<int> get_genes();
+
+    // utils
+    void print_genome();
 };
 
 typedef std::shared_ptr<EvoX> sp_evox;

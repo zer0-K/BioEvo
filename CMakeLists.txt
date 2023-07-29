@@ -169,6 +169,7 @@ set(HEADERS_MODEL_EVO_ALGOS
 set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp
 # x86 evo algos
+    src/Models/EvoAlgos/X86Algo/InstructionMapping.cpp
     src/Models/EvoAlgos/X86Algo/X86Algo.cpp src/Models/EvoAlgos/X86Algo/EvoX.cpp
 # experiments
     #src/Models/EvoAlgos/Experiment/.cpp

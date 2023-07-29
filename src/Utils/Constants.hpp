@@ -7,6 +7,8 @@
 // ---------------------------------------- other
 
 const bool verbose_unit_tests = true;
+const bool verbose_unit_tests_1 = true;
+const bool verbose_unit_tests_2 = true;
 
 
 // ---------------------------------------- colors
