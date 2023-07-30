@@ -182,6 +182,7 @@ namespace ut_ea
             // line 6
             { instruction::CPYOUT, 1, 1}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -238,6 +239,7 @@ namespace ut_ea
             // line 6
             { instruction::CPYOUT, 1, 1}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -294,6 +296,7 @@ namespace ut_ea
             // line 6
             { instruction::CPYOUT, 1, 1}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -352,6 +355,7 @@ namespace ut_ea
             // line 6
             { instruction::CPYOUT, 1, 1}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -411,6 +415,7 @@ namespace ut_ea
             // line 6
             { instruction::CPYOUT, 1, 1}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -470,6 +475,7 @@ namespace ut_ea
             // line 6
             { instruction::CPYOUT, 1, 1}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input

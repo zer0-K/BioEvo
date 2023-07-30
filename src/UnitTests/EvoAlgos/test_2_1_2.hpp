@@ -55,6 +55,7 @@ namespace ut_ea
             { instruction::INC, 10, 10},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -103,6 +104,7 @@ namespace ut_ea
             { instruction::DEC, 10, 10},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -152,6 +154,7 @@ namespace ut_ea
             { instruction::ADD, 10, 11},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -201,6 +204,7 @@ namespace ut_ea
             { instruction::SUB, 10, 11},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -250,6 +254,7 @@ namespace ut_ea
             { instruction::MUL, 10, 11},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -299,6 +304,7 @@ namespace ut_ea
             { instruction::DIV, 10, 11},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input

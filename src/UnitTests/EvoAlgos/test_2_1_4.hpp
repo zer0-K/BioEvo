@@ -48,6 +48,7 @@ namespace ut_ea
             { instruction::XXX, 1, 0},
             { instruction::XXX, 123456789, -123456789}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -97,6 +98,7 @@ namespace ut_ea
             // first input shouldn't be copied to first output
             { instruction::CPYOUT, 0, 0}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input

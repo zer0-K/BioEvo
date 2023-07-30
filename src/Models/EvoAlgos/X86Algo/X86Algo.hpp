@@ -41,6 +41,10 @@ protected:
     */
     int program_counter;
 
+    //---------- other
+    int unif_lower_bound = 0;
+    int unif_upper_bound = 1;
+
 public:
     bool debug;
     int data_debug_window;
@@ -52,13 +56,14 @@ public:
 
     void exec_instruction(int instr, int addr1, int addr2);
     void exec_instruction_basic(int instr, int addr1, int addr2);
-    virtual void exec_instruction_meta(int instr, int addr1, int addr2) {};
+    virtual void exec_instruction_gene(int instr, int addr1, int addr2) {};
 
     // setters
     void set_data_size(int n);
     void set_input_size(int n);
     void set_output_size(int n);
 
+    void reset_code_to_size(int code_size);
     void set_code(std::vector<std::array<int, 3>> code, int place_at);
     void set_input(std::vector<int> in);
 

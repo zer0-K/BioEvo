@@ -48,6 +48,7 @@ namespace ut_ea
             { instruction::CPYIN, 10, 2},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -97,6 +98,7 @@ namespace ut_ea
             { instruction::MOV, 20, 10},
             { instruction::CPYOUT, 3, 20}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
@@ -146,6 +148,7 @@ namespace ut_ea
             { instruction::CPY, 20, 10},
             { instruction::CPYOUT, 3, 10}
         };
+        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input

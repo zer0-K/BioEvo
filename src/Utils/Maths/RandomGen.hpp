@@ -32,6 +32,15 @@ public:
         return random_double;
     }
 
+    static int rand_int(int low_bound, int up_bound)
+    {
+        if(rg == NULL)
+            rg = new rand_gen();
+
+        int random_int = rand()%(up_bound-low_bound + 1) + low_bound;     
+        return random_int;
+    }
+
     static double rand_normal(double mean, double std_dev)
     {
         if(rg == NULL)

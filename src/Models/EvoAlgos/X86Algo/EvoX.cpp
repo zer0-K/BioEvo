@@ -56,7 +56,7 @@ void EvoX::create_code_from_genes()
 
 }
 
-void EvoX::exec_instruction_meta(int instr, int addr1, int addr2)
+void EvoX::exec_instruction_gene(int instr, int addr1, int addr2)
 {
     int nb_genes = genes.size();
 

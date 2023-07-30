@@ -1,6 +1,7 @@
 #include "X86Algo.hpp"
 
 #include "../../../Utils/Constants.hpp"
+#include "../../../Utils/Maths/RandomGen.hpp"
 #include "InstructionMapping.hpp"
 
 void X86Algo::init()
@@ -16,7 +17,7 @@ void X86Algo::init()
     set_output_size(1);
 
     debug = false;
-    data_debug_window = 6;
+    data_debug_window = 10;
     data_debug = std::vector<std::vector<int>>(0);
 }
 
@@ -34,7 +35,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     }
 
     while(program_counter>=0 && program_counter<code.size()
-        && instr_counter < 100000)
+        && instr_counter < 10000)
     {
         std::array<int,3> code_line = code.at(program_counter);
 
@@ -55,7 +56,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 void X86Algo::exec_instruction(int instr, int addr1, int addr2)
 {
     exec_instruction_basic(instr, addr1, addr2);
-    exec_instruction_meta(instr, addr1, addr2);
+    exec_instruction_gene(instr, addr1, addr2);
 }
 
 void X86Algo::exec_instruction_basic(int instr, int addr1, int addr2)
@@ -291,6 +292,46 @@ void X86Algo::exec_instruction_basic(int instr, int addr1, int addr2)
             program_counter = code.size() - 1;
             break;
 
+        case instruction::RN:
+            // normal law at first given address
+            if(addr1>=0 && addr1<data.size())
+            {
+                data[addr1] = rand_gen::rand_normal(0,1);
+            }
+            break;
+
+        case instruction::RUD:
+            // uniform random double between 0 and 1 at first given address
+            if(addr1>=0 && addr1<data.size())
+            {
+                data[addr1] = rand_gen::rand_double(0,1);
+            }
+            break;
+
+        case instruction::RUI:
+            // uniform random int between the bounds at first given address
+            if(addr1>=0 && addr1<data.size())
+            {
+                data[addr1] = rand_gen::rand_int(unif_lower_bound,unif_upper_bound);
+            }
+            break;
+
+        case instruction::RUISL:
+            // set lower bound for uniform random int generation
+            if(addr1>=0 && addr1<data.size())
+            {
+                unif_lower_bound = (int) data[addr1];
+            }
+            break;
+
+        case instruction::RUISU:
+            // set upper bound for uniform random int generation
+            if(addr1>=0 && addr1<data.size())
+            {
+                unif_upper_bound = (int) data[addr1];
+            }
+            break;
+
         default:
             // does nothing
             break;
@@ -312,9 +353,14 @@ void X86Algo::set_output_size(int n)
     output = std::vector<int>(n);
 }
 
+void X86Algo::reset_code_to_size(int code_size)
+{
+    code = std::vector<std::array<int, 3>>(code_size);
+}
+
 void X86Algo::set_code(std::vector<std::array<int, 3>> code, int place_at)
 {
-    if(place_at>=0 && place_at+code.size()<this->code.size())
+    if(place_at>=0 && place_at+code.size()<=this->code.size())
     {
         for(int i=0;i<code.size();i++)
         {
