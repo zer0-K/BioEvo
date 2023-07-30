@@ -23,6 +23,7 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::HALT, "HALT" },
     { instruction::GINS, "GINS" },
     { instruction::GDEL, "GDEL" },
+    { instruction::GDELW, "GDELW" },
     { instruction::GSET, "GSET" },
     { instruction::GADD, "GADD" }
 };

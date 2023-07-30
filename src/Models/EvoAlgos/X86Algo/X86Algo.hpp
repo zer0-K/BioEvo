@@ -62,6 +62,8 @@ public:
     void set_code(std::vector<std::array<int, 3>> code, int place_at);
     void set_input(std::vector<int> in);
 
+    void reset_data();
+
     // getters
     std::vector<std::array<int, 3>> get_code();
     std::vector<int> get_output();

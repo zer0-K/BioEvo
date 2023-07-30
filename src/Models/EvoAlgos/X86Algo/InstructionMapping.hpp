@@ -27,8 +27,9 @@ enum instruction {
     // ******* instructions EvoX
     GINS,   // 20   gene insertion
     GDEL,   // 21   gene deletion
-    GSET,   // 22   set gene value
-    GADD,   // 23   add value to gene
+    GDELW,  // 22   delete 3 genes at once
+    GSET,   // 23   set gene value
+    GADD,   // 24   add value to gene
     size
 };
 

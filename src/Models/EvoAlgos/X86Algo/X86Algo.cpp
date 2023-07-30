@@ -333,6 +333,14 @@ void X86Algo::set_input(std::vector<int> in)
     }
 }
 
+void X86Algo::reset_data()
+{
+    for(int i=0;i<data.size();i++)
+    {
+        data[i] = 0;
+    }
+}
+
 //----- getters
 
 std::vector<std::array<int, 3>> X86Algo::get_code()

@@ -95,6 +95,61 @@ void EvoX::exec_instruction_meta(int instr, int addr1, int addr2)
             }
             break;
 
+        case instruction::GDELW:
+            // delete whole instruction at addr1 
+            // (3 genes genes at once if not at the end)
+            // can delete only at beginning of instruction
+            if(addr1>=0 && addr1<data.size()
+                && data[addr1]>=0 && data[addr1]<genes.size()
+                && data[addr1]%3==0)
+            {
+
+                // first case : deleting gene at the end of the genome
+                // ( incomplete gene )
+                if(data[addr1]+3>genes.size())
+                {
+                    while(nb_genes%3!=0)
+                    {
+                        genes.pop_back();
+                        nb_genes--;
+                    }
+                }
+                else
+                {
+                    int nb_instructions = (int) ( genes.size() / 3 ) ;
+                    int instr_to_del = (int) ( data[addr1] / 3 );
+
+                    // shift all genes by 3
+
+                    for(int i=instr_to_del;i<nb_instructions-1;i++)
+                    {
+                        genes[i*3] = genes[3*(i+1)];
+                        genes[i*3+1] = genes[3*(i+1)+1];
+                        genes[i*3+2] = genes[3*(i+1)+2];
+                    }
+
+                    // if there are incomplete genes at the end
+                    if(genes.size()%3!=0)
+                    {
+                        genes[(nb_instructions-1)*3] = genes[nb_instructions*3];
+
+                        if(genes.size()%3==2)
+                        {
+                            genes[(nb_instructions-1)*3+1] = genes[nb_instructions*3+1];
+                        }
+                    }
+
+                    // remove the 3 last
+                    genes.pop_back();
+                    nb_genes--;
+                    genes.pop_back();
+                    nb_genes--;
+                    genes.pop_back();
+                    nb_genes--;
+                }
+            }
+            break;
+
         case instruction::GSET:
             // set gene at addr1 with val of data at addr2
             if(addr1>=0 && addr1<data.size()
@@ -114,7 +169,6 @@ void EvoX::exec_instruction_meta(int instr, int addr1, int addr2)
                genes[data[addr1]] += data[addr2];
             }
             break;
-
 
         default:
             // does nothing
