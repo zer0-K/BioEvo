@@ -4,19 +4,18 @@
 
 #include "Experiment.hpp"
 
-class ExperimentRunner
+class ExperimentRunner : public Experiment
 {
-private:
+protected:
     std::vector<sp_experiment> experiments;    ///< experiments
 
 public:
-    /**
-     * @brief Constructor
-    */
-    ExperimentRunner(std::vector<sp_experiment> experiments);
+    using Experiment::Experiment;
 
     /**
      * @brief Display experiments to choose
     */
-    void display_and_launch();
+    void launch() override;
 };
+
+typedef std::shared_ptr<ExperimentRunner> sp_experiment_runner;

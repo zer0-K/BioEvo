@@ -4,21 +4,21 @@
 
 #include "Colors.hpp"
 
-// ---------------------------------------- other
+// ------------------------------------------------------------ other
 
 const bool verbose_unit_tests = true;
 const bool verbose_unit_tests_1 = true;
 const bool verbose_unit_tests_2 = true;
 
 
-// ---------------------------------------- colors
+// ------------------------------------------------------------ colors
 
 const ColorMod defcol(FG_DEFAULT);
 const ColorMod greencol(FG_GREEN);
 const ColorMod redcol(FG_RED);
 
 
-// ---------------------------------------- entity types
+// ------------------------------------------------------------ entity types
 
 const std::string TYPE_ENTITY = "entity";
 const std::string TYPE_VOID = "void";
@@ -26,6 +26,7 @@ const std::string TYPE_BOOL = "bool";
 const std::string TYPE_INT  = "int";
 
 const std::string TYPE_LIST = "list";
+
 
 // -------------------- CLASSICAL ALGOS
 
@@ -95,6 +96,29 @@ const int DEFAULT_X86_CODE_SIZE = 1000;
 const std::string EVOX = "evo x86 algo";
 
 
-// ---------------------------------------- Experiment names
+// ------------------------------------------------------------ Experiment names
+
+// -------------------- CLASSICAL INFO
 
 const std::string name_exp_console_app = "console app";
+
+// -------------------- BIO EVO
+
+const std::string name_exp_bioevo = "bio evo experiments";
+
+// ---------- TRAIT
+
+const std::string name_exp_bioevo_traits = "experiment on traits";
+
+// ---------- GENE
+
+const std::string name_exp_bioevo_genes = "experiment on genes";
+
+// ---------- REPLICATORS
+
+const std::string name_exp_bioevo_replication = "experiment en replication";
+const std::string name_exp_bioevo_replication_evox = "EvoX replication";
+
+// -------------------- EVO ALGOS
+
+const std::string name_exp_evoalgos = "evo algos experiments";

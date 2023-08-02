@@ -3,6 +3,9 @@
 #include <vector>
 
 #include "../General/Place.hpp"
+#include "../Utils/Constants.hpp"
+#include "../Entities/EntityVoid.hpp"
+
 
 class Universe;
 typedef std::shared_ptr<Universe> sp_universe;
@@ -42,7 +45,7 @@ protected:
     /**
      * @brief Execute the universe
     */
-    void exec();
+    virtual void exec();
 
     //----- getters
 

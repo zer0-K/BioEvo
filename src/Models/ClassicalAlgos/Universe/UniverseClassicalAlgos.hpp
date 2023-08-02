@@ -8,8 +8,6 @@ protected:
 
 public:
     UniverseClassicalAlgos(int size_universe, std::string name);
-
-    void exec();
 };
 
 typedef std::shared_ptr<UniverseClassicalAlgos> sp_univ_classical_algos;

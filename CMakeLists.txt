@@ -48,15 +48,6 @@ set(SOURCES_ENTITIES src/Entities/Entity.cpp src/Entities/EntityVoid.cpp
         src/Entities/Entity.hpp src/Entities/EntityBool.cpp)
 
 
-# ********************************* Experiments *********************************
-
-set(HEADERS_EXPERIMENTS src/Experiment/Experiment.hpp
-    src/Experiment/ExperimentRunner.hpp)
-
-set(SOURCES_EXPERIMENTS src/Experiment/Experiment.cpp
-    src/Experiment/ExperimentRunner.cpp)
-
-
 # ********************************* Universe *********************************
 
 set(HEADERS_UNIVERSE src/Universe/Universe.hpp)
@@ -76,6 +67,15 @@ set(SOURCES_ENVIRONMENT src/Environment/Environment.cpp)
 set(HEADERS_INDIVIDUAL src/Individual/Individual.hpp)
 
 set(SOURCES_INDIVIDUAL src/Individual/Individual.cpp)
+
+
+# ********************************* Experiments *********************************
+
+set(HEADERS_EXPERIMENTS src/Experiment/Experiment.hpp
+    src/Experiment/ExperimentRunner.hpp)
+
+set(SOURCES_EXPERIMENTS src/Experiment/Experiment.cpp
+    src/Experiment/ExperimentRunner.cpp)
 
 
 
@@ -164,16 +164,21 @@ set(HEADERS_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.hpp
-    src/Models/EvoAlgos/X86Algo/X86Algo.hpp src/Models/EvoAlgos/X86Algo/EvoX.hpp)
+    src/Models/EvoAlgos/X86Algo/X86Algo.hpp src/Models/EvoAlgos/X86Algo/EvoX.hpp
+#---------- Experiments
+#----- BioEvo
+# Replicators
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoX.hpp)
 
 set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.cpp
     src/Models/EvoAlgos/X86Algo/X86Algo.cpp src/Models/EvoAlgos/X86Algo/EvoX.cpp
-# experiments
-    #src/Models/EvoAlgos/Experiment/.cpp
-    )
+#---------- Experiments
+#----- BioEvo
+# Replicators
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoX.cpp)
 
 
 # ********************************* Evolutionary biology *********************************
@@ -281,6 +286,9 @@ set(SOURCES_FRAMEWORK ${SOURCES_GENERAL} ${SOURCES_ENTITIES} ${SOURCES_INSTR} ${
     ${SOURCES_EXPERIMENTS} ${SOURCES_UNIT_TEST})
 
 
+# ****************************************************************** Experiments ******************************************************************
+
+# ********************************* By model
 
 add_executable(classical_info src/Models/ClassicalInfo/Experiment/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_INFO} 
@@ -303,6 +311,7 @@ add_executable(classical_algos src/Models/ClassicalAlgos/Experiment/main.cpp
 target_link_libraries(classical_algos ${LIBS})
 
 add_executable(evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
+    src/Models/EvoAlgos/Experiment/ExperimentRunnerEvoAlgos.hpp
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_EVO_ALGOS})
 target_link_libraries(evo_algos ${LIBS})
@@ -327,6 +336,49 @@ add_executable(finance src/Models/Finance/Experiment/main.cpp
     ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_FINANCE})
 target_link_libraries(finance ${LIBS})
 
+
+# ************************************************ By function
+
+# ****************************** Bio evo
+
+# *************** Trait
+
+set(EXPERIMENT_RUNNERS_BIO_EVO_TRAIT src/Experiment/BioEvo/Trait/ExperimentRunnerTraits.hpp)
+add_executable(bio-evo-trait src/Experiment/BioEvo/Trait/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_TRAIT})
+target_link_libraries(bio-evo-trait ${LIBS})
+
+# *************** Gene
+
+set(EXPERIMENT_RUNNERS_BIO_EVO_GENE src/Experiment/BioEvo/Gene/ExperimentRunnerGenes.hpp)
+add_executable(bio-evo-gene src/Experiment/BioEvo/Gene/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_GENE})
+target_link_libraries(bio-evo-gene ${LIBS})
+
+# *************** Replicators
+
+set(EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS src/Experiment/BioEvo/Replicators/ExperimentRunnerReplicators.hpp)
+add_executable(bio-evo-replication src/Experiment/BioEvo/Replicators/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS})
+target_link_libraries(bio-evo-replication ${LIBS})
+
+# *************** all
+
+set(EXPERIMENT_RUNNERS_BIO_EVO 
+    src/Experiment/BioEvo/ExperimentRunnerBioEvo.hpp
+    ${EXPERIMENT_RUNNERS_BIO_EVO_TRAIT} ${EXPERIMENT_RUNNERS_BIO_EVO_GENE}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS})
+add_executable(bio-evo-all src/Experiment/BioEvo/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO})
+target_link_libraries(bio-evo-all ${LIBS})
 
 
 # ********************************* Unit tests *********************************
