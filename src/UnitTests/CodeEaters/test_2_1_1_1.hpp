@@ -19,23 +19,23 @@ namespace ut_ce
     /**
      * @brief Test id function on boolean code eaters 
     */
-    bool launch_test_code_eaters_operations_booleans_basic_id()
+    bool launch_test_code_eaters_operations_boolean_basic_id()
     {
-        bool test_code_eaters_operations_booleans_boolid(void);
-        bool test_code_eaters_operations_booleans_not(void);
-        bool test_code_eaters_operations_booleans_boolidin(void);
-        bool test_code_eaters_operations_booleans_notin(void);
+        bool test_code_eaters_operations_boolean_boolid(void);
+        bool test_code_eaters_operations_boolean_not(void);
+        bool test_code_eaters_operations_boolean_boolidin(void);
+        bool test_code_eaters_operations_boolean_notin(void);
 
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - booleans - basic - id : " << std::endl;
+        std::cout << "Code eaters - operations - boolean - basic - id : " << std::endl;
 
-        is_passed &= test_code_eaters_operations_booleans_boolid();
-        is_passed &= test_code_eaters_operations_booleans_not();
-        is_passed &= test_code_eaters_operations_booleans_boolidin();
-        is_passed &= test_code_eaters_operations_booleans_notin();
+        is_passed &= test_code_eaters_operations_boolean_boolid();
+        is_passed &= test_code_eaters_operations_boolean_not();
+        is_passed &= test_code_eaters_operations_boolean_boolidin();
+        is_passed &= test_code_eaters_operations_boolean_notin();
 
-        std::cout << "Code eaters - operations - booleans - basic - id : ";
+        std::cout << "Code eaters - operations - boolean - basic - id : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -44,7 +44,7 @@ namespace ut_ce
     /**
      * @brief boolean id
     */
-    bool test_code_eaters_operations_booleans_boolid()
+    bool test_code_eaters_operations_boolean_boolid()
     {
         bool is_passed = true;
 
@@ -92,7 +92,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - id - id : ";
+            std::cout << "Code eaters - operations - boolean - basic - id - id : ";
             passed_print(is_passed);
         }
 
@@ -102,7 +102,7 @@ namespace ut_ce
     /**
      * @brief boolean not 
     */
-    bool test_code_eaters_operations_booleans_not()
+    bool test_code_eaters_operations_boolean_not()
     {
         bool is_passed = true;
 
@@ -150,7 +150,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - id - not : ";
+            std::cout << "Code eaters - operations - boolean - basic - id - not : ";
             passed_print(is_passed);
         }
 
@@ -160,7 +160,7 @@ namespace ut_ce
     /**
      * @brief boolean id, in place
     */
-    bool test_code_eaters_operations_booleans_boolidin()
+    bool test_code_eaters_operations_boolean_boolidin()
     {
         bool is_passed = true;
 
@@ -204,7 +204,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - id - id in place : ";
+            std::cout << "Code eaters - operations - boolean - basic - id - id in place : ";
             passed_print(is_passed);
         }
 
@@ -214,7 +214,7 @@ namespace ut_ce
     /**
      * @brief boolean not, in place
     */
-    bool test_code_eaters_operations_booleans_notin()
+    bool test_code_eaters_operations_boolean_notin()
     {
         bool is_passed = true;
 
@@ -258,7 +258,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - id - in place not : ";
+            std::cout << "Code eaters - operations - boolean - basic - id - in place not : ";
             passed_print(is_passed);
         }
 

@@ -6,15 +6,15 @@
 
 namespace ut_ce 
 {
-    bool launch_tests_code_eaters_operations_booleans()
+    bool launch_tests_code_eaters_operations_boolean()
     {
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - booleans : " << std::endl;
+        std::cout << "Code eaters - operations - boolean : " << std::endl;
 
-        is_passed &= launch_test_code_eaters_operations_booleans_basic();
+        is_passed &= launch_test_code_eaters_operations_boolean_basic();
 
-        std::cout << "Code eaters - operations - booleans : ";
+        std::cout << "Code eaters - operations - boolean : ";
         passed_print(is_passed);
 
         return is_passed;

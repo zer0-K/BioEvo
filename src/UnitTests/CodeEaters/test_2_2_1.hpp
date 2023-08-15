@@ -18,13 +18,13 @@ namespace ut_ce
     {
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - ints - basic : " << std::endl;
+        std::cout << "Code eaters - operations - int - basic : " << std::endl;
 
         is_passed &= launch_test_code_eaters_operations_ints_basic_unary();
         is_passed &= launch_test_code_eaters_operations_ints_basic_add();
         is_passed &= launch_test_code_eaters_operations_ints_basic_mult();
 
-        std::cout << "Code eaters - operations - ints - basic : ";
+        std::cout << "Code eaters - operations - int - basic : ";
         passed_print(is_passed);
 
         return is_passed;

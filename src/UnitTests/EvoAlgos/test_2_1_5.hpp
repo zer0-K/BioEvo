@@ -43,25 +43,23 @@ namespace ut_ea
         algo->init();
 
         // code
-        std::vector<std::array<int,3>> code {
-            { instruction::CPYIN, 0, 0},
-            { instruction::CPYIN, 1, 1},
-            { instruction::CPY, 2, 0},
-            { instruction::RN, 4, 4},
-            { instruction::ADD, 3, 4},
-            { instruction::DEC, 2, 2},
-            { instruction::JG, 1, 2},
-            { instruction::DIV, 3, 0},
-            { instruction::CPYOUT, 0, 3}
+        std::vector<std::array<int,SIZE_INSTR>> code {
+            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
+            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
+            { instruction::CPY, 0, 0, 0, 2, 0, 0},
+            { instruction::RN, 0, 0, 0, 4, 4, 0},
+            { instruction::ADD, 0, 0, 0, 3, 4, 0},
+            { instruction::DEC, 0, 0, 0, 2, 2, 0},
+            { instruction::JG, 0, 0, 0, 1, 2, 0},
+            { instruction::DIV, 0, 0, 0, 3, 0, 0},
+            { instruction::CPYOUT, 0, 0, 0, 0, 3, 0}
         };
-        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
         std::vector<int> input {
             1000, 3
         };
-        algo->set_input_size(input.size());
         algo->set_input(input);
 
         // output
@@ -98,29 +96,25 @@ namespace ut_ea
         algo->init();
 
         // code
-        std::vector<std::array<int,3>> code {
-            { instruction::CPYIN, 0, 0},
-            { instruction::CPYIN, 1, 1},
-            { instruction::CPYIN, 2, 2},
-            { instruction::CPYIN, 3, 3},
-            { instruction::CPY, 4, 0},
-            { instruction::RUISL, 1, 1},
-            { instruction::RUISU, 2, 2},
-            { instruction::RUI, 6, 6},
-            { instruction::ADD, 5, 6},
-            { instruction::DEC, 4, 4},
-            { instruction::JG, 3, 4},
-            { instruction::DIV, 5, 0},
-            { instruction::CPYOUT, 0, 5}
+        std::vector<std::array<int,SIZE_INSTR>> code {
+            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
+            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
+            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
+            { instruction::CPYIN, 0, 0, 0, 3, 3, 0},
+            { instruction::CPY, 0, 0, 0, 4, 0, 0},
+            { instruction::RUI, 0, 0, 0, 5, 1, 2},
+            { instruction::ADD, 0, 0, 0, 6, 6, 5},
+            { instruction::DEC, 0, 0, 0, 4, 0, 0},
+            { instruction::JG, 0, 0, 0, 3, 4, 7},
+            { instruction::DIV, 0, 0, 0, 6, 6, 0},
+            { instruction::CPYOUT, 0, 0, 0, 0, 6, 0}
         };
-        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
         std::vector<int> input {
-            1000, 11, 16, 7
+            1000, 11, 16, 5
         };
-        algo->set_input_size(input.size());
         algo->set_input(input);
 
         // output

@@ -15,18 +15,18 @@ namespace ut_ce
     /**
      * @brief Test simple boolean operations with code eaters
     */
-    bool launch_test_code_eaters_operations_booleans_basic()
+    bool launch_test_code_eaters_operations_boolean_basic()
     {
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - booleans - basic : " << std::endl;
+        std::cout << "Code eaters - operations - boolean - basic : " << std::endl;
 
-        is_passed &= launch_test_code_eaters_operations_booleans_basic_id();
-        is_passed &= launch_test_code_eaters_operations_booleans_basic_and();
-        is_passed &= launch_test_code_eaters_operations_booleans_basic_or();
-        is_passed &= launch_test_code_eaters_operations_booleans_basic_xor();
+        is_passed &= launch_test_code_eaters_operations_boolean_basic_id();
+        is_passed &= launch_test_code_eaters_operations_boolean_basic_and();
+        is_passed &= launch_test_code_eaters_operations_boolean_basic_or();
+        is_passed &= launch_test_code_eaters_operations_boolean_basic_xor();
 
-        std::cout << "Code eaters - operations - booleans - basic : ";
+        std::cout << "Code eaters - operations - boolean - basic : ";
         passed_print(is_passed);
 
         return is_passed;

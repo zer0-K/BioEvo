@@ -11,7 +11,7 @@ namespace ut_ce
 
         std::cout << "Code eaters - operations : " << std::endl;
 
-        is_passed &= launch_tests_code_eaters_operations_booleans();
+        is_passed &= launch_tests_code_eaters_operations_boolean();
         is_passed &= launch_tests_code_eaters_operations_ints();
 
         std::cout << "Code eaters - operations : ";

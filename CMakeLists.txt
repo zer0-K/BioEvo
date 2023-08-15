@@ -456,11 +456,13 @@ target_link_libraries(unit_tests_economy ${LIBS})
 # ********** evolutionary algorithms
 
 set(HEADERS_UNIT_TESTS_EVO_ALGOS
+    src/UnitTests/EvoAlgos/X86TesterHelper.hpp
     src/UnitTests/EvoAlgos/test_1_empty.hpp
     src/UnitTests/EvoAlgos/test_2_x86.hpp
         src/UnitTests/EvoAlgos/test_2_1.hpp
             src/UnitTests/EvoAlgos/test_2_1_1.hpp src/UnitTests/EvoAlgos/test_2_1_2.hpp
             src/UnitTests/EvoAlgos/test_2_1_3.hpp src/UnitTests/EvoAlgos/test_2_1_4.hpp
+            src/UnitTests/EvoAlgos/test_2_1_5.hpp src/UnitTests/EvoAlgos/test_2_1_6.hpp
     src/UnitTests/EvoAlgos/test_3_evox.hpp
         src/UnitTests/EvoAlgos/test_3_1.hpp
             src/UnitTests/EvoAlgos/test_3_1_1.hpp)

@@ -19,23 +19,23 @@ namespace ut_ce
     /**
      * @brief Test xor gates on boolean code eaters
     */
-    bool launch_test_code_eaters_operations_booleans_basic_xor()
+    bool launch_test_code_eaters_operations_boolean_basic_xor()
     {
-        bool test_code_eaters_operations_booleans_xor(void);
-        bool test_code_eaters_operations_booleans_nxor(void);
-        bool test_code_eaters_operations_booleans_xorin(void);
-        bool test_code_eaters_operations_booleans_nxorin(void);
+        bool test_code_eaters_operations_boolean_xor(void);
+        bool test_code_eaters_operations_boolean_nxor(void);
+        bool test_code_eaters_operations_boolean_xorin(void);
+        bool test_code_eaters_operations_boolean_nxorin(void);
 
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - booleans - basic - xor : " << std::endl;
+        std::cout << "Code eaters - operations - boolean - basic - xor : " << std::endl;
 
-        is_passed &= test_code_eaters_operations_booleans_xor();
-        is_passed &= test_code_eaters_operations_booleans_nxor();
-        is_passed &= test_code_eaters_operations_booleans_xorin();
-        is_passed &= test_code_eaters_operations_booleans_nxorin();
+        is_passed &= test_code_eaters_operations_boolean_xor();
+        is_passed &= test_code_eaters_operations_boolean_nxor();
+        is_passed &= test_code_eaters_operations_boolean_xorin();
+        is_passed &= test_code_eaters_operations_boolean_nxorin();
   
-        std::cout << "Code eaters - operations - booleans - basic - xor : ";
+        std::cout << "Code eaters - operations - boolean - basic - xor : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -44,7 +44,7 @@ namespace ut_ce
     /**
      * @brief test XOR 
     */
-    bool test_code_eaters_operations_booleans_xor()
+    bool test_code_eaters_operations_boolean_xor()
     {
         bool is_passed = true;
 
@@ -160,7 +160,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - xor - xor : ";
+            std::cout << "Code eaters - operations - boolean - basic - xor - xor : ";
             passed_print(is_passed);
         }
 
@@ -170,7 +170,7 @@ namespace ut_ce
     /**
      * @brief test NXOR 
     */
-    bool test_code_eaters_operations_booleans_nxor()
+    bool test_code_eaters_operations_boolean_nxor()
     {
         bool is_passed = true;
 
@@ -283,7 +283,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - xor - nxor : ";
+            std::cout << "Code eaters - operations - boolean - basic - xor - nxor : ";
             passed_print(is_passed);
         }
 
@@ -293,7 +293,7 @@ namespace ut_ce
     /**
      * @brief test XOR, in place
     */
-    bool test_code_eaters_operations_booleans_xorin()
+    bool test_code_eaters_operations_boolean_xorin()
     {
         bool is_passed = true;
 
@@ -411,7 +411,7 @@ namespace ut_ce
     /**
      * @brief test NXOR, in place
     */
-    bool test_code_eaters_operations_booleans_nxorin()
+    bool test_code_eaters_operations_boolean_nxorin()
     {
         bool is_passed = true;
 

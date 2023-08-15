@@ -1,6 +1,5 @@
 #include "X86Algo.hpp"
 
-#include "../../../Utils/Constants.hpp"
 #include "../../../Utils/Maths/RandomGen.hpp"
 #include "InstructionMapping.hpp"
 
@@ -11,7 +10,7 @@ void X86Algo::init()
 
     program_counter = 0;
 
-    code = std::vector<std::array<int, 3>>(DEFAULT_X86_CODE_SIZE);
+    code = std::vector<std::array<int,SIZE_INSTR>>(DEFAULT_X86_CODE_SIZE);
     set_data_size(DEFAULT_X86_DATA_SIZE);
     set_input_size(1);
     set_output_size(1);
@@ -37,9 +36,9 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     while(program_counter>=0 && program_counter<code.size()
         && instr_counter < 10000)
     {
-        std::array<int,3> code_line = code.at(program_counter);
+        std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
 
-        exec_instruction(code_line[0], code_line[1], code_line[2]);
+        exec_instruction(code_line[0], code_line[1], code_line[2], code_line[3], code_line[4], code_line[5], code_line[6]);
 
         program_counter++;
         instr_counter++;
@@ -53,14 +52,31 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     return entries;
 }
 
-void X86Algo::exec_instruction(int instr, int addr1, int addr2)
+void X86Algo::exec_instruction(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    int arg1, int arg2, int arg3)
 {
-    exec_instruction_basic(instr, addr1, addr2);
-    exec_instruction_gene(instr, addr1, addr2);
+    exec_instruction_basic(instr, is_addr1, is_addr2, is_addr3, arg1, arg2, arg3);
+    exec_instruction_gene(instr, is_addr1, is_addr2, is_addr3, arg1, arg2, arg3);
 }
 
-void X86Algo::exec_instruction_basic(int instr, int addr1, int addr2)
+void X86Algo::exec_instruction_basic(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    int arg1, int arg2, int arg3)
 {
+    bool is_valid = true;
+
+    auto transformed_args = get_vals(is_valid, is_addr1, is_addr2, is_addr3,
+        arg1, arg2, arg3);
+
+    if(!is_valid)
+        return;
+
+    int arg1_ = transformed_args[0];
+    int arg2_ = transformed_args[1];
+    int arg3_ = transformed_args[2];
+
+    int destination = arg1_;
+    int source = arg2_;
+
     switch(instr)
     {
         case instruction::XXX:
@@ -68,267 +84,432 @@ void X86Algo::exec_instruction_basic(int instr, int addr1, int addr2)
             break;
 
         case instruction::MOV:
-            // moves data at second address into the first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // move
+            // moves data at second adress into the first one
+
+            if(destination>=0 && source>=0
+                && destination<data.size() && source<data.size())
             {
-                data[addr1] = data[addr2];
-                data[addr2] = 0;
+                data[destination] = data[source];
+                data[source] = 0;
             }
+
             break;
 
         case instruction::CPY:
-            // copy data at second address into first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // copy
+            // copy data at second adress into first one
+
+            if(destination>=0 && source>=0
+                && destination<data.size() && source<data.size())
             {
-                data[addr1] = data[addr2];
+                data[destination] = data[source];
             }
+
             break;
 
         case instruction::CPYIN:
+            // copy input
             // copies the input into memory
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<input.size())
+
+            if(destination>=0 && source>=0
+                && destination<data.size() && source<input.size())
             {
-                data[addr1] = input[addr2];
+                data[destination] = input[source];
             }
-            break;
+
+           break;
 
         case instruction::CPYOUT:
+            // copy output
             // copies data to output
-            if(addr1>=0 && addr2>=0
-                && addr1<output.size() && addr2<data.size())
+
+            if(destination>=0 && source>=0
+                && destination<output.size() && source<data.size())
             {
-                output[addr1] = data[addr2];
+                output[destination] = data[source];
             }
+
             break;
 
         case instruction::INC:
-            // increment data at second address into first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // increment
+            // increment data at second adress into first one
+
+            if(destination>=0 && destination<data.size())
             {
-                data[addr1] = data[addr2] + 1;
+                data[destination]++;
             }
-            break;
+
+           break;
 
          case instruction::DEC:
-            // decrement data at second address into first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // decrement
+            // decrement data at second adress into first one
+
+            if(destination>=0 && destination<data.size())
             {
-                data[addr1] = data[addr2] - 1;
+                data[destination]--;
             }
-            break;
+
+           break;
 
         case instruction::ADD:
-            // add the data in the two addresses into the first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // add
+            // add the data in the two adresses into the first one
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
             {
-                data[addr1] = data[addr1] + data[addr2];
+                data[destination] = data[arg2_] + data[arg3_];
             }
+
             break;
 
         case instruction::SUB:
-            // substract the data in the two addresses into the first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // substract
+            // substract the data in the two adresses into the first one
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
             {
-                data[addr1] = data[addr1] - data[addr2];
+                data[destination] = data[arg2_] - data[arg3_];
             }
-            break;
+
+           break;
 
         case instruction::MUL:
-            // multiply the data in the two addresses into the first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // multiply
+            // multiply the data in the two adresses into the first one
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
             {
-                data[addr1] = data[addr1] * data[addr2];
+                data[destination] = data[arg2_] * data[arg3_];
             }
-            break;
+
+           break;
 
         case instruction::DIV:
-            // divide the data in the two addresses into the first one
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // divide
+            // divide the data in the two adresses into the first one
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
             {
-                data[addr1] = data[addr1] / data[addr2];
+                data[destination] = data[arg2_] / data[arg3_];
             }
-            break;
+
+           break;
+
+        case instruction::OPP:
+            // opposite
+            // take opposite of given number
+
+            if(destination>=0 && destination<data.size())
+            {
+                data[destination] = -data[destination];
+            }
+
+           break;
 
         case instruction::CMP:
-            // compare data 1 if addr1<addr2, -1 if > and 0 if =
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size())
+            // compare
+            // compare data at arg2 and arg3, stores 0 in destination if they are equal,
+            // 1 if data at arg2 < data at arg3, -1 otherwise
+
+            if(destination>=0 && source>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
             {
-                data[addr1] = data[addr1] == data[addr2] ? 0 :
-                                ( data[addr1] < data[addr2] ? 1 : -1 );
+                data[destination] = data[arg2_] == data[arg3_] ? 0 :
+                                ( data[arg2_] < data[arg3_] ? 1 : -1 );
             }
+
+            break;
+
+
+        case instruction::CPYIS:
+            // copy input size
+
+            if(destination>=0 && destination<data.size() )
+            {
+                data[destination] = input.size();
+            }
+
+            break;
+
+
+        case instruction::SETOS:
+            // set output size
+
+            if(destination>=0 && destination<data.size()
+                && data[destination]>=0 && data[destination]<MAX_OUTPUT_SIZE_X86)
+            {
+                int new_out_size = data[destination];
+
+                if(output.size() > new_out_size)
+                {
+                    while(output.size()!=new_out_size)
+                    {
+                        output.pop_back();
+                    }
+                }
+
+                if(output.size() < new_out_size)
+                {
+                    while(output.size() != new_out_size)
+                    {
+                        output.push_back(0);
+                    }
+                }
+            }
+
             break;
 
 
         case instruction::JMP:
-            // set prog ptr to given position at index of second address
-            // set current prog ptr in first address
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && data[addr2]>=0 && data[addr2]<code.size())
+            // jump
+            // set prog ptr to given position 
+
+            if(arg1_>=0 && arg1_<data.size() && data[arg1_]<code.size())
             {                
-                int temp = program_counter;
-
                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                program_counter = data[addr2] - 1;
-
-                // ! prog ptr BEFORE being incremented !
-                data[addr1] = temp;
+                program_counter = data[arg1_] - 1;
             }
             break;
 
 
         case instruction::JRA:
-            // shift positively the prog ptr according to data at second address
-            // set current prog ptr in first address
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && program_counter + data[addr2] >= 0 
-                && program_counter + data[addr2] < code.size())
-            {
-                int temp = program_counter;
-                
-                // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                program_counter += data[addr2] - 1;
+            // relative jump (+ shift)
+            // shift positively the prog ptr according to data at second adress
 
-                // ! prog ptr BEFORE being incremented !
-                data[addr1] = temp;
+            if(arg1_>=0 && arg1_<data.size()
+                && program_counter + data[arg1_] >= 0 
+                && program_counter + data[arg1_] < code.size())
+            {                
+                // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter += data[arg1_] - 1;
             }
             break;
 
         case instruction::JRS:
-            // shift negatively the prog ptr according to data at second address
-            // set current prog ptr in first address
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && program_counter - data[addr2] >= 0 
-                && program_counter - data[addr2] < code.size())
+            // relative jump (-shift)
+            // shift negatively the prog ptr according to data at second adress
+
+            if(arg1_>=0 && arg1_<data.size()
+                && program_counter + data[arg1_] >= 0 
+                && program_counter + data[arg1_] < code.size())
             {
-                int temp = program_counter;
-                
                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                program_counter = (program_counter - data[addr2]) - 1;
-
-                // ! prog ptr BEFORE being incremented !
-                data[addr1] = temp;
-            }
-            break;
-
-        case instruction::JRE:
-            // add val at addr1 to prog ptr if at addr2 is equal to 0
-            // does not set old prog ptr
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<code.size()
-                && program_counter + data[addr1] >= 0 
-                && program_counter + data[addr1] < code.size())
-            {
-                if(data[addr2] == 0)
-                {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter += data[addr1] - 1;
-                }
+                program_counter = (program_counter - data[arg1_]) - 1;
             }
             break;
 
         case instruction::JE:
-            // jump at address at addr1 if data at addr2 is equal to 0
-            // does not set old prog ptr
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<code.size())
+            // (absolute) jump if equal
+            // set prog ptr if data at arg2 equals data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && data[destination] >= 0 && data[destination] < code.size())
             {
-                if(data[addr2] == 0)
+                if(data[arg2_] == data[arg3_])
                 {
                     // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[addr1] - 1;
+                    program_counter = data[destination] - 1;
                 }
             }
             break;
 
 
         case instruction::JL:
-            // jump at address at addr1 if data at addr2 is < 0
-            // does not set old prog ptr
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<code.size())
+            // jump if lower (strict)
+            // jump at adress at destination if data at arg2 is < data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && data[destination] >= 0 && data[destination] < code.size())
             {
-                if(data[addr2] < 0)
+                if(data[arg2_] < data[arg3_])
                 {
                     // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[addr1] - 1;
-               }
+                    program_counter = data[destination] - 1;
+                }
             }
             break;
 
 
         case instruction::JG:
-            // jump at address at addr1 if data at addr2 is > 0
-            // does not set old prog ptr
-            if(addr1>=0 && addr2>=0
-                && addr1<data.size() && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<code.size())
+            // jump if greater (strict)
+            // jump at adress at destination if data at arg2 is > data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && data[destination] >= 0 && data[destination] < code.size())
             {
-                if(data[addr2] > 0)
+                if(data[arg2_] > data[arg3_])
                 {
                     // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[addr1] - 1;
-               }
+                    program_counter = data[destination] - 1;
+                }
             }
             break;
 
-        case instruction::HALT:
+        case instruction::JLE:
+            // jump if lower or equal
+            // jump at adress at destination if data at arg2 is <= data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && data[destination] >= 0 && data[destination] < code.size())
+            {
+                if(data[arg2_] <= data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter = data[destination] - 1;
+                }
+            }
+            break;
+
+
+        case instruction::JGE:
+            // jump if greater or equal
+            // jump at adress at destination if data at arg2 is >= data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && data[destination] >= 0 && data[destination] < code.size())
+            {
+                if(data[arg2_] >= data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter = data[destination] - 1;
+                }
+            }
+            break;
+
+        case instruction::JRE:
+            // relative jump if equals
+            // shift prog ptr if data at arg2 equals data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && program_counter + data[destination] >= 0 
+                && program_counter + data[destination] < code.size())
+            {
+                if(data[arg2_] == data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter += data[destination] - 1;
+                }
+            }
+            break;
+
+        case instruction::JRL:
+            // relative jump if lower (strict)
+            // shift prog ptr if data at arg2 is < data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && program_counter + data[destination] >= 0 
+                && program_counter + data[destination] < code.size())
+            {
+                if(data[arg2_] < data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter += data[destination] - 1;
+                }
+            }
+            break;
+
+
+        case instruction::JRG:
+            // relative jump if greater (strict)
+            // shift prog ptr if data at arg2 is > data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && program_counter + data[destination] >= 0 
+                && program_counter + data[destination] < code.size())
+            {
+                if(data[arg2_] > data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter += data[destination] - 1;
+                }
+            }
+            break;
+
+        case instruction::JRLE:
+            // relative jump if lower or equal
+            // shift prog ptr if data at arg2 is <= data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && program_counter + data[destination] >= 0 
+                && program_counter + data[destination] < code.size())
+            {
+                if(data[arg2_] <= data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter += data[destination] - 1;
+                }
+            }
+            break;
+
+
+        case instruction::JRGE:
+            // relative jump if greater or equal
+            // shift prog ptr if data at arg2 is >= data at arg3
+
+            if(destination>=0 && arg2_>=0 && arg3_>=0
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && program_counter + data[destination] >= 0 
+                && program_counter + data[destination] < code.size())
+            {
+                if(data[arg2_] >= data[arg3_])
+                {
+                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                    program_counter += data[destination] - 1;
+                }
+            }
+            break;
+
+         case instruction::HALT:
             // set prog ptr at end of code ('-1' because prog ptr is incremented at end of instr exec)
+
             program_counter = code.size() - 1;
             break;
 
         case instruction::RN:
-            // normal law at first given address
-            if(addr1>=0 && addr1<data.size())
+            // nandom normal
+            // normal law at first given adress
+
+            if(destination>=0 && destination<data.size())
             {
-                data[addr1] = rand_gen::rand_normal(0,1);
+                data[destination] = rand_gen::rand_normal(0,1);
             }
             break;
 
         case instruction::RUD:
-            // uniform random double between 0 and 1 at first given address
-            if(addr1>=0 && addr1<data.size())
+            // random uniform double
+            // uniform random double between 0 and 1 at first given adress
+
+            if(destination>=0 && destination<data.size())
             {
-                data[addr1] = rand_gen::rand_double(0,1);
+                data[destination] = rand_gen::rand_double(0,1);
             }
             break;
 
         case instruction::RUI:
-            // uniform random int between the bounds at first given address
-            if(addr1>=0 && addr1<data.size())
-            {
-                data[addr1] = rand_gen::rand_int(unif_lower_bound,unif_upper_bound);
-            }
-            break;
+            // random uniform int
+            // uniform random int between the bounds at arg2 and arg3
 
-        case instruction::RUISL:
-            // set lower bound for uniform random int generation
-            if(addr1>=0 && addr1<data.size())
+            if(destination>=0 && destination<data.size()
+                && arg2_>=0 && arg2_<data.size()
+                && arg3_>=0 && arg3_<data.size())
             {
-                unif_lower_bound = (int) data[addr1];
-            }
-            break;
-
-        case instruction::RUISU:
-            // set upper bound for uniform random int generation
-            if(addr1>=0 && addr1<data.size())
-            {
-                unif_upper_bound = (int) data[addr1];
+                data[destination] = rand_gen::rand_int(data[arg2_],data[arg3_]);
             }
             break;
 
@@ -336,6 +517,44 @@ void X86Algo::exec_instruction_basic(int instr, int addr1, int addr2)
             // does nothing
             break;
     }
+}
+
+std::array<int,SIZE_INSTR> X86Algo::get_vals(bool &is_valid, bool is_addr1, bool is_addr2, bool is_addr3, 
+    int arg1, int arg2, int arg3)
+{
+    std::array<int,SIZE_INSTR> result = { arg1, arg2, arg3 };
+
+    if(is_addr1)
+    {
+        is_valid = arg1 >=0 && arg1<data.size();
+
+        if(!is_valid)
+            return result;
+
+        result[0] = data[arg1];
+    }
+
+    if(is_addr2)
+    {
+        is_valid = arg2 >=0 && arg2<data.size();
+
+        if(!is_valid)
+            return result;
+
+        result[1] = data[arg2];
+    }
+
+    if(is_addr3)
+    {
+        is_valid = arg3 >=0 && arg3<data.size();
+
+        if(!is_valid)
+            return result;
+
+        result[2] = data[arg3];
+    }
+
+    return result;
 }
 
 void X86Algo::set_data_size(int n)
@@ -355,24 +574,28 @@ void X86Algo::set_output_size(int n)
 
 void X86Algo::reset_code_to_size(int code_size)
 {
-    code = std::vector<std::array<int, 3>>(code_size);
+    code = std::vector<std::array<int,SIZE_INSTR>>(code_size);
 }
 
-void X86Algo::set_code(std::vector<std::array<int, 3>> code, int place_at)
+void X86Algo::set_code(std::vector<std::array<int,SIZE_INSTR>> code, int place_at)
 {
-    if(place_at>=0 && place_at+code.size()<=this->code.size())
+    if(place_at>=0 && place_at<this->code.size())
     {
+        reset_code_to_size(code.size() + place_at);
+
         for(int i=0;i<code.size();i++)
         {
-            this->code[place_at + i][0] = code[i][0];
-            this->code[place_at + i][1] = code[i][1];
-            this->code[place_at + i][2] = code[i][2];
+            for(int j=0;j<SIZE_INSTR;j++)
+            {
+                this->code[place_at+i][j] = code[i][j];
+            }
         }
     }
 }
 
 void X86Algo::set_input(std::vector<int> in)
 {
+    set_input_size(in.size());
     for(int i=0; i<std::min(in.size(), input.size());i++)
     {
         input[i] = in[i];
@@ -389,7 +612,7 @@ void X86Algo::reset_data()
 
 //----- getters
 
-std::vector<std::array<int, 3>> X86Algo::get_code()
+std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
 {
     return code;
 }

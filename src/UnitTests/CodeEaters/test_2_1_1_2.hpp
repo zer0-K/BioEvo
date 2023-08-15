@@ -19,23 +19,23 @@ namespace ut_ce
     /**
      * @brief Test and gates on boolean code eaters
     */
-    bool launch_test_code_eaters_operations_booleans_basic_and()
+    bool launch_test_code_eaters_operations_boolean_basic_and()
     {
-        bool test_code_eaters_operations_booleans_and(void);
-        bool test_code_eaters_operations_booleans_nand(void);
-        bool test_code_eaters_operations_booleans_andin(void);
-        bool test_code_eaters_operations_booleans_nandin(void);
+        bool test_code_eaters_operations_boolean_and(void);
+        bool test_code_eaters_operations_boolean_nand(void);
+        bool test_code_eaters_operations_boolean_andin(void);
+        bool test_code_eaters_operations_boolean_nandin(void);
 
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - booleans - basic - and : " << std::endl;
+        std::cout << "Code eaters - operations - boolean - basic - and : " << std::endl;
 
-        is_passed &= test_code_eaters_operations_booleans_and();
-        is_passed &= test_code_eaters_operations_booleans_nand();
-        is_passed &= test_code_eaters_operations_booleans_andin();
-        is_passed &= test_code_eaters_operations_booleans_nandin();
+        is_passed &= test_code_eaters_operations_boolean_and();
+        is_passed &= test_code_eaters_operations_boolean_nand();
+        is_passed &= test_code_eaters_operations_boolean_andin();
+        is_passed &= test_code_eaters_operations_boolean_nandin();
   
-        std::cout << "Code eaters - operations - booleans - basic - and : ";
+        std::cout << "Code eaters - operations - boolean - basic - and : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -44,7 +44,7 @@ namespace ut_ce
     /**
      * @brief test AND 
     */
-    bool test_code_eaters_operations_booleans_and()
+    bool test_code_eaters_operations_boolean_and()
     {
         bool is_passed = true;
 
@@ -160,7 +160,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - and - and : ";
+            std::cout << "Code eaters - operations - boolean - basic - and - and : ";
             passed_print(is_passed);
         }
 
@@ -170,7 +170,7 @@ namespace ut_ce
     /**
      * @brief test NAND 
     */
-    bool test_code_eaters_operations_booleans_nand()
+    bool test_code_eaters_operations_boolean_nand()
     {
         bool is_passed = true;
 
@@ -286,7 +286,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - and - nand : ";
+            std::cout << "Code eaters - operations - boolean - basic - and - nand : ";
             passed_print(is_passed);
         }
 
@@ -296,7 +296,7 @@ namespace ut_ce
     /**
      * @brief test AND, in place
     */
-    bool test_code_eaters_operations_booleans_andin()
+    bool test_code_eaters_operations_boolean_andin()
     {
         bool is_passed = true;
 
@@ -414,7 +414,7 @@ namespace ut_ce
     /**
      * @brief test NAND, in place
     */
-    bool test_code_eaters_operations_booleans_nandin()
+    bool test_code_eaters_operations_boolean_nandin()
     {
         bool is_passed = true;
 

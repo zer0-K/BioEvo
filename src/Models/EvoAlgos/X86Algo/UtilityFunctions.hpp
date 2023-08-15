@@ -10,7 +10,7 @@ bool evox_comp_genes(std::vector<int> genome_1, std::vector<int> genome_2)
     return comp_vectors(genome_1, genome_2);
 }
 
-bool x86_comp_code(std::vector<std::array<int, 3>> code_1, std::vector<std::array<int, 3>> code_2)
+bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<std::array<int,SIZE_INSTR>> code_2)
 {
     if(code_1.size() != code_2.size())
     {
@@ -19,8 +19,8 @@ bool x86_comp_code(std::vector<std::array<int, 3>> code_1, std::vector<std::arra
 
     for(int i=0; i<code_1.size();i++)
     {
-        std::array<int, 3> instr_1 = code_1[i];
-        std::array<int, 3> instr_2 = code_2[i];
+        std::array<int,SIZE_INSTR> instr_1 = code_1[i];
+        std::array<int,SIZE_INSTR> instr_2 = code_2[i];
 
         if(instr_1[0] != instr_2[0] || instr_1[1] != instr_2[1] 
             || instr_1[2] != instr_2[2])

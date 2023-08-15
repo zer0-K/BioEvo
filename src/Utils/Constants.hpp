@@ -92,6 +92,8 @@ const std::string TYPE_LINEAR = "linear";
 const std::string X86_ALGO = "x86 algo";
 const int DEFAULT_X86_DATA_SIZE = 1000;
 const int DEFAULT_X86_CODE_SIZE = 1000;
+const int MAX_OUTPUT_SIZE_X86 = 1000;
+const int SIZE_INSTR = 7;
 
 const std::string EVOX = "evo x86 algo";
 

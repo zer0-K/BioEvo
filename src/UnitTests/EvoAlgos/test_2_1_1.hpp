@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 
+#include "X86TesterHelper.hpp"
 #include "../../Utils/Functions.hpp"
 #include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
 
@@ -12,7 +13,6 @@
 
 namespace ut_ea
 {
-
     bool launch_tests_evo_algos_x86_basic_move()
     {
         bool launch_test_evo_algos_x86_basic_CPYINOUT(void);
@@ -44,18 +44,16 @@ namespace ut_ea
         algo->init();
 
         // code
-        std::vector<std::array<int,3>> code {
-            { instruction::CPYIN, 10, 2},
-            { instruction::CPYOUT, 3, 10}
+        std::vector<std::array<int,SIZE_INSTR>> code {
+            { instruction::CPYIN, 0, 0, 0, 10, 2, 0},
+            { instruction::CPYOUT, 0, 0, 0, 3, 10, 0}
         };
-        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
         std::vector<int> input {
             0, 0, 8, 0, 0
         };
-        algo->set_input_size(input.size());
         algo->set_input(input);
 
         // output
@@ -93,19 +91,17 @@ namespace ut_ea
         algo->init();
 
         // code
-        std::vector<std::array<int,3>> code {
-            { instruction::CPYIN, 10, 2},
-            { instruction::MOV, 20, 10},
-            { instruction::CPYOUT, 3, 20}
+        std::vector<std::array<int,SIZE_INSTR>> code {
+            { instruction::CPYIN, 0, 0, 0, 10, 2, 0},
+            { instruction::MOV, 0, 0, 0, 20, 10, 0},
+            { instruction::CPYOUT, 0, 0, 0, 3, 20, 0}
         };
-        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
         std::vector<int> input {
             0, 0, 8, 0, 0
         };
-        algo->set_input_size(input.size());
         algo->set_input(input);
 
         // output
@@ -143,19 +139,17 @@ namespace ut_ea
         algo->init();
 
         // code
-        std::vector<std::array<int,3>> code {
-            { instruction::CPYIN, 10, 2},
-            { instruction::CPY, 20, 10},
-            { instruction::CPYOUT, 3, 10}
+        std::vector<std::array<int,SIZE_INSTR>> code {
+            { instruction::CPYIN, 0, 0, 0, 10, 2, 0},
+            { instruction::CPY, 0, 0, 0, 20, 10, 0},
+            { instruction::CPYOUT, 0, 0, 0, 3, 10, 0}
         };
-        algo->reset_code_to_size(code.size());
         algo->set_code(code, 0);
 
         // input
         std::vector<int> input {
             0, 0, 8, 0, 0
         };
-        algo->set_input_size(input.size());
         algo->set_input(input);
 
         // output
@@ -182,5 +176,4 @@ namespace ut_ea
 
     }
     
-
 }

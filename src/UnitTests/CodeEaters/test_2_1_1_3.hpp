@@ -19,23 +19,23 @@ namespace ut_ce
     /**
      * @brief Test or gates on boolean code eaters
     */
-    bool launch_test_code_eaters_operations_booleans_basic_or()
+    bool launch_test_code_eaters_operations_boolean_basic_or()
     {
-        bool test_code_eaters_operations_booleans_or(void);
-        bool test_code_eaters_operations_booleans_nor(void);
-        bool test_code_eaters_operations_booleans_orin(void);
-        bool test_code_eaters_operations_booleans_norin(void);
+        bool test_code_eaters_operations_boolean_or(void);
+        bool test_code_eaters_operations_boolean_nor(void);
+        bool test_code_eaters_operations_boolean_orin(void);
+        bool test_code_eaters_operations_boolean_norin(void);
 
         bool is_passed = true;
 
-        std::cout << "Code eaters - operations - booleans - basic - or : " << std::endl;
+        std::cout << "Code eaters - operations - boolean - basic - or : " << std::endl;
 
-        is_passed &= test_code_eaters_operations_booleans_or();
-        is_passed &= test_code_eaters_operations_booleans_nor();
-        is_passed &= test_code_eaters_operations_booleans_orin();
-        is_passed &= test_code_eaters_operations_booleans_norin();
+        is_passed &= test_code_eaters_operations_boolean_or();
+        is_passed &= test_code_eaters_operations_boolean_nor();
+        is_passed &= test_code_eaters_operations_boolean_orin();
+        is_passed &= test_code_eaters_operations_boolean_norin();
   
-        std::cout << "Code eaters - operations - booleans - basic - or : ";
+        std::cout << "Code eaters - operations - boolean - basic - or : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -44,7 +44,7 @@ namespace ut_ce
     /**
      * @brief test OR 
     */
-    bool test_code_eaters_operations_booleans_or()
+    bool test_code_eaters_operations_boolean_or()
     {
         bool is_passed = true;
 
@@ -160,7 +160,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - or - or : ";
+            std::cout << "Code eaters - operations - boolean - basic - or - or : ";
             passed_print(is_passed);
         }
 
@@ -170,7 +170,7 @@ namespace ut_ce
     /**
      * @brief test NOR 
     */
-    bool test_code_eaters_operations_booleans_nor()
+    bool test_code_eaters_operations_boolean_nor()
     {
         bool is_passed = true;
 
@@ -286,7 +286,7 @@ namespace ut_ce
 
         if(verbose_unit_tests)
         {
-            std::cout << "Code eaters - operations - booleans - basic - or - nor : ";
+            std::cout << "Code eaters - operations - boolean - basic - or - nor : ";
             passed_print(is_passed);
         }
 
@@ -296,7 +296,7 @@ namespace ut_ce
     /**
      * @brief test OR, in place
     */
-    bool test_code_eaters_operations_booleans_orin()
+    bool test_code_eaters_operations_boolean_orin()
     {
         bool is_passed = true;
 
@@ -414,7 +414,7 @@ namespace ut_ce
     /**
      * @brief test NOR, in place
     */
-    bool test_code_eaters_operations_booleans_norin()
+    bool test_code_eaters_operations_boolean_norin()
     {
         bool is_passed = true;
 

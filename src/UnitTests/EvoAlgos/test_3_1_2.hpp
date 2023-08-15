@@ -49,13 +49,21 @@ namespace ut_ea
         // 
         // insert args as genes
         std::vector<int> genome_1 { 
-            instruction::CPYIN, 0, 0,   // 0
-            instruction::CPYIN, 1, 1,   // 1
-            instruction::CPYIN, 2, 2,   // 2
-            instruction::GINS, 3, 2,    // 3 insert 3rd gene arg at 0
-            instruction::GINS, 3, 1,    // 4 insert 2nd gene arg at 0
-            instruction::GINS, 3, 0,    // 5 insert 1st gene arg at 0
-            instruction::CPYOUT, 0, 4   // 6 copy val at 4
+            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
+            instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
+            instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
+            instruction::CPYIN, 0, 0, 0, 3, 3, 0,   // 3
+            instruction::CPYIN, 0, 0, 0, 4, 4, 0,   // 4
+            instruction::CPYIN, 0, 0, 0, 5, 5, 0,   // 5
+            instruction::CPYIN, 0, 0, 0, 6, 6, 0,   // 6
+            instruction::GINS, 0, 0, 0, 3, 6, 0,    // 7 insert 7st gene arg at 0
+            instruction::GINS, 0, 0, 0, 3, 5, 0,    // 8 insert 6rd gene arg at 0
+            instruction::GINS, 0, 0, 0, 3, 4, 0,    // 9 insert 5nd gene arg at 0
+            instruction::GINS, 0, 0, 0, 3, 3, 0,    // 10 insert 4st gene arg at 0
+            instruction::GINS, 0, 0, 0, 3, 2, 0,    // 11 insert 3rd gene arg at 0
+            instruction::GINS, 0, 0, 0, 3, 1, 0,    // 12 insert 2nd gene arg at 0
+            instruction::GINS, 0, 0, 0, 3, 0, 0,    // 13 insert 1st gene arg at 0
+            instruction::CPYOUT, 0, 0, 0, 0, 7, 0   // 14 copy val at 4
         };
 
         std::vector<std::vector<int>> genomes {
@@ -66,7 +74,7 @@ namespace ut_ea
 
         // input (here, same for all tests for simplicity)
         std::vector<int> input_1_1 {
-            instruction::INC, 4, 4
+            instruction::INC, 0, 0, 0, 7, 0, 0
         };
         std::vector<int> input_1_2 = input_1_1;
         std::vector<int> input_1_3 = input_1_1;
@@ -162,26 +170,30 @@ namespace ut_ea
         // 
         // insert args as genes
         std::vector<int> genome_1 { 
-            instruction::INC, 0, 0,     // 0
-            instruction::INC, 0, 0,     // 1
-            instruction::INC, 0, 0,     // 2
-            instruction::INC, 0, 0,     // 3
-            instruction::INC, 0, 0,     // 4
-            instruction::GDEL, 1, 1,    // 5 delete gene at 0 (INC)
-            instruction::GDEL, 1, 1,    // 6 delete gene at 0 (INC)
-            instruction::GDEL, 1, 1,    // 7 delete gene at 0 (INC)
-            instruction::INC, 0, 0,     // 8
-            instruction::CPYOUT, 0, 0   // 9 copy val at 0
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 0
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 1
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 2
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 3
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 4
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 5 delete gene at 0 (INC)
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 6 delete gene at 0 (INC)
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 7 delete gene at 0 (INC)
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 8 delete gene at 0 (INC)
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 9 delete gene at 0 (INC)
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 10 delete gene at 0 (INC)
+            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 11 delete gene at 0 (INC)
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 12
+            instruction::CPYOUT, 0, 0, 0, 0, 0, 0   // 13 copy val at 0
         };
         std::vector<int> genome_2 { 
-            instruction::INC, 0, 0,     // 0
-            instruction::INC, 0, 0,     // 1
-            instruction::INC, 0, 0,     // 2
-            instruction::INC, 0, 0,     // 3
-            instruction::INC, 0, 0,     // 4
-            instruction::GDELW, 1, 1,   // 5 delete gene at 0 (INC)
-            instruction::INC, 0, 0,     // 6
-            instruction::CPYOUT, 0, 0   // 7 copy val at 0
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 0
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 1
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 2
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 3
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 4
+            instruction::GDELW, 0, 0, 0, 1, 1, 0,   // 5 delete gene at 0 (INC)
+            instruction::INC, 0, 0, 0, 0, 0, 0,     // 6
+            instruction::CPYOUT, 0, 0, 0, 0, 0, 0   // 7 copy val at 0
         };
 
         std::vector<std::vector<int>> genomes {
@@ -315,23 +327,23 @@ namespace ut_ea
         // 
         // SET 
         std::vector<int> genome_1 { 
-            instruction::CPYIN, 0, 0,   // 0
-            instruction::CPYIN, 1, 1,   // 1
-            instruction::CPYIN, 2, 2,   // 2
-            instruction::CPYIN, 3, 3,   // 3
-            instruction::CPY, 10, 0,    // 4
-            instruction::GSET, 0, 1,    // 5
-            instruction::CPYOUT, 0, 10  // 6
+            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
+            instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
+            instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
+            instruction::CPYIN, 0, 0, 0, 3, 3, 0,   // 3
+            instruction::CPY, 0, 0, 0, 10, 0, 0,    // 4
+            instruction::GSET, 0, 0, 0, 0, 1, 0,    // 5
+            instruction::CPYOUT, 0, 0, 0, 0, 10, 0  // 6
         };
         // GADD
         std::vector<int> genome_2 { 
-            instruction::CPYIN, 0, 0,   // 0
-            instruction::CPYIN, 1, 1,   // 1
-            instruction::CPYIN, 2, 2,   // 2
-            instruction::CPYIN, 3, 3,   // 3
-            instruction::CPY, 10, 0,    // 4
-            instruction::GADD, 0, 1,    // 5
-            instruction::CPYOUT, 0, 10  // 6
+            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
+            instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
+            instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
+            instruction::CPYIN, 0, 0, 0, 3, 3, 0,   // 3
+            instruction::CPY, 0, 0, 0, 10, 0, 0,    // 4
+            instruction::GADD, 0, 0, 0, 0, 1, 0,    // 5
+            instruction::CPYOUT, 0, 0, 0, 0, 10, 0  // 6
         };
  
         std::vector<std::vector<int>> genomes {
@@ -342,18 +354,18 @@ namespace ut_ea
 
         // input (here, same for all tests for simplicity)
         // SET
-        std::vector<int> input_1_1 { 14, 1, 100, 667 };
-        std::vector<int> input_1_2 { 14, 2, 100, 667 };
-        std::vector<int> input_1_3 { 14, 3, 100, 667 };
-        std::vector<int> input_1_4 { 14, 4, 100, 667 };
+        std::vector<int> input_1_1 { 33, 1, 100, 667 };
+        std::vector<int> input_1_2 { 33, 2, 100, 667 };
+        std::vector<int> input_1_3 { 33, 3, 100, 667 };
+        std::vector<int> input_1_4 { 33, 4, 100, 667 };
         std::vector<std::vector<int>> inputs_1 {
             input_1_1, input_1_2, input_1_3, input_1_4
         };
         // GADD
-        std::vector<int> input_2_1 { 14, 1, 100, 667 };
-        std::vector<int> input_2_2 { 14, 1, 100, 667 };
-        std::vector<int> input_2_3 { 14, 1, 100, 667 };
-        std::vector<int> input_2_4 { 14, 1, 100, 667 };
+        std::vector<int> input_2_1 { 33, 1, 100, 667 };
+        std::vector<int> input_2_2 { 33, 1, 100, 667 };
+        std::vector<int> input_2_3 { 33, 1, 100, 667 };
+        std::vector<int> input_2_4 { 33, 1, 100, 667 };
         std::vector<std::vector<int>> inputs_2 {
             input_2_1, input_2_2, input_2_3, input_2_4
         };
@@ -366,7 +378,7 @@ namespace ut_ea
 
         // the expected outputs of the code the genomes should create
         // SET
-        std::vector<int> expected_out_1_1 { 14 };
+        std::vector<int> expected_out_1_1 { 33 };
         std::vector<int> expected_out_1_2 { 2 };
         std::vector<int> expected_out_1_3 { 100 };
         std::vector<int> expected_out_1_4 { 667 };
@@ -374,7 +386,7 @@ namespace ut_ea
             expected_out_1_1, expected_out_1_2, expected_out_1_3, expected_out_1_4 
         };
         // GADD
-        std::vector<int> expected_out_2_1 { 14 };
+        std::vector<int> expected_out_2_1 { 33 };
         std::vector<int> expected_out_2_2 { 1 };
         std::vector<int> expected_out_2_3 { 100 };
         std::vector<int> expected_out_2_4 { 667 };

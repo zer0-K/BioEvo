@@ -2,6 +2,8 @@
 
 #include <array>
 
+#include "../../../Utils/Constants.hpp"
+
 #include "../../../Entities/Entity.hpp"
 
 /**
@@ -29,9 +31,9 @@ protected:
      * @brief code of the individual
      * 
      * This is the evolutionary part.
-     * A code instruction is like INSTR ADDR1 ADDR2
+     * A code instruction is like INSTR ISADDR1 ISADDR2 arg1 arg2
     */
-    std::vector<std::array<int, 3>> code;
+    std::vector<std::array<int,SIZE_INSTR>> code;
 
 
     /**
@@ -54,9 +56,44 @@ public:
     void init() override;
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
 
-    void exec_instruction(int instr, int addr1, int addr2);
-    void exec_instruction_basic(int instr, int addr1, int addr2);
-    virtual void exec_instruction_gene(int instr, int addr1, int addr2) {};
+    /**
+     * @brief Execute an assembly instruction
+     * 
+     * @param[in] instr instruction to execute
+     * @param[in] is_addr1 true if the value of the first arg of the instruction is to be found at given address
+     * @param[in] is_addr2 true if the value of the second arg of the instruction is to be found at given address
+     * @param[in] is_addr3 true if the value of the third arg of the instruction is to be found at given address
+     * @param[in] arg1 value/address of the first argument of the instruction
+     * @param[in] arg2 value/address of the second argument of the instruction
+     * @param[in] arg3 value/address of the third argument of the instruction
+    */
+    void exec_instruction(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+        int arg1, int arg2, int arg3);
+
+    /// @brief Basic instructions @see exec_instruction
+    void exec_instruction_basic(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+        int arg1, int arg2, int arg3);
+
+    /// @brief Genetic instructions @see exec_instruction
+    virtual void exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+        int arg1, int arg2, int arg3) {};
+
+    /**
+     * @brief Get the values at given addresses if they are so
+     * 
+     * For example, if is_addr1 is true, arg1 will refer to the value at the address arg1
+     * and if is_addr1 is false it corresponds to an "absolute" value (i.e. not a value at an address)
+     * 
+     * @param[out] is_valid true if the given address are valid
+     * @param[in] is_addr1 true if the value of the first arg of the instruction is to be found at given address
+     * @param[in] is_addr2 true if the value of the second arg of the instruction is to be found at given address
+     * @param[in] is_addr3 true if the value of the third arg of the instruction is to be found at given address
+     * @param[in] arg1 value/address of the first argument of the instruction
+     * @param[in] arg2 value/address of the second argument of the instruction
+     * @param[in] arg3 value/address of the third argument of the instruction
+    */
+    std::array<int,SIZE_INSTR> get_vals(bool &is_valid, bool is_addr1, bool is_addr2, bool is_addr3, 
+        int arg1, int arg2, int arg3);
 
     // setters
     void set_data_size(int n);
@@ -64,13 +101,13 @@ public:
     void set_output_size(int n);
 
     void reset_code_to_size(int code_size);
-    void set_code(std::vector<std::array<int, 3>> code, int place_at);
+    void set_code(std::vector<std::array<int,SIZE_INSTR>> code, int place_at);
     void set_input(std::vector<int> in);
 
     void reset_data();
 
     // getters
-    std::vector<std::array<int, 3>> get_code();
+    std::vector<std::array<int,SIZE_INSTR>> get_code();
     std::vector<int> get_output();
 
     // utils

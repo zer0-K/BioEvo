@@ -30,25 +30,29 @@ std::vector<sp_entity> EvoX::exec(std::vector<sp_entity> entries)
 
 void EvoX::create_code_from_genes()
 {
-    int nb_instructions = (int) (genes.size()/3);
+    int nb_instructions = (int) (genes.size()/SIZE_INSTR);
 
     if(nb_instructions == 0)
     {
         // if empty, complete with HALT only
-        this->code = std::vector<std::array<int, 3>>({{instruction::HALT, 0, 0}});
+        this->code = std::vector<std::array<int,SIZE_INSTR>>({{instruction::HALT, 0, 0, 0, 0, 0, 0}});
     }
     else
     {
-        // INSTRUCTION, ADDR1, ADDR2
+        // INSTRUCTION, ISADDR1, ISADDR2, ISADDR3, ARG1, ARG2, ARG3
 
-        this->code = std::vector<std::array<int, 3>>(nb_instructions);
+        this->code = std::vector<std::array<int,SIZE_INSTR>>(nb_instructions);
         
         for(int i=0;i<nb_instructions;i++)
         {
-            this->code[i] = std::array<int, 3>({
-                this->genes[i*3], 
-                this->genes[i*3+1], 
-                this->genes[i*3+2]
+            this->code[i] = std::array<int,SIZE_INSTR>({
+                this->genes[i*SIZE_INSTR], 
+                this->genes[i*SIZE_INSTR+1], 
+                this->genes[i*SIZE_INSTR+2], 
+                this->genes[i*SIZE_INSTR+3], 
+                this->genes[i*SIZE_INSTR+4], 
+                this->genes[i*SIZE_INSTR+5], 
+                this->genes[i*SIZE_INSTR+6]
             });
         }
         // note that code above can end without HALT instruction (exec loop will end)
@@ -56,36 +60,54 @@ void EvoX::create_code_from_genes()
 
 }
 
-void EvoX::exec_instruction_gene(int instr, int addr1, int addr2)
+void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    int arg1, int arg2, int arg3)
 {
+    bool is_valid = true;
+
+    auto transformed_args = get_vals(is_valid, is_addr1, is_addr2, is_addr3,
+        arg1, arg2, arg3);
+
+    if(!is_valid)
+        return;
+
+    int arg1_ = transformed_args[0];
+    int arg2_ = transformed_args[1];
+    int arg3_ = transformed_args[2];
+
+    int destination = arg1_;
+    int source = arg2_;
+
     int nb_genes = genes.size();
 
     switch(instr)
     { 
         case instruction::GINS:
-            // insert gene at addr1 with value of code at addr2
-            if(addr1>=0 && addr1<data.size()
-                && addr2>=0 && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<nb_genes)
+            // insert gene at arg1 with value of code at arg2
+
+            if(arg1_>=0 && arg1_<data.size()
+                && arg2_>=0 && arg2_<data.size()
+                && data[arg1_]>=0 && data[arg1_]<nb_genes)
             {
                 nb_genes++;
                 genes.push_back(0);
 
-                for(int i=0;i<nb_genes-data[addr1]-1;i++)
+                for(int i=0;i<nb_genes-data[arg1_]-1;i++)
                 {
                     genes[nb_genes-i-1] = genes[nb_genes-i-2];
                 }
-                genes[data[addr1]] = data[addr2];
+                genes[data[arg1_]] = data[arg2_];
             }
 
             break;
 
         case instruction::GDEL:
-            // delete gene at addr1
-            if(addr1>=0 && addr1<data.size()
-                && data[addr1]>=0 && data[addr1]<nb_genes)
+            // delete gene at arg1
+
+            if(arg1_>=0 && arg1_<data.size()
+                && data[arg1_]>=0 && data[arg1_]<nb_genes)
             {
-                for(int i=data[addr1];i<nb_genes-1;i++)
+                for(int i=data[arg1_];i<nb_genes-1;i++)
                 {
                     genes[i] = genes[i+1];
                 }
@@ -96,19 +118,20 @@ void EvoX::exec_instruction_gene(int instr, int addr1, int addr2)
             break;
 
         case instruction::GDELW:
-            // delete whole instruction at addr1 
+            // delete whole instruction at arg1 
             // (3 genes genes at once if not at the end)
             // can delete only at beginning of instruction
-            if(addr1>=0 && addr1<data.size()
-                && data[addr1]>=0 && data[addr1]<genes.size()
-                && data[addr1]%3==0)
+
+            if(arg1_>=0 && arg1_<data.size()
+                && data[arg1_]>=0 && data[arg1_]<genes.size()
+                && data[arg1_]%SIZE_INSTR==0)
             {
 
                 // first case : deleting gene at the end of the genome
                 // ( incomplete gene )
-                if(data[addr1]+3>genes.size())
+                if(data[arg1_]+SIZE_INSTR>genes.size())
                 {
-                    while(nb_genes%3!=0)
+                    while(nb_genes%SIZE_INSTR!=0)
                     {
                         genes.pop_back();
                         nb_genes--;
@@ -116,57 +139,57 @@ void EvoX::exec_instruction_gene(int instr, int addr1, int addr2)
                 }
                 else
                 {
-                    int nb_instructions = (int) ( genes.size() / 3 ) ;
-                    int instr_to_del = (int) ( data[addr1] / 3 );
+                    int nb_instructions = (int) ( genes.size() / SIZE_INSTR ) ;
+                    int instr_to_del = (int) ( data[arg1_] / SIZE_INSTR );
 
                     // shift all genes by 3
 
                     for(int i=instr_to_del;i<nb_instructions-1;i++)
                     {
-                        genes[i*3] = genes[3*(i+1)];
-                        genes[i*3+1] = genes[3*(i+1)+1];
-                        genes[i*3+2] = genes[3*(i+1)+2];
-                    }
-
-                    // if there are incomplete genes at the end
-                    if(genes.size()%3!=0)
-                    {
-                        genes[(nb_instructions-1)*3] = genes[nb_instructions*3];
-
-                        if(genes.size()%3==2)
+                        for(int j=0;j<SIZE_INSTR;j++)
                         {
-                            genes[(nb_instructions-1)*3+1] = genes[nb_instructions*3+1];
+                            genes[i*SIZE_INSTR + j] = genes[SIZE_INSTR*(i+1) + j];
                         }
                     }
 
-                    // remove the 3 last
-                    genes.pop_back();
-                    nb_genes--;
-                    genes.pop_back();
-                    nb_genes--;
-                    genes.pop_back();
-                    nb_genes--;
-                }
+                    // if there are incomplete genes at the end
+                    if(genes.size()%SIZE_INSTR!=0)
+                    {
+                        for(int j=0;j<genes.size()%SIZE_INSTR;j++)
+                        {
+                            genes[(nb_instructions-1)*SIZE_INSTR+j] = genes[nb_instructions*SIZE_INSTR+j];
+                        }
+                    }
+
+                    // remove the last gene
+                    for(int j=0;j<SIZE_INSTR;j++)
+                    {
+                        genes.pop_back();
+                        nb_genes--;
+                    }
+               }
             }
             break;
 
         case instruction::GSET:
-            // set gene at addr1 with val of data at addr2
-            if(addr1>=0 && addr1<data.size()
-                && addr2>=0 && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<nb_genes)
+            // set gene at arg1 with data at arg2
+
+            if(arg1_>=0 && arg1_<data.size()
+                && arg2_>=0 && arg2_<data.size()
+                && data[arg2_]>=0 && data[arg1_]<nb_genes)
             {
-               genes[data[addr1]] = data[addr2];
+               genes[data[arg1_]] = data[arg2_];
             }
             break;
 
         case instruction::GADD:
-            // add to gene at addr1 with val of data at addr2
-            if(addr1>=0 && addr1<data.size()
-                && addr2>=0 && addr2<data.size()
-                && data[addr1]>=0 && data[addr1]<nb_genes)
+            // add to gene at arg1 with data at arg2
+
+            if(arg1_>=0 && arg1_<data.size()
+                && arg2_>=0 && arg2_<data.size()
+                && data[arg1_]>=0 && data[arg1_]<nb_genes)
             {
-               genes[data[addr1]] += data[addr2];
+               genes[data[arg1_]] += data[arg2_];
             }
             break;
 

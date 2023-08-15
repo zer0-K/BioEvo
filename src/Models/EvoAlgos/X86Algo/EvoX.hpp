@@ -18,7 +18,8 @@ public:
     void init() override;
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
     
-    void exec_instruction_gene(int instr, int addr1, int addr2);
+    void exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    int addr1, int addr2, int addr3);
 
     /**
      * @brief create the code from the genes

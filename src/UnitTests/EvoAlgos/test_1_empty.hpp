@@ -48,7 +48,7 @@ namespace ut_ea
 
         bool is_passed = true;
 
-        // build info universe of wanted size
+        // build universe of wanted size
         sp_univ_evo_algos universe_algos = evo_algos_empty_build_universe(size);
 
         // check if built universe is correct
