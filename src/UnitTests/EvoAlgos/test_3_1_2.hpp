@@ -18,6 +18,7 @@ namespace ut_ea
         bool test_evo_algos_evox_genes_mutations_insertion(void);
         bool test_evo_algos_evox_genes_mutations_deletion(void);
         bool test_evo_algos_evox_genes_mutations_substitution(void);
+        bool test_evo_algos_evox_genes_mutations_gcpy(void);
 
         bool is_passed = true;
 
@@ -26,6 +27,7 @@ namespace ut_ea
         is_passed &= test_evo_algos_evox_genes_mutations_insertion();
         is_passed &= test_evo_algos_evox_genes_mutations_deletion();
         is_passed &= test_evo_algos_evox_genes_mutations_substitution();
+        is_passed &= test_evo_algos_evox_genes_mutations_gcpy();
 
         std::cout << "Evo algos - evox - genes - mutations : ";
         passed_print(is_passed);
@@ -443,6 +445,141 @@ namespace ut_ea
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - evox - genes - mutations - substitution " << " : ";
+            passed_print(is_passed);
+        } 
+
+        return is_passed;
+    } 
+
+    /**
+     * @brief copy gene input
+    */
+    bool test_evo_algos_evox_genes_mutations_gcpy()
+    {
+        bool is_passed = true;
+
+        sp_evox algo = std::make_shared<EvoX>("evox algo");
+        algo->init();
+
+        //---------- GENOME
+
+        // genomes coding simple programs
+        //
+        // copy input
+        std::vector<int> genome_1 { 
+            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
+            instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
+            instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
+            instruction::GCPY, 0, 0, 0, 0, 1, 2,    // 3
+            instruction::CPYOUT, 0, 0, 0, 0, 4, 0   // 4
+        };
+        // copy input at marker
+        std::vector<int> genome_2 { 
+            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
+            instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
+            instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
+            instruction::MARKER, 8, 0, 0, 0, 0, 0,  // 3 
+            instruction::GCPYM, 0, 0, 0, 0, 1, 2,   // 4
+            instruction::CPYOUT, 0, 0, 0, 0, 4, 0   // 5
+        };
+
+        std::vector<std::vector<int>> genomes {
+            genome_1, genome_2
+        };
+
+        //---------- INPUTS
+
+        // input (here, same for all tests for simplicity)
+        // copy input
+        std::vector<int> input_1_1 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_2 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_3 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_4 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<std::vector<int>> inputs_1 {
+            input_1_1, input_1_2, input_1_3, input_1_4
+        };
+        // copy input at marker
+        std::vector<int> input_2_1 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_2 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_3 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_4 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<std::vector<int>> inputs_2 {
+            input_2_1, input_2_2, input_2_3, input_2_4
+        };
+
+        std::vector<std::vector<std::vector<int>>> inputs {
+            inputs_1, inputs_2
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        // copy input
+        std::vector<int> expected_out_1_1 { 0 };
+        std::vector<int> expected_out_1_2 { 1 };
+        std::vector<int> expected_out_1_3 { 3 };
+        std::vector<int> expected_out_1_4 { 6 };
+        std::vector<std::vector<int>> expected_outs_1 {
+            expected_out_1_1, expected_out_1_2, expected_out_1_3, expected_out_1_4 
+        };
+        // copy input at marker
+        std::vector<int> expected_out_2_1 { 0 };
+        std::vector<int> expected_out_2_2 { 1 };
+        std::vector<int> expected_out_2_3 { 3 };
+        std::vector<int> expected_out_2_4 { 6 };
+        std::vector<std::vector<int>> expected_outs_2 {
+            expected_out_2_1, expected_out_2_2, expected_out_2_3, expected_out_2_4 
+        };
+
+        std::vector<std::vector<std::vector<int>>> expected_outs {
+            expected_outs_1, expected_outs_2
+        };
+
+        // output
+        
+        //---------- EXECUTE
+
+        for(int i=0; i<expected_outs.size(); i++)
+        {
+            // set genome and execute
+            algo->set_genes(genomes[i]);
+            algo->reset_data();
+
+            // for more accurate debug in case a unit test does not pass
+            bool is_passed_i = true;
+
+            for(int j=0; j<expected_outs[i].size(); j++)
+            {
+                algo->set_input_size(inputs[i][j].size());
+                algo->set_output_size(expected_outs[i][j].size());
+
+                algo->set_input(inputs[i][j]);
+                algo->exec(std::vector<sp_entity>(0));
+
+                // check result
+                auto out_res = algo->get_output();
+                bool is_passed_i_j = x86_comp_output(expected_outs[i][j], out_res);
+                is_passed_i &= is_passed_i_j;
+                is_passed &= is_passed_i; 
+
+                if(verbose_unit_tests_1)
+                {
+                    std::cout << "Evo algos - evox - genes - mutations - gcpy "
+                              << i << " - " << j << ": ";
+                    passed_print(is_passed_i_j);
+                } 
+            }
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - evox - genes - mutations - gcpy " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - evox - genes - mutations - gcpy " << " : ";
             passed_print(is_passed);
         } 
 

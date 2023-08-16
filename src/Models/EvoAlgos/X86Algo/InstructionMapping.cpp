@@ -39,5 +39,7 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::GDELW, "GDELW" },
     { instruction::GSET, "GSET" },
     { instruction::GADD, "GADD" },
-    { instruction::GCPY, "GCPY"}
+    { instruction::GCPY, "GCPY"},
+    { instruction::MARKER, "MARKER"},
+    { instruction::GCPYM, "GCPYM"}
 };

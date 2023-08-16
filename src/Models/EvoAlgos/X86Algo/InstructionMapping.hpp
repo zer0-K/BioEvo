@@ -35,16 +35,18 @@ enum instruction {
     JRGE,   // 27   relative jump if >=
     HALT,   // 28   halt
     // ******* random
-    RUD,    // 29 random uniform double : between 0 and 1
-    RUI,    // 30 random uniform int
-    RN,     // 31 random normal : mu=0, sigma=1
+    RUD,    // 29   random uniform double : between 0 and 1
+    RUI,    // 30   random uniform int
+    RN,     // 31   random normal : mu=0, sigma=1
     // ******* instructions EvoX
     GINS,   // 32   gene insertion
     GDEL,   // 33   gene deletion
     GDELW,  // 34   delete 3 genes at once
     GSET,   // 35   set gene value
     GADD,   // 36   add value to gene
-    GCPY,   // 37   copy input
+    GCPY,   // 37   copy input into genes (insertion)
+    MARKER, // 38   genetic marker
+    GCPYM,  // 39   copy input into genes at first genetic marker
     size
 };
 

@@ -87,12 +87,12 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
 
             if(arg1_>=0 && arg1_<data.size()
                 && arg2_>=0 && arg2_<data.size()
-                && data[arg1_]>=0 && data[arg1_]<nb_genes)
+                && data[arg1_]>=0 && data[arg1_]<genes.size())
             {
                 nb_genes++;
                 genes.push_back(0);
 
-                for(int i=0;i<nb_genes-data[arg1_]-1;i++)
+                for(int i=0;i<genes.size()-data[arg1_]-1;i++)
                 {
                     genes[nb_genes-i-1] = genes[nb_genes-i-2];
                 }
@@ -105,7 +105,7 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
             // delete gene at arg1
 
             if(arg1_>=0 && arg1_<data.size()
-                && data[arg1_]>=0 && data[arg1_]<nb_genes)
+                && data[arg1_]>=0 && data[arg1_]<genes.size())
             {
                 for(int i=data[arg1_];i<nb_genes-1;i++)
                 {
@@ -176,7 +176,7 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
 
             if(arg1_>=0 && arg1_<data.size()
                 && arg2_>=0 && arg2_<data.size()
-                && data[arg2_]>=0 && data[arg1_]<nb_genes)
+                && data[arg2_]>=0 && data[arg1_]<genes.size())
             {
                genes[data[arg1_]] = data[arg2_];
             }
@@ -187,15 +187,97 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
 
             if(arg1_>=0 && arg1_<data.size()
                 && arg2_>=0 && arg2_<data.size()
-                && data[arg1_]>=0 && data[arg1_]<nb_genes)
+                && data[arg1_]>=0 && data[arg1_]<genes.size())
             {
                genes[data[arg1_]] += data[arg2_];
+            }
+            break;
+
+        case instruction::GCPY:
+            // copy at destination input between arg2 and arg3
+
+            if(destination>=0 && destination<data.size()
+                && arg2_>=0 && arg2_<data.size()
+                && arg3_>=0 && arg3_<data.size())
+            {
+                int gene_destination = std::max(0, data[destination]);
+                int input_cpy_begin = std::max(0, data[arg2_]);
+                int input_cpy_end = std::min((int)input.size(), data[arg3_]);
+
+                int nb_new_genes = input_cpy_end-input_cpy_begin+1;
+                int nb_old_genes = genes.size();
+
+                // add 0 at the end
+                for(int i=0;i<nb_new_genes;i++)
+                {
+                    genes.push_back(0);
+                }
+                
+                // shift everything
+                for(int i=0;i<nb_old_genes-gene_destination;i++)
+                {
+                    genes[nb_old_genes+nb_new_genes - i - 1] = genes[nb_old_genes-i-1];
+                }
+
+                // fill the genes with input
+                for(int i=0;i<nb_new_genes;i++)
+                {
+                    genes[gene_destination+i] = input[input_cpy_begin+i];
+                }
+            }
+            break;
+
+        case instruction::MARKER:
+            // do nothing
+            break;
+
+        case instruction::GCPYM:
+            // copy input between arg1 and arg2 at first genetic marker
+
+            // find first genetic marker with given id (at arg1_)
+            if(arg1_>=0 && arg1_<genes.size()-6) // we don't allow incomplete markers at the end
+            {
+                int marker_pos = 0;
+                bool found = false;
+                while(!found && marker_pos<genes.size() )
+                {
+                    if(genes[marker_pos] == instruction::MARKER
+                        && genes[marker_pos+1] == data[arg1_])
+                    {
+                        found = true;
+                    }
+                    else
+                    {
+                        marker_pos += 7;
+                    }
+                }
+
+                data.push_back(marker_pos);
+                exec_instruction_gene(instruction::GCPY, false, false, false, data.size()-1, arg2_, arg3_);
+                data.pop_back();
+
+                post_process_marker(marker_pos);
             }
             break;
 
         default:
             // does nothing
             break;
+    }
+}
+
+void EvoX::post_process_marker(int marker_pos)
+{
+    int marker_type = genes[marker_pos+2];
+
+    if(marker_type == 0)
+    {
+        // do nothing
+    }
+    if(marker_type == 1)
+    {
+        // delete marker
+        // TODO
     }
 }
 

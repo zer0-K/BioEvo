@@ -26,6 +26,11 @@ public:
     */
     void create_code_from_genes();
 
+    /**
+     * @brief modify (or not a genetic marker once it's been used)
+    */
+    void post_process_marker(int marker_pos);
+
     // setters
     void set_genes(std::vector<int> genes);
 
