@@ -9,6 +9,7 @@
 const bool verbose_unit_tests = true;
 const bool verbose_unit_tests_1 = true;
 const bool verbose_unit_tests_2 = true;
+const bool verbose_experiment_1 = false;
 
 
 // ------------------------------------------------------------ colors
@@ -119,8 +120,17 @@ const std::string name_exp_bioevo_genes = "experiment on genes";
 // ---------- REPLICATORS
 
 const std::string name_exp_bioevo_replication = "experiment en replication";
-const std::string name_exp_bioevo_replication_evox = "EvoX replication";
+const std::string name_exp_bioevo_replication_evox_quine = "EvoX quine replication";
 
 // -------------------- EVO ALGOS
 
 const std::string name_exp_evoalgos = "evo algos experiments";
+
+// -------------------- MATHS
+
+const std::string name_exp_maths = "maths experiments";
+
+// ---------- RECURSIVE OPS
+
+const std::string name_exp_maths_playground = "maths playground";
+const std::string name_exp_maths_gen_recursive_ops = "recursive operations generation";

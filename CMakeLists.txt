@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.6)
 project(BioEvo)
 
 # Prefix
@@ -110,13 +110,19 @@ set(SOURCES_MODEL_TH_INFO
 # ********************************* Maths *********************************
 
 set(HEADERS_MODEL_MATHS
-    src/Models/Maths/Universe/UniverseMaths.hpp)
+    src/Models/Maths/Universe/UniverseMaths.hpp
+    src/Models/Maths/Playground/BasicOps/RecursiveBasicOps.hpp
+#---------- Experiments
+#----- Playground
+# Basic ops
+    src/Experiment/Maths/Playground/BasicOps/GenerationRecursiveOps.hpp)
 
 set(SOURCES_MODEL_MATHS 
     src/Models/Maths/Universe/UniverseMaths.cpp
-# experiments
-    #src/Models/Maths/Experiment/.cpp
-    )
+#---------- Experiments
+#----- Playground
+# Basic ops
+    src/Experiment/Maths/Playground/BasicOps/GenerationRecursiveOps.cpp)
 
 
 # ********************************* Classical ML algos *********************************
@@ -168,7 +174,7 @@ set(HEADERS_MODEL_EVO_ALGOS
 #---------- Experiments
 #----- BioEvo
 # Replicators
-    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoX.hpp)
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp)
 
 set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp
@@ -178,7 +184,7 @@ set(SOURCES_MODEL_EVO_ALGOS
 #---------- Experiments
 #----- BioEvo
 # Replicators
-    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoX.cpp)
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp)
 
 
 # ********************************* Evolutionary biology *********************************
@@ -379,6 +385,30 @@ add_executable(bio-evo-all src/Experiment/BioEvo/main.cpp
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
     ${EXPERIMENT_RUNNERS_BIO_EVO})
 target_link_libraries(bio-evo-all ${LIBS})
+
+
+# ****************************** Maths
+
+# *************** Playground
+
+set(EXPERIMENT_RUNNERS_MATHS_RECURSIVE_OPS src/Experiment/Maths/Playground/ExperimentRunnerMathsPlayground.hpp)
+add_executable(maths-recursive-ops src/Experiment/Maths/Playground/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_MATHS_RECURSIVE_OPS})
+target_link_libraries(maths-recursive-ops ${LIBS})
+
+# *************** all
+
+set(EXPERIMENT_RUNNERS_MATHS 
+    src/Experiment/Maths/ExperimentRunnerMaths.hpp
+    ${EXPERIMENT_RUNNERS_MATHS_RECURSIVE_OPS})
+add_executable(maths-all src/Experiment/Maths/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_MATHS})
+target_link_libraries(maths-all ${LIBS})
+
 
 
 # ********************************* Unit tests *********************************

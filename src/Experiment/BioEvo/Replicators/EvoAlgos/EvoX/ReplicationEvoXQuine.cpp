@@ -1,15 +1,15 @@
-#include "ReplicationEvoX.hpp"
+#include "ReplicationEvoXQuine.hpp"
 
 #include "../../../../../Utils/Constants.hpp"
 #include "../../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 
-ReplicationEvoX::ReplicationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_replication_evox)
+ReplicationEvoXQuine::ReplicationEvoXQuine()
+    :Experiment::Experiment(name_exp_bioevo_replication_evox_quine)
 {
     init();
 }
 
-void ReplicationEvoX::init()
+void ReplicationEvoXQuine::init()
 {
     const int universe_size = 2;
 
@@ -19,7 +19,7 @@ void ReplicationEvoX::init()
     );
 }
 
-void ReplicationEvoX::launch()
+void ReplicationEvoXQuine::launch()
 {
     const int nb_steps = 10;
 

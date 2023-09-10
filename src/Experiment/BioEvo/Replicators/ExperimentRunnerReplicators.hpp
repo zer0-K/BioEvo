@@ -2,7 +2,7 @@
 
 #include "../../ExperimentRunner.hpp"
 
-#include "EvoAlgos/EvoX/ReplicationEvoX.hpp"
+#include "EvoAlgos/EvoX/ReplicationEvoXQuine.hpp"
 
 #include <iostream>
 
@@ -21,7 +21,7 @@ ExperimentRunnerReplicators::ExperimentRunnerReplicators()
 void ExperimentRunnerReplicators::init()
 {
     experiments = {
-        std::make_shared<ReplicationEvoX>()
+        std::make_shared<ReplicationEvoXQuine>()
     };
 
     for(int i=0;i<experiments.size();i++)
