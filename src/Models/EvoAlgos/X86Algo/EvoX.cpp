@@ -82,6 +82,19 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
 
     switch(instr)
     { 
+        case instruction::GR:
+            // read gene at arg 1 and stores it arg2
+
+            if(arg1_>=0 && arg1_<data.size()
+                && arg2_>=0 && arg2_<data.size()
+                && data[arg1_]>=0 && data[arg1_]<genes.size())
+            {
+                data[arg2_] = genes[arg1_];
+            }
+
+
+        break;
+
         case instruction::GINS:
             // insert gene at arg1 with value of code at arg2
 

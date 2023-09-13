@@ -39,14 +39,15 @@ enum instruction {
     RUI,    // 30   random uniform int
     RN,     // 31   random normal : mu=0, sigma=1
     // ******* instructions EvoX
-    GINS,   // 32   gene insertion
-    GDEL,   // 33   gene deletion
-    GDELW,  // 34   delete 3 genes at once
-    GSET,   // 35   set gene value
-    GADD,   // 36   add value to gene
-    GCPY,   // 37   copy input into genes (insertion)
-    MARKER, // 38   genetic marker
-    GCPYM,  // 39   copy input into genes at first genetic marker
+    GR,     // 32   read gene
+    GINS,   // 33   gene insertion
+    GDEL,   // 34   gene deletion
+    GDELW,  // 35   delete 3 genes at once
+    GSET,   // 36   set gene value
+    GADD,   // 37   add value to gene
+    GCPY,   // 38   copy input into genes (insertion)
+    MARKER, // 39   genetic marker
+    GCPYM,  // 40   copy input into genes at first genetic marker
     size
 };
 

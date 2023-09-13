@@ -34,6 +34,7 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::RUD, "RUD" },
     { instruction::RUI, "RUI" },
     { instruction::RN, "RN" },
+    { instruction::GR, "GR" },
     { instruction::GINS, "GINS" },
     { instruction::GDEL, "GDEL" },
     { instruction::GDELW, "GDELW" },

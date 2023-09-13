@@ -18,6 +18,7 @@ namespace ut_ea
         bool test_evox_genes_basic_empty(void);
         bool test_evox_genes_basic_incomplete(void);
         bool test_evox_genes_basic_simple(void);
+        bool test_evox_genes_basic_read(void);
 
         bool is_passed = true;
 
@@ -26,6 +27,7 @@ namespace ut_ea
         is_passed &= test_evox_genes_basic_empty();
         is_passed &= test_evox_genes_basic_incomplete();
         is_passed &= test_evox_genes_basic_simple();
+        is_passed &= test_evox_genes_basic_read();
 
         std::cout << "Evo algos - evox - genes - basic : ";
         passed_print(is_passed);
@@ -302,6 +304,83 @@ namespace ut_ea
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - evox - genes - basic - simple : ";
+            passed_print(is_passed);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * Read genes
+    */
+    bool test_evox_genes_basic_read()
+    {
+        bool is_passed = true;
+
+        sp_evox algo = std::make_shared<EvoX>("evox algo");
+        algo->init();
+
+        //---------- GENOME
+
+        // genomes coding simple programs
+        // 
+        std::vector<int> genome_1 { 
+            instruction::GR, 0, 0, 0, 14, 1, 0,     // 0
+            instruction::CPYOUT, 0, 0, 0, 0, 1, 0,  // 1
+            instruction::HALT, 0, 0, 0, 0, 0, 0     // 2
+        };
+
+        std::vector<std::vector<int>> genomes {
+            genome_1
+        };
+
+        //---------- EXPECTED OUTPUT
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_1 {
+            28
+        };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_1
+        };
+
+        //---------- IN/OUT
+
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input {
+            
+        };
+        algo->set_input_size(input.size());
+        algo->set_input(input);
+
+        // output
+        algo->set_output_size(1);
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<expected_outs.size(); i++)
+        {
+            // set genome and execute
+            algo->set_genes(genomes[i]);
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool ok = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= ok;
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - evox - genes - basic - read " << i << " : ";
+                passed_print(ok);
+            } 
+       }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - evox - genes - basic - read : ";
             passed_print(is_passed);
         }
 

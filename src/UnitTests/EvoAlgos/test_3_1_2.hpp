@@ -121,9 +121,6 @@ namespace ut_ea
 
             for(int j=0; j<expected_outs[i].size(); j++)
             {
-                algo->set_input_size(inputs[i][j].size());
-                algo->set_output_size(expected_outs[i][j].size());
-
                 algo->set_input(inputs[i][j]);
                 algo->exec(std::vector<sp_entity>(0));
 
