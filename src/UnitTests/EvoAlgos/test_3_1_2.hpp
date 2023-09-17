@@ -58,13 +58,13 @@ namespace ut_ea
             instruction::CPYIN, 0, 0, 0, 4, 4, 0,   // 4
             instruction::CPYIN, 0, 0, 0, 5, 5, 0,   // 5
             instruction::CPYIN, 0, 0, 0, 6, 6, 0,   // 6
-            instruction::GINS, 0, 0, 0, 3, 6, 0,    // 7 insert 7st gene arg at 0
-            instruction::GINS, 0, 0, 0, 3, 5, 0,    // 8 insert 6rd gene arg at 0
-            instruction::GINS, 0, 0, 0, 3, 4, 0,    // 9 insert 5nd gene arg at 0
-            instruction::GINS, 0, 0, 0, 3, 3, 0,    // 10 insert 4st gene arg at 0
-            instruction::GINS, 0, 0, 0, 3, 2, 0,    // 11 insert 3rd gene arg at 0
-            instruction::GINS, 0, 0, 0, 3, 1, 0,    // 12 insert 2nd gene arg at 0
-            instruction::GINS, 0, 0, 0, 3, 0, 0,    // 13 insert 1st gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 6, 0,    // 7 insert 7st gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 5, 0,    // 8 insert 6rd gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 4, 0,    // 9 insert 5nd gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 3, 0,    // 10 insert 4st gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 2, 0,    // 11 insert 3rd gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 1, 0,    // 12 insert 2nd gene arg at 0
+            instruction::GINS, 1, 0, 0, 3, 0, 0,    // 13 insert 1st gene arg at 0
             instruction::CPYOUT, 0, 0, 0, 0, 7, 0   // 14 copy val at 4
         };
 
@@ -174,13 +174,13 @@ namespace ut_ea
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 2
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 3
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 4
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 5 delete gene at 0 (INC)
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 6 delete gene at 0 (INC)
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 7 delete gene at 0 (INC)
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 8 delete gene at 0 (INC)
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 9 delete gene at 0 (INC)
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 10 delete gene at 0 (INC)
-            instruction::GDEL, 0, 0, 0, 1, 1, 0,    // 11 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 5 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 6 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 7 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 8 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 9 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 10 delete gene at 0 (INC)
+            instruction::GDEL, 1, 0, 0, 1, 1, 0,    // 11 delete gene at 0 (INC)
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 12
             instruction::CPYOUT, 0, 0, 0, 0, 0, 0   // 13 copy val at 0
         };
@@ -190,7 +190,7 @@ namespace ut_ea
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 2
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 3
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 4
-            instruction::GDELW, 0, 0, 0, 1, 1, 0,   // 5 delete gene at 0 (INC)
+            instruction::GDELW, 1, 0, 0, 1, 1, 0,   // 5 delete gene at 0 (INC)
             instruction::INC, 0, 0, 0, 0, 0, 0,     // 6
             instruction::CPYOUT, 0, 0, 0, 0, 0, 0   // 7 copy val at 0
         };
@@ -331,7 +331,7 @@ namespace ut_ea
             instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
             instruction::CPYIN, 0, 0, 0, 3, 3, 0,   // 3
             instruction::CPY, 0, 0, 0, 10, 0, 0,    // 4
-            instruction::GSET, 0, 0, 0, 0, 1, 0,    // 5
+            instruction::GSET, 1, 0, 0, 0, 1, 0,    // 5
             instruction::CPYOUT, 0, 0, 0, 0, 10, 0  // 6
         };
         // GADD
@@ -341,7 +341,7 @@ namespace ut_ea
             instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
             instruction::CPYIN, 0, 0, 0, 3, 3, 0,   // 3
             instruction::CPY, 0, 0, 0, 10, 0, 0,    // 4
-            instruction::GADD, 0, 0, 0, 0, 1, 0,    // 5
+            instruction::GADD, 1, 0, 0, 0, 1, 0,    // 5
             instruction::CPYOUT, 0, 0, 0, 0, 10, 0  // 6
         };
  
@@ -467,7 +467,7 @@ namespace ut_ea
             instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
             instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
             instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
-            instruction::GCPY, 0, 0, 0, 0, 1, 2,    // 3
+            instruction::GCPY, 1, 1, 1, 0, 1, 2,    // 3
             instruction::CPYOUT, 0, 0, 0, 0, 4, 0   // 4
         };
         // copy input at marker

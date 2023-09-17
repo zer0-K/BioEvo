@@ -61,16 +61,13 @@ void ReplicationEvoXQuine::launch()
         instruction::HALT, 0, 0, 0, 0, 0, 0     // 29
     };
     /*
-    i=0, while gene_at(i) != HALT (28) : i+=1
-    when while stops : gene_at(i) == HALT
-    store i in d1
-    --------> first, generate 28
-    --------> compare gene at i and 28
-    --------> jump at previous (incrementation instr) if not equal
-
-    set output size = i+6 (the 6 at the end are 0s)
-    loop again from 0 to d1
-    copy gene at i to output
+        0-1 : dummy input (as 'template'), useless here
+        2-10 : create the number 28 (and save other numbers)
+        11-14 : builds some variables for jumps (loops)
+        15-18 :first loop : identify length of the genome
+        19-23 : builds some vars for the next loop, and change output size
+        24-28 : second loop (copying genome into output)
+        29 : end
     */
 
     std::vector<std::vector<int>> genomes {
