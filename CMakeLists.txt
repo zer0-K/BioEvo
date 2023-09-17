@@ -175,6 +175,9 @@ set(HEADERS_MODEL_EVO_ALGOS
 #----- BioEvo
 # Replicators
     #src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp
+#----- Classical Algos
+# Function execution
+    #src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     )
 
 set(SOURCES_MODEL_EVO_ALGOS
@@ -186,6 +189,9 @@ set(SOURCES_MODEL_EVO_ALGOS
 #----- BioEvo
 # Replicators
     #src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp
+#----- Classical Algos
+# Function execution
+    #src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
     )
 
 
@@ -329,6 +335,8 @@ target_link_libraries(classical_algos ${LIBS})
 set(EXPERIMENTS_EVO_ALGOS 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
 )
 add_executable(evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
     src/Models/EvoAlgos/Experiment/ExperimentRunnerEvoAlgos.hpp
@@ -367,6 +375,31 @@ target_link_libraries(finance ${LIBS})
 
 
 # ************************************************ By function
+
+# ****************************** Classical info
+
+# *************** Function execution
+
+set(EXPERIMENT_RUNNERS_CLASSICAL_INFO_FUNC_EXEC src/Experiment/ClassicalInfo/FunctionExecution/ExperimentRunnerFunctionExecution.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp)
+add_executable(classical-info-func-exec src/Experiment/ClassicalInfo/FunctionExecution/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_CLASSICAL_INFO_FUNC_EXEC})
+target_link_libraries(classical-info-func-exec ${LIBS})
+
+# *************** all
+
+set(EXPERIMENT_RUNNERS_CLASSICAL_INFO 
+    src/Experiment/ClassicalInfo/ExperimentRunnerClassicalInfo.hpp
+    ${EXPERIMENT_RUNNERS_CLASSICAL_INFO_FUNC_EXEC})
+add_executable(classical-info-all src/Experiment/ClassicalInfo/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_CLASSICAL_INFO})
+target_link_libraries(classical-info-all ${LIBS})
+
 
 # ****************************** Bio evo
 

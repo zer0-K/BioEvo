@@ -74,7 +74,7 @@ namespace ut_ea
             instruction::JRE, 0, 0, 0, 6, 7, 8,     // 27
             instruction::JRS, 0, 0, 0, 3, 0, 0,     // 28
             instruction::HALT, 0, 0, 0, 0, 0, 0     // 29
-        };
+        }; 
         /*
             0-1 : dummy input (as 'template'), useless here
             2-10 : create the number 28 (and save other numbers)
@@ -84,6 +84,7 @@ namespace ut_ea
             24-28 : second loop (copying genome into output)
             29 : end
         */
+        std::vector<int> genome_2 = genome_1;
 
         std::vector<std::vector<int>> genomes {
             genome_1

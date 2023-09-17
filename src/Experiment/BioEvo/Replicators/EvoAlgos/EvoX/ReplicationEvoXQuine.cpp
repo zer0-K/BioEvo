@@ -100,4 +100,11 @@ void ReplicationEvoXQuine::launch()
 
     // get result
     auto out_res = algo->get_output();
+
+    std::cout << "Output of quine : " << std::endl;
+    for(int i=0; i<out_res.size();i++)
+    {
+        std::cout << out_res[i] << " ";
+    }
+    std::cout << std::endl;
 }

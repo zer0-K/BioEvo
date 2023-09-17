@@ -101,9 +101,17 @@ const std::string EVOX = "evo x86 algo";
 
 // ------------------------------------------------------------ Experiment names
 
+
+
 // -------------------- CLASSICAL INFO
 
+const std::string name_exp_classical_info = "classical info experiments";
 const std::string name_exp_console_app = "console app";
+
+// ---------- FUNCTION EXECUTION
+
+const std::string name_exp_classical_info_func_exec = "experiments on function executions";
+const std::string name_exp_classical_info_func_exec_evox = "EvoX function execution";
 
 // -------------------- BIO EVO
 
@@ -111,15 +119,15 @@ const std::string name_exp_bioevo = "bio evo experiments";
 
 // ---------- TRAIT
 
-const std::string name_exp_bioevo_traits = "experiment on traits";
+const std::string name_exp_bioevo_traits = "experiments on traits";
 
 // ---------- GENE
 
-const std::string name_exp_bioevo_genes = "experiment on genes";
+const std::string name_exp_bioevo_genes = "experiments on genes";
 
 // ---------- REPLICATORS
 
-const std::string name_exp_bioevo_replication = "experiment en replication";
+const std::string name_exp_bioevo_replication = "experiments on replication";
 const std::string name_exp_bioevo_replication_evox_quine = "EvoX quine replication";
 
 // -------------------- EVO ALGOS
