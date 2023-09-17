@@ -325,7 +325,7 @@ namespace ut_ea
         // genomes coding simple programs
         // 
         std::vector<int> genome_1 { 
-            instruction::GR, 0, 0, 0, 14, 1, 0,     // 0
+            instruction::GR, 0, 0, 0, 1, 14, 0,     // 0
             instruction::CPYOUT, 0, 0, 0, 0, 1, 0,  // 1
             instruction::HALT, 0, 0, 0, 0, 0, 0     // 2
         };

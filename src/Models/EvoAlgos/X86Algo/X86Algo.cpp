@@ -297,8 +297,8 @@ void X86Algo::exec_instruction_basic(int instr, bool is_addr1, bool is_addr2, bo
             // shift negatively the prog ptr according to data at second adress
 
             if(arg1_>=0 && arg1_<data.size()
-                && program_counter + data[arg1_] >= 0 
-                && program_counter + data[arg1_] < code.size())
+                && program_counter - data[arg1_] >= 0 
+                && program_counter - data[arg1_] < code.size())
             {
                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                 program_counter = (program_counter - data[arg1_]) - 1;
