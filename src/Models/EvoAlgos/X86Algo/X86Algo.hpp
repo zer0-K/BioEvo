@@ -67,15 +67,15 @@ public:
      * @param[in] arg2 value/address of the second argument of the instruction
      * @param[in] arg3 value/address of the third argument of the instruction
     */
-    void exec_instruction(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    void exec_instruction(int instr, int is_addr1, int is_addr2, int is_addr3, 
         int arg1, int arg2, int arg3);
 
     /// @brief Basic instructions @see exec_instruction
-    void exec_instruction_basic(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    void exec_instruction_basic(int instr, int is_addr1, int is_addr2, int is_addr3, 
         int arg1, int arg2, int arg3);
 
     /// @brief Genetic instructions @see exec_instruction
-    virtual void exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+    virtual void exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_addr3, 
         int arg1, int arg2, int arg3) {};
 
     /**
@@ -92,7 +92,7 @@ public:
      * @param[in] arg2 value/address of the second argument of the instruction
      * @param[in] arg3 value/address of the third argument of the instruction
     */
-    std::array<int,SIZE_INSTR> get_vals(bool &is_valid, bool is_addr1, bool is_addr2, bool is_addr3, 
+    std::array<int,SIZE_INSTR> get_vals(bool &is_valid, int is_addr1, int is_addr2, int is_addr3, 
         int arg1, int arg2, int arg3);
 
     // setters

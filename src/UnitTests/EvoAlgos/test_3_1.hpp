@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - EVO X - genes
+//-------------------- EVOLUTIONARY ALGOS - EVO X - GENES
 
 #pragma once
 

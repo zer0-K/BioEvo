@@ -52,14 +52,14 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     return entries;
 }
 
-void X86Algo::exec_instruction(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+void X86Algo::exec_instruction(int instr, int is_addr1, int is_addr2, int is_addr3, 
     int arg1, int arg2, int arg3)
 {
     exec_instruction_basic(instr, is_addr1, is_addr2, is_addr3, arg1, arg2, arg3);
     exec_instruction_gene(instr, is_addr1, is_addr2, is_addr3, arg1, arg2, arg3);
 }
 
-void X86Algo::exec_instruction_basic(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int is_addr3, 
     int arg1, int arg2, int arg3)
 {
     bool is_valid = true;
@@ -519,39 +519,45 @@ void X86Algo::exec_instruction_basic(int instr, bool is_addr1, bool is_addr2, bo
     }
 }
 
-std::array<int,SIZE_INSTR> X86Algo::get_vals(bool &is_valid, bool is_addr1, bool is_addr2, bool is_addr3, 
+std::array<int,SIZE_INSTR> X86Algo::get_vals(bool &is_valid, int is_addr1, int is_addr2, int is_addr3, 
     int arg1, int arg2, int arg3)
 {
     std::array<int,SIZE_INSTR> result = { arg1, arg2, arg3 };
 
-    if(is_addr1)
+    if(is_addr1>0)
     {
         is_valid = arg1 >=0 && arg1<data.size();
 
         if(!is_valid)
             return result;
 
-        result[0] = data[arg1];
+        arg1 = data[arg1];
+        result[0] = arg1;
+        is_addr1--;
     }
 
-    if(is_addr2)
+    if(is_addr2>0)
     {
         is_valid = arg2 >=0 && arg2<data.size();
 
         if(!is_valid)
             return result;
 
-        result[1] = data[arg2];
+        arg2 = data[arg2];
+        result[1] = arg2;
+        is_addr2--;
     }
 
-    if(is_addr3)
+    if(is_addr3>0)
     {
         is_valid = arg3 >=0 && arg3<data.size();
 
         if(!is_valid)
             return result;
 
-        result[2] = data[arg3];
+        arg3 =data[arg3];
+        result[2] = arg3;
+        is_addr3--;
     }
 
     return result;

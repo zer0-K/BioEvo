@@ -60,7 +60,7 @@ void EvoX::create_code_from_genes()
 
 }
 
-void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool is_addr3, 
+void EvoX::exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_addr3, 
     int arg1, int arg2, int arg3)
 {
     bool is_valid = true;
@@ -201,14 +201,14 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
             break;
 
         case instruction::GCPY:
-            // copy at destination input between arg2 and arg3
+            // copy at destination data between arg2 and arg3
 
             if(destination>=0 && destination<genes.size()
                 && arg2_>=0 && arg2_<genes.size()
                 && arg3_>=0 && arg3_<genes.size())
             {
                 int input_cpy_begin = arg2_;
-                int input_cpy_end = std::min((int)input.size(), arg3_);
+                int input_cpy_end = std::min((int)data.size(), arg3_);
 
                 int nb_new_genes = input_cpy_end-input_cpy_begin+1;
                 int nb_old_genes = genes.size();
@@ -238,33 +238,35 @@ void EvoX::exec_instruction_gene(int instr, bool is_addr1, bool is_addr2, bool i
             break;
 
         case instruction::GCPYM:
+        {
             // copy input between arg2 and arg3 at first genetic marker
 
-            // find first genetic marker with given id (at arg1_)
-            if(arg1_>=0 && arg1_<data.size()-6) // we don't allow incomplete markers at the end
+            // find first genetic marker with given id (arg1_)
+            int marker_pos = 0;
+            bool found = false;
+            while(!found && marker_pos<genes.size() )
             {
-                int marker_pos = 0;
-                bool found = false;
-                while(!found && marker_pos<genes.size() )
+                if(genes[marker_pos] == instruction::MARKER
+                    && genes[marker_pos+1] == arg1_)
                 {
-                    if(genes[marker_pos] == instruction::MARKER
-                        && genes[marker_pos+1] == data[arg1_])
-                    {
-                        found = true;
-                    }
-                    else
-                    {
-                        marker_pos += 7;
-                    }
+                    found = true;
                 }
-
-                data.push_back(marker_pos);
-                exec_instruction_gene(instruction::GCPY, true, true, true, data.size()-1, arg2_, arg3_);
-                data.pop_back();
-
-                post_process_marker(marker_pos);
+                else
+                {
+                    marker_pos += 7;
+                }
             }
+
+            // then, copy after the genetic marker
+            //data.push_back(marker_pos);
+            marker_pos +=7 ;
+            exec_instruction_gene(instruction::GCPY, false, false, false, marker_pos, arg2_, arg3_);
+            //data.pop_back();
+
+            post_process_marker(marker_pos);
+            
             break;
+        }
 
         default:
             // does nothing

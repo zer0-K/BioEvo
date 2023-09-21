@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - EVO X - genes - mutations
+//-------------------- EVOLUTIONARY ALGOS - EVO X - GENES - MUTATIONS
 
 #pragma once
 
@@ -476,7 +476,7 @@ namespace ut_ea
             instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
             instruction::CPYIN, 0, 0, 0, 2, 2, 0,   // 2
             instruction::MARKER, 8, 0, 0, 0, 0, 0,  // 3 
-            instruction::GCPYM, 0, 0, 0, 0, 1, 2,   // 4
+            instruction::GCPYM, 1, 1, 1, 0, 1, 2,   // 4
             instruction::CPYOUT, 0, 0, 0, 0, 4, 0   // 5
         };
 
