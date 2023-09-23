@@ -90,9 +90,7 @@ void EvoX::exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_a
             {
                 data[arg1_] = genes[arg2_];
             }
-
-
-        break;
+            break;
 
         case instruction::GINS:
             // insert gene at arg1 with value of code at arg2

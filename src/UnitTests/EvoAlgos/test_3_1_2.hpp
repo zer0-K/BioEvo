@@ -488,18 +488,18 @@ namespace ut_ea
 
         // input (here, same for all tests for simplicity)
         // copy input
-        std::vector<int> input_1_1 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
-        std::vector<int> input_1_2 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
-        std::vector<int> input_1_3 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
-        std::vector<int> input_1_4 { 28, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_1 { 28, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_2 { 28, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_3 { 28, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_1_4 { 28, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
         std::vector<std::vector<int>> inputs_1 {
             input_1_1, input_1_2, input_1_3, input_1_4
         };
         // copy input at marker
-        std::vector<int> input_2_1 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
-        std::vector<int> input_2_2 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
-        std::vector<int> input_2_3 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
-        std::vector<int> input_2_4 { 8, 3, 9, 5, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_1 { 8, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_2 { 8, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_3 { 8, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
+        std::vector<int> input_2_4 { 8, 3, 9, instruction::INC, 0, 0, 0, 4, 0, 0 };
         std::vector<std::vector<int>> inputs_2 {
             input_2_1, input_2_2, input_2_3, input_2_4
         };

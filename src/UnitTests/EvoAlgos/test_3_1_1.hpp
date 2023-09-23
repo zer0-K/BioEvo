@@ -56,13 +56,21 @@ namespace ut_ea
             instruction::HALT, 0, 0, 0, 2, 0, 0
         };
         std::vector<int> genome_4 {
+            instruction::BEG, 0, 0, 0, 2, 0, 0
+        };
+        std::vector<int> genome_5 {
+            instruction::BEG, 0, 0, 0, 2, 0, 0,
+            instruction::HALT, 0, 0, 0, 2, 0, 0,
+        };
+        std::vector<int> genome_6 {
             instruction::XXX, 0, 0, 0, 3, 0, 0,
             instruction::XXX, 0, 0, 0, 4, 0, 0,
             instruction::HALT, 0, 0, 0, 5, 0, 0
         };
 
         std::vector<std::vector<int>> genomes {
-            genome_1, genome_2, genome_3, genome_4
+            genome_1, genome_2, genome_3, genome_4, genome_5, 
+            genome_6
         };
 
         //---------- EXPECTED CODES
@@ -78,13 +86,21 @@ namespace ut_ea
             { instruction::HALT, 0, 0, 0, 2, 0, 0 }
         };
         std::vector<std::array<int,SIZE_INSTR>> expected_code_4 {
+            { instruction::BEG, 0, 0, 0, 2, 0, 0 }
+        };
+        std::vector<std::array<int,SIZE_INSTR>> expected_code_5 {
+            { instruction::BEG, 0, 0, 0, 2, 0, 0 },
+            { instruction::HALT, 0, 0, 0, 2, 0, 0 }
+        };
+        std::vector<std::array<int,SIZE_INSTR>> expected_code_6 {
             { instruction::XXX, 0, 0, 0, 3, 0, 0 },
             { instruction::XXX, 0, 0, 0, 4, 0, 0 },
             { instruction::HALT, 0, 0, 0, 5, 0, 0 }
         };
 
         std::vector<std::vector<std::array<int,SIZE_INSTR>>> expected_codes {
-            expected_code_1, expected_code_2, expected_code_3, expected_code_4
+            expected_code_1, expected_code_2, expected_code_3, expected_code_4, expected_code_5,
+            expected_code_6
         };
 
         //---------- IN/OUT
@@ -240,16 +256,17 @@ namespace ut_ea
         // genomes coding simple programs
         // 
         std::vector<int> genome_1 { 
-            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
-            instruction::INC, 0, 0, 0, 1, 0, 0,     // 1
+            instruction::BEG, 0, 0, 0, 0, 0, 0,     // 0
+            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 1
             instruction::INC, 0, 0, 0, 1, 0, 0,     // 2
             instruction::INC, 0, 0, 0, 1, 0, 0,     // 3
-            instruction::INC, 0, 0, 0, 3, 0, 0,     // 4
-            instruction::JRE, 0, 0, 0, 1, 0, 4,     // 5
-            instruction::DEC, 0, 0, 0, 0, 0, 0,     // 6
-            instruction::JRS, 0, 0, 0, 1, 0, 0,     // 7
-            instruction::DEC, 0, 0, 0, 3, 0, 0,     // 8
-            instruction::CPYOUT, 0, 0, 0, 0, 3, 0,  // 9
+            instruction::INC, 0, 0, 0, 1, 0, 0,     // 4
+            instruction::INC, 0, 0, 0, 3, 0, 0,     // 5
+            instruction::JRE, 0, 0, 0, 1, 0, 4,     // 6
+            instruction::DEC, 0, 0, 0, 0, 0, 0,     // 7
+            instruction::JRS, 0, 0, 0, 1, 0, 0,     // 8
+            instruction::DEC, 0, 0, 0, 3, 0, 0,     // 9
+            instruction::CPYOUT, 0, 0, 0, 0, 3, 0,  // 10
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
 
@@ -325,9 +342,10 @@ namespace ut_ea
         // genomes coding simple programs
         // 
         std::vector<int> genome_1 { 
-            instruction::GR, 0, 0, 0, 1, 14, 0,     // 0
-            instruction::CPYOUT, 0, 0, 0, 0, 1, 0,  // 1
-            instruction::HALT, 0, 0, 0, 0, 0, 0     // 2
+            instruction::BEG, 0, 0, 0, 0, 0, 0,     // 0
+            instruction::GR, 0, 0, 0, 1, 21, 0,     // 1
+            instruction::CPYOUT, 0, 0, 0, 0, 1, 0,  // 2
+            instruction::HALT, 0, 0, 0, 0, 0, 0     // 3
         };
 
         std::vector<std::vector<int>> genomes {
@@ -338,7 +356,7 @@ namespace ut_ea
 
         // the expected outputs of the code the genomes should create
         std::vector<int> expected_out_1 {
-            28
+            instruction::HALT
         };
 
         std::vector<std::vector<int>> expected_outs {

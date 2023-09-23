@@ -16,9 +16,9 @@ enum instruction {
     MUL,    // 9    multiply data
     DIV,    // 10   divide data
     OPP,    // 11   opposite number
-    CMP,    // 12   compare data
-    CPYIS,  // 13   get input size
-    SETOS,  // 14   set output size
+    CPYIS,  // 12   get input size
+    SETOS,  // 13   set output size
+    CMP,    // 14   compare data
     // ******* jumps
     JMP,    // 15   jump prog 
     JRA,    // 16   jump relative add (curr prog ptr + x)
@@ -33,21 +33,22 @@ enum instruction {
     JRG,    // 25   relative jump if >
     JRLE,   // 26   relative jump if <=
     JRGE,   // 27   relative jump if >=
-    HALT,   // 28   halt
+    BEG,    // 28   begin/start
+    HALT,   // 29   halt
     // ******* random
-    RUD,    // 29   random uniform double : between 0 and 1
-    RUI,    // 30   random uniform int
-    RN,     // 31   random normal : mu=0, sigma=1
+    RUD,    // 30   random uniform double : between 0 and 1
+    RUI,    // 31   random uniform int
+    RN,     // 32   random normal : mu=0, sigma=1
     // ******* instructions EvoX
-    GR,     // 32   read gene
-    GINS,   // 33   gene insertion
-    GDEL,   // 34   gene deletion
-    GDELW,  // 35   delete 3 genes at once
-    GSET,   // 36   set gene value
-    GADD,   // 37   add value to gene
-    GCPY,   // 38   copy input into genes (insertion)
-    MARKER, // 39   genetic marker
-    GCPYM,  // 40   copy input into genes at first genetic marker
+    GR,     // 33   read gene
+    GINS,   // 34   gene insertion
+    GDEL,   // 35   gene deletion
+    GDELW,  // 36   delete 3 genes at once
+    GSET,   // 37   set gene value
+    GADD,   // 38   add value to gene
+    GCPY,   // 39   copy input into genes (insertion)
+    MARKER, // 40   genetic marker
+    GCPYM,  // 41   copy input into genes at first genetic marker
     size
 };
 

@@ -475,7 +475,12 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             }
             break;
 
-         case instruction::HALT:
+        case instruction::BEG:
+            // do nothing
+
+            break;
+
+        case instruction::HALT:
             // set prog ptr at end of code ('-1' because prog ptr is incremented at end of instr exec)
 
             program_counter = code.size() - 1;

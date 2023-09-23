@@ -16,6 +16,7 @@ namespace ut_ea
     bool launch_tests_evo_algos_x86_basic_other()
     {
         bool launch_test_evo_algos_x86_basic_XXX(void);
+        bool launch_test_evo_algos_x86_basic_BEG(void);
         bool launch_test_evo_algos_x86_basic_HALT(void);
 
         bool is_passed = true;
@@ -23,6 +24,7 @@ namespace ut_ea
         std::cout << "Evo algos - x86 - basic - other :" << std::endl;
 
         is_passed &= launch_test_evo_algos_x86_basic_XXX(); 
+        is_passed &= launch_test_evo_algos_x86_basic_BEG(); 
         is_passed &= launch_test_evo_algos_x86_basic_HALT(); 
 
         std::cout << "Evo algos - x86 - basic - other : ";
@@ -73,6 +75,53 @@ namespace ut_ea
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - other - xxx : ";
+            passed_print(is_passed);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * begin program
+    */
+    bool launch_test_evo_algos_x86_basic_BEG()
+    {
+        bool is_passed = true;
+
+        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        algo->init();
+
+        // code
+        std::vector<std::array<int,SIZE_INSTR>> code {
+            { instruction::BEG, 0, 0, 0, -123456789, 123456789, 0},
+            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
+            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0}
+        };
+        algo->set_code(code, 0);
+
+        // input
+        std::vector<int> input {
+            12
+        };
+        algo->set_input(input);
+
+        // output
+        algo->set_output_size(2);
+
+        // execute
+        algo->exec(std::vector<sp_entity>(0));
+
+        // check result
+        auto res = algo->get_output();
+
+        if(res[0] != 12 || res[1] != 0)
+        {
+            is_passed = false;
+        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - x86 - basic - other - begin : ";
             passed_print(is_passed);
         }
 
