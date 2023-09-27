@@ -34,7 +34,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     }
 
     while(program_counter>=0 && program_counter<code.size()
-        && instr_counter < 10000)
+        && instr_counter < 20000)
     {
         std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
 
@@ -195,7 +195,8 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // divide the data in the two adresses into the first one
 
             if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
+                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
+                && data[arg3_] != 0)
             {
                 data[destination] = data[arg2_] / data[arg3_];
             }
