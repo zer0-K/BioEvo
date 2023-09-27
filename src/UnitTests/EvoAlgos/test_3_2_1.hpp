@@ -78,7 +78,7 @@ namespace ut_ea
         }; 
         /*
             0-1 : dummy input (as 'template'), useless here
-            2-11 : create the number 29 (and save other numbers)
+            2-11 : creates the number 29 (and save other numbers)
             12-15 : builds some variables for jumps (loops)
             16-19 :first loop : identify length of the genome
             20-24 : builds some vars for the next loop, and change output size
