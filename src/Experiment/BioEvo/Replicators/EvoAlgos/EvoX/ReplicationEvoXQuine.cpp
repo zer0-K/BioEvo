@@ -25,9 +25,8 @@ void ReplicationEvoXQuine::launch()
 
     //---------- GENOME
 
-    // genomes coding simple programs
+    // genomes for a simple quine
     // 
-    // insert args as genes
     std::vector<int> genome_1 { 
         instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
         instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
@@ -63,7 +62,7 @@ void ReplicationEvoXQuine::launch()
     };
     /*
         0-1 : dummy input (as 'template'), useless here
-        2-11 : create the number 28 (and save other numbers)
+        2-11 : creates the number 29 (and save other numbers)
         12-15 : builds some variables for jumps (loops)
         16-19 :first loop : identify length of the genome
         20-24 : builds some vars for the next loop, and change output size

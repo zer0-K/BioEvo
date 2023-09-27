@@ -199,14 +199,14 @@ void EvoX::exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_a
             break;
 
         case instruction::GCPY:
-            // copy at destination data between arg2 and arg3
+            // copy at destination data between arg2 and arg3 (included)
 
-            if(destination>=0 && destination<genes.size()
-                && arg2_>=0 && arg2_<genes.size()
-                && arg3_>=0 && arg3_<genes.size())
+            if(destination>=0 && destination<genes.size()+1
+                && arg2_>=0 && arg2_<data.size()
+                && arg3_>=0 && arg3_<data.size())
             {
-                int input_cpy_begin = arg2_;
-                int input_cpy_end = std::min((int)data.size(), arg3_);
+                int input_cpy_begin = data[arg2_];
+                int input_cpy_end = data[arg3_];
 
                 int nb_new_genes = input_cpy_end-input_cpy_begin+1;
                 int nb_old_genes = genes.size();
@@ -223,21 +223,32 @@ void EvoX::exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_a
                     genes[nb_old_genes+nb_new_genes - i - 1] = genes[nb_old_genes-i-1];
                 }
 
-                // fill the genes with input
+                // fill the genes with data
                 for(int i=0;i<nb_new_genes;i++)
                 {
-                    genes[destination+i] = input[input_cpy_begin+i];
+                    genes[destination+i] = data[input_cpy_begin+i];
                 }
             }
             break;
 
         case instruction::MARKER:
             // do nothing
+
+            /*
+            genes[maker_pos] : position (in the genome) of the genetic marker
+            genes[maker_pos+1] : id of the marker
+            genes[maker_pos+2] : type of the marker
+            genes[maker_pos+3] : nothing for the moment
+            genes[maker_pos+4] : genetic storage
+            genes[maker_pos+5] : genetic storage
+            genes[maker_pos+6] : genetic storage
+            */
+
             break;
 
         case instruction::GCPYM:
         {
-            // copy input between arg2 and arg3 at first genetic marker
+            // copy data between arg2 and arg3 at first genetic marker
 
             // find first genetic marker with given id (arg1_)
             int marker_pos = 0;
@@ -257,7 +268,7 @@ void EvoX::exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_a
 
             // then, copy after the genetic marker
             //data.push_back(marker_pos);
-            marker_pos +=7 ;
+            //marker_pos +=7 ;
             exec_instruction_gene(instruction::GCPY, false, false, false, marker_pos, arg2_, arg3_);
             //data.pop_back();
 
