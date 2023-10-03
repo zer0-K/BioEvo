@@ -555,6 +555,7 @@ set(HEADERS_UNIT_TESTS_EVO_ALGOS
     src/UnitTests/EvoAlgos/test_3_evox.hpp
         src/UnitTests/EvoAlgos/test_3_1.hpp
             src/UnitTests/EvoAlgos/test_3_1_1.hpp src/UnitTests/EvoAlgos/test_3_1_2.hpp
+            src/UnitTests/EvoAlgos/test_3_1_3.hpp
         src/UnitTests/EvoAlgos/test_3_2.hpp
             src/UnitTests/EvoAlgos/test_3_2_1.hpp)
 

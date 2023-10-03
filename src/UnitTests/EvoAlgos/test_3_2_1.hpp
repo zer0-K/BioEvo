@@ -44,36 +44,36 @@ namespace ut_ea
         // genomes coding simple programs
         // 
         std::vector<int> genome_1 { 
-            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 0
-            instruction::CPYIN, 0, 0, 0, 1, 1, 0,   // 1
-            instruction::INC, 0, 0, 0, 2, 0, 0,     // 2 (d[2] = 1)
-            instruction::ADD, 0, 0, 0, 2, 2, 2,     // 3 (d[2] = 2)
-            instruction::ADD, 0, 0, 0, 2, 2, 2,     // 4 (d[2] = 4)
-            instruction::CPY, 0, 0, 0, 3, 2, 0,     // 5 (d[3] = 4)
-            instruction::ADD, 0, 0, 0, 2, 2, 2,     // 6 (d[2] = 8)
-            instruction::CPY, 0, 0, 0, 4, 2, 0,     // 7 (d[4] = 8)
-            instruction::ADD, 0, 0, 0, 2, 2, 2,     // 8 (d[2] = 16)
-            instruction::ADD, 0, 0, 0, 2, 2, 3,     // 9 (d[2] = 20)
-            instruction::ADD, 0, 0, 0, 2, 2, 4,     // 10 (d[2] = 28)
-            instruction::INC, 0, 0, 0, 2, 0, 0,     // 11 (d[2] = 29)
-            instruction::DEC, 0, 0, 0, 3, 0, 0,     // 12 (d[3] = 3)
-            instruction::INC, 0, 0, 0, 6, 0, 0,     // 13 (d[6] = 1)
-            instruction::INC, 0, 0, 0, 6, 0, 0,     // 14 (d[6] = 2)
-            instruction::DEC, 0, 0, 0, 7, 0, 0,     // 15 (d[7] = -1)
-            instruction::INC, 0, 0, 0, 7, 0, 0,     // 16 (d[7]++ (i))
-            instruction::GR, 0, 1, 0, 5, 7, 0,      // 17 (d[5] = gene at i)
-            instruction::JRE, 0, 0, 0, 6, 2, 5,     // 18
-            instruction::JRS, 0, 0, 0, 3, 0, 0,     // 19
-            instruction::ADD, 0, 0, 0, 7, 7, 4,     // 20
-            instruction::DEC, 0, 0, 0, 7, 0, 0,     // 21
-            instruction::DEC, 0, 0, 0, 8, 0, 0,     // 22 (j)
-            instruction::SETOS, 0, 0, 0, 7, 0, 0,   // 23
-            instruction::INC, 0, 0, 0, 3, 0, 0,     // 24 (d[3] = 4)
-            instruction::INC, 0, 0, 0, 8, 0, 0,     // 25
-            instruction::GR, 0, 1, 0, 5, 8, 0,      // 26
-            instruction::CPYOUT, 1, 0, 0, 8, 5, 0,  // 27
-            instruction::JRE, 0, 0, 0, 6, 7, 8,     // 28
-            instruction::JRS, 0, 0, 0, 3, 0, 0,     // 29
+            instruction::CPYIN, 1, 1, 0, 0, 0, 0,   // 0
+            instruction::CPYIN, 1, 1, 0, 1, 1, 0,   // 1
+            instruction::INC, 1, 0, 0, 2, 0, 0,     // 2 (d[2] = 1)
+            instruction::ADD, 1, 1, 1, 2, 2, 2,     // 3 (d[2] = 2)
+            instruction::ADD, 1, 1, 1, 2, 2, 2,     // 4 (d[2] = 4)
+            instruction::CPY, 1, 1, 0, 3, 2, 0,     // 5 (d[3] = 4)
+            instruction::ADD, 1, 1, 1, 2, 2, 2,     // 6 (d[2] = 8)
+            instruction::CPY, 1, 1, 0, 4, 2, 0,     // 7 (d[4] = 8)
+            instruction::ADD, 1, 1, 1, 2, 2, 2,     // 8 (d[2] = 16)
+            instruction::ADD, 1, 1, 1, 2, 2, 3,     // 9 (d[2] = 20)
+            instruction::ADD, 1, 1, 1, 2, 2, 4,     // 10 (d[2] = 28)
+            instruction::INC, 1, 0, 0, 2, 0, 0,     // 11 (d[2] = 29)
+            instruction::DEC, 1, 0, 0, 3, 0, 0,     // 12 (d[3] = 3)
+            instruction::INC, 1, 0, 0, 6, 0, 0,     // 13 (d[6] = 1)
+            instruction::INC, 1, 0, 0, 6, 0, 0,     // 14 (d[6] = 2)
+            instruction::DEC, 1, 0, 0, 7, 0, 0,     // 15 (d[7] = -1)
+            instruction::INC, 1, 0, 0, 7, 0, 0,     // 16 (d[7]++ (i))
+            instruction::GR, 1, 1, 0, 5, 7, 0,      // 17 (d[5] = gene at i)
+            instruction::JRE, 1, 1, 1, 6, 2, 5,     // 18
+            instruction::JRS, 1, 1, 1, 3, 0, 0,     // 19
+            instruction::ADD, 1, 1, 1, 7, 7, 4,     // 20
+            instruction::DEC, 1, 0, 0, 7, 0, 0,     // 21
+            instruction::DEC, 1, 0, 0, 8, 0, 0,     // 22 (j)
+            instruction::SETOS, 1, 0, 0, 7, 0, 0,   // 23
+            instruction::INC, 1, 0, 0, 3, 0, 0,     // 24 (d[3] = 4)
+            instruction::INC, 1, 0, 0, 8, 0, 0,     // 25
+            instruction::GR, 1, 1, 0, 5, 8, 0,      // 26
+            instruction::CPYOUT, 1, 1, 0, 8, 5, 0,  // 27
+            instruction::JRE, 1, 1, 1, 6, 7, 8,     // 28
+            instruction::JRS, 1, 1, 1, 3, 0, 0,     // 29
             instruction::HALT, 0, 0, 0, 0, 0, 0     // 30
         }; 
         /*

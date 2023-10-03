@@ -41,38 +41,66 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            { instruction::CPYIS, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0}
+
+        //---------- CODE
+
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
+            { instruction::CPYIS, 1, 1, 0, 0, 0, 0},
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0}
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            1000, 3, 3, 3, 3
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(1);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 1000, 3, 3, 3 };
 
-        // check result
-        auto res = algo->get_output();
+        std::vector<std::vector<int>> inputs {
+            input_0
+        };
 
-        if( res[0] != input.size() )
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { (int)input_0.size() };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(out_res, expected_outs[i]);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - io - cpyis " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - basic - io - cpyis: ";
+            std::cout << "Evo algos - x86 - basic - io - cpyis : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -87,50 +115,63 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::SETOS, 0, 0, 0, 0, 0, 0}
+
+        //---------- CODE
+
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0},
+            { instruction::SETOS, 1, 0, 0, 0, 0, 0}
         };
-        algo->set_code(code, 0);
-
-        // input 
-        std::vector<int> input {
-            100 
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(1);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 1000 };
 
-        // check result
-        auto res = algo->get_output();
+        std::vector<std::vector<int>> inputs {
+            input_0
+        };
 
-        if( res.size() != input[0] )
+        //---------- EXPECTED OUTPUT SIZES
+
+        std::vector<int> expected_out_sizes {
+            input_0[0]
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
 
-        // now, reduce output size
-        input[0] = 10;
-        algo->set_input(input);
-        algo->exec(std::vector<sp_entity>(0));
-        res = algo->get_output();
+            algo->set_input(inputs[i]);
+            algo->set_output_size(0);
+            algo->exec(std::vector<sp_entity>(0));
 
-        if( res.size() != input[0] )
-        {
-            is_passed = false;
-        }
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = ((int)out_res.size() == expected_out_sizes[i]);
+            is_passed &= is_passed_i; 
 
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - io - setos " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - x86 - basic - io - setos: ";
+            std::cout << "Evo algos - x86 - basic - io - setos : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }

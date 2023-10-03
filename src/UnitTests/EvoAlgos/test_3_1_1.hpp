@@ -257,16 +257,16 @@ namespace ut_ea
         // 
         std::vector<int> genome_1 { 
             instruction::BEG, 0, 0, 0, 0, 0, 0,     // 0
-            instruction::CPYIN, 0, 0, 0, 0, 0, 0,   // 1
-            instruction::INC, 0, 0, 0, 1, 0, 0,     // 2
-            instruction::INC, 0, 0, 0, 1, 0, 0,     // 3
-            instruction::INC, 0, 0, 0, 1, 0, 0,     // 4
-            instruction::INC, 0, 0, 0, 3, 0, 0,     // 5
-            instruction::JRE, 0, 0, 0, 1, 0, 4,     // 6
-            instruction::DEC, 0, 0, 0, 0, 0, 0,     // 7
-            instruction::JRS, 0, 0, 0, 1, 0, 0,     // 8
-            instruction::DEC, 0, 0, 0, 3, 0, 0,     // 9
-            instruction::CPYOUT, 0, 0, 0, 0, 3, 0,  // 10
+            instruction::CPYIN, 1, 1, 0, 0, 0, 0,   // 1
+            instruction::INC, 1, 0, 0, 1, 0, 0,     // 2
+            instruction::INC, 1, 0, 0, 1, 0, 0,     // 3
+            instruction::INC, 1, 0, 0, 1, 0, 0,     // 4
+            instruction::INC, 1, 0, 0, 3, 0, 0,     // 5
+            instruction::JRE, 1, 1, 1, 1, 0, 4,     // 6
+            instruction::DEC, 1, 0, 0, 0, 0, 0,     // 7
+            instruction::JRS, 1, 1, 1, 1, 0, 0,     // 8
+            instruction::DEC, 1, 0, 0, 3, 0, 0,     // 9
+            instruction::CPYOUT, 1, 1, 0, 0, 3, 0,  // 10
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
 
@@ -343,8 +343,8 @@ namespace ut_ea
         // 
         std::vector<int> genome_1 { 
             instruction::BEG, 0, 0, 0, 0, 0, 0,     // 0
-            instruction::GR, 0, 0, 0, 1, 21, 0,     // 1
-            instruction::CPYOUT, 0, 0, 0, 0, 1, 0,  // 2
+            instruction::GR, 1, 1, 0, 1, 21, 0,     // 1
+            instruction::CPYOUT, 1, 1, 0, 0, 1, 0,  // 2
             instruction::HALT, 0, 0, 0, 0, 0, 0     // 3
         };
 

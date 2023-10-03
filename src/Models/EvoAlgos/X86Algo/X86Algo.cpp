@@ -52,19 +52,19 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     return entries;
 }
 
-void X86Algo::exec_instruction(int instr, int is_addr1, int is_addr2, int is_addr3, 
+void X86Algo::exec_instruction(int instr, int addr1_order, int addr2_order, int addr3_order, 
     int arg1, int arg2, int arg3)
 {
-    exec_instruction_basic(instr, is_addr1, is_addr2, is_addr3, arg1, arg2, arg3);
-    exec_instruction_gene(instr, is_addr1, is_addr2, is_addr3, arg1, arg2, arg3);
+    exec_instruction_basic(instr, addr1_order, addr2_order, addr3_order, arg1, arg2, arg3);
+    exec_instruction_gene(instr, addr1_order, addr2_order, addr3_order, arg1, arg2, arg3);
 }
 
-void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int is_addr3, 
+void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order, int addr3_order, 
     int arg1, int arg2, int arg3)
 {
     bool is_valid = true;
 
-    auto transformed_args = get_vals(is_valid, is_addr1, is_addr2, is_addr3,
+    auto transformed_args = get_addrs(is_valid, addr1_order, addr2_order, addr3_order,
         arg1, arg2, arg3);
 
     if(!is_valid)
@@ -75,7 +75,9 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
     int arg3_ = transformed_args[2];
 
     int destination = arg1_;
+    int destination_order = addr1_order;
     int source = arg2_;
+    int source_order = addr2_order;
 
     switch(instr)
     {
@@ -85,13 +87,20 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
 
         case instruction::MOV:
             // move
-            // moves data at second adress into the first one
+            // moves data at source into destination
 
-            if(destination>=0 && source>=0
-                && destination<data.size() && source<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
-                data[destination] = data[source];
-                data[source] = 0;
+                // if source order is 0, 'mov' is actually a 'set'
+                if(source_order==0)
+                {
+                    data[destination] = source;
+                }
+                else if(source>=0 && source<data.size())
+                {
+                    data[destination] = data[source];
+                    data[source] = 0;
+                }
             }
 
             break;
@@ -100,10 +109,16 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // copy
             // copy data at second adress into first one
 
-            if(destination>=0 && source>=0
-                && destination<data.size() && source<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
-                data[destination] = data[source];
+                if(source_order==0)
+                {
+                    data[destination] = source;
+                }
+                else if(source>=0 && source<data.size())
+                {
+                    data[destination] = data[source];
+                }
             }
 
             break;
@@ -112,10 +127,17 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // copy input
             // copies the input into memory
 
-            if(destination>=0 && source>=0
-                && destination<data.size() && source<input.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
-                data[destination] = input[source];
+                // if source order is 0, 'CPYIN' is just a 'set'
+                if(source_order==0)
+                {
+                    data[destination] = source;
+                }
+                else if(source>=0 && source<input.size())
+                {
+                    data[destination] = input[source];
+                }
             }
 
            break;
@@ -124,11 +146,18 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // copy output
             // copies data to output
 
-            if(destination>=0 && source>=0
-                && destination<output.size() && source<data.size())
+            if(destination_order>0 && destination>=0 && destination<output.size())
             {
-                output[destination] = data[source];
+                if(source_order==0)
+                {
+                    output[destination] = source;
+                }
+                else if(source>=0 && source<data.size())
+                {
+                    output[destination] = data[source];
+                }
             }
+
 
             break;
 
@@ -136,18 +165,18 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // increment
             // increment data at second adress into first one
 
-            if(destination>=0 && destination<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
                 data[destination]++;
             }
 
            break;
 
-         case instruction::DEC:
+        case instruction::DEC:
             // decrement
             // decrement data at second adress into first one
 
-            if(destination>=0 && destination<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
                 data[destination]--;
             }
@@ -158,10 +187,31 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // add
             // add the data in the two adresses into the first one
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
+            if(destination_order>0 && destination>=0 && arg2_>=0 && arg3_>=0
                 && destination<data.size() && arg2_<data.size() && arg3_<data.size())
             {
-                data[destination] = data[arg2_] + data[arg3_];
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = arg2_ + arg3_;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size())
+                    {
+                        data[destination] = arg2_ + data[arg3_];
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = data[arg2_] + arg3_;
+                    }
+                    else if(arg3_>=0 && arg3<data.size())
+                    {
+                        data[destination] = data[arg2_] + data[arg3_];
+                    }
+                }
             }
 
             break;
@@ -170,11 +220,28 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // substract
             // substract the data in the two adresses into the first one
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
-            {
-                data[destination] = data[arg2_] - data[arg3_];
-            }
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = arg2_ - arg3_;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size())
+                    {
+                        data[destination] = arg2_ - data[arg3_];
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = data[arg2_] - arg3_;
+                    }
+                    else if(arg3_>=0 && arg3<data.size())
+                    {
+                        data[destination] = data[arg2_] - data[arg3_];
+                    }
+                }
 
            break;
 
@@ -182,11 +249,28 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // multiply
             // multiply the data in the two adresses into the first one
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
-            {
-                data[destination] = data[arg2_] * data[arg3_];
-            }
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = arg2_ * arg3_;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size())
+                    {
+                        data[destination] = arg2_ * data[arg3_];
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = data[arg2_] * arg3_;
+                    }
+                    else if(arg3_>=0 && arg3<data.size())
+                    {
+                        data[destination] = data[arg2_] * data[arg3_];
+                    }
+                }
 
            break;
 
@@ -194,12 +278,28 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // divide
             // divide the data in the two adresses into the first one
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && data[arg3_] != 0)
-            {
-                data[destination] = data[arg2_] / data[arg3_];
-            }
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg3_!=0)
+                    {
+                        data[destination] = arg2_ / arg3_;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg3_]!=0)
+                    {
+                        data[destination] = arg2_ / data[arg3_];
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && arg3_!=0)
+                    {
+                        data[destination] = data[arg2_] / arg3_;
+                    }
+                    else if(arg3_>=0 && arg3<data.size() && data[arg3_]!=0)
+                    {
+                        data[destination] = data[arg2_] / data[arg3_];
+                    }
+                }
 
            break;
 
@@ -207,7 +307,7 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // opposite
             // take opposite of given number
 
-            if(destination>=0 && destination<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
                 data[destination] = -data[destination];
             }
@@ -219,11 +319,30 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // compare data at arg2 and arg3, stores 0 in destination if they are equal,
             // 1 if data at arg2 < data at arg3, -1 otherwise
 
-            if(destination>=0 && source>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
-                data[destination] = data[arg2_] == data[arg3_] ? 0 :
-                                ( data[arg2_] < data[arg3_] ? 1 : -1 );
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = arg2_== arg3_ ? 0 : (arg2_ < arg3_ ? 1 : -1);
+                    }
+                    else if(arg3_>=0 && arg3_<data.size())
+                    {
+                        data[destination] = arg2_== data[arg3_] ? 0 : (arg2_ < data[arg3_] ? 1 : -1);
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0)
+                    {
+                        data[destination] = data[arg2_]== arg3_ ? 0 : (data[arg2_] < arg3_ ? 1 : -1);
+                    }
+                    else if(arg3_>=0 && arg3_<data.size())
+                    {
+                        data[destination] = data[arg2_]== data[arg3_] ? 0 : (data[arg2_] < data[arg3_] ? 1 : -1);
+                    }
+                }
             }
 
             break;
@@ -232,22 +351,29 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
         case instruction::CPYIS:
             // copy input size
 
-            if(destination>=0 && destination<data.size() )
+            if(destination_order>0 && destination>=0 && destination<data.size() )
             {
                 data[destination] = input.size();
             }
 
             break;
 
-
         case instruction::SETOS:
+        {
             // set output size
 
-            if(destination>=0 && destination<data.size()
-                && data[destination]>=0 && data[destination]<MAX_OUTPUT_SIZE_X86)
+            int new_out_size = -1;
+            if(addr1_order==0)
             {
-                int new_out_size = data[destination];
+                new_out_size = arg1_;
+            }
+            else if(arg1_>=0 && arg1<data.size())
+            {
+                new_out_size = data[arg1_];
+            }
 
+            if(new_out_size >= 0 && new_out_size < MAX_OUTPUT_SIZE_X86)
+            {
                 if(output.size() > new_out_size)
                 {
                     while(output.size()!=new_out_size)
@@ -266,17 +392,24 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             }
 
             break;
-
+        }
 
         case instruction::JMP:
             // jump
             // set prog ptr to given position 
 
-            if(arg1_>=0 && arg1_<data.size() && data[arg1_]<code.size())
+            if(addr1_order==0 && arg1_>=0 && arg1_<code.size())
+            {
+                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter = arg1_ - 1;               
+            }
+            else if(arg1_>=0 && arg1_<data.size() 
+                && data[arg1_]>=0 && data[arg1_]<code.size())
             {                
                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                 program_counter = data[arg1_] - 1;
             }
+
             break;
 
 
@@ -284,20 +417,35 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // relative jump (+ shift)
             // shift positively the prog ptr according to data at second adress
 
-            if(arg1_>=0 && arg1_<data.size()
+            if(addr1_order==0 
+                && program_counter + arg1_ >= 0 
+                && program_counter + arg1_<code.size() )
+            {
+                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter += arg1_ - 1;               
+            }
+            else if(arg1_>=0 && arg1_<data.size()
                 && program_counter + data[arg1_] >= 0 
                 && program_counter + data[arg1_] < code.size())
             {                
                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                 program_counter += data[arg1_] - 1;
             }
+
             break;
 
         case instruction::JRS:
             // relative jump (-shift)
             // shift negatively the prog ptr according to data at second adress
 
-            if(arg1_>=0 && arg1_<data.size()
+            if(addr1_order==0 
+                && program_counter - arg1_ >= 0 
+                && program_counter - arg1_<code.size() )
+            {
+                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                program_counter = (program_counter - arg1_) - 1;               
+            }
+            else if(arg1_>=0 && arg1_<data.size()
                 && program_counter - data[arg1_] >= 0 
                 && program_counter - data[arg1_] < code.size())
             {
@@ -310,16 +458,69 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // (absolute) jump if equal
             // set prog ptr if data at arg2 equals data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && data[destination] >= 0 && data[destination] < code.size())
+            if(destination_order==0 
+                && destination >= 0 
+                && destination < code.size())
             {
-                if(data[arg2_] == data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[destination] - 1;
+                    if(addr3_order==0 && arg2_==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && data[destination] >= 0 
+                && data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
 
@@ -327,16 +528,69 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // jump if lower (strict)
             // jump at adress at destination if data at arg2 is < data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && data[destination] >= 0 && data[destination] < code.size())
+            if(destination_order==0 
+                && destination >= 0 
+                && destination < code.size())
             {
-                if(data[arg2_] < data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[destination] - 1;
+                    if(addr3_order==0 && arg2_<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && data[destination] >= 0 
+                && data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
 
@@ -344,136 +598,559 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // jump if greater (strict)
             // jump at adress at destination if data at arg2 is > data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && data[destination] >= 0 && data[destination] < code.size())
+            if(destination_order==0 
+                && destination >= 0 
+                && destination < code.size())
             {
-                if(data[arg2_] > data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[destination] - 1;
+                    if(addr3_order==0 && arg2_>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && data[destination] >= 0 
+                && data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
         case instruction::JLE:
             // jump if lower or equal
             // jump at adress at destination if data at arg2 is <= data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && data[destination] >= 0 && data[destination] < code.size())
+            if(destination_order==0 
+                && destination >= 0 
+                && destination < code.size())
             {
-                if(data[arg2_] <= data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[destination] - 1;
+                    if(addr3_order==0 && arg2_<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && data[destination] >= 0 
+                && data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+            }
+
             break;
+
 
 
         case instruction::JGE:
             // jump if greater or equal
             // jump at adress at destination if data at arg2 is >= data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && data[destination] >= 0 && data[destination] < code.size())
+            if(destination_order==0 
+                && destination >= 0 
+                && destination < code.size())
             {
-                if(data[arg2_] >= data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter = data[destination] - 1;
+                    if(addr3_order==0 && arg2_>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && data[destination] >= 0 
+                && data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter = data[destination] - 1;
+                    }
+                }
+            }
+
             break;
+
 
         case instruction::JRE:
-            // relative jump if equals
-            // shift prog ptr if data at arg2 equals data at arg3
+            // (absolute) jump if equal
+            // set prog ptr if data at arg2 equals data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && program_counter + data[destination] >= 0 
-                && program_counter + data[destination] < code.size())
+            if(destination_order==0 
+                && program_counter+destination >= 0
+                && program_counter+destination < code.size())
             {
-                if(data[arg2_] == data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter += data[destination] - 1;
+                    if(addr3_order==0 && arg2_==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && program_counter+data[destination] >= 0 
+                && program_counter+data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]==arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
-        case instruction::JRL:
-            // relative jump if lower (strict)
-            // shift prog ptr if data at arg2 is < data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && program_counter + data[destination] >= 0 
-                && program_counter + data[destination] < code.size())
+        case instruction::JRL:
+            // jump if lower (strict)
+            // jump at adress at destination if data at arg2 is < data at arg3
+
+            if(destination_order==0
+                && program_counter+destination >= 0
+                && program_counter+destination < code.size())
             {
-                if(data[arg2_] < data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter += data[destination] - 1;
+                    if(addr3_order==0 && arg2_<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && program_counter+data[destination] >= 0 
+                && program_counter+data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
 
         case instruction::JRG:
-            // relative jump if greater (strict)
-            // shift prog ptr if data at arg2 is > data at arg3
+            // jump if greater (strict)
+            // jump at adress at destination if data at arg2 is > data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && program_counter + data[destination] >= 0 
-                && program_counter + data[destination] < code.size())
+            if(destination_order==0 
+                && program_counter+destination >= 0 
+                && program_counter+destination < code.size())
             {
-                if(data[arg2_] > data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter += data[destination] - 1;
+                    if(addr3_order==0 && arg2_>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && program_counter+data[destination] >= 0 
+                && program_counter+data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
         case instruction::JRLE:
-            // relative jump if lower or equal
-            // shift prog ptr if data at arg2 is <= data at arg3
+            // jump if lower or equal
+            // jump at adress at destination if data at arg2 is <= data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && program_counter + data[destination] >= 0 
-                && program_counter + data[destination] < code.size())
+            if(destination_order==0
+                && program_counter+destination >= 0
+                && program_counter+destination < code.size())
             {
-                if(data[arg2_] <= data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter += data[destination] - 1;
+                    if(addr3_order==0 && arg2_<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && program_counter+data[destination] >= 0 
+                && program_counter+data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
 
-        case instruction::JRGE:
-            // relative jump if greater or equal
-            // shift prog ptr if data at arg2 is >= data at arg3
 
-            if(destination>=0 && arg2_>=0 && arg3_>=0
-                && destination<data.size() && arg2_<data.size() && arg3_<data.size()
-                && program_counter + data[destination] >= 0 
-                && program_counter + data[destination] < code.size())
+        case instruction::JRGE:
+            // jump if greater or equal
+            // jump at adress at destination if data at arg2 is >= data at arg3
+
+            if(destination_order==0 
+                && program_counter+destination >= 0 
+                && program_counter+destination < code.size())
             {
-                if(data[arg2_] >= data[arg3_])
+                if(addr2_order==0)
                 {
-                    // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-                    program_counter += data[destination] - 1;
+                    if(addr3_order==0 && arg2_>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += destination - 1;
+                    }
                 }
             }
+            else if(destination>=0 && destination<data.size() 
+                && program_counter+data[destination] >= 0 
+                && program_counter+data[destination] < code.size())
+            {
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]>=arg3_)
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    {
+                        // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+                        program_counter += data[destination] - 1;
+                    }
+                }
+            }
+
             break;
 
         case instruction::BEG:
@@ -491,32 +1168,58 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
             // nandom normal
             // normal law at first given adress
 
-            if(destination>=0 && destination<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
                 data[destination] = rand_gen::rand_normal(0,1);
             }
+
             break;
 
         case instruction::RUD:
             // random uniform double
             // uniform random double between 0 and 1 at first given adress
 
-            if(destination>=0 && destination<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
                 data[destination] = rand_gen::rand_double(0,1);
             }
+
             break;
 
         case instruction::RUI:
             // random uniform int
             // uniform random int between the bounds at arg2 and arg3
 
-            if(destination>=0 && destination<data.size()
+            if(destination_order>0 && destination>=0 && destination<data.size()
                 && arg2_>=0 && arg2_<data.size()
                 && arg3_>=0 && arg3_<data.size())
             {
-                data[destination] = rand_gen::rand_int(data[arg2_],data[arg3_]);
+                if(addr2_order==0)
+                {
+                    if(addr3_order==0 && arg2_<=arg3_)
+                    {
+                        data[destination] = rand_gen::rand_int(arg2_,arg3_);
+                    }
+                    else if(arg3>=0 && arg3_<data.size()
+                        && arg2_<data[arg3_])
+                    {
+                        data[destination] = rand_gen::rand_int(arg2_,data[arg3_]);
+                    }
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    if(addr3_order==0 && data[arg2_]<=arg3_)
+                    {
+                        data[destination] = rand_gen::rand_int(data[arg2_],arg3_);
+                    }
+                    else if(arg3>=0 && arg3_<data.size()
+                        && data[arg2_]<data[arg3_])
+                    {
+                        data[destination] = rand_gen::rand_int(data[arg2_],data[arg3_]);
+                    }
+                }               
             }
+
             break;
 
         default:
@@ -525,45 +1228,45 @@ void X86Algo::exec_instruction_basic(int instr, int is_addr1, int is_addr2, int 
     }
 }
 
-std::array<int,SIZE_INSTR> X86Algo::get_vals(bool &is_valid, int is_addr1, int is_addr2, int is_addr3, 
+std::array<int,SIZE_INSTR> X86Algo::get_addrs(bool &is_valid, int addr1_order, int addr2_order, int addr3_order, 
     int arg1, int arg2, int arg3)
 {
     std::array<int,SIZE_INSTR> result = { arg1, arg2, arg3 };
 
-    if(is_addr1>0)
+    while(addr1_order>1)
     {
-        is_valid = arg1 >=0 && arg1<data.size();
+        is_valid = arg1>=0 && arg1<data.size();
 
         if(!is_valid)
-            return result;
+            break;
 
         arg1 = data[arg1];
         result[0] = arg1;
-        is_addr1--;
+        addr1_order--;
     }
 
-    if(is_addr2>0)
+    while(addr2_order>1)
     {
-        is_valid = arg2 >=0 && arg2<data.size();
+        is_valid = arg2>=0 && arg2<data.size();
 
         if(!is_valid)
-            return result;
+            break;
 
         arg2 = data[arg2];
         result[1] = arg2;
-        is_addr2--;
+        addr2_order--;
     }
 
-    if(is_addr3>0)
+    while(addr3_order>1)
     {
-        is_valid = arg3 >=0 && arg3<data.size();
+        is_valid = arg3>=0 && arg3<data.size();
 
         if(!is_valid)
-            return result;
+            break;
 
         arg3 =data[arg3];
         result[2] = arg3;
-        is_addr3--;
+        addr3_order--;
     }
 
     return result;
@@ -620,6 +1323,11 @@ void X86Algo::reset_data()
     {
         data[i] = 0;
     }
+}
+
+void X86Algo::reset_code(std::vector<std::array<int,SIZE_INSTR>> code)
+{
+    this->code = code;
 }
 
 //----- getters

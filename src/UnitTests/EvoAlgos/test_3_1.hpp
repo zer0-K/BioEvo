@@ -4,6 +4,7 @@
 
 #include "test_3_1_1.hpp"
 #include "test_3_1_2.hpp"
+#include "test_3_1_3.hpp"
 
 namespace ut_ea
 {
@@ -16,6 +17,7 @@ namespace ut_ea
 
         is_passed &= launch_tests_evo_algos_evox_genes_basic();
         is_passed &= launch_tests_evo_algos_evox_genes_mutations();
+        //is_passed &= launch_tests_evo_algos_evox_genes_markers();
 
         std::cout << "Evo algos - evox - genes : ";
         passed_print(is_passed);

@@ -60,39 +60,40 @@ public:
      * @brief Execute an assembly instruction
      * 
      * @param[in] instr instruction to execute
-     * @param[in] is_addr1 true if the value of the first arg of the instruction is to be found at given address
-     * @param[in] is_addr2 true if the value of the second arg of the instruction is to be found at given address
-     * @param[in] is_addr3 true if the value of the third arg of the instruction is to be found at given address
+     * @param[in] addr1_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] addr2_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] addr3_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
      * @param[in] arg1 value/address of the first argument of the instruction
      * @param[in] arg2 value/address of the second argument of the instruction
      * @param[in] arg3 value/address of the third argument of the instruction
     */
-    void exec_instruction(int instr, int is_addr1, int is_addr2, int is_addr3, 
+    void exec_instruction(int instr, int addr1_order, int addr2_order, int addr3_order, 
         int arg1, int arg2, int arg3);
 
     /// @brief Basic instructions @see exec_instruction
-    void exec_instruction_basic(int instr, int is_addr1, int is_addr2, int is_addr3, 
+    void exec_instruction_basic(int instr, int addr1_order, int addr2_order, int addr3_order, 
         int arg1, int arg2, int arg3);
 
     /// @brief Genetic instructions @see exec_instruction
-    virtual void exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_addr3, 
+    virtual void exec_instruction_gene(int instr, int addr1_order, int addr2_order, int addr3_order, 
         int arg1, int arg2, int arg3) {};
 
     /**
-     * @brief Get the values at given addresses if they are so
+     * @brief Get the addresses at given args
      * 
-     * For example, if is_addr1 is true, arg1 will refer to the value at the address arg1
-     * and if is_addr1 is false it corresponds to an "absolute" value (i.e. not a value at an address)
+     * For example, if addr1_order is 0, arg1 will refer to its own value, 
+     * if addr1_order is 1, arg1 will refer to data at arg1, if addr1_order is
+     * 2, arg1 will refer to data at data at arg1,...
      * 
      * @param[out] is_valid true if the given address are valid
-     * @param[in] is_addr1 true if the value of the first arg of the instruction is to be found at given address
-     * @param[in] is_addr2 true if the value of the second arg of the instruction is to be found at given address
-     * @param[in] is_addr3 true if the value of the third arg of the instruction is to be found at given address
+     * @param[in] addr1_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] addr2_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] addr3_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
      * @param[in] arg1 value/address of the first argument of the instruction
      * @param[in] arg2 value/address of the second argument of the instruction
      * @param[in] arg3 value/address of the third argument of the instruction
     */
-    std::array<int,SIZE_INSTR> get_vals(bool &is_valid, int is_addr1, int is_addr2, int is_addr3, 
+    std::array<int,SIZE_INSTR> get_addrs(bool &is_valid, int addr1_order, int addr2_order, int addr3_order, 
         int arg1, int arg2, int arg3);
 
     // setters
@@ -102,6 +103,7 @@ public:
 
     void reset_code_to_size(int code_size);
     void set_code(std::vector<std::array<int,SIZE_INSTR>> code, int place_at);
+    void reset_code(std::vector<std::array<int,SIZE_INSTR>> code);
     void set_input(std::vector<int> in);
 
     void reset_data();

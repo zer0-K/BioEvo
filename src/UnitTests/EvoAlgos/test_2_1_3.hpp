@@ -65,47 +65,121 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             // compare first input with itself
-            { instruction::CMP, 0, 0, 0, 2, 1, 1},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::CMP, 1, 0, 0, 2, 6, 6 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 2, 0 },
             // compare second input with first
-            { instruction::CMP, 0, 0, 0, 2, 1, 0},
-            { instruction::CPYOUT, 0, 0, 0, 1, 2, 0},
+            { instruction::CMP, 1, 0, 0, 2, 6, 3 },
+            { instruction::CPYOUT, 1, 1, 0, 1, 2, 0 },
             // compare first input with second
-            { instruction::CMP, 0, 0, 0, 2, 0, 1},
-            { instruction::CPYOUT, 0, 0, 0, 2, 2, 0}
+            { instruction::CMP, 1, 0, 0, 2, 3, 6 },
+            { instruction::CPYOUT, 1, 1, 0, 2, 2, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            3, 6
+        // hybrid args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            // compare first input with itself
+            { instruction::CMP, 1, 1, 0, 2, 1, 6 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 2, 0 },
+            // compare second input with first
+            { instruction::CMP, 1, 1, 0, 2, 1, 3 },
+            { instruction::CPYOUT, 1, 1, 0, 1, 2, 0 },
+            // compare first input with second
+            { instruction::CMP, 1, 1, 0, 2, 0, 6 },
+            { instruction::CPYOUT, 1, 1, 0, 2, 2, 0 }
+        };        
+        std::vector<std::array<int,SIZE_INSTR>> code_2 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            // compare first input with itself
+            { instruction::CMP, 1, 0, 1, 2, 6, 1 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 2, 0 },
+            // compare second input with first
+            { instruction::CMP, 1, 0, 1, 2, 6, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 1, 2, 0 },
+            // compare first input with second
+            { instruction::CMP, 1, 0, 1, 2, 3, 1 },
+            { instruction::CPYOUT, 1, 1, 0, 2, 2, 0 }
+        };        
+        // reference args
+        std::vector<std::array<int,SIZE_INSTR>> code_3 { 
+            { instruction::CPYIN, 1, 1, 1, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            // compare first input with itself
+            { instruction::CMP, 1, 1, 1, 2, 1, 1 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 2, 0 },
+            // compare second input with first
+            { instruction::CMP, 1, 1, 1, 2, 1, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 1, 2, 0 },
+            // compare first input with second
+            { instruction::CMP, 1, 1, 1, 2, 0, 1 },
+            { instruction::CPYOUT, 1, 1, 0, 2, 2, 0 }
         };
-        algo->set_input(input);
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1, code_2, code_3,
+        };
 
-        // output
-        algo->set_output_size(3);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 3, 6 };
+        std::vector<int> input_1 = input_0;
+        std::vector<int> input_2  = input_0;
+        std::vector<int> input_3  = input_0;
 
-        // check result
-        auto res = algo->get_output();
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1, input_2, input_3
+        };
 
-        if(res[0] != 0 || res[1] != -1 || res[2] != 1)
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 0, -1, 1 };
+        std::vector<int> expected_out_1 { 0, -1, 1 };
+        std::vector<int> expected_out_2 { 0, -1, 1 };
+        std::vector<int> expected_out_3 { 0, -1, 1 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1, expected_out_2, expected_out_3
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - cmp " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - cmp : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -120,47 +194,86 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             // jump to code at line given in third arg
-            { instruction::JMP, 0, 0, 0, 2, 0, 0},
+            { instruction::JMP, 0, 0, 0, 3, 0, 0 },
             // should be ignored
-            { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 667, 6
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            // jump to code at line given in third arg
+            { instruction::JMP, 1, 0, 0, 0, 0, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 667)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jmp " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jmp : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -175,47 +288,94 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg
-            { instruction::JRA, 0, 0, 0, 2, 0, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRA, 0, 0, 0, 3, 0, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 667, 3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRA, 1, 0, 0, 0, 0, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 667)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jra " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jra : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -230,47 +390,94 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg
-            { instruction::JRS, 0, 0, 0, 2, 0, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRS, 0, 0, 0, -3, 0, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 667, -3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRS, 1, 0, 0, 0, 0, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { -3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 667)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jrs " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jrs : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -285,47 +492,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0==arg1
-            { instruction::JE, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JE, 0, 0, 0, 7, 100, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 2, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 100, 6
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JE, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 100, 7 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 6)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - je " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - je : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -340,47 +593,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0>arg1
-            { instruction::JL, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JL, 0, 0, 0, 7, 99, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 99, 6
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JL, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 99, 7 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 99)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jl " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jl : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -395,47 +694,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0<arg1
-            { instruction::JG, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JG, 0, 0, 0, 7, 101, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 101, 6
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JG, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 101, 7 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 101)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jg " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jg : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -450,47 +795,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0>arg1
-            { instruction::JLE, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JLE, 0, 0, 0, 7, 100, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 100, 6
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JLE, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 100, 7 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 100)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jle " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jle : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -505,47 +896,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0<arg1
-            { instruction::JGE, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JGE, 0, 0, 0, 7, 100, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 100, 6
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JGE, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 100, 7 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 100)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jge " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jge : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -560,47 +997,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in first arg
-            { instruction::JRE, 0, 0, 0, 2, 1, 1},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRE, 0, 0, 0, 3, 100, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            7, 667, 3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRE, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 100, 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 667)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jre " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jre : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -615,47 +1098,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0>arg1
-            { instruction::JRL, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRL, 0, 0, 0, 3, 99, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 99, 3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRL, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 99, 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 99)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jrl " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jrl : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -670,47 +1199,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0<arg1
-            { instruction::JRG, 0, 0, 0, 2, 1, 0},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRG, 0, 0, 0, 3, 101, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 101, 3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRG, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 101, 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 101)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jrg " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jrg : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -725,47 +1300,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0>arg1
-            { instruction::JRLE, 0, 0, 0, 2, 0, 1},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRLE, 0, 0, 0, 3, 100, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 100, 3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRLE, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 100, 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 100)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jrle " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jrle : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
@@ -780,47 +1401,93 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
         algo->init();
 
-        // code
-        std::vector<std::array<int,SIZE_INSTR>> code {
-            // copy args
-            { instruction::CPYIN, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYIN, 0, 0, 0, 1, 1, 0},
-            { instruction::CPYIN, 0, 0, 0, 2, 2, 0},
-            // jump to code at line given in third arg if arg0<arg1
-            { instruction::JRGE, 0, 0, 0, 2, 0, 1},
-            // should be ignored
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
             { instruction::XXX, 0, 0, 0, 0, 0, 0},
-            { instruction::CPYOUT, 0, 0, 0, 0, 2, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+            // jump to code at line given in third arg
+            { instruction::JRGE, 0, 0, 0, 3, 100, 100 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 1, 0 },
             // line 6
-            { instruction::CPYOUT, 0, 0, 0, 1, 1, 0}
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
         };
-        algo->set_code(code, 0);
-
-        // input
-        std::vector<int> input {
-            100, 100, 3
+        // relative args
+        std::vector<std::array<int,SIZE_INSTR>> code_1 { 
+            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 1, 1, 0 },
+            { instruction::CPYIN, 1, 1, 0, 2, 2, 0 },
+            { instruction::XXX, 0, 0, 0, 0, 0, 0},
+             // jump to code at line given in third arg
+            { instruction::JRGE, 1, 1, 1, 2, 1, 0 },
+            // should be ignored
+            { instruction::XXX, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 0, 0 },
+            // line 6
+            { instruction::CPYOUT, 1, 0, 0, 0, 1, 0 }
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0, code_1
         };
-        algo->set_input(input);
 
-        // output
-        algo->set_output_size(2);
+        //---------- INPUTS
 
-        // execute
-        algo->exec(std::vector<sp_entity>(0));
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 { 100, 100, 3 };
+        std::vector<int> input_1 = input_0;
 
-        // check result
-        auto res = algo->get_output();
 
-        if(res[0] != 0 || res[1] != 100)
+        std::vector<std::vector<int>> inputs {
+            input_0, input_1
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 1, 0 };
+        std::vector<int> expected_out_1 { 1, 0 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0, expected_out_1
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
         {
-            is_passed = false;
-        }
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - jumps - jrge " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
 
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - jumps - jrge : ";
             passed_print(is_passed);
-        }
+        } 
 
         return is_passed;
     }
