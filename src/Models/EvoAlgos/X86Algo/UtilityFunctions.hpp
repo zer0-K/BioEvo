@@ -57,3 +57,31 @@ bool comp_vectors(std::vector<int> v1, std::vector<int> v2)
 
     return true;
 }
+
+bool comp_flows(std::vector<std::array<int,2>> f1, std::vector<std::array<int,2>> f2)
+{
+    if(f1.size() != f2.size())
+    {
+        return false;
+    }
+
+    for(int i=0;i<f1.size();i++)
+    {
+        bool isin = false;
+        for(int j=0;j<f2.size();j++)
+        {
+            if(f1[i][0] == f2[i][0] && f1[i][1] == f2[i][1])
+            {
+                isin = true;
+                break;
+            }
+        }
+
+        if(!isin)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}

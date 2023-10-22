@@ -2,6 +2,7 @@
 
 #include "../../../Utils/Maths/RandomGen.hpp"
 #include "InstructionMapping.hpp"
+//#include "FreeGenes.hpp"
 
 void X86Algo::init()
 {
@@ -22,11 +23,18 @@ void X86Algo::init()
 
 std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 {
+    // check if there is an input first
+    //if(entries.size() == 1 && std::dynamic_pointer_cast<FreeGenes>(entries[0]) != NULL)
+    //{
+    //    sp_freegenes freegenes = std::dynamic_pointer_cast<FreeGenes>(entries[0]);
+    //    set_input(freegenes->get_genes());
+    //}
+
     // execution starts at pos 0
     program_counter = 0;
 
     // to prevent infinite loops
-    int instr_counter = 0;
+    instr_counter = 0;
 
     if(debug)
     {
@@ -393,7 +401,252 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
 
             break;
         }
+        case instruction::AIF:
+        {
+            // add an input flow
 
+            bool is_valid = true;
+            int key;
+            int value;
+            if(addr1_order == 0)
+            {
+                key = arg1_; 
+            }
+            else
+            {
+                if(arg1_>=0 && arg1_<data.size())
+                {
+                    key = data[arg1_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(addr2_order == 0)
+            {
+                value = arg2_;
+            }
+            else
+            {
+                if(arg2_>=0 && arg2_<data.size())
+                {
+                    value = data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(is_valid)
+            {
+                bool isin = false;
+                for(int i=0;i<input_flows.size();i++)
+                {
+                    if(input_flows[i][0] == key && input_flows[i][1] == value)
+                    {
+                        isin = true;
+                        break;
+                    }
+                }
+
+                if(!isin)
+                {
+                    input_flows.push_back({ key, value });                  
+                }
+            }
+
+            break;
+        }
+        case instruction::RIF:
+        {
+            // remove an input flow
+
+            bool is_valid = true;
+            int key;
+            int value;
+            if(addr1_order == 0)
+            {
+                key = arg1_; 
+            }
+            else
+            {
+                if(arg1_>=0 && arg1_<data.size())
+                {
+                    key = data[arg1_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(addr2_order == 0)
+            {
+                value = arg2_;
+            }
+            else
+            {
+                if(arg2_>=0 && arg2_<data.size())
+                {
+                    value = data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(is_valid)
+            {
+                int pos = -1;
+                for(int i=0;i<input_flows.size();i++)
+                {
+                    if(input_flows[i][0] == key && input_flows[i][1] == value)
+                    {
+                        pos = i;
+                        break;
+                    }
+                }
+
+                if(pos != -1)
+                {
+                    for(int i=pos;i<input_flows.size()-1;i++)
+                    {
+                        input_flows[i][0] = input_flows[i+1][0];
+                        input_flows[i][1] = input_flows[i+1][1];
+                    }
+                    input_flows.pop_back();
+                }
+            }
+
+            break;
+        }
+        case instruction::AOF:
+        {
+            // add an output flow
+
+            bool is_valid = true;
+            int key;
+            int value;
+            if(addr1_order == 0)
+            {
+                key = arg1_; 
+            }
+            else
+            {
+                if(arg1_>=0 && arg1_<data.size())
+                {
+                    key = data[arg1_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(addr2_order == 0)
+            {
+                value = arg2_;
+            }
+            else
+            {
+                if(arg2_>=0 && arg2_<data.size())
+                {
+                    value = data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(is_valid)
+            {
+                bool isin = false;
+                for(int i=0;i<output_flows.size();i++)
+                {
+                    if(output_flows[i][0] == key && output_flows[i][1] == value)
+                    {
+                        isin = true;
+                        break;
+                    }
+                }
+
+                if(!isin)
+                {
+                    output_flows.push_back({ key, value });                  
+                }
+            }
+
+            break;
+        }
+        case instruction::ROF:
+        {
+            // remove an output flow
+
+            bool is_valid = true;
+            int key;
+            int value;
+            if(addr1_order == 0)
+            {
+                key = arg1_; 
+            }
+            else
+            {
+                if(arg1_>=0 && arg1_<data.size())
+                {
+                    key = data[arg1_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(addr2_order == 0)
+            {
+                value = arg2_;
+            }
+            else
+            {
+                if(arg2_>=0 && arg2_<data.size())
+                {
+                    value = data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(is_valid)
+            {
+                int pos = -1;
+                for(int i=0;i<output_flows.size();i++)
+                {
+                    if(output_flows[i][0] == key && output_flows[i][1] == value)
+                    {
+                        pos = i;
+                        break;
+                    }
+                }
+
+                if(pos != -1)
+                {
+                    for(int i=pos;i<output_flows.size()-1;i++)
+                    {
+                        output_flows[i][0] = output_flows[i+1][0];
+                        output_flows[i][1] = output_flows[i+1][1];
+                    }
+                    output_flows.pop_back();
+                }
+            }
+
+            break;
+        }
         case instruction::JMP:
             // jump
             // set prog ptr to given position 
@@ -411,7 +664,6 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
             }
 
             break;
-
 
         case instruction::JRA:
             // relative jump (+ shift)
@@ -1340,6 +1592,16 @@ std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
 std::vector<int> X86Algo::get_output()
 {
     return output;
+}
+
+std::vector<std::array<int,2>> X86Algo::get_input_flows()
+{
+    return input_flows;
+}
+
+std::vector<std::array<int,2>> X86Algo::get_output_flows()
+{
+    return output_flows;
 }
 
 // utils

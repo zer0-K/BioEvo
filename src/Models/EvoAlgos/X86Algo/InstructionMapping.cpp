@@ -15,32 +15,38 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::OPP, "OPP" },        // 11
     { instruction::CPYIS, "CPYIS" },    // 12
     { instruction::SETOS, "SETOS" },    // 13
-    { instruction::CMP, "CMP" },        // 14
-    { instruction::JMP, "JMP" },        // 15
-    { instruction::JRA, "JRA" },        // 16
-    { instruction::JRS, "JRS" },        // 17
-    { instruction::JE, "JE" },          // 18
-    { instruction::JL, "JL" },          // 19
-    { instruction::JG, "JG" },          // 20
-    { instruction::JLE, "JLE" },        // 21
-    { instruction::JGE, "JGE" },        // 22
-    { instruction::JRE, "JRE" },        // 23
-    { instruction::JRL, "JL" },         // 24
-    { instruction::JRG, "JG" },         // 25
-    { instruction::JRLE, "JLE" },       // 26
-    { instruction::JRGE, "JGE" },       // 27
-    { instruction::BEG, "BEG" },        // 28
-    { instruction::HALT, "HALT" },      // 29
-    { instruction::RUD, "RUD" },        // 30
-    { instruction::RUI, "RUI" },        // 31
-    { instruction::RN, "RN" },          // 32
-    { instruction::GR, "GR" },          // 33
-    { instruction::GINS, "GINS" },      // 34
-    { instruction::GDEL, "GDEL" },      // 35
-    { instruction::GDELW, "GDELW" },    // 36
-    { instruction::GSET, "GSET" },      // 37
-    { instruction::GADD, "GADD" },      // 38
-    { instruction::GCPY, "GCPY"},       // 39
-    { instruction::MARKER, "MARKER"},   // 40
-    { instruction::GCPYM, "GCPYM"}      // 41
-};
+    { instruction::AIF, "AIF" },        // 14
+    { instruction::RIF, "RIF" },        // 15
+    { instruction::AOF, "A0F" },        // 16
+    { instruction::ROF, "R0F" },        // 17
+    { instruction::CMP, "CMP" },        // 18
+    { instruction::JMP, "JMP" },        // 19
+    { instruction::JRA, "JRA" },        // 20
+    { instruction::JRS, "JRS" },        // 21
+    { instruction::JE, "JE" },          // 22
+    { instruction::JL, "JL" },          // 23
+    { instruction::JG, "JG" },          // 24
+    { instruction::JLE, "JLE" },        // 25
+    { instruction::JGE, "JGE" },        // 26
+    { instruction::JRE, "JRE" },        // 27
+    { instruction::JRL, "JL" },         // 28
+    { instruction::JRG, "JG" },         // 29
+    { instruction::JRLE, "JLE" },       // 30
+    { instruction::JRGE, "JGE" },       // 31
+    { instruction::BEG, "BEG" },        // 32
+    { instruction::HALT, "HALT" },      // 33
+    { instruction::RUD, "RUD" },        // 34
+    { instruction::RUI, "RUI" },        // 35
+    { instruction::RN, "RN" },          // 36
+    { instruction::GR, "GR" },          // 37
+    { instruction::GINS, "GINS" },      // 38
+    { instruction::GDEL, "GDEL" },      // 39
+    { instruction::GDELW, "GDELW" },    // 40
+    { instruction::GSET, "GSET" },      // 41
+    { instruction::GADD, "GADD" },      // 42
+    { instruction::GCPY, "GCPY"},       // 43
+    { instruction::MARKER, "MARKER"},   // 44
+    { instruction::GCPYM, "GCPYM"},     // 45
+    { instruction::EXEC, "EXEC" },      // 46
+    { instruction::EXECD, "EXECD" }     // 47
+}; 

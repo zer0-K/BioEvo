@@ -18,37 +18,43 @@ enum instruction {
     OPP,    // 11   opposite number
     CPYIS,  // 12   get input size
     SETOS,  // 13   set output size
-    CMP,    // 14   compare data
+    AIF,    // 14   add input flow
+    RIF,    // 15   remove input flow
+    AOF,    // 16   add ouput flow
+    ROF,    // 17   remove output flow
+    CMP,    // 18   compare data
     // ******* jumps
-    JMP,    // 15   jump prog 
-    JRA,    // 16   jump relative add (curr prog ptr + x)
-    JRS,    // 17   jump relative substract (curr prog ptr - x)
-    JE,     // 18   jump if equal
-    JL,     // 19   jump if <
-    JG,     // 20   jump if >
-    JLE,    // 21   jump if <=
-    JGE,    // 22   jump if >=
-    JRE,    // 23   relative jump if equal
-    JRL,    // 24   relative jump if <
-    JRG,    // 25   relative jump if >
-    JRLE,   // 26   relative jump if <=
-    JRGE,   // 27   relative jump if >=
-    BEG,    // 28   begin/start
-    HALT,   // 29   halt
+    JMP,    // 19   jump prog 
+    JRA,    // 20   jump relative add (curr prog ptr + x)
+    JRS,    // 21   jump relative substract (curr prog ptr - x)
+    JE,     // 22   jump if equal
+    JL,     // 23   jump if <
+    JG,     // 24   jump if >
+    JLE,    // 25   jump if <=
+    JGE,    // 26   jump if >=
+    JRE,    // 27   relative jump if equal
+    JRL,    // 28   relative jump if <
+    JRG,    // 29   relative jump if >
+    JRLE,   // 30   relative jump if <=
+    JRGE,   // 31   relative jump if >=
+    BEG,    // 32   begin/start
+    HALT,   // 33   halt
     // ******* random
-    RUD,    // 30   random uniform double : between 0 and 1
-    RUI,    // 31   random uniform int
-    RN,     // 32   random normal : mu=0, sigma=1
+    RUD,    // 34   random uniform double : between 0 and 1
+    RUI,    // 35   random uniform int
+    RN,     // 36   random normal : mu=0, sigma=1
     // ******* instructions EvoX
-    GR,     // 33   read gene
-    GINS,   // 34   gene insertion
-    GDEL,   // 35   gene deletion
-    GDELW,  // 36   delete 3 genes at once
-    GSET,   // 37   set gene value
-    GADD,   // 38   add value to gene
-    GCPY,   // 39   copy input into genes (insertion)
-    MARKER, // 40   genetic marker
-    GCPYM,  // 41   copy input into genes at first genetic marker
+    GR,     // 37   read gene
+    GINS,   // 38   gene insertion
+    GDEL,   // 39   gene deletion
+    GDELW,  // 40   delete 3 genes at once
+    GSET,   // 41   set gene value
+    GADD,   // 42   add value to gene
+    GCPY,   // 43   copy input into genes (insertion)
+    MARKER, // 44   genetic marker
+    GCPYM,  // 45   copy input into genes at first genetic marker
+    EXEC,   // 46   execute genome specified in args
+    EXECD,  // 47   execute code as genome
     size
 };
 

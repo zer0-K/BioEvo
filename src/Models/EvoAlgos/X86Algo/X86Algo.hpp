@@ -28,6 +28,18 @@ protected:
     std::vector<int> output;
 
     /**
+     * @brief values for input flow 
+     * first value is a key, second is a value (corresponding to an ID)
+     */
+    std::vector<std::array<int,2>> input_flows;
+
+    /**
+     * @brief values for the output flow 
+     * first value is a key, second is a value (corresponding to an ID)
+     */
+    std::vector<std::array<int,2>> output_flows;
+
+    /**
      * @brief code of the individual
      * 
      * This is the evolutionary part.
@@ -42,6 +54,7 @@ protected:
      * Initialized at 0, incremented each time a line is executed
     */
     int program_counter;
+    int instr_counter;  ///< count the number of instructions executed
 
     //---------- other
     int unif_lower_bound = 0;
@@ -111,6 +124,8 @@ public:
     // getters
     std::vector<std::array<int,SIZE_INSTR>> get_code();
     std::vector<int> get_output();
+    std::vector<std::array<int,2>> get_input_flows();
+    std::vector<std::array<int,2>> get_output_flows();
 
     // utils
     void print_data_debug();
