@@ -41,35 +41,24 @@ namespace ut_ea
 
         //---------- GENOME
 
-        // simple quine (cheat version)
+        // simple quine
         // 
         std::vector<int> genome_1 { 
-            // copy genes into data
             instruction::SUB, 1, 1, 0, 10, 10, 7,
             instruction::ADD, 1, 1, 0, 10, 10, 7,
             instruction::GR, 1, 2, 0, 0, 10, 0,
             instruction::JRE, 0, 0, 1, 2, instruction::HALT, 0,
-            instruction::JRS, 0, 0, 0, 3, 0, 0,     // 19
+            instruction::JRS, 0, 0, 0, 3, 0, 0,
             instruction::ADD, 1, 1, 0, 10, 10, 7,
-            instruction::SETOS, 1, 0, 0, 10, 0, 0,   // 23
-            instruction::DEC, 1, 0, 0, 11, 0, 0,     // 24 
-            instruction::INC, 1, 0, 0, 11, 0, 0,     // 25
-            instruction::GR, 1, 2, 0, 0, 11, 0,      // 26
-            instruction::CPYOUT, 2, 1, 0, 11, 0, 0,  // 27
-            instruction::JRE, 0, 1, 1, 2, 10, 11,     // 28
-            instruction::JRS, 0, 0, 0, 4, 0, 0,     // 29
-            instruction::HALT, 0, 0, 0, 0, 0, 0     // 30
+            instruction::SETOS, 1, 0, 0, 10, 0, 0,
+            instruction::DEC, 1, 0, 0, 11, 0, 0,
+            instruction::INC, 1, 0, 0, 11, 0, 0,
+            instruction::GR, 1, 2, 0, 0, 11, 0,
+            instruction::CPYOUT, 2, 1, 0, 11, 0, 0,
+            instruction::JRE, 0, 1, 1, 2, 10, 11,
+            instruction::JRS, 0, 0, 0, 4, 0, 0,
+            instruction::HALT, 0, 0, 0, 0, 0, 0
         }; 
-        /*
-            0-1 : dummy input (as 'template'), useless here
-            2-11 : creates the number 29 (and save other numbers)
-            12-15 : builds some variables for jumps (loops)
-            16-19 :first loop : identify length of the genome
-            20-24 : builds some vars for the next loop, and change output size
-            25-29 : second loop (copying genome into output)
-            30 : end
-        */
-        std::vector<int> genome_2 = genome_1;
 
         std::vector<std::vector<int>> genomes {
             genome_1

@@ -173,6 +173,7 @@ set(HEADERS_MODEL_EVO_ALGOS
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.hpp
     src/Models/EvoAlgos/X86Algo/X86Algo.hpp src/Models/EvoAlgos/X86Algo/EvoX.hpp
+    src/Models/EvoAlgos/X86Algo/FreeGenes.hpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
@@ -187,6 +188,7 @@ set(SOURCES_MODEL_EVO_ALGOS
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.cpp
     src/Models/EvoAlgos/X86Algo/X86Algo.cpp src/Models/EvoAlgos/X86Algo/EvoX.cpp
+    src/Models/EvoAlgos/X86Algo/FreeGenes.cpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
