@@ -217,6 +217,11 @@ void Entity::set_connected_in(int new_in)
     }
 }
 
+void Entity::reset_connected_outs()
+{
+    connected_outs = std::vector<int>(0);
+}
+
 void Entity::add_connected_out(int new_out)
 {
     bool isin = false;

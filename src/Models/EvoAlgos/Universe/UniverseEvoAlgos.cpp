@@ -36,8 +36,10 @@ void UniverseEvoAlgos::update_flows(sp_entity entity)
 {
     if(entity->is_type(X86_ALGO))
     {
-        // get algo's output flow
         sp_x86algo algo = std::dynamic_pointer_cast<X86Algo>(entity);
+
+        // reset Entity::connected_outs in order to connect with what X86Algo::output_flows
+        algo->reset_connected_outs();
         std::vector<std::array<int,2>> output_flow = algo->get_output_flows();
 
         // connect ouput flow

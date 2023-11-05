@@ -121,6 +121,7 @@ public:
     void set_op_counter(sp_entity counter);
 
     void set_connected_in(int new_in);
+    void reset_connected_outs();
     void add_connected_out(int new_out);
     void remove_connected_out(int new_out);
     void set_input(std::vector<sp_entity> new_input);

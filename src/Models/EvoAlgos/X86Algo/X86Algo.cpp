@@ -58,6 +58,9 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
         }
     }
 
+    // reinit input at end of exec
+    set_input_size(0);
+
     return entries;
 }
 
@@ -99,6 +102,9 @@ void X86Algo::exec()
 
         output[i] = entity_int;
     }
+
+    // input is consumed once : remove input
+    input = std::vector<sp_entity>(0);
 }
 
 void X86Algo::exec_instruction(int instr, int addr1_order, int addr2_order, int addr3_order, 
