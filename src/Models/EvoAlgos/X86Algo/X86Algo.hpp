@@ -24,8 +24,8 @@ protected:
     std::vector<std::vector<int>> data_debug;
 
     // inputs and outputs of the program
-    std::vector<int> input;
-    std::vector<int> output;
+    std::vector<int> input_x86;
+    std::vector<int> output_x86;
 
     /**
      * @brief values for input flow 
@@ -68,6 +68,7 @@ public:
 
     void init() override;
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
+    void exec() override; // ! this one copies Entity::input and Entity::output
 
     /**
      * @brief Execute an assembly instruction
@@ -119,6 +120,7 @@ public:
     void reset_code(std::vector<std::array<int,SIZE_INSTR>> code);
     void set_input(std::vector<int> in);
 
+    void set_data_at(int pos, int val);
     void reset_data();
 
     // getters

@@ -35,7 +35,18 @@ protected:
     bool has_bool;
     bool value_bool;
 
-    int working_place_index;
+    /**
+     * @brief another entity can feed the input of another entity
+     * For the moment, useless, because we automatically fill with connected_outs (@see exec)
+     */
+    std::vector<int> connected_in;
+    std::vector<sp_entity> input;
+
+    /**
+     * @brief this entity can feed other algos outs
+     */
+    std::vector<int> connected_outs;
+    std::vector<sp_entity> output;
 
     // metadata
     /// @brief number of times the entity has been executed
@@ -60,7 +71,7 @@ public:
     */
     virtual std::vector<sp_entity> exec(std::vector<sp_entity> entries) { return std::vector<sp_entity>(0); };
     std::vector<sp_entity> exec(sp_entity entry);
-
+    virtual void exec() { output = exec(input); };    // exec with input, and res is set to output, @see exec(std::vector<sp_entity>)
 
     // TODO remove this function
     /**
@@ -96,7 +107,10 @@ public:
     bool has_value_bool();
     bool get_value_bool();
     
-    int get_working_place_index();
+    std::vector<int> get_connected_ins();
+    std::vector<int> get_connected_outs();
+    std::vector<sp_entity> get_input();
+    std::vector<sp_entity> get_output();
 
     //----- setters
 
@@ -105,4 +119,10 @@ public:
     void set_value_str(std::string val);
     void set_value_bool(bool val);
     void set_op_counter(sp_entity counter);
+
+    void set_connected_in(int new_in);
+    void add_connected_out(int new_out);
+    void remove_connected_out(int new_out);
+    void set_input(std::vector<sp_entity> new_input);
+    void set_output(std::vector<sp_entity> new_output);
 };

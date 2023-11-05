@@ -38,14 +38,31 @@ protected:
 
     /// @brief Constructor
     Universe(std::string name, std::vector<sp_place> places);
+    Universe(std::string name, std::vector<sp_entity> entities);
 
     /// @brief Constructor
     Universe(std::string name, std::vector<sp_place> places, std::vector<sp_place> meta_places);
+    Universe(std::string name, std::vector<sp_entity> entities, std::vector<sp_entity> meta_entities);
 
     /**
      * @brief Execute the universe
     */
     virtual void exec();
+
+    /**
+     * @brief reconnect the out of entity to other ins
+     *
+     * @param[in] entity entity to connect out to other ins
+     */
+    virtual void update_flows(sp_entity entity);
+
+    /**
+     * @brief return the graph of connection between the places
+     *
+     * An entity can have several input source, but each time an entity is executed it will set its output,
+     * so only last one will override all the previous outputs set as (unique) input
+     */
+    std::vector<std::array<int,2>> get_place_graph();
 
     //----- getters
 

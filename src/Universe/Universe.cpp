@@ -2,6 +2,7 @@
 
 #include "../Utils/Constants.hpp"
 #include "../Entities/EntityVoid.hpp"
+#include <array>
 
 Universe::Universe(int size_universe, std::string name)
 {
@@ -26,6 +27,20 @@ Universe::Universe(std::string name, std::vector<sp_place> places)
     this->places = places;
 }
 
+Universe::Universe(std::string name, std::vector<sp_entity> entities)
+{
+    this->name = name;
+
+    // create places for the corresponding entities
+    std::vector<sp_place> new_places(entities.size());
+    for(int i=0;i<entities.size();i++)
+    {
+        new_places[i] = std::make_shared<Place>(entities[i], i);
+    }
+
+    this->places = new_places;
+}
+
 Universe::Universe(std::string name, std::vector<sp_place> places, std::vector<sp_place> meta_places)
 {
     this->name = name;
@@ -33,42 +48,85 @@ Universe::Universe(std::string name, std::vector<sp_place> places, std::vector<s
     this->meta_places = meta_places;
 }
 
+Universe::Universe(std::string name, std::vector<sp_entity> entities, std::vector<sp_entity> meta_entities)
+{
+    this->name = name;
+
+    std::vector<sp_place> new_places(entities.size());
+    std::vector<sp_place> new_meta_places(meta_entities.size());
+
+    for(int i=0;i<entities.size();i++)
+        new_places[i] = std::make_shared<Place>(entities[i], i);
+
+    for(int i=0;i<meta_entities.size();i++)
+        new_meta_places[i] = std::make_shared<Place>(meta_entities[i], i);
+
+    this->places = new_places;
+    this->meta_places = new_meta_places;
+}
+
 
 void Universe::exec()
 {
-    sp_entity working_entity;
-    sp_entity handled_entity;
-    sp_entity result_entity;
-    sp_entity_void void_entity;
-    int place_index=0;
+    /**
+     * Goes through the places one by one and execute the 
+     * algo at the current place
+     * If the algo's out is connected to another's algo's in,
+     * simply sets the one's input with the first's output, it will be executed later
+     */
+    sp_entity current_entity;
+    std::vector<int> connected_entities_indices;
+    sp_entity connected_entity;
 
     for(int i=0;i<places.size();i++)
     {
-        // get working entity and index of where it want to work on
-        working_entity = places[i]->get_entity();
-        place_index = working_entity->get_working_place_index();
+        // get current entity
+        current_entity = places[i]->get_entity();
 
-        // get entity to work on and set a void entity there
-        handled_entity = places[place_index]->get_entity();
-        void_entity = std::make_shared<EntityVoid>("void entity");
-        void_entity->init();
-        places[place_index]->set_entity(void_entity);
+        // execute and update flows
+        current_entity->exec();
+        update_flows(current_entity);
 
-
-        // get result and apply
-        result_entity = result_entity->exec(places[place_index]->get_entity())[0];
-        if( places[place_index]->get_entity()->get_type() == TYPE_VOID )
+        // set in of connected entities with current out
+        connected_entities_indices = current_entity->get_connected_outs();
+        for(int j=0;j<connected_entities_indices.size();j++)
         {
-            places[place_index]->set_entity(result_entity);
+            // get entity at given place
+            int conn_index = connected_entities_indices[j];
+            if(conn_index>=0 && conn_index<places.size())
+            {
+                connected_entity = places[conn_index]->get_entity();
+
+                // set its input
+                connected_entity->set_input(current_entity->get_output());
+            }
         }
-        else
-        {
-            // nothing
-            // will handle this later for concurrency stuff
-        } 
     }
 }
 
+void Universe::update_flows(sp_entity entity)
+{
+    // does nothing in this (parent) class
+}
+
+std::vector<std::array<int,2>> Universe::get_place_graph()
+{
+    std::vector<std::array<int,2>> place_graph(0);
+
+    for(int i=0;i<places.size();i++)
+    {
+        // get output stream of entity at place i
+        std::vector<int> outs_connected = places[i]->get_entity()->get_connected_outs();
+
+        for(int j=0;j<outs_connected.size();j++)
+        {
+            // means that i connects its out to another one
+            place_graph.push_back( { i, outs_connected[j] } );
+        }
+    }
+
+    return place_graph;
+}
 
 //-------------------- getters
 

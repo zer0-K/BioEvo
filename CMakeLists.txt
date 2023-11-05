@@ -41,11 +41,13 @@ set(SOURCES_GENERAL src/General/Place.cpp)
 
 set(HEADERS_ENTITIES src/Entities/Entity.hpp src/Entities/EntityVoid.hpp
     src/Entities/Entity.hpp src/Entities/EntityInt.hpp
-        src/Entities/Entity.hpp src/Entities/EntityBool.hpp)
+        src/Entities/Entity.hpp src/Entities/EntityBool.hpp
+        src/Entities/EntityList.hpp)
 
 set(SOURCES_ENTITIES src/Entities/Entity.cpp src/Entities/EntityVoid.cpp
     src/Entities/Entity.hpp src/Entities/EntityInt.cpp
-        src/Entities/Entity.hpp src/Entities/EntityBool.cpp)
+        src/Entities/Entity.hpp src/Entities/EntityBool.cpp
+        src/Entities/EntityList.cpp)
 
 
 # ********************************* Universe *********************************
@@ -557,7 +559,11 @@ set(HEADERS_UNIT_TESTS_EVO_ALGOS
             src/UnitTests/EvoAlgos/test_3_1_1.hpp src/UnitTests/EvoAlgos/test_3_1_2.hpp
             src/UnitTests/EvoAlgos/test_3_1_3.hpp
         src/UnitTests/EvoAlgos/test_3_2.hpp
-            src/UnitTests/EvoAlgos/test_3_2_1.hpp)
+            src/UnitTests/EvoAlgos/test_3_2_1.hpp
+    src/UnitTests/EvoAlgos/test_4_universe.hpp
+        src/UnitTests/EvoAlgos/test_4_1.hpp
+            src/UnitTests/EvoAlgos/test_4_1_1.hpp
+            src/UnitTests/EvoAlgos/test_4_1_2.hpp)
 
 add_executable(unit_tests_evo_algos src/UnitTests/EvoAlgos/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} ${HEADERS_UNIT_TESTS_EVO_ALGOS} 

@@ -305,13 +305,13 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
             // do nothing
 
             /*
-            genes[maker_pos] : position (in the genome) of the genetic marker
-            genes[maker_pos+1] : id of the marker
-            genes[maker_pos+2] : type of the marker
-            genes[maker_pos+3] : nothing for the moment
-            genes[maker_pos+4] : genetic storage
-            genes[maker_pos+5] : genetic storage
-            genes[maker_pos+6] : genetic storage
+                genes[maker_pos] : position (in the genome) of the genetic marker
+                genes[maker_pos+1] : id of the marker
+                genes[maker_pos+2] : type of the marker
+                genes[maker_pos+3] : nothing for the moment
+                genes[maker_pos+4] : genetic storage
+                genes[maker_pos+5] : genetic storage
+                genes[maker_pos+6] : genetic storage
             */
 
             break;
@@ -364,6 +364,73 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
                 post_process_marker(marker_pos);
             }
             
+            break;
+        }
+        case instruction::EXEC:
+        {
+            // execute genome at given pos
+            // arg1 : pos in genome (multiple of 7)
+            // arg2 : nb of instructions to execute (1 = 7 genes)
+
+            bool is_valid = true;
+            
+            if(addr1_order>0)
+            {
+                if(arg1_>=0 && arg1_<data.size())
+                {
+                    arg1_ = data[arg1_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(addr2_order>0)
+            {
+                if(arg2_>=0 && arg2_<data.size())
+                {
+                    arg2_ = data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(is_valid && arg1_>=0 && arg2>=1
+                && (arg1_ + arg2_)*SIZE_INSTR<genes.size())
+            {
+                auto code_exec = std::vector<std::array<int,SIZE_INSTR>>(arg2_);
+        
+                for(int i=0;i<arg2_;i++)
+                {
+                    auto i_genes = (i+arg1_)*SIZE_INSTR;
+                    code_exec[i] = std::array<int,SIZE_INSTR>({
+                        this->genes[i_genes], 
+                        this->genes[i_genes+1], 
+                        this->genes[i_genes+2], 
+                        this->genes[i_genes+3], 
+                        this->genes[i_genes+4], 
+                        this->genes[i_genes+5], 
+                        this->genes[i_genes+6]
+                    });
+                }
+
+                for(int i=0;i<code_exec.size();i++)
+                {
+                    auto code_line = code_exec[i];
+                    
+                    exec_instruction(code_line[0], code_line[1], code_line[2], code_line[3], code_line[4], code_line[5], code_line[6]);
+                    instr_counter++;
+
+                    if(debug)
+                    {
+                        data_debug.push_back(data);
+                    }
+                }
+            }
+   
             break;
         }
 

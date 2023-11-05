@@ -15,7 +15,8 @@ Entity::Entity(std::string entity_name)
     has_str = false;
     has_bool = false;
 
-    working_place_index = 0;
+    connected_in = std::vector<int>(0);
+    connected_outs = std::vector<int>(0);
 
     nb_of_uses = 0;
 }
@@ -76,6 +77,8 @@ void Entity::add_type(std::string given_type)
         types.push_back(given_type);
     }
 }
+
+//---------- getters
 
 std::string Entity::get_name()
 {
@@ -152,9 +155,24 @@ bool Entity::get_value_bool()
     return value_bool;
 }
 
-int Entity::get_working_place_index()
+std::vector<int> Entity::get_connected_ins()
 {
-    return working_place_index;
+    return connected_in;
+}
+
+std::vector<int> Entity::get_connected_outs()
+{
+    return connected_outs;
+}
+
+std::vector<sp_entity> Entity::get_input()
+{
+    return input;
+}
+
+std::vector<sp_entity> Entity::get_output()
+{
+    return output;
 }
 
 //---------- setters
@@ -185,4 +203,66 @@ void Entity::set_op_counter(sp_entity counter)
     {
         op_counter = counter;
     }
+}
+
+void Entity::set_connected_in(int new_in)
+{
+    if(connected_in.size() == 0)
+    {
+        connected_in.push_back(new_in);
+    }
+    else
+    {
+        connected_in[0] = new_in;
+    }
+}
+
+void Entity::add_connected_out(int new_out)
+{
+    bool isin = false;
+    for(int i=0;i<connected_outs.size();i++)
+    {
+        if(new_out == connected_outs[i])
+        {
+            isin = true;
+            break;
+        }
+    }
+
+    if(!isin)
+    {
+        connected_outs.push_back(new_out);
+    }
+}
+
+void Entity::remove_connected_out(int new_out)
+{
+    int pos= -1;
+    for(int i=0;i<connected_outs.size();i++)
+    {
+        if(new_out == connected_outs[i])
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    if(pos != -1)
+    {
+        for(int i=pos;i<connected_outs.size()-1;i++)
+        {
+            connected_outs[i] = connected_outs[i+1];
+        }
+        connected_outs.pop_back();
+    }
+}
+
+void Entity::set_input(std::vector<sp_entity> new_input)
+{
+    input = new_input;
+}
+
+void Entity::set_output(std::vector<sp_entity> new_output)
+{
+    output = new_output;
 }

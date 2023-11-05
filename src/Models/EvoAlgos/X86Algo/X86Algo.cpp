@@ -1,6 +1,7 @@
 #include "X86Algo.hpp"
 
 #include "../../../Utils/Maths/RandomGen.hpp"
+#include "../../../Entities/EntityInt.hpp"
 #include "InstructionMapping.hpp"
 //#include "FreeGenes.hpp"
 
@@ -58,6 +59,46 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     }
 
     return entries;
+}
+
+void X86Algo::exec()
+{
+    // here, we convert Entity::input into X86 understable input
+    if(input.size()>0)
+    {
+        // copy input only if all inputs are int entities
+        bool is_valid = true;
+
+        for(int i=0;i<input.size();i++)
+        {
+            is_valid &= input[i]->is_type(TYPE_INT);
+        }
+
+        if(is_valid)
+        {
+            // x86 input size is Entity::input size
+            set_input_size(input.size());
+
+            for(int i=0;i<input.size();i++)
+            {
+                input_x86[i] = input[i]->get_value_int();
+            }
+        }
+    }
+
+    // execute
+    exec(std::vector<sp_entity>(0));
+
+    // we also convert X86 output into Entity::output
+    output = std::vector<sp_entity>(output_x86.size());
+    for(int i=0;i<output_x86.size();i++)
+    {
+        sp_entity_int entity_int = std::make_shared<EntityInt>("int entity");
+        entity_int->set_value_int(output_x86[i]);
+        entity_int->init();
+
+        output[i] = entity_int;
+    }
 }
 
 void X86Algo::exec_instruction(int instr, int addr1_order, int addr2_order, int addr3_order, 
@@ -142,9 +183,9 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                 {
                     data[destination] = source;
                 }
-                else if(source>=0 && source<input.size())
+                else if(source>=0 && source<input_x86.size())
                 {
-                    data[destination] = input[source];
+                    data[destination] = input_x86[source];
                 }
             }
 
@@ -154,15 +195,15 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
             // copy output
             // copies data to output
 
-            if(destination_order>0 && destination>=0 && destination<output.size())
+            if(destination_order>0 && destination>=0 && destination<output_x86.size())
             {
                 if(source_order==0)
                 {
-                    output[destination] = source;
+                    output_x86[destination] = source;
                 }
                 else if(source>=0 && source<data.size())
                 {
-                    output[destination] = data[source];
+                    output_x86[destination] = data[source];
                 }
             }
 
@@ -361,7 +402,7 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
 
             if(destination_order>0 && destination>=0 && destination<data.size() )
             {
-                data[destination] = input.size();
+                data[destination] = input_x86.size();
             }
 
             break;
@@ -382,19 +423,19 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
 
             if(new_out_size >= 0 && new_out_size < MAX_OUTPUT_SIZE_X86)
             {
-                if(output.size() > new_out_size)
+                if(output_x86.size() > new_out_size)
                 {
-                    while(output.size()!=new_out_size)
+                    while(output_x86.size()!=new_out_size)
                     {
-                        output.pop_back();
+                        output_x86.pop_back();
                     }
                 }
 
-                if(output.size() < new_out_size)
+                if(output_x86.size() < new_out_size)
                 {
-                    while(output.size() != new_out_size)
+                    while(output_x86.size() != new_out_size)
                     {
-                        output.push_back(0);
+                        output_x86.push_back(0);
                     }
                 }
             }
@@ -528,6 +569,7 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
         {
             // add an output flow
 
+            // merge value/ref cases
             bool is_valid = true;
             int key;
             int value;
@@ -1531,12 +1573,12 @@ void X86Algo::set_data_size(int n)
 
 void X86Algo::set_input_size(int n)
 {
-    input = std::vector<int>(n);
+    input_x86 = std::vector<int>(n);
 }
 
 void X86Algo::set_output_size(int n)
 {
-    output = std::vector<int>(n);
+    output_x86 = std::vector<int>(n);
 }
 
 void X86Algo::reset_code_to_size(int code_size)
@@ -1563,9 +1605,17 @@ void X86Algo::set_code(std::vector<std::array<int,SIZE_INSTR>> code, int place_a
 void X86Algo::set_input(std::vector<int> in)
 {
     set_input_size(in.size());
-    for(int i=0; i<std::min(in.size(), input.size());i++)
+    for(int i=0; i<std::min(in.size(), input_x86.size());i++)
     {
-        input[i] = in[i];
+        input_x86[i] = in[i];
+    }
+}
+
+void X86Algo::set_data_at(int pos, int val)
+{
+    if(pos>=0 && pos<data.size())
+    {
+        data[pos] = val;
     }
 }
 
@@ -1591,7 +1641,7 @@ std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
 
 std::vector<int> X86Algo::get_output()
 {
-    return output;
+    return output_x86;
 }
 
 std::vector<std::array<int,2>> X86Algo::get_input_flows()
