@@ -37,24 +37,25 @@ enum instruction {
     JRG,    // 29   relative jump if >
     JRLE,   // 30   relative jump if <=
     JRGE,   // 31   relative jump if >=
-    BEG,    // 32   begin/start
-    HALT,   // 33   halt
+    GPTR,   // 32   get prog ptr
+    BEG,    // 33   begin/start
+    HALT,   // 34   halt
     // ******* random
-    RUD,    // 34   random uniform double : between 0 and 1
-    RUI,    // 35   random uniform int
-    RN,     // 36   random normal : mu=0, sigma=1
+    RUD,    // 35   random uniform double : between 0 and 1
+    RUI,    // 36   random uniform int
+    RN,     // 37   random normal : mu=0, sigma=1
     // ******* instructions EvoX
-    GR,     // 37   read gene
-    GINS,   // 38   gene insertion
-    GDEL,   // 39   gene deletion
-    GDELW,  // 40   delete 3 genes at once
-    GSET,   // 41   set gene value
-    GADD,   // 42   add value to gene
-    GCPY,   // 43   copy input into genes (insertion)
-    MARKER, // 44   genetic marker
-    GCPYM,  // 45   copy input into genes at first genetic marker
-    EXEC,   // 46   execute genome specified in args
-    EXECD,  // 47   execute code as genome
+    GR,     // 38   read gene
+    GINS,   // 39   gene insertion
+    GDEL,   // 40   gene deletion
+    GDELW,  // 41   delete 3 genes at once
+    GSET,   // 42   set gene value
+    GADD,   // 43   add value to gene
+    GCPY,   // 44   copy input into genes (insertion)
+    MARKER, // 45   genetic marker
+    GCPYM,  // 46   copy input into genes at first genetic marker
+    EXEC,   // 47   execute genome specified in args
+    EXECD,  // 48   execute code as genome
     size
 };
 

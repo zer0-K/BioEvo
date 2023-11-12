@@ -33,20 +33,21 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::JRG, "JG" },         // 29
     { instruction::JRLE, "JLE" },       // 30
     { instruction::JRGE, "JGE" },       // 31
-    { instruction::BEG, "BEG" },        // 32
-    { instruction::HALT, "HALT" },      // 33
-    { instruction::RUD, "RUD" },        // 34
-    { instruction::RUI, "RUI" },        // 35
-    { instruction::RN, "RN" },          // 36
-    { instruction::GR, "GR" },          // 37
-    { instruction::GINS, "GINS" },      // 38
-    { instruction::GDEL, "GDEL" },      // 39
-    { instruction::GDELW, "GDELW" },    // 40
-    { instruction::GSET, "GSET" },      // 41
-    { instruction::GADD, "GADD" },      // 42
-    { instruction::GCPY, "GCPY"},       // 43
-    { instruction::MARKER, "MARKER"},   // 44
-    { instruction::GCPYM, "GCPYM"},     // 45
-    { instruction::EXEC, "EXEC" },      // 46
-    { instruction::EXECD, "EXECD" }     // 47
+    { instruction::GPTR, "GPTR" },      // 32
+    { instruction::BEG, "BEG" },        // 33
+    { instruction::HALT, "HALT" },      // 34
+    { instruction::RUD, "RUD" },        // 35
+    { instruction::RUI, "RUI" },        // 36
+    { instruction::RN, "RN" },          // 37
+    { instruction::GR, "GR" },          // 38
+    { instruction::GINS, "GINS" },      // 39
+    { instruction::GDEL, "GDEL" },      // 40
+    { instruction::GDELW, "GDELW" },    // 41
+    { instruction::GSET, "GSET" },      // 42
+    { instruction::GADD, "GADD" },      // 43
+    { instruction::GCPY, "GCPY"},       // 44
+    { instruction::MARKER, "MARKER"},   // 45
+    { instruction::GCPYM, "GCPYM"},     // 46
+    { instruction::EXEC, "EXEC" },      // 47
+    { instruction::EXECD, "EXECD" }     // 48
 }; 

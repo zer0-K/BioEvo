@@ -1452,6 +1452,16 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
             }
 
             break;
+        
+        case instruction::GPTR:
+            // put the program pointer in the addr given at arg1
+
+            if(addr1_order>0 && arg1_>=0 && arg1_<data.size())
+            {
+                data[arg1_] = program_counter;
+            }
+
+            break;
 
         case instruction::BEG:
             // do nothing

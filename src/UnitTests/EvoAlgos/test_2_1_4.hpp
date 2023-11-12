@@ -18,6 +18,7 @@ namespace ut_ea
         bool launch_test_evo_algos_x86_basic_XXX(void);
         bool launch_test_evo_algos_x86_basic_BEG(void);
         bool launch_test_evo_algos_x86_basic_HALT(void);
+        bool launch_test_evo_algos_x86_basic_GPTR(void);
 
         bool is_passed = true;
 
@@ -26,6 +27,7 @@ namespace ut_ea
         is_passed &= launch_test_evo_algos_x86_basic_XXX(); 
         is_passed &= launch_test_evo_algos_x86_basic_BEG(); 
         is_passed &= launch_test_evo_algos_x86_basic_HALT(); 
+        is_passed &= launch_test_evo_algos_x86_basic_GPTR(); 
 
         std::cout << "Evo algos - x86 - basic - other : ";
         passed_print(is_passed);
@@ -288,6 +290,85 @@ namespace ut_ea
         if(verbose_unit_tests)
         {
             std::cout << "Evo algos - x86 - basic - other - halt : ";
+            passed_print(is_passed);
+        } 
+
+        return is_passed;
+    }
+
+    /**
+     * change program ptr
+    */
+    bool launch_test_evo_algos_x86_basic_GPTR()
+    {
+        bool is_passed = true;
+
+        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        algo->init();
+
+
+        //---------- CODE
+
+        // absolute args
+        std::vector<std::array<int,SIZE_INSTR>> code_0 { 
+            { instruction::XXX, 1, 1, 0, 0, 0, 0},
+            { instruction::XXX, 1, 1, 0, 0, 0, 0},
+            { instruction::XXX, 1, 1, 1, -123456789, 123456789, 0},
+            { instruction::GPTR, 1, 0, 0, 0, 0, 0},
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0}
+        };        
+ 
+        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes {
+            code_0
+        };
+
+        //---------- INPUTS
+
+        // input (here, same for all tests for simplicity)
+        std::vector<int> input_0 {  };
+
+
+        std::vector<std::vector<int>> inputs {
+            input_0
+        };
+
+        //---------- EXPECTED OUTPUTS
+
+        // the expected outputs of the code the genomes should create
+        std::vector<int> expected_out_0 { 3 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_0
+        };
+
+
+        //---------- EXECUTE
+
+        for(int i=0; i<codes.size(); i++)
+        {
+            // set genome and execute
+            algo->reset_data();
+            algo->reset_code(codes[i]);
+
+            algo->set_input(inputs[i]);
+            algo->set_output_size(expected_outs[i].size());
+            algo->exec(std::vector<sp_entity>(0));
+
+            // check result
+            auto out_res = algo->get_output();
+            bool is_passed_i = x86_comp_output(expected_outs[i], out_res);
+            is_passed &= is_passed_i; 
+
+            if(verbose_unit_tests_1)
+            {
+                std::cout << "Evo algos - x86 - basic - other - gptr " << i << " : ";
+                passed_print(is_passed_i);
+            } 
+       }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - x86 - basic - other - gptr : ";
             passed_print(is_passed);
         } 
 
