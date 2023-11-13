@@ -83,7 +83,7 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
     switch(instr)
     { 
         case instruction::GR:
-            // read gene at arg 1 and stores it arg2
+            // read gene at arg2 and stores it arg1
 
             if(addr1_order>0 && arg1_>=0 && arg1_<data.size())
             {
@@ -306,12 +306,12 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
 
             /*
                 genes[maker_pos] : position (in the genome) of the genetic marker
-                genes[maker_pos+1] : id of the marker
-                genes[maker_pos+2] : type of the marker
-                genes[maker_pos+3] : nothing for the moment
-                genes[maker_pos+4] : genetic storage
-                genes[maker_pos+5] : genetic storage
-                genes[maker_pos+6] : genetic storage
+                genes[maker_pos+1] : type of the marker (for later)
+                genes[maker_pos+2] : id 1
+                genes[maker_pos+3] : id 2 or genetic storage
+                genes[maker_pos+4] : id 3 or genetic storage
+                genes[maker_pos+5] : id 4 or genetic storage
+                genes[maker_pos+6] : id 5 or genetic storage
             */
 
             break;
@@ -372,6 +372,13 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
             // arg1 : pos in genome (multiple of 7)
             // arg2 : nb of instructions to execute (1 = 7 genes)
 
+            //
+            // !! executing once n genes at pos p is different than !!
+            // !! executing n times a single gene from p to p+n-1 !!
+            // !! -> indeed, some genes might have been added by the code executed !!
+            //
+            // avoid executing more than one line, because of jumps
+
             bool is_valid = true;
             
             if(addr1_order>0)
@@ -403,6 +410,8 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
             {
                 auto code_exec = std::vector<std::array<int,SIZE_INSTR>>(arg2_);
         
+                // save all the genes at once
+                // garantee that code will be executed even if genes have been added in the meantime
                 for(int i=0;i<arg2_;i++)
                 {
                     auto i_genes = (i+arg1_)*SIZE_INSTR;
@@ -423,11 +432,6 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
                     
                     exec_instruction(code_line[0], code_line[1], code_line[2], code_line[3], code_line[4], code_line[5], code_line[6]);
                     instr_counter++;
-
-                    if(debug)
-                    {
-                        data_debug.push_back(data);
-                    }
                 }
             }
    
@@ -442,7 +446,7 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
 
 void EvoX::post_process_marker(int marker_pos)
 {
-    int marker_type = genes[marker_pos+2];
+    int marker_type = genes[marker_pos+1];
 
     if(marker_type == 0)
     {
