@@ -51,11 +51,12 @@ enum instruction {
     GDELW,  // 41   delete 3 genes at once
     GSET,   // 42   set gene value
     GADD,   // 43   add value to gene
-    GCPY,   // 44   copy input into genes (insertion)
+    GCPY,   // 44   copy data into genes (insertion)
     MARKER, // 45   genetic marker
     GCPYM,  // 46   copy input into genes at first genetic marker
     EXEC,   // 47   execute genome specified in args
     EXECD,  // 48   execute code as genome
+    REGEN,  // 49   regenerate code from genome
     size
 };
 

@@ -49,5 +49,6 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::MARKER, "MARKER"},   // 45
     { instruction::GCPYM, "GCPYM"},     // 46
     { instruction::EXEC, "EXEC" },      // 47
-    { instruction::EXECD, "EXECD" }     // 48
+    { instruction::EXECD, "EXECD" },    // 48
+    { instruction::REGEN, "REGEN" }    // 49
 }; 

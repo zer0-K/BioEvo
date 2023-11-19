@@ -300,7 +300,6 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
 
             break;
         }
-
         case instruction::MARKER:
             // do nothing
 
@@ -437,7 +436,15 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
    
             break;
         }
+        case instruction::REGEN:
+            // regenerate code from genes
 
+            create_code_from_genes();
+
+            // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
+            program_counter = -1;
+
+            break;
         default:
             // does nothing
             break;

@@ -704,7 +704,7 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                  // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                 program_counter = arg1_ - 1;               
             }
-            else if(arg1_>=0 && arg1_<data.size() 
+            else if(addr1_order>0 && arg1_>=0 && arg1_<data.size() 
                 && data[arg1_]>=0 && data[arg1_]<code.size())
             {                
                 // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
@@ -724,7 +724,7 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                  // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                 program_counter += arg1_ - 1;               
             }
-            else if(arg1_>=0 && arg1_<data.size()
+            else if(addr1_order>0 && arg1_>=0 && arg1_<data.size()
                 && program_counter + data[arg1_] >= 0 
                 && program_counter + data[arg1_] < code.size())
             {                
@@ -745,7 +745,7 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                  // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                 program_counter = (program_counter - arg1_) - 1;               
             }
-            else if(arg1_>=0 && arg1_<data.size()
+            else if(addr1_order>0 && arg1_>=0 && arg1_<data.size()
                 && program_counter - data[arg1_] >= 0 
                 && program_counter - data[arg1_] < code.size())
             {
@@ -769,27 +769,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]==arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && data[destination] >= 0 
                 && data[destination] < code.size())
             {
@@ -800,20 +800,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]==arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
@@ -839,27 +839,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && data[destination] >= 0 
                 && data[destination] < code.size())
             {
@@ -870,20 +870,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
@@ -909,27 +909,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && data[destination] >= 0 
                 && data[destination] < code.size())
             {
@@ -940,20 +940,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
@@ -978,27 +978,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && data[destination] >= 0 
                 && data[destination] < code.size())
             {
@@ -1009,20 +1009,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
@@ -1031,8 +1031,6 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
             }
 
             break;
-
-
 
         case instruction::JGE:
             // jump if greater or equal
@@ -1049,27 +1047,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && data[destination] >= 0 
                 && data[destination] < code.size())
             {
@@ -1080,20 +1078,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter = data[destination] - 1;
@@ -1119,27 +1117,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]==arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && program_counter+data[destination] >= 0 
                 && program_counter+data[destination] < code.size())
             {
@@ -1150,20 +1148,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]==arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]==data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
@@ -1189,27 +1187,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && program_counter+data[destination] >= 0 
                 && program_counter+data[destination] < code.size())
             {
@@ -1220,20 +1218,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
@@ -1259,27 +1257,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && program_counter+data[destination] >= 0 
                 && program_counter+data[destination] < code.size())
             {
@@ -1290,20 +1288,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
@@ -1328,27 +1326,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && program_counter+data[destination] >= 0 
                 && program_counter+data[destination] < code.size())
             {
@@ -1359,20 +1357,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]<=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]<=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
@@ -1399,27 +1397,27 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += destination - 1;
                     }
                 }
             }
-            else if(destination>=0 && destination<data.size() 
+            else if(destination_order>0 && destination>=0 && destination<data.size() 
                 && program_counter+data[destination] >= 0 
                 && program_counter+data[destination] < code.size())
             {
@@ -1430,20 +1428,20 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && arg2_>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
                 }
-                else if(arg2_>=0 && arg2_<data.size())
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
                 {
                     if(addr3_order==0 && data[arg2_]>=arg3_)
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
                     }
-                    else if(arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
+                    else if(addr3_order>0 && arg3_>=0 && arg3_<data.size() && data[arg2_]>=data[arg3_])
                     {
                         // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
                         program_counter += data[destination] - 1;
