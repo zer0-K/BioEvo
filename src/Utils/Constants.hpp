@@ -121,6 +121,7 @@ const std::string name_exp_bioevo = "bio evo experiments";
 // ---------- TRAIT
 
 const std::string name_exp_bioevo_traits = "experiments on traits";
+const std::string name_exp_bioevo_traits_evox = "EvoX driving traits";
 
 // ---------- GENE
 

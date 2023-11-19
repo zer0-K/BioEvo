@@ -339,6 +339,8 @@ target_link_libraries(classical_algos ${LIBS})
 set(EXPERIMENTS_EVO_ALGOS 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp
+    src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.hpp
+    src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.cpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
 )
@@ -412,6 +414,8 @@ target_link_libraries(classical-info-all ${LIBS})
 
 set(EXPERIMENT_RUNNERS_BIO_EVO_TRAIT src/Experiment/BioEvo/Trait/ExperimentRunnerTraits.hpp)
 add_executable(bio-evo-trait src/Experiment/BioEvo/Trait/main.cpp 
+    src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.hpp
+    src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.cpp
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
     ${EXPERIMENT_RUNNERS_BIO_EVO_TRAIT})

@@ -2,7 +2,7 @@
 
 #include "../../ExperimentRunner.hpp"
 
-
+#include "EvoAlgos/EvoX/EvoXDriveTrait.hpp"
 
 #include <iostream>
 
@@ -21,7 +21,7 @@ ExperimentRunnerTraits::ExperimentRunnerTraits()
 void ExperimentRunnerTraits::init()
 {
     experiments = {
-        
+        std::make_shared<EvoXDriveTrait>()
     };
 
     for(int i=0;i<experiments.size();i++)
