@@ -412,10 +412,11 @@ target_link_libraries(classical-info-all ${LIBS})
 
 # *************** Trait
 
-set(EXPERIMENT_RUNNERS_BIO_EVO_TRAIT src/Experiment/BioEvo/Trait/ExperimentRunnerTraits.hpp)
-add_executable(bio-evo-trait src/Experiment/BioEvo/Trait/main.cpp 
+set(EXPERIMENT_RUNNERS_BIO_EVO_TRAIT src/Experiment/BioEvo/Trait/ExperimentRunnerTraits.hpp
     src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.hpp
     src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.cpp
+)
+add_executable(bio-evo-trait src/Experiment/BioEvo/Trait/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
     ${EXPERIMENT_RUNNERS_BIO_EVO_TRAIT})

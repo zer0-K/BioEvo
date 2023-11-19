@@ -2,7 +2,7 @@
 
 #include "EvoX.hpp"
 
-bool evox_comp_genes(std::vector<int> genome_1, std::vector<int> genome_2)
+inline bool evox_comp_genes(std::vector<int> genome_1, std::vector<int> genome_2)
 {
     bool comp_vectors(std::vector<int>, std::vector<int>);
 
@@ -10,7 +10,7 @@ bool evox_comp_genes(std::vector<int> genome_1, std::vector<int> genome_2)
     return comp_vectors(genome_1, genome_2);
 }
 
-bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<std::array<int,SIZE_INSTR>> code_2)
+inline bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<std::array<int,SIZE_INSTR>> code_2)
 {
     if(code_1.size() != code_2.size())
     {
@@ -32,7 +32,7 @@ bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<s
     return true;
 }
 
-bool x86_comp_output(std::vector<int> out_1, std::vector<int> out_2)
+inline bool x86_comp_output(std::vector<int> out_1, std::vector<int> out_2)
 {
     bool comp_vectors(std::vector<int>, std::vector<int>);
 
@@ -40,7 +40,7 @@ bool x86_comp_output(std::vector<int> out_1, std::vector<int> out_2)
     return comp_vectors(out_1, out_2);
 }
 
-bool comp_vectors(std::vector<int> v1, std::vector<int> v2)
+inline bool comp_vectors(std::vector<int> v1, std::vector<int> v2)
 {
     if(v1.size() != v2.size())
     {
@@ -58,7 +58,7 @@ bool comp_vectors(std::vector<int> v1, std::vector<int> v2)
     return true;
 }
 
-bool comp_flows(std::vector<std::array<int,2>> f1, std::vector<std::array<int,2>> f2)
+inline bool comp_flows(std::vector<std::array<int,2>> f1, std::vector<std::array<int,2>> f2)
 {
     if(f1.size() != f2.size())
     {
