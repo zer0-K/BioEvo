@@ -8,27 +8,31 @@
 #include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
 #include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 
+#include "../../Entities/EntityVoid.hpp"
 #include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
 #include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
 
 namespace ut_ea
 {
 
     bool launch_tests_evo_algos_universe_flows_basic()
     {
-        bool launch_tests_evo_algos_universe_flows_basic_connection(void);
-        bool launch_tests_evo_algos_universe_flows_basic_disconnect_in(void);
-        bool launch_tests_evo_algos_universe_flows_basic_disconnect_out(void);
-        bool launch_tests_evo_algos_universe_flows_basic_fibonacci(void);
+        bool launch_tests_evo_algos_universe_flows_basic_empty(void);
+        bool launch_tests_evo_algos_universe_flows_basic_read(void);
+        bool launch_tests_evo_algos_universe_flows_basic_read_fail(void);
+        bool launch_tests_evo_algos_universe_flows_basic_write(void);
+        bool launch_tests_evo_algos_universe_flows_basic_write_fail(void);
 
         bool is_passed = true;
 
         std::cout << "Evo algos - universe - flows - basic :" << std::endl;
  
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_connection();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_disconnect_in();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_disconnect_out();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_fibonacci();
+        is_passed &= launch_tests_evo_algos_universe_flows_basic_empty();
+        is_passed &= launch_tests_evo_algos_universe_flows_basic_read();
+        is_passed &= launch_tests_evo_algos_universe_flows_basic_read_fail();
+        is_passed &= launch_tests_evo_algos_universe_flows_basic_write();
+        is_passed &= launch_tests_evo_algos_universe_flows_basic_write_fail();
 
         std::cout << "Evo algos - universe - flows - basic : ";
         passed_print(is_passed);
@@ -37,23 +41,160 @@ namespace ut_ea
     }
 
     /**
-     * @brief algo connection
-     *
-     * Connecting out of first algo to in of second one
-     * First algo squarres the input and return it as output
-     * Second algo adds 1
-     * Expected out when "n" is given -> n*n+1
+     * @brief check universe cell emptyness
      *
      * --> tests X86
     */
-    bool launch_tests_evo_algos_universe_flows_basic_connection()
+    bool launch_tests_evo_algos_universe_flows_basic_empty()
     {
         bool is_passed = true;
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first flow");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second flow");
+        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        algo->init();
+
+        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
+        freegenes->init();
+
+        sp_entity_void voidentity = std::make_shared<EntityVoid>("void entity");
+        voidentity->init();
+
+        //---------- CODE
+
+        std::vector<std::array<int,SIZE_INSTR>> code { 
+            { instruction::SETOS, 0, 0, 0, 2, 0, 0 },
+            { instruction::EMPTY, 1, 0, 0, 0, 1, 0 },
+            { instruction::EMPTY, 1, 0, 0, 1, 2, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 1, 1, 0 }
+        };
+
+        std::vector<int> vals { 12, 13, 14 };
+
+        algo->reset_code(code); 
+        freegenes->set_genes(vals);
+
+        //---------- UNIVERSE
+
+        // 2 places : first with algo, second is empty
+        std::vector<sp_place> places {
+            std::make_shared<Place>(algo, 0),
+            std::make_shared<Place>(voidentity, 1),
+            std::make_shared<Place>(freegenes, 2)
+        };
+
+        // create the universe
+        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
+
+        // !! most important step : links the universe methods (get_universe_size for example) to 
+        // the individuals so that they can get te universe size (for example) !! 
+        universe->link_universe_functions_to_individuals();
+
+
+        //---------- EXPECTED OUTPUTS
+
+        std::vector<int> expected_out { 1, 0 };
+
+        //---------- EXECUTE
+
+        universe->exec();
+
+        auto res = algo->get_output();
+
+        is_passed &= x86_comp_output(res, expected_out);
+            
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - universe - flows - basic - empty : ";
+            passed_print(is_passed);
+        } 
+
+        return is_passed;
+    } 
+
+    /**
+     * @brief read a universe cell
+     *
+     * --> tests X86
+    */
+    bool launch_tests_evo_algos_universe_flows_basic_read()
+    {
+        bool is_passed = true;
+
+        //---------- ALGOS
+
+        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        algo->init();
+
+        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
+        freegenes->init();
+
+        //---------- CODE
+
+        std::vector<std::array<int,SIZE_INSTR>> code { 
+            { instruction::READ, 0, 0, 0, 1, 0, 0 },
+            { instruction::CPYIN, 1, 1, 0, 0, 2, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
+        };
+
+        std::vector<int> vals { 12, 13, 14 };
+
+        algo->reset_code(code); 
+        freegenes->set_genes(vals);
+
+        //---------- UNIVERSE
+
+        // 2 places : first with algo, second is empty
+        std::vector<sp_place> places {
+            std::make_shared<Place>(algo, 0),
+            std::make_shared<Place>(freegenes, 1)
+        };
+
+        // create the universe
+        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
+
+        // !! most important step : links the universe methods (get_universe_size for example) to 
+        // the individuals so that they can get te universe size (for example) !! 
+        universe->link_universe_functions_to_individuals();
+
+
+        //---------- EXPECTED OUTPUTS
+
+        std::vector<int> expected_out { 14 };
+
+        //---------- EXECUTE
+
+        universe->exec();
+
+        auto res = algo->get_output();
+
+        is_passed &= x86_comp_output(res, expected_out);
+            
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - universe - flows - basic - read : ";
+            passed_print(is_passed);
+        } 
+
+        return is_passed;
+    } 
+
+    /**
+     * @brief cases for which algo can't write
+     *
+     * We can't read a cell containing a non free genes entity
+     *
+     * --> tests X86
+    */
+    bool launch_tests_evo_algos_universe_flows_basic_read_fail()
+    {
+        bool is_passed = true;
+
+        //---------- ALGOS
+
+        sp_x86algo algo_0 = std::make_shared<X86Algo>("first algo");
+        sp_x86algo algo_1 = std::make_shared<X86Algo>("second algo");
 
         std::vector<sp_x86algo> algos {
             algo_0, algo_1
@@ -69,17 +210,16 @@ namespace ut_ea
 
         // code of algo 0
         std::vector<std::array<int,SIZE_INSTR>> code_0 { 
-            { instruction::AOF, 0, 0, 0, 0, 0, 0 },  // set connection with key-value (0;0) : OUT
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::MUL, 1, 1, 1, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
+            { instruction::READ, 0, 0, 0, 1, 0, 0 },
+            { instruction::CPYIS, 1, 0, 0, 0, 0, 0 },
+            { instruction::JRE, 0, 1, 0, 2, 0, 0 },
+            { instruction::HALT, 0, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 14, 0 }
         };
         // code of algo 1
         std::vector<std::array<int,SIZE_INSTR>> code_1 { 
-            { instruction::AIF, 0, 0, 0, 0, 0, 0 },  // set connection with key-value (0;0) : IN
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::INC, 1, 0, 0, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
+            // does nothing
+            { instruction::HALT, 0, 0, 0, 0, 0, 0 }
         };
 
         std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes { 
@@ -92,101 +232,52 @@ namespace ut_ea
            algos[i]->reset_code(codes[i]); 
         }
 
+        //---------- inputs
+
+        std::vector<int> input_0 { 1, 2 };
+        algos[0]->set_input(input_0);
+
         //---------- UNIVERSE
 
-        // create a universe with the 2 algos
-        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>(algos, "universe");
-
-
-        //---------- EXPECTED GRAPH
-        std::vector<std::array<int,2>> expected_graph {
-            { 0, 1 }
+        // 3 places
+        std::vector<sp_place> places {
+            std::make_shared<Place>(algos[0], 0),
+            std::make_shared<Place>(algos[1], 1)
         };
 
-        //-------------------- First round of experiment
+        // create the universe
+        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
 
-        // runs the algos with no input to init the flows
-        // exec two times to generate the whole graph
-        universe->exec();
-        universe->exec();
+        // !! most important step : links the universe methods (get_universe_size for example) to 
+        // the individuals so that they can get te universe size (for example) !! 
+        universe->link_universe_functions_to_individuals();
 
-        // check the io flow setup
-        std::vector<std::array<int,2>> graph = universe->get_place_graph();
-
-        is_passed &= graph.size() == expected_graph.size();
-        if(is_passed)
-        {
-            for(int i=0;i<graph.size();i++)
-            {
-                is_passed &= graph[i] == expected_graph[i];
-            }
-        }
-
-
-        //-------------------- Second round of experiment
-
-        //---------- INPUTS
-
-        std::vector<int> input_0 { 5 };
-        std::vector<int> input_1 { 11 };
-        std::vector<int> input_2 { 0 };
-        std::vector<int> input_3 { 1000 };
-
-        std::vector<std::vector<int>> inputs {
-            input_0, input_1, input_2, input_3
-        };
 
         //---------- EXPECTED OUTPUTS
 
-        // expected out of algo 0
-        std::vector<std::vector<int>> expected_out_0 {
-            { 25 },
-            { 121 },
-            { 0 },
-            { 1000000 }
-        };
-
-        // expected out of algo 1
-        std::vector<std::vector<int>> expected_out_1 {
-            { 26 },
-            { 122 },
-            { 1 },
-            { 1000001 }
-        };
-
-        std::vector<std::vector<std::vector<int>>> expected_outs {
-            expected_out_0, expected_out_1
-        };
-
+        std::vector<int> expected_out { 14 };
 
         //---------- EXECUTE
 
-        for(int i=0; i<inputs.size(); i++)
-        {
-            // set the input of the first algo
-            algo_0->set_input(inputs[i]);
+        universe->exec();
 
-            // execute
-            universe->exec();
+        // free genes must have been written on the third place
+        std::vector<sp_place> places_after_exec = universe->get_places();
+        sp_entity first_entity = places_after_exec[0]->get_entity();
+        sp_entity second_entity = places_after_exec[1]->get_entity();
+
+        is_passed &= first_entity->is_type(X86_ALGO) 
+            && second_entity->is_type(X86_ALGO);
             
-            // check results
-            auto out_0 = algo_0->get_output();
-            auto out_1 = algo_1->get_output();
-
-            bool is_passed_i = x86_comp_output(expected_outs[0][i], out_0);
-            is_passed_i &= x86_comp_output(expected_outs[1][i], out_1);
-            is_passed &= is_passed_i; 
-
-            if(verbose_unit_tests_1)
-            {
-                std::cout << "Evo algos - universe - flows - basic - connection " << i << " : ";
-                passed_print(is_passed_i);
-            } 
-       }
+        if(is_passed)
+        {
+            auto res = algos[0]->get_output();
+            is_passed &= x86_comp_output(res, expected_out);
+        }
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - connection : ";
+            std::cout << "Evo algos - universe - flows - basic - fail read : ";
             passed_print(is_passed);
         } 
 
@@ -194,23 +285,112 @@ namespace ut_ea
     } 
 
     /**
-     * @brief algo disconnection : remove input flow
+     * @brief write output in a universe cell
      *
-     * Connecting out of first algo to in of second one and then disconnecting second in flow
+     * write output as free genes in an empty cell
      *
      * --> tests X86
     */
-    bool launch_tests_evo_algos_universe_flows_basic_disconnect_in()
+    bool launch_tests_evo_algos_universe_flows_basic_write()
     {
         bool is_passed = true;
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first flow");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second flow");
+        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        algo->init();
+
+        //---------- CODE
+
+        std::vector<std::array<int,SIZE_INSTR>> code { 
+            { instruction::SETOS, 0, 0, 0, 3, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 10, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 11, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 2, 12, 0 },
+            { instruction::WRITE, 1, 0, 0, 0, 1, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 },
+            { instruction::HALT, 0, 0, 0, 0, 0, 0 }
+        };
+
+        algo->reset_code(code); 
+
+        sp_entity_void entityvoid = std::make_shared<EntityVoid>("entity void");
+        entityvoid->init();
+
+        //---------- UNIVERSE
+
+        // 2 places : first with algo, second is empty
+        std::vector<sp_place> places {
+            std::make_shared<Place>(algo, 0),
+            std::make_shared<Place>(entityvoid, 1)
+        };
+
+        // create the universe
+        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
+
+        // !! most important step : links the universe methods (get_universe_size for example) to 
+        // the individuals so that they can get te universe size (for example) !! 
+        universe->link_universe_functions_to_individuals();
+
+
+        //---------- EXPECTED OUTPUTS
+
+        std::vector<int> expected_out { 1, 11, 12 };
+        std::vector<int> expected_genes { 10, 11, 12 };
+        
+        //---------- EXECUTE
+
+        universe->exec();
+
+        // free genes must have been written on the second place
+        std::vector<sp_place> places_after_exec = universe->get_places();
+        sp_entity first_entity = places_after_exec[0]->get_entity();
+        sp_entity second_entity = places_after_exec[1]->get_entity();
+
+        is_passed &= first_entity->is_type(X86_ALGO) && second_entity->is_type(FREEGENES);
+            
+        if(is_passed)
+        {
+            // if second place contains free genes, we check that they are what we expect
+            sp_freegenes written_genes = std::dynamic_pointer_cast<FreeGenes>(second_entity);
+            is_passed &= x86_comp_output(written_genes->get_genes(), expected_genes);
+
+            // also compare algo out
+            auto res = algo->get_output();
+            is_passed &= x86_comp_output(res, expected_out);
+        }
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "Evo algos - universe - flows - basic - write : ";
+            passed_print(is_passed);
+        } 
+
+        return is_passed;
+    } 
+
+    /**
+     * @brief cases for which algo can't write
+     *
+     * We can't write in a non empty cell (other algo or free genes already there)
+     * -> first algo write on cell 
+     * -> second algo tries to write on same cell
+     * -> third algo tries to write on first algo
+     *
+     * --> tests X86
+    */
+    bool launch_tests_evo_algos_universe_flows_basic_write_fail()
+    {
+        bool is_passed = true;
+
+        //---------- ALGOS
+
+        sp_x86algo algo_0 = std::make_shared<X86Algo>("first algo");
+        sp_x86algo algo_1 = std::make_shared<X86Algo>("second algo");
+        sp_x86algo algo_2 = std::make_shared<X86Algo>("second algo");
 
         std::vector<sp_x86algo> algos {
-            algo_0, algo_1
+            algo_0, algo_1, algo_2
         };
 
         // init the algos
@@ -218,207 +398,45 @@ namespace ut_ea
         {
             algo->init();
         }
+
+        sp_entity_void entityvoid = std::make_shared<EntityVoid>("entity void");
+        entityvoid->init();
 
         //---------- CODES
 
         // code of algo 0
         std::vector<std::array<int,SIZE_INSTR>> code_0 { 
-            { instruction::AOF, 0, 0, 0, 0, 0, 0 },  // set connection with key-value (0;0) : OUT
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::MUL, 1, 1, 1, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
+            { instruction::SETOS, 0, 0, 0, 3, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 10, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 11, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 2, 12, 0 },
+            { instruction::WRITE, 1, 0, 0, 0, 3, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 },
+            { instruction::HALT, 0, 0, 0, 0, 0, 0 }
         };
-        // codes of algo 1 :
-        // connection
-        std::vector<std::array<int,SIZE_INSTR>> code_1_connect { 
-            { instruction::AIF, 0, 0, 0, 0, 0, 0 },  // set connection with key-value (0;0) : IN
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::INC, 1, 0, 0, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
-        };
-        // disconnection
-        std::vector<std::array<int,SIZE_INSTR>> code_1_disconnect { 
-            { instruction::RIF, 0, 0, 0, 0, 0, 0 },  // remove connection
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::INC, 1, 0, 0, 0, 0, 0 },
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
-        };
-
-        std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes { 
-            code_0, code_1_connect
-        };
-
-        // set the codes to the algos
-        for(int i=0;i<algos.size();i++)
-        {
-           algos[i]->reset_code(codes[i]); 
-        }
-
-        //---------- UNIVERSE
-
-        // create a universe with the 2 algos
-        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>(algos, "universe");
-
-
-        //---------- EXPECTED GRAPH
-        std::vector<std::array<int,2>> expected_graph {
-            { 0, 1 }
-        };
-
-        //-------------------- First round of experiment
-
-        // runs the algos with no input to init the flows
-        // exec two times to generate the whole graph
-        universe->exec();
-        universe->exec();
-
-        // check the io flow setup
-        std::vector<std::array<int,2>> graph = universe->get_place_graph();
-
-        is_passed &= graph.size() == expected_graph.size();
-        if(is_passed)
-        {
-            for(int i=0;i<graph.size();i++)
-            {
-                is_passed &= graph[i] == expected_graph[i];
-            }
-        }
-
-
-        //-------------------- Second round of experiment
-
-        //---------- INPUTS
-
-        std::vector<int> input_0 { 5 };
-        std::vector<int> input_1 { 11 };
-        std::vector<int> input_2 { 7 };
-        std::vector<int> input_3 { 1 };
-        std::vector<int> input_4 { 1000 };
-
-        std::vector<std::vector<int>> inputs {
-            input_0, input_1, input_2, input_3, input_4
-        };
-
-        //---------- EXPECTED OUTPUTS
-
-        // expected out of algo 0
-        std::vector<std::vector<int>> expected_out_0 {
-            { 25 },
-            { 121 },
-            { 49 },
-            { 1 },
-            { 1000000 }
-        };
-
-        // expected out of algo 1
-        std::vector<std::vector<int>> expected_out_1 {
-            { 26 },
-            { 122 },
-            { 50 },
-            { 51 },
-            { 52 }
-        };
-
-        std::vector<std::vector<std::vector<int>>> expected_outs {
-            expected_out_0, expected_out_1
-        };
-
-
-        //---------- EXECUTE
-
-        for(int i=0; i<inputs.size(); i++)
-        {
-            // set the input of the first algo
-            algo_0->set_input(inputs[i]);
-
-            // disconnect at 3rd step
-            if(i==2)
-            {
-                algo_1->reset_code(code_1_disconnect);
-                codes[1] = code_1_disconnect;
-                // ! data of algo_1 is the same
-            }
-
-            // execute
-            universe->exec();
-            
-            // check results
-            auto out_0 = algo_0->get_output();
-            auto out_1 = algo_1->get_output();
-
-            bool is_passed_i = x86_comp_output(expected_outs[0][i], out_0);
-            is_passed_i &= x86_comp_output(expected_outs[1][i], out_1);
-            is_passed &= is_passed_i; 
-
-            if(verbose_unit_tests_1)
-            {
-                std::cout << "Evo algos - universe - flows - basic - disconnect - in " << i << " : ";
-                passed_print(is_passed_i);
-            } 
-       }
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - universe - flows - basic - disconnect - in : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    } 
-
-    /**
-     * @brief algo disconnection : remove output flow
-     *
-     * Connecting out of first algo to in of second one and then disconnecting first out flow
-     *
-     * --> tests X86
-    */
-    bool launch_tests_evo_algos_universe_flows_basic_disconnect_out()
-    {
-        bool is_passed = true;
-
-        //---------- ALGOS
-
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first flow");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second flow");
-
-        std::vector<sp_x86algo> algos {
-            algo_0, algo_1
-        };
-
-        // init the algos
-        for(sp_x86algo algo : algos)
-        {
-            algo->init();
-        }
-
-        //---------- CODES
-
-        // code of algo 0 :
-        // connect
-        std::vector<std::array<int,SIZE_INSTR>> code_0_connect { 
-            { instruction::AOF, 0, 0, 0, 0, 0, 0 },  // set connection with key-value (0;0) : OUT
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::MUL, 1, 1, 1, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
-        };
-        // disconnect
-         std::vector<std::array<int,SIZE_INSTR>> code_0_disconnect { 
-            { instruction::ROF, 0, 0, 0, 0, 0, 0 },  // remove connection with key-value (0;0) : OUT
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::MUL, 1, 1, 1, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
-        };
-        // codes of algo 1
+        // code of algo 1
         std::vector<std::array<int,SIZE_INSTR>> code_1 { 
-            { instruction::AIF, 0, 0, 0, 0, 0, 0 },  // set connection with key-value (0;0) : IN
-            { instruction::CPYIN, 1, 1, 0, 0, 0, 0 },
-            { instruction::INC, 1, 0, 0, 0, 0, 0 },  // squarre of the copied input
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
+            { instruction::SETOS, 0, 0, 0, 3, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 13, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 14, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 2, 15, 0 },
+            { instruction::WRITE, 1, 0, 0, 0, 3, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 },
+            { instruction::HALT, 0, 0, 0, 0, 0, 0  }
+        };
+        // code of algo 2
+        std::vector<std::array<int,SIZE_INSTR>> code_2 { 
+            { instruction::SETOS, 0, 0, 0, 3, 0, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 0, 16, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 1, 17, 0 },
+            { instruction::CPYOUT, 1, 0, 0, 2, 18, 0 },
+            { instruction::WRITE, 1, 0, 0, 0, 0, 0 },
+            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 },
+            { instruction::HALT, 0, 0, 0, 0, 0, 0 }
         };
 
         std::vector<std::vector<std::array<int,SIZE_INSTR>>> codes { 
-            code_0_connect, code_1
+            code_0, code_1, code_2
         };
 
         // set the codes to the algos
@@ -429,244 +447,78 @@ namespace ut_ea
 
         //---------- UNIVERSE
 
-        // create a universe with the 2 algos
-        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>(algos, "universe");
-
-
-        //---------- EXPECTED GRAPH
-        std::vector<std::array<int,2>> expected_graph {
-            { 0, 1 }
+        // 3 places
+        std::vector<sp_place> places {
+            std::make_shared<Place>(algos[0], 0),
+            std::make_shared<Place>(algos[1], 1),
+            std::make_shared<Place>(algos[2], 2),
+            std::make_shared<Place>(entityvoid, 3)
         };
 
-        //-------------------- First round of experiment
+        // create the universe
+        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
 
-        // runs the algos with no input to init the flows
-        // exec two times to generate the whole graph
-        universe->exec();
-        universe->exec();
-
-        // check the io flow setup
-        std::vector<std::array<int,2>> graph = universe->get_place_graph();
-
-        is_passed &= graph.size() == expected_graph.size();
-        if(is_passed)
-        {
-            for(int i=0;i<graph.size();i++)
-            {
-                is_passed &= graph[i] == expected_graph[i];
-            }
-        }
+        // !! most important step : links the universe methods (get_universe_size for example) to 
+        // the individuals so that they can get te universe size (for example) !! 
+        universe->link_universe_functions_to_individuals();
 
 
         //-------------------- Second round of experiment
 
-        //---------- INPUTS
-
-        std::vector<int> input_0 { 5 };
-        std::vector<int> input_1 { 11 };
-        std::vector<int> input_2 { 7 };
-        std::vector<int> input_3 { 1 };
-        std::vector<int> input_4 { 1000 };
-
-        std::vector<std::vector<int>> inputs {
-            input_0, input_1, input_2, input_3, input_4
-        };
-
         //---------- EXPECTED OUTPUTS
 
-        // expected out of algo 0
-        std::vector<std::vector<int>> expected_out_0 {
-            { 25 },
-            { 121 },
-            { 49 },
-            { 1 },
-            { 1000000 }
+        std::vector<int> expected_out_1 { 1, 11, 12 };
+        std::vector<int> expected_out_2 { 0, 14, 15 };
+        std::vector<int> expected_out_3 { 0, 17, 18 };
+
+        std::vector<std::vector<int>> expected_outs {
+            expected_out_1, expected_out_2, expected_out_3
         };
 
-        // expected out of algo 1
-        std::vector<std::vector<int>> expected_out_1 {
-            { 26 },
-            { 122 },
-            { 123 },
-            { 124 },
-            { 125 }
+        // expected freegenes value
+        std::vector<int> expected_free_genes {
+            10, 11, 12
         };
-
-        std::vector<std::vector<std::vector<int>>> expected_outs {
-            expected_out_0, expected_out_1
-        };
-
 
         //---------- EXECUTE
 
-        for(int i=0; i<inputs.size(); i++)
-        {
-            // set the input of the first algo
-            algo_0->set_input(inputs[i]);
+        universe->exec();
 
-            // disconnect at 3rd step
-            if(i==2)
-            {
-                algo_0->reset_code(code_0_disconnect);
-                codes[0] = code_0_disconnect;
-                // ! data of algo_0 is the same
-            }
+        // free genes must have been written on the third place
+        std::vector<sp_place> places_after_exec = universe->get_places();
+        sp_entity first_entity = places_after_exec[0]->get_entity();
+        sp_entity second_entity = places_after_exec[1]->get_entity();
+        sp_entity third_entity = places_after_exec[2]->get_entity();
+        sp_entity fourth_entity = places_after_exec[3]->get_entity();
 
-            // execute
-            universe->exec();
+        is_passed &= first_entity->is_type(X86_ALGO) 
+            && second_entity->is_type(X86_ALGO)
+            && third_entity->is_type(X86_ALGO)
+            && fourth_entity->is_type(FREEGENES);
             
-            // check results
-            auto out_0 = algo_0->get_output();
-            auto out_1 = algo_1->get_output();
+        if(is_passed)
+        {
+            // we check value of free genes at fourth place
+            sp_freegenes written_genes = std::dynamic_pointer_cast<FreeGenes>(fourth_entity);
+            is_passed &= x86_comp_output(written_genes->get_genes(), expected_free_genes);
 
-            bool is_passed_i = x86_comp_output(expected_outs[0][i], out_0);
-            is_passed_i &= x86_comp_output(expected_outs[1][i], out_1);
-            is_passed &= is_passed_i; 
-
-            if(verbose_unit_tests_1)
+            // compare algos out
+            for(int i=0;i<algos.size();i++)
             {
-                std::cout << "Evo algos - universe - flows - basic - disconnect - out " << i << " : ";
-                passed_print(is_passed_i);
+                auto res = algos[i]->get_output();
+                is_passed &= x86_comp_output(res, expected_outs[i]);
             } 
-       }
+        }
+
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - disconnect - out : ";
+            std::cout << "Evo algos - universe - flows - basic - fail write : ";
             passed_print(is_passed);
         } 
 
         return is_passed;
     } 
 
-    /**
-     * @brief algo connection : Fibonacci
-     *
-     * Fibonacci using the two-algo connection
-     * ! no input set : initial state is in data !
-     *
-     * --> tests evoX
-     */
-    bool launch_tests_evo_algos_universe_flows_basic_fibonacci()
-    {
-        bool is_passed = true;
 
-        //---------- ALGOS
-
-        sp_evox algo_0 = std::make_shared<EvoX>("first flow");
-        sp_evox algo_1 = std::make_shared<EvoX>("second flow");
-
-        std::vector<sp_evox> algos {
-            algo_0, algo_1
-        };
-
-        // init the algos
-        for(sp_evox algo : algos)
-        {
-            algo->init();
-        }
-
-        //---------- GENES
-
-        // genes of algo 0
-        std::vector<int> genes_0 { 
-            instruction::AIF, 0, 0, 0, 0, 0, 0,  // to connect in to second algo out
-            instruction::AOF, 0, 0, 0, 1, 0, 0,  // to connect out to second algo in
-            instruction::CPYIN, 1, 1, 0, 1, 0, 0,
-            instruction::ADD, 1, 1, 1, 0, 0, 1,  // fibo
-            instruction::CPYOUT, 1, 1, 0, 0, 0, 0
-        };
-        // genes of algo 1
-        std::vector<int> genes_1 { 
-            instruction::AIF, 0, 0, 0, 1, 0, 0,  // to connect in to first algo out
-            instruction::AOF, 0, 0, 0, 0, 0, 0,  // to connect out to first algo in
-            instruction::CPYIN, 1, 1, 0, 1, 0, 0,
-            instruction::ADD, 1, 1, 1, 0, 0, 1,  // squarre of the copied input
-            instruction::CPYOUT, 1, 1, 0, 0, 0, 0
-        };
-
-        std::vector<std::vector<int>> genes {
-            genes_0, genes_1
-        };
-
-        // set the genes to the algos
-        for(int i=0;i<algos.size();i++)
-        {
-           algos[i]->set_genes(genes[i]); 
-        }
-
-        //---------- UNIVERSE
-
-        // create a universe with the 2 algos
-        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>(algos, "universe");
-
-
-        //-------------------- Exec
-
-        // void exec to create the stream graph
-        universe->exec();
-        universe->exec();
-
-
-        //---------- "INPUT"
-        
-        // no input, change the data init state instead
-        algo_1->set_data_at(0,1);
-
-
-        //---------- EXPECTED OUTPUTS
-
-        // expected out of algo 0
-        std::vector<std::vector<int>> expected_out_0 {
-            { 0 },
-            { 1 },
-            { 3 },
-            { 8 },
-            { 21 }
-        };
-
-        // expected out of algo 1
-        std::vector<std::vector<int>> expected_out_1 {
-            { 1 },
-            { 2 },
-            { 5 },
-            { 13 },
-            { 34 }
-        };
-
-        std::vector<std::vector<std::vector<int>>> expected_outs {
-            expected_out_0, expected_out_1
-        };
-
-
-        //---------- EXECUTE
-
-        for(int i=0; i<expected_out_0.size(); i++)
-        {
-            // execute
-            universe->exec();
-            
-            // check results
-            auto out_0 = algo_0->get_output();
-            auto out_1 = algo_1->get_output();
-
-            bool is_passed_i = x86_comp_output(expected_outs[0][i], out_0);
-            is_passed_i &= x86_comp_output(expected_outs[1][i], out_1);
-            is_passed &= is_passed_i; 
-
-            if(verbose_unit_tests_1)
-            {
-                std::cout << "Evo algos - universe - flows - basic - fibonacci " << i << " : ";
-                passed_print(is_passed_i);
-            } 
-       }
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - universe - flows - basic - fibonacci : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    }
 }

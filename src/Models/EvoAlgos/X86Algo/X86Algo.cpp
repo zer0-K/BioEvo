@@ -20,7 +20,25 @@ void X86Algo::init()
     debug = false;
     data_debug_window = 10;
     data_debug = std::vector<std::vector<int>>(0);
+
+    // init external function with dummy lambdas
+    get_universe_size = [](){return 0;};
+    is_empty = [](int pos){return false;};
+    get_freegenes_at = [](int pos){return std::vector<int>(0);};
+    write_freegenes_at = [](int pos, std::vector<int> g){return false;};
 }
+
+void X86Algo::init_external_functions(std::function<int()> get_universe_size,
+    std::function<bool(int)> is_empty, std::function<std::vector<int>(int)> get_freegenes_at,
+    std::function<bool(int, std::vector<int>)> write_freegenes_at)
+{
+    this->get_universe_size = get_universe_size;
+    this->is_empty = is_empty;
+    this->get_freegenes_at = get_freegenes_at;
+    this->write_freegenes_at = write_freegenes_at;
+}
+
+
 
 std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 {
@@ -448,253 +466,64 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
 
             break;
         }
-        case instruction::AIF:
-        {
-            // add an input flow
+        case instruction::CPYUS:
+            // get universe size
 
-            bool is_valid = true;
-            int key;
-            int value;
-            if(addr1_order == 0)
+            if(destination_order>0 && destination>=0 && destination<data.size() )
             {
-                key = arg1_; 
+                data[destination] = get_universe_size();
+            }
+
+            break;
+
+        case instruction::EMPTY:
+            // set input to 1 if given place is empty
+
+            if(addr1_order>0 && destination>=0 && destination<data.size())
+            {
+                if(addr2_order==0)
+                {
+                    data[destination] = is_empty(arg2_) ? 1 : 0;
+                }
+                else if(arg2_>=0 && arg2_<data.size())
+                {
+                    data[destination] = is_empty(data[arg2_]) ? 1 : 0;
+                }
+            }
+
+           break;
+
+        case instruction::READ:
+            // read at given place if possible
+
+            if(addr1_order==0)
+            {
+                input_x86 = get_freegenes_at(arg1_);
             }
             else
             {
-                if(arg1_>=0 && arg1_<data.size())
+                input_x86 = get_freegenes_at(data[arg1_]);
+            }
+
+            break;
+
+        case instruction::WRITE:
+            // write on given place if possible
+
+            if(addr1_order>0 && destination>=0 && destination<data.size())
+            {
+                if(addr2_order == 0)
                 {
-                    key = data[arg1_];
+                    data[destination] = write_freegenes_at(arg2_, output_x86) ? 1 : 0;
                 }
                 else
                 {
-                    is_valid = false;
-                }
-            }
-
-            if(addr2_order == 0)
-            {
-                value = arg2_;
-            }
-            else
-            {
-                if(arg2_>=0 && arg2_<data.size())
-                {
-                    value = data[arg2_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(is_valid)
-            {
-                bool isin = false;
-                for(int i=0;i<input_flows.size();i++)
-                {
-                    if(input_flows[i][0] == key && input_flows[i][1] == value)
-                    {
-                        isin = true;
-                        break;
-                    }
-                }
-
-                if(!isin)
-                {
-                    input_flows.push_back({ key, value });                  
+                    data[destination] = write_freegenes_at(data[arg2_], output_x86) ? 1 : 0;
                 }
             }
 
             break;
-        }
-        case instruction::RIF:
-        {
-            // remove an input flow
 
-            bool is_valid = true;
-            int key;
-            int value;
-            if(addr1_order == 0)
-            {
-                key = arg1_; 
-            }
-            else
-            {
-                if(arg1_>=0 && arg1_<data.size())
-                {
-                    key = data[arg1_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(addr2_order == 0)
-            {
-                value = arg2_;
-            }
-            else
-            {
-                if(arg2_>=0 && arg2_<data.size())
-                {
-                    value = data[arg2_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(is_valid)
-            {
-                int pos = -1;
-                for(int i=0;i<input_flows.size();i++)
-                {
-                    if(input_flows[i][0] == key && input_flows[i][1] == value)
-                    {
-                        pos = i;
-                        break;
-                    }
-                }
-
-                if(pos != -1)
-                {
-                    for(int i=pos;i<input_flows.size()-1;i++)
-                    {
-                        input_flows[i][0] = input_flows[i+1][0];
-                        input_flows[i][1] = input_flows[i+1][1];
-                    }
-                    input_flows.pop_back();
-                }
-            }
-
-            break;
-        }
-        case instruction::AOF:
-        {
-            // add an output flow
-
-            // merge value/ref cases
-            bool is_valid = true;
-            int key;
-            int value;
-            if(addr1_order == 0)
-            {
-                key = arg1_; 
-            }
-            else
-            {
-                if(arg1_>=0 && arg1_<data.size())
-                {
-                    key = data[arg1_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(addr2_order == 0)
-            {
-                value = arg2_;
-            }
-            else
-            {
-                if(arg2_>=0 && arg2_<data.size())
-                {
-                    value = data[arg2_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(is_valid)
-            {
-                bool isin = false;
-                for(int i=0;i<output_flows.size();i++)
-                {
-                    if(output_flows[i][0] == key && output_flows[i][1] == value)
-                    {
-                        isin = true;
-                        break;
-                    }
-                }
-
-                if(!isin)
-                {
-                    output_flows.push_back({ key, value });                  
-                }
-            }
-
-            break;
-        }
-        case instruction::ROF:
-        {
-            // remove an output flow
-
-            bool is_valid = true;
-            int key;
-            int value;
-            if(addr1_order == 0)
-            {
-                key = arg1_; 
-            }
-            else
-            {
-                if(arg1_>=0 && arg1_<data.size())
-                {
-                    key = data[arg1_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(addr2_order == 0)
-            {
-                value = arg2_;
-            }
-            else
-            {
-                if(arg2_>=0 && arg2_<data.size())
-                {
-                    value = data[arg2_];
-                }
-                else
-                {
-                    is_valid = false;
-                }
-            }
-
-            if(is_valid)
-            {
-                int pos = -1;
-                for(int i=0;i<output_flows.size();i++)
-                {
-                    if(output_flows[i][0] == key && output_flows[i][1] == value)
-                    {
-                        pos = i;
-                        break;
-                    }
-                }
-
-                if(pos != -1)
-                {
-                    for(int i=pos;i<output_flows.size()-1;i++)
-                    {
-                        output_flows[i][0] = output_flows[i+1][0];
-                        output_flows[i][1] = output_flows[i+1][1];
-                    }
-                    output_flows.pop_back();
-                }
-            }
-
-            break;
-        }
         case instruction::JMP:
             // jump
             // set prog ptr to given position 
@@ -1656,16 +1485,6 @@ std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
 std::vector<int> X86Algo::get_output()
 {
     return output_x86;
-}
-
-std::vector<std::array<int,2>> X86Algo::get_input_flows()
-{
-    return input_flows;
-}
-
-std::vector<std::array<int,2>> X86Algo::get_output_flows()
-{
-    return output_flows;
 }
 
 // utils

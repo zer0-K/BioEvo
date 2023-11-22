@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <functional>
 
 #include "../../../Utils/Constants.hpp"
 
@@ -28,25 +29,12 @@ protected:
     std::vector<int> output_x86;
 
     /**
-     * @brief values for input flow 
-     * first value is a key, second is a value (corresponding to an ID)
-     */
-    std::vector<std::array<int,2>> input_flows;
-
-    /**
-     * @brief values for the output flow 
-     * first value is a key, second is a value (corresponding to an ID)
-     */
-    std::vector<std::array<int,2>> output_flows;
-
-    /**
      * @brief code of the individual
      * 
      * This is the evolutionary part.
      * A code instruction is like INSTR ISADDR1 ISADDR2 arg1 arg2
     */
     std::vector<std::array<int,SIZE_INSTR>> code;
-
 
     /**
      * @brief program counter
@@ -56,7 +44,44 @@ protected:
     int program_counter;
     int instr_counter;  ///< count the number of instructions executed
 
+
+    //---------- external functions
+
+    /**
+     * @brief get universe size
+     *
+     * @return size of the universe
+     */
+    std::function<int()> get_universe_size;
+
+    /**
+     * @brief check if a place is empty
+     *
+     * @param int position to check
+     * @return true if given place is empty
+     */
+    std::function<bool(int)> is_empty;
+
+    /**
+     * @brief get free genes at given pos
+     *
+     * @param int position
+     * @return genes (empty if no free genes at given pos)
+     */
+    std::function<std::vector<int>(int)> get_freegenes_at;
+
+    /**
+     * @brief get universe size
+     *
+     * @param int position to write
+     * @param vector_int int sequence to write
+     * @return true if write was successful
+     */
+    std::function<bool(int, std::vector<int>)> write_freegenes_at;
+
+
     //---------- other
+
     int unif_lower_bound = 0;
     int unif_upper_bound = 1;
 
@@ -67,6 +92,12 @@ public:
     using Entity::Entity;
 
     void init() override;
+    /// @brief set the external functions (get universe size, read, write,...)
+    void init_external_functions(std::function<int()> get_universe_size,
+        std::function<bool(int)> is_empty, std::function<std::vector<int>(int)> get_freegenes_at,
+        std::function<bool(int, std::vector<int>)> write_freegenes_at);
+
+
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
     void exec() override; // ! this one copies Entity::input and Entity::output
 
@@ -126,8 +157,6 @@ public:
     // getters
     std::vector<std::array<int,SIZE_INSTR>> get_code();
     std::vector<int> get_output();
-    std::vector<std::array<int,2>> get_input_flows();
-    std::vector<std::array<int,2>> get_output_flows();
 
     // utils
     void print_data_debug();

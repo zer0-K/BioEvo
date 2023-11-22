@@ -144,3 +144,8 @@ std::vector<sp_place> Universe::get_meta_places()
 {
     return meta_places;
 }
+
+int Universe::get_universe_size()
+{
+    return places.size();
+}

@@ -571,8 +571,7 @@ set(HEADERS_UNIT_TESTS_EVO_ALGOS
             src/UnitTests/EvoAlgos/test_3_2_1.hpp
     src/UnitTests/EvoAlgos/test_4_universe.hpp
         src/UnitTests/EvoAlgos/test_4_1.hpp
-            src/UnitTests/EvoAlgos/test_4_1_1.hpp
-            src/UnitTests/EvoAlgos/test_4_1_2.hpp)
+            src/UnitTests/EvoAlgos/test_4_1_1.hpp)
 
 add_executable(unit_tests_evo_algos src/UnitTests/EvoAlgos/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} ${HEADERS_UNIT_TESTS_EVO_ALGOS} 

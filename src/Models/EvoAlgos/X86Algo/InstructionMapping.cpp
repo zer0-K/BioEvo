@@ -15,10 +15,10 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::OPP, "OPP" },        // 11
     { instruction::CPYIS, "CPYIS" },    // 12
     { instruction::SETOS, "SETOS" },    // 13
-    { instruction::AIF, "AIF" },        // 14
-    { instruction::RIF, "RIF" },        // 15
-    { instruction::AOF, "A0F" },        // 16
-    { instruction::ROF, "R0F" },        // 17
+    { instruction::CPYUS, "CPYUS" },    // 14
+    { instruction::EMPTY, "EMPTY" },    // 15
+    { instruction::READ, "READ" },      // 16
+    { instruction::WRITE, "WRITE" },    // 17
     { instruction::CMP, "CMP" },        // 18
     { instruction::JMP, "JMP" },        // 19
     { instruction::JRA, "JRA" },        // 20

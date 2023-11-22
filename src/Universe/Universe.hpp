@@ -69,4 +69,5 @@ protected:
     std::string get_name();
     std::vector<sp_place> get_places();
     std::vector<sp_place> get_meta_places();
+    int get_universe_size();
 };

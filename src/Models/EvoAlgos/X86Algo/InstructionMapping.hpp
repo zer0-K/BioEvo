@@ -18,10 +18,10 @@ enum instruction {
     OPP,    // 11   opposite number
     CPYIS,  // 12   get input size
     SETOS,  // 13   set output size
-    AIF,    // 14   add input flow
-    RIF,    // 15   remove input flow
-    AOF,    // 16   add ouput flow
-    ROF,    // 17   remove output flow
+    CPYUS,  // 14   get universe size
+    EMPTY,  // 15   tell if a place is empty
+    READ,   // 16   read a place
+    WRITE,  // 17   write on a place
     CMP,    // 18   compare data
     // ******* jumps
     JMP,    // 19   jump prog 
