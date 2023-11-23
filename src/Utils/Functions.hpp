@@ -28,3 +28,16 @@ inline std::string to_str(std::vector<int> t)
 
     return s + " ]";
 }
+
+inline int first_diff_index(std::vector<int> v1, std::vector<int> v2)
+{
+    if(v1.size() != v2.size() || v1.size() == 0)
+        return -1;
+
+    for(int i=0;i<v1.size();i++)
+    {
+        if(v1[i] != v2[i])
+            return i;
+    }
+    return v1.size();
+}
