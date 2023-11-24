@@ -1327,9 +1327,7 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
             // random uniform int
             // uniform random int between the bounds at arg2 and arg3
 
-            if(destination_order>0 && destination>=0 && destination<data.size()
-                && arg2_>=0 && arg2_<data.size()
-                && arg3_>=0 && arg3_<data.size())
+            if(destination_order>0 && destination>=0 && destination<data.size())
             {
                 if(addr2_order==0)
                 {
