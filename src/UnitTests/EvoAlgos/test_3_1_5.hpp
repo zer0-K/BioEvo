@@ -51,11 +51,9 @@ namespace ut_ea
             instruction::CPYIN, 1, 1, 0, 4, 4, 0,
             instruction::CPYIN, 1, 1, 0, 5, 5, 0,
             instruction::CPYIN, 1, 1, 0, 6, 6, 0,
-            instruction::GCPY, 1, 1, 1, 49, 0, 6,
-            instruction::INC, 1, 0, 0, 9, 0, 0,
-            instruction::JRG, 0, 1, 0, 2, 10, 21,
+            instruction::GCPY, 1, 1, 1, 63, 0, 6,
             instruction::REGEN, 0, 0, 0, 0, 0, 0,
-            instruction::CPYOUT, 1, 1, 0, 0, 9, 0,
+            instruction::CPYOUT, 1, 1, 0, 0, 10, 0,
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
 
@@ -79,7 +77,7 @@ namespace ut_ea
         //---------- EXPECTED OUTPUTS
 
         // the expected outputs of the code the genomes should create
-        std::vector<int> expected_out_1_1 { 8 };
+        std::vector<int> expected_out_1_1 { 1 };
 
         std::vector<std::vector<int>> expected_outs_1 {
             expected_out_1_1

@@ -442,7 +442,7 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
             create_code_from_genes();
 
             // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
-            program_counter = -1;
+            //program_counter -= 1;
 
             break;
         default:

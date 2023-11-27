@@ -98,7 +98,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.38
         instruction::CPYIS, 2, 0, 0, 99, 0, 0,  // store input size at top of of stack
         instruction::JRG, 0, 2, 0, 2, 99, 1,    // HALT if input size < 2
-        instruction::HALT, 0, 0, 0, 0, 0, 0,
+        instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::CPYIN, 2, 1, 0, 99, 0, 0,  // store phase flag at top of stack
         instruction::JRE, 0, 2, 0, 2, 99, 2,
         instruction::JRA, 0, 0, 0, 7, 0, 0,     // skip if phase is not replication (phase==2)
@@ -109,7 +109,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        instruction::HALT, 0, 0, 0, 0, 0, 0,
+        instruction::JMP, 2, 0, 0, 0, 0, 0,
 
         // check if train (phase flag = 0)
         instruction::JRE, 0, 2, 0, 2, 99, 0,      //----- l.51
@@ -121,7 +121,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        instruction::HALT, 0, 0, 0, 0, 0, 0,
+        instruction::JMP, 2, 0, 0, 0, 0, 0,
         
         // check if test (phase flag = 1)
         instruction::JRE, 0, 2, 0, 2, 99, 1,      //----- l.59
@@ -133,7 +133,6 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        instruction::HALT, 0, 0, 0, 0, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
@@ -142,7 +141,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
         // mutate genome
-        instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.70
+        instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.69
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
@@ -176,7 +175,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, 0, 4, 0, 0, 0, 0,
 
         // check error flag
-        instruction::CPYIN, 1, 1, 0, 100, 1, 0,      //----- l.97
+        instruction::CPYIN, 1, 1, 0, 100, 1, 0,      //----- l.96
         instruction::JRE, 0, 1, 0, 2, 100, 0,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
 
@@ -209,7 +208,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, 0, 5, 0, 0, 0, 0,
 
         // call evaluation function
-        instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.120
+        instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.119
         instruction::CPY, 2, 0, 0, 99, 5, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
@@ -223,7 +222,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
         // for the moment : just output a constant from genome
-        instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.129
+        instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.128
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
 
@@ -234,13 +233,13 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
         // for the moment : randomly change genome
-        instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.135
+        instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.134
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
-        instruction::GR, 1, 1, 0, 102, 129*7+5, 0,
+        instruction::GR, 1, 1, 0, 102, 128*7+5, 0,
         instruction::ADD, 1, 1, 1, 103, 102, 101,
         instruction::SUB, 1, 1, 1, 102, 102, 101, 
         instruction::RUI, 1, 1, 1, 101, 102, 103,
-        instruction::GSET, 1, 1, 0, 129*7+5, 101, 0,    // randomly change the output numbert is set there
+        instruction::GSET, 1, 1, 0, 128*7+5, 101, 0,    // randomly change the output numbert is set there
         instruction::REGEN, 0, 0, 0, 0, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -250,8 +249,8 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
         // for the moment : randomly change genome
-        instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.146
-        instruction::GSET, 1, 1, 0, 129*7+5, 101, 0,    // randomly change the output number
+        instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.145
+        instruction::GSET, 1, 1, 0, 128*7+5, 101, 0,    // randomly change the output number
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
@@ -315,8 +314,8 @@ void EvoXDriveTrait::test_setup()
             algo->set_input({0,1,error});
             algo->exec(std::vector<sp_entity>(0));
 
-            beg = algo->get_genes().begin()+129*7;
-            end = algo->get_genes().begin()+130*7;
+            beg = algo->get_genes().begin()+128*7;
+            end = algo->get_genes().begin()+129*7;
 
             std::vector<int> new_genes(beg, end);
 
