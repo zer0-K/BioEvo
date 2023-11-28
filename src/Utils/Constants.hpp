@@ -113,6 +113,7 @@ const std::string name_exp_console_app = "console app";
 
 const std::string name_exp_classical_info_func_exec = "experiments on function executions";
 const std::string name_exp_classical_info_func_exec_evox = "EvoX function execution";
+const std::string name_exp_classical_info_func_acqu_evox = "EvoX genetic function acquisition";
 
 // -------------------- BIO EVO
 

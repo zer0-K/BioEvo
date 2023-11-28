@@ -343,6 +343,8 @@ set(EXPERIMENTS_EVO_ALGOS
     src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.cpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.cpp
 )
 add_executable(evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
     src/Models/EvoAlgos/Experiment/ExperimentRunnerEvoAlgos.hpp
@@ -389,6 +391,8 @@ target_link_libraries(finance ${LIBS})
 set(EXPERIMENT_RUNNERS_CLASSICAL_INFO_FUNC_EXEC src/Experiment/ClassicalInfo/FunctionExecution/ExperimentRunnerFunctionExecution.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.cpp
 )
 add_executable(classical-info-func-exec src/Experiment/ClassicalInfo/FunctionExecution/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 

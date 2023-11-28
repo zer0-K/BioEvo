@@ -652,4 +652,3 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     std::cout << std::endl  << "Complex quine duplicating on empty place" << std::endl << std::endl;
 
 }
-

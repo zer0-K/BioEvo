@@ -3,6 +3,7 @@
 #include "../../ExperimentRunner.hpp"
 
 #include "EvoX/FunctionExecutionEvoX.hpp"
+#include "EvoX/GeneticFunctionAcquisition.hpp"
 
 #include <iostream>
 
@@ -21,7 +22,8 @@ ExperimentRunnerFunctionExecution::ExperimentRunnerFunctionExecution()
 void ExperimentRunnerFunctionExecution::init()
 {
     experiments = {
-        std::make_shared<FunctionExecutionEvoX>()
+        std::make_shared<FunctionExecutionEvoX>(),
+        std::make_shared<GeneticFunctionAcquisition>()
     };
 
     for(int i=0;i<experiments.size();i++)
