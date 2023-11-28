@@ -2,7 +2,6 @@ Book of work:
 
 1) EvoX
 
-9 - write function as free genes in environment
 10 - mutate specific regions in the code
 
 
@@ -16,6 +15,7 @@ What has been done :
 6 - can read and write free genes in the environment
 7 - can mutate a simple trait in train phase
 8 - can add free genes in environment as new functions in genome
+9 - write function as free genes in environment
 
 2) Code eaters
 

@@ -16,7 +16,10 @@ public:
 
     void launch() override;
 
-    sp_evox get_algo();
+    /// @brief provides algo for FreeGenesFunctionRead
+    sp_evox get_algo_read();
+    /// @brief provides algo for FreeGenesFunctionWrite
+    sp_evox get_algo_write();
 
     /**
      * @brief get the genes for the free genes
@@ -26,8 +29,8 @@ public:
      */
     std::vector<int> get_genes_function_write();
 
-    void FreeGenesFunctionRead(sp_evox algo);
-    void FreeGenesFunctionWrite(sp_evox algo);
+    void FreeGenesFunctionRead();
+    void FreeGenesFunctionWrite();
 };
 
 typedef std::shared_ptr<GeneticFunctionAcquisition> sp_experiment_func_acquisition;

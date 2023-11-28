@@ -4,12 +4,12 @@ This project consists in developing adaptative algorithms with an evolutionary b
 You can find the book of work in the "BOW" file.
 You can find some resources for the general mindset of the discipline here : https://en.wikipedia.org/wiki/Category:Evolutionary_algorithms.
 
-"src/Models" contains all the models, but ML models are mainly in "ClassicalAlgos", "CodeEaters" and "EvoAlgos".
+"src/Models" contains all the models, but ML models are mainly in "EvoAlgos" (but also in "CodeEaters" and "ClassicalAlgos").
 "src/UnitTests" contains all the unit tests for the corresponding model.
 
 Generally (details below), the framework consists in a universe containing an environment and individuals that evolve inside it.
 
-Although I use this repository as a playground for evolutionary algorithm, I have mainly two projects :
+Although I use this repository as a playground for evolutionary algorithms, I have mainly two projects :
 
 I/ EvoX
 
@@ -19,15 +19,11 @@ This is genetic programming (https://en.wikipedia.org/wiki/Genetic_programming).
 
 1) General description of the framework
 
-The general idea of this project is to map a number to an assembly instruction (MOV, CPY, ADD,...), so that at the end of the 
-training/selection/... phases we get some strings/list of integers that correspond to a general program.
-The "X86Algo" (based on X86 ASM language) has only some instructions, while the "EvoX" has some genes, that aims at being 
-translated into instructions.
+The general idea of this project is to map a number to an assembly instruction (MOV, CPY, ADD,...), so that at the end of the training/selection/... phases we get some strings/list of integers that correspond to a general program.
+The "X86Algo" (based on X86 ASM language) has only some instructions, while the "EvoX" has some genes, that aims at being translated into instructions.
 
 For example, the sequence { 5, 1, 0, 0, 100, 0, 0 } in the genome corresponds to the instruction "increment data at position 100".
-So genes are actually a list of integers, and it translated into a list of instructions ; then the individual can be executed, because it 
-is a list of instructions in an assembly-like language. To facilitate evolution, there are way more instructions than in assembly languages,
-the goal is to have some elementary but not fundamental instructions.
+So genes are actually a list of integers, and it translated into a list of instructions ; then the individual can be executed, because it is a list of instructions in an assembly-like language. To facilitate evolution, there are way more instructions than in assembly languages ; the goal was to have some elementary but not fundamental instructions.
 
 
 2) What is new ?
@@ -36,8 +32,9 @@ First main difference with other evolutionary machine learning algorithms:
 
                         AN INDIVIDUAL IS A COMPUTER
 
-(a Turing machine acutally)
--> An individual has a genome (list of integers), a phenotype (list of instructions) and memory (data that can be stored).
+(a Turing machine)
+-> An individual has a code and a memory. When it is executed it can be seen as a program being run or as a computer running programs.
+    It is better to see the individual as a computer running programs because the goal is to create generalist individual, that can do several tasks.
 
 
 Second main difference :
@@ -56,6 +53,7 @@ These two differences allow us to open way more doors, because :
 
 Since the framework is 'hugely' Turing complete, it allows us to tackle a lot of problems, especially problems where classical ML algos struggle.
 The goal is to tackle :
+    - generalist algorithm (program is not specialised into a single task)
     - unary adaptation (target function has one argument but changes across time, for example from linear to polynomial to non linear)
     - computer science problem solving (sorting lists, memory management, compression,...)
     - input change (the number of inputs of a problem changes)
@@ -69,16 +67,14 @@ This subproject was the initial idea of the project, I will come back to its dev
 1) General description
 
 "Code eaters" is not genetic, but still highly evolutionary : everything is code (whereas is EvoX, everything is data).
-An individual is a code (when input is provided, it spits out an output), and can eat other individual in order to be able to use its power.
+An individual is a code (when input is provided, it spits out an output), and can eat another individual in order to be able to use its power.
 
-For example, if an individual A is able to sort a list, an individual B can eat the individual A so that when B is executed it can use list sorting 
-during its execution.
-For the moment, the execution is fixed so A can be used only in one place of the code of B. 
+For example, if an individual A is able to sort a list, an individual B can eat the individual A so that when B is executed it can use list sorting during its execution.
+For the moment the execution is fixed, so A can be used only in one place of the code of B. 
 
 
 III/ What for ?
 
-The goal is to test the different algos for several other disciplines, like the agent based models (finance and economy), 
-mathematics (creating proofs or solving problems), computer science (creating useful programs) and biology (artificial life).
+The goal is to test the different algos for several other disciplines, like the agent based models (finance and economy), mathematics (creating proofs or solving problems), computer science (creating useful programs) and biology (artificial life).
 
 The ultimate goal is to create artificial life, i.e. an ecosystem of individuals that can adapt and evolve autonomously.
