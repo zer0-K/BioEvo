@@ -1,0 +1,18 @@
+Book of work:
+
+1) EvoX
+
+9 - write function as free genes in environment
+10 - mutate specific regions in the code
+
+
+What has been done :
+
+1 - can execute any program
+2 - can self replicate (quine)
+3 - can execute some functions (function stack)
+4 - has a memory stack 
+5 - several behaviors depending on input (train, test, replicate)
+6 - can read and write free genes in the environment
+7 - can mutate a simple trait in train phase
+8 - can add free genes in environment as new functions in genome
