@@ -1,0 +1,98 @@
+
+// For the moment, only for the current steps
+// This document will be improved to document the whole project
+
+X) JMP01 function execution architecture
+
+// TODO
+
+
+X) Free genes and algorithms
+
+In the EvoAlgo/X86Algo's project, there are two types of entities :
+
+    - algorithms, that can be executed. They have an input, a code (and genes) and an output 
+
+    - free genes, that cannot be executed per se. They corresponds to buoyant entities encoding info that algos can eat
+
+
+
+
+X) Teleonomical design
+
+
+We suppose that adaptative algorithms should work in a similar way as adaptative biological structures. One of such characteristic is that an adaptative 
+structure's design is linked to its purpose. We will translate this hypothesis in artificial life as follows :
+        The design of an algorithm is teleonomical
+        i.e. the modules/organs of an algorithm will have an ID that corresponds to the problem they solve
+
+
+We can ensure the correctness of this choice of design by considering Gödel's arithmetisation :
+In a formal system (with some minimal requirements), we can map each proposition of the system to a natural number (Gödel's numbering for ex).
+For this project, we will translate the teleonomical design thanks to this arithmetisation :
+we will say an algorithm's goal is the decision problem it satisfies.
+For example :
+    - if the goal is to add 2 numbers, it means the algo's output must satisfy the decision problem "x+y=z is true" for x,y the inputs and z the output
+    - if the goal is to sort a list, 
+        
+It corresponds to general problem :
+$\forall x \in E, \tilde{f}(x)=f(x)$ where f is the goal (target function) and $\tilde{f}$ is the approximated function ; it is the algorithm.
+
+Since any decision problem can be mapped to a natural number, we can define what we will call a teleonomical number.
+The teleonomical number is the ID corresponding to the decision problem an algorithm solves/defines.
+
+
+It means the evolutionary processes will be split into two parts:
+    - goal definers : algorithms that will create relevant decision problems 
+    - goal solvers : algorithms that will solve these decision problems
+
+
+For that purpose, we will add some meta data at the beginning of the algos and the free genes.
+    - for algos:
+        - meta-teleonomical field :
+            - if 0, the algo should define goals/decision problems
+            - if 1, the algo should solve problems
+        - teleonomical field : the list of all the problems the algo defines or solves
+    - for free genes :
+        - type field :
+            - if 0 : corresponds to training data
+            - if 1 : corresponds to test data
+            - if 2 : corresponds to replication data
+            - if 3 : an algo can integrate it as new func in genes
+            - if 4 : requesting for an algo to output a func solving/defining a goal
+        - meta-teleonomical field:
+            - if 0 : the data corresponds to a problem definition
+            - if 1 : the data corresponds to a problem solving
+        - teleonomical field : teleonomical ID of the data
+        - other meta data depending on the type of the free genes
+
+
+Note : we can now see how "viruses" (entities with wrong teleonomical ID) can break all this logic. We will focus on them later.
+
+
+
+X) Genericity and specificity
+
+Another theoretical hypothesis in the theory of Evolution that is sometimes/often stated is the folowing :
+    elementary generalist systems are rare, the majority of the time they correspond to an organized agglomeration of specialized systems
+
+In evolutionary psychology , it corresponds to :
+    generalist (cognitive) modules are subdivised into sevral specialized (cognitive) submodules.
+
+Since this project belongs to evolutionary psychology in a way, we will also take this hypothesis.
+Indeed, like in evolutionary psychology we are interested in the creation of algorithms in the context of natural selection.
+The two main differences with evolutionary psychology are :
+    - selection is artificial
+    - the information carrier is different (cells in biology, bits in computer science)
+
+However, the theoretical tools and metodology are the same : we want the artificial selection to behave like natural selection 
+(i.e. survival of the fittest), and we want to view individuals as information processing systems 
+(in biology, it corresponds to the computationalism theory of the mind).
+
+
+This will imply that we need to stagger the system into different teleonomical steps : a generalist program will gather several specialized subprograms.
+
+
+X) Elementary functions / amino acids
+
+An elementary function, that we will call "amino acid".
