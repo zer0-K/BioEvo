@@ -436,6 +436,75 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
    
             break;
         }
+
+        case instruction::CALL:
+        {
+            // call a function
+            // works only for the JMP01 function execution architecture
+            // (where the meta-exec function is at pos 01)
+            //
+            // args of the function must be put on top of the stack before
+            // we use "CALL" function
+            //
+            // arg1 :   if ==0, increment the stack to put the func ID on
+            //          if ==1, put the func ID at the existing top
+            // arg2 :   func ID
+
+            bool is_valid = true;
+
+            if(addr1_order>0)
+            {
+                if(arg1_>=0 && arg1_<data.size())
+                {
+                    arg1_ = data[arg1_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(addr2_order>0)
+            {
+                if(arg2_>=0 && arg2_<data.size())
+                {
+                    arg2_ = data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+            }
+
+            if(is_valid)
+            {
+                if(arg1_==0)
+                {
+                    exec_instruction(instruction::INC, 1, 0, 0, 99, 0, 0);
+                    instr_counter++;
+                }
+
+                // put func ID on top of data stack
+                exec_instruction(instruction::CPY, 2, 0, 0, 99, arg2_, 0);
+                instr_counter++;
+
+                // increment call stack
+                exec_instruction(instruction::INC, 1, 0, 0, 0, 0, 0);
+                instr_counter++;
+
+                // save next instruction position on top of call stack
+                program_counter++;
+                exec_instruction(instruction::GPTR, 2, 0, 0, 0, 0, 0);
+                program_counter--;
+                instr_counter++;
+
+                // call function
+                exec_instruction(instruction::JMP, 0, 0, 0, 1, 0, 0);
+                instr_counter++;
+            }
+ 
+            break;
+        }
         case instruction::REGEN:
             // regenerate code from genes
 

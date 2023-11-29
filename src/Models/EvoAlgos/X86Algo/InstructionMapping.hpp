@@ -55,7 +55,7 @@ enum instruction {
     MARKER, // 45   genetic marker
     GCPYM,  // 46   copy input into genes at first genetic marker
     EXEC,   // 47   execute genome specified in args
-    EXECD,  // 48   execute code as genome
+    CALL,   // 48   call function (AD HOC)
     REGEN,  // 49   regenerate code from genome
     size
 };
