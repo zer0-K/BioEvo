@@ -306,8 +306,8 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
             /*
                 genes[maker_pos] : position (in the genome) of the genetic marker
                 genes[maker_pos+1] : type of the marker (for later)
-                genes[maker_pos+2] : id 1
-                genes[maker_pos+3] : id 2 or genetic storage
+                genes[maker_pos+2] : id 1 (func ID)
+                genes[maker_pos+3] : id 2 (teleonomical ID)
                 genes[maker_pos+4] : id 3 or genetic storage
                 genes[maker_pos+5] : id 4 or genetic storage
                 genes[maker_pos+6] : id 5 or genetic storage

@@ -703,7 +703,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
 
         // call evaluation function
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.148
-        instruction::CPY, 2, 0, 0, 99, 5, 0,    // store the func to exec at top of data stack
+        instruction::CPY, 2, 0, 0, 99, 6, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,

@@ -21,25 +21,41 @@ In the EvoAlgo/X86Algo's project, there are two types of entities :
 X) Teleonomical design
 
 
-We suppose that adaptative algorithms should work in a similar way as adaptative biological structures. One of such characteristic is that an adaptative 
-structure's design is linked to its purpose. We will translate this hypothesis in artificial life as follows :
+Like in evolutionary biology, to understand the history of a species (for example), a good tool we have 
+(one of the best in biology, but here we have way more because we have full control on the envirionment, the individuals, and time) is 
+is the connection between a design and a function : knowing a design, we can "guess" (know with a certain confidence) the purpose of 
+the structure and the evolutionary pressures the ancestor species has faced in the past, and knowing the past selective pressures we can have 
+a better understanding of the working of the current species.
+Natural evolution is actually blind, it does not know in advance the problem that a species/subspecies/individual/organ/gene should solve 
+in order to survive, but it as actually really good at solving it. This evolutionary concept is called "teleonomy" : it is as if 
+living beings have a purpose. 
+
+We suppose that adaptative algorithms work in a similar way as adaptative biological structures, especially for this design-function connection. 
+(actually we do not suppose, we (I !) want artificial work like this here, we want to study artifical structures with the same behavior !)
+We will translate this hypothesis in artificial life as follows :
         The design of an algorithm is teleonomical
         i.e. the modules/organs of an algorithm will have an ID that corresponds to the problem they solve
 
+--> like living beings, artificial beings do not have a purpose per se, they have adapted : it is as if they have a purpose, hence the 
+concept of teleonomy (and not the concept of will)
 
-We can ensure the correctness of this choice of design by considering Gödel's arithmetisation :
-In a formal system (with some minimal requirements), we can map each proposition of the system to a natural number (Gödel's numbering for ex).
+
+We can ensure the correctness of this choice of design (i.e. an ID for each problem) by considering Gödel's arithmetisation :
+in a formal system (with some minimal requirements), we can map each proposition of the system to a natural number (Gödel's numbering for ex).
 For this project, we will translate the teleonomical design thanks to this arithmetisation :
 we will say an algorithm's goal is the decision problem it satisfies.
 For example :
     - if the goal is to add 2 numbers, it means the algo's output must satisfy the decision problem "x+y=z is true" for x,y the inputs and z the output
-    - if the goal is to sort a list, 
+    - if we want to sort a list, the goal of the algo is the decision problem "$a_1\leq a_2\leq\dots\leq a_n$ ?" for $(a_i)_{1\leq i\leq n}$ a list of integers
         
 It corresponds to general problem :
 $\forall x \in E, \tilde{f}(x)=f(x)$ where f is the goal (target function) and $\tilde{f}$ is the approximated function ; it is the algorithm.
 
 Since any decision problem can be mapped to a natural number, we can define what we will call a teleonomical number.
 The teleonomical number is the ID corresponding to the decision problem an algorithm solves/defines.
+
+For the moment teleonomical IDs will be created by the experimenter. Later, I'll probably work on teleonomical ID generation by algorithms 
+(we may need to generate a formal language in EvoX ASM so that we can map a problem (expressed in that language) to an integer (Gödel's arithmetisation)).
 
 
 It means the evolutionary processes will be split into two parts:
@@ -52,7 +68,7 @@ For that purpose, we will add some meta data at the beginning of the algos and t
         - meta-teleonomical field :
             - if 0, the algo should define goals/decision problems
             - if 1, the algo should solve problems
-        - teleonomical field : the list of all the problems the algo defines or solves
+        - teleonomical field : the list of all the problems the algo defines or solves (i) (ii)
     - for free genes :
         - type field :
             - if 0 : corresponds to training data
@@ -69,6 +85,20 @@ For that purpose, we will add some meta data at the beginning of the algos and t
 
 Note : we can now see how "viruses" (entities with wrong teleonomical ID) can break all this logic. We will focus on them later.
 
+(i) --> an algo contains the list of the problems it tackles : this is, in a way, the functional evolutionary description of the algorithm
+        We will use this list of IDs for evolutionary analyses, and we redefine the following words :
+            - species : all algorithms that solve/define the same problems
+            - subspecies : within a species, there might be some clusters of significatively different individuals (genome clustering) ;
+                each identifiable cluster is a "subspecies", and outliers are "explorat" 
+                Since the number of cluster depends on the method used (KNN, SVM,...), we need to keep in mind that the notion of 
+                subspecies is conventional (but not arbitrary) (note that a subspecies can be divised into several clusters, and so on)
+            - taxon : list of problems (if a species solves problems with ID $10, 11, 12, 13$, then $12, 13$ is a taxon)
+                A taxon can define a species (the algorithms that solve/define these problems and no more), but different species can share the same taxon
+            - phylogenetics : history of the emergence of taxons
+
+(ii) --> taking into account what has been said above in (i), the teleonomical field can be split into two parts:
+        - the list of problems the algorithm can actually solve
+        - the list of problems that the ancestors of the algorithm faced during the evolution
 
 
 X) Genericity and specificity

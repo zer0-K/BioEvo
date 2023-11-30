@@ -345,6 +345,8 @@ set(EXPERIMENTS_EVO_ALGOS
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.cpp
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp 
 )
 add_executable(evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
     src/Models/EvoAlgos/Experiment/ExperimentRunnerEvoAlgos.hpp
@@ -446,6 +448,18 @@ add_executable(bio-evo-replication src/Experiment/BioEvo/Replicators/main.cpp
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
     ${EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS})
 target_link_libraries(bio-evo-replication ${LIBS})
+
+# *************** Teleonomy
+
+set(EXPERIMENT_RUNNERS_BIO_EVO_TELEONOMY src/Experiment/BioEvo/Teleonomy/ExperimentRunnerTeleonomy.hpp
+    src/Experiment/BioEvo/Teleonomy/EvoX/EvoXTeleonomicalDesign.hpp
+    src/Experiment/BioEvo/Teleonomy/EvoX/EvoXTeleonomicalDesign.cpp
+)
+add_executable(bio-evo-teleonomy src/Experiment/BioEvo/Teleonomy/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_TELEONOMY})
+target_link_libraries(bio-evo-teleonomy ${LIBS})
 
 # *************** all
 

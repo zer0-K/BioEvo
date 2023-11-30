@@ -2,18 +2,21 @@ Book of work:
 
 1) EvoX
 
-10 - teleonomical design
-11 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
-12 - acquire amino acids
-13 - autopoiesis
-14 - select on amino acid acquisition
-15 - share useful amino acids
-16 - complex functions (~proteins ?) morphogenesis
+11 - non regression tests for EvoX
+12 - fix GCPY
+13 - autopoiesis and refactoring
+14 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
+15 - acquire amino acids
+16 - select on amino acid acquisition
+17 - share useful amino acids
+18 - complex functions (~proteins ?) morphogenesis
 
+For later :
 X1 - select on amino acid generation ?
 X2 - mutate specific regions in the code
 X3 - survival when random mutation occur
 X4 - viruses
+X5 - teleonomical ID generation (+ formal language in EvoX ASM)
 
 What has been done :
 
@@ -26,6 +29,7 @@ What has been done :
 7 - 28/11/2023 - can mutate a simple trait in train phase
 8 - 28/11/2023 - can add free genes in environment as new functions in genome
 9 - 28/11/2023 - write function as free genes in environment
+10 - 30/11/2023 - teleonomical design
 
 2) Code eaters
 

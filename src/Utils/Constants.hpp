@@ -133,6 +133,11 @@ const std::string name_exp_bioevo_genes = "experiments on genes";
 const std::string name_exp_bioevo_replication = "experiments on replication";
 const std::string name_exp_bioevo_replication_evox_quine = "EvoX quine replication";
 
+// ---------- TELEONOMY
+
+const std::string name_exp_bioevo_teleonomy = "experiments on teleonomy";
+const std::string name_exp_bioevo_teleonomy_design_evox = "teleonomical design of evox algos";
+
 // -------------------- EVO ALGOS
 
 const std::string name_exp_evoalgos = "evo algos experiments";
