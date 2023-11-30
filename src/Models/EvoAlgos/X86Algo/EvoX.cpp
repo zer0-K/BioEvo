@@ -441,7 +441,7 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
         {
             // call a function
             // works only for the JMP01 function execution architecture
-            // (where the meta-exec function is at pos 01)
+            // (where the meta-exec function is at pos specified at 01)
             //
             // args of the function must be put on top of the stack before
             // we use "CALL" function
@@ -476,8 +476,16 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
                 }
             }
 
+            // to ensure we can check if algo has JMP01 arch
+            if(genes.size()<30 || genes[1]<1)
+            {
+                is_valid = false;
+            }
+
             if(is_valid)
             {
+                int meta_exec_func_pos = genes[1];
+
                 if(arg1_==0)
                 {
                     exec_instruction(instruction::INC, 1, 0, 0, 99, 0, 0);
@@ -499,7 +507,7 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
                 instr_counter++;
 
                 // call function
-                exec_instruction(instruction::JMP, 0, 0, 0, 1, 0, 0);
+                exec_instruction(instruction::JMP, 0, 0, 0, meta_exec_func_pos, 0, 0);
                 instr_counter++;
             }
  

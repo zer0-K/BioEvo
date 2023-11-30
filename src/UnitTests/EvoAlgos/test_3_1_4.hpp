@@ -168,6 +168,7 @@ namespace ut_ea
 
         // with automatic data stack increment
         std::vector<int> genome_1 { 
+            instruction::XXX, 3, 0, 0, 0, 0, 0,
             instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
         //----- exec fct with given id
@@ -243,6 +244,7 @@ namespace ut_ea
 
         // without automatic data stack increment
         std::vector<int> genome_2 { 
+            instruction::XXX, 3, 0, 0, 0, 0, 0,
             instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
         //----- exec fct with given id
