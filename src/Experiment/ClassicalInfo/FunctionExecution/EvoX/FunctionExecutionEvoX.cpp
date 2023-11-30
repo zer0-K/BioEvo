@@ -361,7 +361,8 @@ void FunctionExecutionEvoX::launch()
      * Multi level short call function : uses the 'CALL' instruction
      */
     std::vector<int> genome_multilevel_call {
-        instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
+        instruction::XXX, 3, 0, 0, 0, 0, 0,
+        instruction::JMP, 0, 0, 0, 26, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
         // args :
