@@ -2,7 +2,6 @@ Book of work:
 
 1) EvoX
 
-11 - non regression tests for EvoX
 12 - fix GCPY
 13 - autopoiesis and refactoring
 14 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
@@ -30,6 +29,7 @@ What has been done :
 8 - 28/11/2023 - can add free genes in environment as new functions in genome
 9 - 28/11/2023 - write function as free genes in environment
 10 - 30/11/2023 - teleonomical design
+11 - 07/12/2023 - non regression tests for EvoX
 
 2) Code eaters
 
