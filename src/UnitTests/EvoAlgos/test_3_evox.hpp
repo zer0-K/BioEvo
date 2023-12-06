@@ -15,7 +15,7 @@ namespace ut_ea
         std::cout << "Evo algos - evox :" << std::endl;
 
         is_passed &= launch_tests_evo_algos_evox_genes();
-        is_passed &= launch_tests_evo_algos_evox_evolution1();
+        is_passed &= launch_tests_evo_algos_evox_evolution_preliminaries();
 
         std::cout << "Evo algos - evox : ";
         passed_print(is_passed);

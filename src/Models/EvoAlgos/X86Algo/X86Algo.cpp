@@ -61,7 +61,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     }
 
     while(program_counter>=0 && program_counter<code.size()
-        && instr_counter < 20000)
+        && instr_counter < 30000)
     {
         std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
 

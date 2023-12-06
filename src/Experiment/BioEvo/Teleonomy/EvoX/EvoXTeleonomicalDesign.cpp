@@ -108,46 +108,53 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     //----- function 'main' calls
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-        // replicate only if phase flag==2
         instruction::INC, 1, 0, 0, 99, 0, 0,        //----- l.37
         instruction::CPYIS, 2, 0, 0, 99, 0, 0,  // store input size at top of of stack
-        instruction::JRG, 0, 2, 0, 2, 99, 1,    // HALT if input size < 2
+        instruction::JRG, 0, 2, 0, 3, 99, 1,    // HALT if input size < 2
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::CPYIN, 2, 1, 0, 99, 0, 0,  // store phase flag at top of stack
+
+        // replicate if phase flag==2
         instruction::JRE, 0, 2, 0, 2, 99, 2,
-        instruction::JRA, 0, 0, 0, 7, 0, 0,     // skip if phase is not replication (phase==2)
+        instruction::JRA, 0, 0, 0, 4, 0, 0,     // skip if phase is not replication (phase==2)
 
         // call replication function
         instruction::CALL, 0, 0, 0, 0, 3, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
         // check if train (phase flag = 0)
-        instruction::JRE, 0, 2, 0, 2, 99, 0,        //----- l.46
-        instruction::JRA, 0, 0, 0, 7, 0, 0,     // skip if phase is not train (phase==0)
+        instruction::JRE, 0, 2, 0, 2, 99, 0,        //----- l.48
+        instruction::JRA, 0, 0, 0, 4, 0, 0,     // skip if phase is not train (phase==0)
         instruction::CALL, 0, 0, 0, 0, 4, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         
         // check if test (phase flag = 1)
-        instruction::JRE, 0, 2, 0, 2, 99, 1,        //----- l.50
-        instruction::JRA, 0, 0, 0, 7, 0, 0,     // skip if phase is not test (phase==1)
+        instruction::JRE, 0, 2, 0, 2, 99, 1,        //----- l.53
+        instruction::JRA, 0, 0, 0, 4, 0, 0,     // skip if phase is not test (phase==1)
         instruction::CALL, 0, 0, 0, 0, 5, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
         // check if acquire func (phase flag = 3)
-        instruction::JRE, 0, 2, 0, 2, 99, 3,        //----- l.54
-        instruction::JRA, 0, 0, 0, 7, 0, 0,
+        instruction::JRE, 0, 2, 0, 2, 99, 3,        //----- l.58
+        instruction::JRA, 0, 0, 0, 4, 0, 0,
         instruction::CALL, 0, 0, 0, 0, 12, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
         // check if write func (phase flag = 4)
         instruction::JRE, 0, 2, 0, 2, 99, 4,        //----- l.58
-        instruction::JRA, 0, 0, 0, 10, 0, 0,
+        instruction::JRA, 0, 0, 0, 5, 0, 0,
 
         // call gene copy function
         instruction::CPY, 2, 0, 0, 99, 6, 0,    // put func id at top of stack as arg
         instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::CPY, 2, 0, 0, 99, 1, 0,    // put teleonomical ID at top of stack as arg
         instruction::CALL, 0, 0, 0, 0, 14, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,

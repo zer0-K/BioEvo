@@ -7,15 +7,15 @@
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_evolution1()
+    bool launch_tests_evo_algos_evox_evolution_preliminaries()
     {
         bool is_passed = true;
 
-        std::cout << "Evo algos - evox - evolution 1 :" << std::endl;
+        std::cout << "Evo algos - evox - evolution preliminaries :" << std::endl;
 
-        is_passed &= launch_tests_evo_algos_evox_evolution1_replication();
+        is_passed &= launch_tests_evo_algos_evox_evolution_preliminaries_behavior_simple();
 
-        std::cout << "Evo algos - evox - evolution 1 : ";
+        std::cout << "Evo algos - evox - evolution preliminaries: ";
         passed_print(is_passed);
 
         return is_passed;
