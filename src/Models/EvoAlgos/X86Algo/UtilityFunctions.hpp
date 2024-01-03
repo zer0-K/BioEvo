@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EvoX.hpp"
+#include "InstructionMapping.hpp"
 
 inline bool evox_comp_genes(std::vector<int> genome_1, std::vector<int> genome_2)
 {
@@ -84,4 +85,41 @@ inline bool comp_flows(std::vector<std::array<int,2>> f1, std::vector<std::array
     }
 
     return true;
+}
+
+inline std::vector<int> get_func_IDs_in_genome(std::vector<int> genome)
+{
+    std::vector<int> func_IDs(0);
+
+    // find funcs in genome
+    for(int i=0;i<genome.size()/SIZE_INSTR;i++)
+    {
+        if(genome[7*i] == instruction::MARKER && genome[7*i+1] != -1)
+        {
+            // get func ID
+            func_IDs.push_back(genome[7*i+2]);
+        }
+    }
+
+    // remove duplicates
+    std::vector<int> funcs_no_duplicates(0);
+    for(int i=0;i<func_IDs.size();i++)
+    {
+        bool isin = false;
+        for(int j=0;j<funcs_no_duplicates.size();j++)
+        {
+            if(func_IDs[i] == funcs_no_duplicates[j])
+            {
+                isin = true;
+                break;
+            }
+        }
+
+        if(!isin)
+        {
+            funcs_no_duplicates.push_back(func_IDs[i]);
+        }
+    }
+
+    return funcs_no_duplicates;
 }

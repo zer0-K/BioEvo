@@ -3,6 +3,7 @@
 #pragma once
 
 #include "test_3_2_1.hpp"
+#include "test_3_2_2.hpp"
 
 namespace ut_ea
 {
@@ -14,6 +15,7 @@ namespace ut_ea
         std::cout << "Evo algos - evox - evolution preliminaries :" << std::endl;
 
         is_passed &= launch_tests_evo_algos_evox_evolution_preliminaries_behavior_simple();
+        is_passed &= launch_tests_evo_algos_evox_evolution_preliminaries_autopoiesis();
 
         std::cout << "Evo algos - evox - evolution preliminaries: ";
         passed_print(is_passed);

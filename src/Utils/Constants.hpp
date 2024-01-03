@@ -99,6 +99,9 @@ const int SIZE_INSTR = 7;
 const std::string EVOX = "evo x86 algo";
 const std::string FREEGENES = "free code";
 
+inline bool EVOX_LOGGING = false;
+const std::string LOG_FILE_DEFAULT = "/home/adrien/Disque/Programmation/Projets/BioEvo/log/autopoiesis_1.csv";
+
 
 // ------------------------------------------------------------ Experiment names
 

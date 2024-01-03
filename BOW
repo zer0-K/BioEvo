@@ -2,13 +2,11 @@ Book of work:
 
 1) EvoX
 
-12 - fix GCPY
-13 - autopoiesis and refactoring
-14 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
-15 - acquire amino acids
-16 - select on amino acid acquisition
-17 - share useful amino acids
-18 - complex functions (~proteins ?) morphogenesis
+13 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
+14 - acquire amino acids
+15 - select on amino acid acquisition
+16 - share useful amino acids
+17 - complex functions (~proteins ?) morphogenesis
 
 For later :
 X1 - select on amino acid generation ?
@@ -30,6 +28,7 @@ What has been done :
 9 - 28/11/2023 - write function as free genes in environment
 10 - 30/11/2023 - teleonomical design
 11 - 07/12/2023 - non regression tests for EvoX
+12 - 03/01/2024 - autopoiesis and refactoring
 
 2) Code eaters
 

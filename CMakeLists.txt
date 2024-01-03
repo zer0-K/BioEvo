@@ -25,7 +25,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # ********************************* Utils *********************************
 
 set(HEADERS_UTILS src/Utils/Functions.hpp src/Utils/Constants.hpp src/Utils/Colors.hpp
-    src/Utils/Maths/RandomGen.hpp)
+    src/Utils/Maths/RandomGen.hpp src/Utils/Logger.hpp)
 
 set(SOURCES_UTILS)
 
@@ -586,7 +586,8 @@ set(HEADERS_UNIT_TESTS_EVO_ALGOS
             src/UnitTests/EvoAlgos/test_3_1_3.hpp src/UnitTests/EvoAlgos/test_3_1_4.hpp
             src/UnitTests/EvoAlgos/test_3_1_5.hpp
         src/UnitTests/EvoAlgos/test_3_2.hpp
-            src/UnitTests/EvoAlgos/test_3_2_1.hpp
+            src/UnitTests/EvoAlgos/test_3_2_x.hpp 
+            src/UnitTests/EvoAlgos/test_3_2_1.hpp src/UnitTests/EvoAlgos/test_3_2_2.hpp
     src/UnitTests/EvoAlgos/test_4_universe.hpp
         src/UnitTests/EvoAlgos/test_4_1.hpp
             src/UnitTests/EvoAlgos/test_4_1_1.hpp)

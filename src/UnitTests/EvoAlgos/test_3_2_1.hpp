@@ -1,17 +1,10 @@
-//-------------------- EVOLUTIONARY ALGOS - EVO X - evolution 1 - replication
+//-------------------- EVOLUTIONARY ALGOS - EVO X - EVOLUTION PRELIMINARIES - SIMPLE BEHAVIORS
 
 #pragma once
 
 #include <iostream>
 
-#include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-
-#include "../../Entities/EntityVoid.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
-#include "../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
+#include "test_3_2_x.hpp"
 
 namespace ut_ea
 {
@@ -21,24 +14,19 @@ namespace ut_ea
         sp_evox get_evox_algo_evolution_preliminaries_behavior_simple(void);
         sp_univ_evo_algos get_evox_universe_evolution_preliminaries_behavior_simple(sp_evox);
 
-        bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_quine(sp_evox, sp_univ_evo_algos);
-        bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_train_data(sp_evox, sp_univ_evo_algos);
-        bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_test_data(sp_evox, sp_univ_evo_algos);
-        bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_acquire(sp_evox, sp_univ_evo_algos);
-        bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_dispose(sp_evox, sp_univ_evo_algos);
-
         bool is_passed = true;
+        std::string test_name = "simple behavior";
 
         std::cout << "Evo algos - evox - evolution preliminaries - simple behavior :" << std::endl;
  
         sp_evox algo = get_evox_algo_evolution_preliminaries_behavior_simple();
         sp_univ_evo_algos univ = get_evox_universe_evolution_preliminaries_behavior_simple(algo);
 
-        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_train_data(algo, univ);
-        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_test_data(algo, univ);
-        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_quine(algo, univ);
-        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_acquire(algo, univ);
-        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_dispose(algo, univ);
+        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_train_data(test_name, algo, univ);
+        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_test_data(test_name, algo, univ);
+        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_quine(test_name, algo, univ);
+        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_acquire(test_name, algo, univ);
+        is_passed &= test_evo_algos_evox_evolution_preliminaries_behavior_simple_dispose(test_name, algo, univ);
 
         std::cout << "Evo algos - evox - evolution preliminaries - simple behavior : ";
         passed_print(is_passed);
@@ -46,6 +34,9 @@ namespace ut_ea
         return is_passed;
     }
 
+    /**
+     * @brief get the algo to test simple behaviors
+     */
     sp_evox get_evox_algo_evolution_preliminaries_behavior_simple()
     {
         sp_evox algo = std::make_shared<EvoX>("evox algo for simple behavior in evolution preliminaries");
@@ -239,7 +230,7 @@ namespace ut_ea
             instruction::MARKER, 0, 5, 0, 0, 0, 0,
 
         //----- evaluation func
-            instruction::MARKER, 0, 6, 0, 0, 0, 0,
+            instruction::MARKER, 0, 403, 0, 0, 0, 0,
 
             // for the moment : just output a constant from genome
             instruction::CPY, 1, 0, 0, 100, -1, 0,      //----- l.106
@@ -247,7 +238,7 @@ namespace ut_ea
             instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
-            instruction::MARKER, 0, 6, 0, 0, 0, 0,
+            instruction::MARKER, 0, 403, 0, 0, 0, 0,
 
         //----- update after error func
             instruction::MARKER, 0, 7, 0, 0, 0, 0,
@@ -492,7 +483,7 @@ namespace ut_ea
             // compute genome size
             instruction::CALL, 0, 0, 0, 0, 17, 0,       //----- l.273
             // call func that maps func ID and teleo IDs
-            instruction::CALL, 0, 0, 0, 0, 16, 0,
+            //instruction::CALL, 0, 0, 0, 0, 16, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 15, 0, 0, 0, 0,
@@ -578,6 +569,9 @@ namespace ut_ea
         return algo;
     }
 
+    /**
+     * @brief get the universe for the unit test
+     */
     sp_univ_evo_algos get_evox_universe_evolution_preliminaries_behavior_simple(sp_evox algo) 
     {
         int nb_entity_void = 10;
@@ -601,229 +595,4 @@ namespace ut_ea
 
         return universe;
     }
-
-    /**
-     * @brief trigger self-replication
-    */
-    bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_quine(sp_evox algo, sp_univ_evo_algos univ)
-    {
-        bool is_passed = true;
-
-        // input that should trigger self-replication 
-
-        std::vector<int> replication_trigger {
-            2, 0
-        };
-       
-        //---------- EXECUTE
-
-        algo->set_input(replication_trigger);
-        univ->exec();
-
-        // check if entity is indeed free genes        
-        sp_entity entity_where_freegenes = univ->get_places()[1]->get_entity();
-        is_passed &= entity_where_freegenes->is_type(FREEGENES);
-
-        if(!is_passed)
-        {
-            std::cout << redcol << "\tError : " << defcol
-                    << "Entity at pos 1 should be free genes" << std::endl;
-        }
-        else
-        {
-            // check if free genes correspond to algo's genome
-            std::vector<int> genome = algo->get_genes();
-            std::vector<int> copied_genes = std::dynamic_pointer_cast<FreeGenes>(entity_where_freegenes)->get_genes();
-
-            // copied genes don't have the teleonomical IDs at the end
-            for(int i=0;i<18;i++)
-            {
-                copied_genes.push_back(i);
-            }
-
-            is_passed &= x86_comp_output(genome, copied_genes);
-        }
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - evox - evolution preliminaries - behavior simple - quine " << " : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    } 
-
-    /**
-     * @brief gives train data, expecting output
-    */
-    bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_train_data(sp_evox algo, sp_univ_evo_algos univ)
-    {
-        bool is_passed = true;
-
-        // input that should trigger the train phase 
-        // (error is rubbish, it's just to check that genome was indeed updated)
-
-        std::vector<int> train_in { 0, 0, 6 };
-        std::vector<int> train_error { 0, 1, 4 };
-       
-        //---------- EVALUATION PHASE
-
-        algo->set_input(train_in);
-        univ->exec();
-
-        std::vector<int> res = algo->get_output();
-
-        is_passed &= x86_comp_output(res, { -1 });
-
-        //---------- CORRECTION PHASE
-
-        // give back a dummy error
-        algo->set_input(train_error);
-        univ->exec();
-
-        // evaluate again
-        algo->set_input(train_in);
-        univ->exec();
-
-        res = algo->get_output();
-
-        is_passed &= !x86_comp_output(res, { -1 });
-
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - evox - evolution preliminaries - behavior simple - train " << " : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    }
-
-    /**
-     * @brief provides test data, expecting output
-    */
-    bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_test_data(sp_evox algo, sp_univ_evo_algos univ)
-    {
-        bool is_passed = true;
-
-        // input that should trigger the test phase 
-
-        std::vector<int> test_in { 0, 0, 6 };
-       
-        //---------- EVALUATION PHASE
-
-        algo->set_input(test_in);
-        univ->exec();
-
-        std::vector<int> res = algo->get_output();
-
-        is_passed &= !x86_comp_output(res, { -1 });
-
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - evox - evolution preliminaries - behavior simple - test " << " : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    }
-
-    /**
-     * @brief acquire some free genes and putting them into genome
-    */
-    bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_acquire(sp_evox algo, sp_univ_evo_algos univ)
-    {
-        bool is_passed = true;
-
-        // input that should trigger the acquire phase 
-        std::vector<int> in_acquire { 3, 19 };
-        std::vector<int> in_test_acquire { 0, 0, 19 };
-        
-
-        sp_freegenes free_genes = std::make_shared<FreeGenes>("free genes");
-        free_genes->init();
-        std::vector<int> genes { 3, 19,
-            instruction::SETOS, 0, 0, 0, 1, 0, 0,
-            instruction::CPYOUT, 1, 0, 0, 0, -12, 0
-        };
-        free_genes->set_genes(genes);
-
-       
-        //---------- EVALUATION PHASE
-
-        algo->set_input(in_acquire);
-        univ->get_places()[1]->set_entity(free_genes);
-        univ->exec();
-
-        algo->set_input(in_test_acquire);
-        univ->exec();
-
-        std::vector<int> res = algo->get_output();
-
-        is_passed &= x86_comp_output(res, { -12 });
-
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - evox - evolution preliminaries - behavior simple - acquire " << " : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    }
-
-    /**
-     * @brief write a function as free genes in the universe
-    */
-    bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_dispose(sp_evox algo, sp_univ_evo_algos univ)
-    {
-        bool is_passed = true;
-
-        // input that should trigger the function disposal phase 
-        std::vector<int> in_disp { 4, 19 };
-        
-
-        sp_entity_void entity_void = std::make_shared<EntityVoid>("entity void");
-        entity_void->init();
-
-        //----- expected free genes
-        std::vector<int> expected_genes { 3, 19,
-            instruction::SETOS, 0, 0, 0, 1, 0, 0,
-            instruction::CPYOUT, 1, 0, 0, 0, -12, 0
-        };
-        
-        //---------- EVALUATION PHASE
-
-        algo->set_input(in_disp);
-        univ->get_places()[1]->set_entity(entity_void);
-        univ->exec();
-
-        // check if entity is indeed free genes        
-        sp_entity entity_where_freegenes = univ->get_places()[1]->get_entity();
-        is_passed &= entity_where_freegenes->is_type(FREEGENES);
-
-        if(!is_passed)
-        {
-            std::cout << redcol << "\tError : " << defcol
-                    << "Entity at pos 1 should be free genes" << std::endl;
-        }
-        else
-        {
-            std::vector<int> copied_genes = std::dynamic_pointer_cast<FreeGenes>(entity_where_freegenes)->get_genes();
-
-            is_passed &= x86_comp_output(copied_genes, expected_genes);
-        }
-
-
-
-        if(verbose_unit_tests)
-        {
-            std::cout << "Evo algos - evox - evolution preliminaries - behavior simple - dispose " << " : ";
-            passed_print(is_passed);
-        } 
-
-        return is_passed;
-    }
-
 }

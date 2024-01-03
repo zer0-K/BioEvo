@@ -1,10 +1,23 @@
 
-// For the moment, only for the current steps
 // This document will be improved to document the whole project
+
 
 X) JMP01 function execution architecture
 
-// TODO
+
+As you will see in the section 'Teleonomical design', the algorithm designs are function-orientied, i.e. we want the concept of 
+function to be the core of the code of an algorithm. 
+We proceed as follows :
+A function has an ID, and we want to be able to call a function by providing its ID.
+The algo also has a stack, on which we can provide the arguments of the function and the returned value of the function.
+
+The name of this arch is JMP01 because the meta-execution function (the function for which the purpose is to execute the function
+with the given ID) is located at the position 1 in the genome. For example, if the second gene value is 34, then the meta-execution 
+function begins at position 34*7 (program pointer at line 34).
+To execute a function, we just need to jump to the line specified at gene 01.
+
+Moreover, in this architecture the first instruction to be executed is a jump to the main function, this also contributes to naming 
+this architecture "JMP01".
 
 
 X) Free genes and algorithms
@@ -18,7 +31,7 @@ In the EvoAlgo/X86Algo's project, there are two types of entities :
 
 
 
-X) Teleonomical design
+X) Teleonomical design (macro)
 
 
 Like in evolutionary biology, to understand the history of a species (for example), a good tool we have 
@@ -27,7 +40,7 @@ is the connection between a design and a function : knowing a design, we can "gu
 the structure and the evolutionary pressures the ancestor species has faced in the past, and knowing the past selective pressures we can have 
 a better understanding of the working of the current species.
 Natural evolution is actually blind, it does not know in advance the problem that a species/subspecies/individual/organ/gene should solve 
-in order to survive, but it as actually really good at solving it. This evolutionary concept is called "teleonomy" : it is as if 
+in order to survive, but it is actually really good at solving it. This evolutionary concept is called "teleonomy" : it is as if 
 living beings have a purpose. 
 
 We suppose that adaptative algorithms work in a similar way as adaptative biological structures, especially for this design-function connection. 
@@ -101,13 +114,14 @@ Note : we can now see how "viruses" (entities with wrong teleonomical ID) can br
         - the list of problems that the ancestors of the algorithm faced during the evolution
 
 
+
 X) Genericity and specificity
 
 Another theoretical hypothesis in the theory of Evolution that is sometimes/often stated is the folowing :
-    elementary generalist systems are rare, the majority of the time they correspond to an organized agglomeration of specialized systems
+    elementary generalist systems are rare, the majority of the time they correspond to an organized agglomeration of specialized subsystems
 
-In evolutionary psychology , it corresponds to :
-    generalist (cognitive) modules are subdivised into sevral specialized (cognitive) submodules.
+In evolutionary psychology, it corresponds to :
+    generalist (cognitive) modules are subdivised into several specialized (cognitive) submodules.
 
 Since this project belongs to evolutionary psychology in a way, we will also take this hypothesis.
 Indeed, like in evolutionary psychology we are interested in the creation of algorithms in the context of natural selection.
@@ -121,6 +135,57 @@ However, the theoretical tools and metodology are the same : we want the artific
 
 
 This will imply that we need to stagger the system into different teleonomical steps : a generalist program will gather several specialized subprograms.
+
+
+(we may add that, maybe, the tendency to specialization is, up to a certain level of abstraction, a special case of teleonomical design. 
+Maybe specialization is a teleonomical design. But specialization is such an important concept that we will consider it as another one)
+
+
+
+X) Teleonomical design (micro)
+
+The two hypotheses above (teleonomical design and tendency to specialization) are the cornerstones of our engineering, so much as we would 
+translate them into genetical properties locally :
+    THE GENOME CAN BE SPLIT INTO A LOT OF SUBPARTS FUNCTIONNALY SPECIALIZED
+
+
+There are three important remarks :
+    - the two hypotheses do not describe the degree of causality : some genes may have a proximal utility, while others may have a distal 
+        (ultimate) utility. For example redundancy of the genome can be mistakenly seen as not teleonomical nor specialized (in term of
+        improving chances of survival), but it is because it garantees robustness against mutation (which is a proxy for fitness)
+    - these assumptions are not strongly universal : they are the "H_0 hypothesis", not everything is subject to it, some things can 
+        be useless and we don't want to ignore them (such as spandrels, genetic drift). However, the hypotheses suggest that a "useless" trait 
+        will tend to become useful at some point later in the evolution. We will focus on them because these traits can actually be an adaptation 
+        for functional exploration : allowing the apparition of new 'useless' traits may increase the chance that one of these traits 
+        solves a problem that was unsolved yet, or may unlock a new behavior/function improving fitness/survival.
+
+
+The specialization hypothesis, as it has been described in the corresponding section, also means that a subpart of the genome can be part 
+of bigger specialized part of the genome, and can also be split into specialized subparts.
+
+
+Programmatically, we will translate everything as follows :
+The genome is a list of integers, split into different parts P1, P2,..., Pn. Since we are working with integers, there are some 
+parts that are fundamental, i.e. such that they cannot be split into smaller specialized parts. These parts are called instructions coding, 
+and in this project they correspond to a group of 7 nucleotides.
+All the other parts of the code (P1,...,Pn) will use these fundamental rocks.
+
+
+
+X) Autopoiesis/autonomical (morpho)genesis
+
+In philosophy of Evolution, the capacity of an entity to generate itself by itself is called autopoiesis, or autonomical morphogenesis.
+To compare with biology, the genome is the set of integers, and the phenotype is the set of instructions. 
+An instruction for our algos corresponds to a phenotypical trait of a biological organism, the bedrock for playing with adaptations.
+
+Talking of self-generation of an algorithm, we want :
+- self-genesis : the genesis comes from the genes of the individual
+- morphogenesis : the genesis creates the code of the algo (its instructions)
+
+Evolution is blind but patient, however we don't have much time but we are not as blind as Evolution, so we allow ourselves to cheat a bit by 
+providing the algo an ad hoc structure : we won't evolve autopoiesis from ground zero, the experimenter actually provides a code that he has 
+created, allowing the algo to self-generate already, and with evolution the algo will later be able to mutate and change its genesis process.
+
 
 
 X) Elementary functions / amino acids

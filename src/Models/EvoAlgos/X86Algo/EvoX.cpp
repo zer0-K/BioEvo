@@ -165,7 +165,6 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
         case instruction::GDELW:
         {
             // delete whole instruction at arg1 
-            // (3 genes genes at once if not at the end)
             // can delete only at beginning of instruction
 
             bool valid_args = true;
@@ -200,7 +199,7 @@ void EvoX::exec_instruction_gene(int instr, int addr1_order, int addr2_order, in
                     int nb_instructions = (int) ( genes.size() / SIZE_INSTR ) ;
                     int instr_to_del = (int) ( arg1_ / SIZE_INSTR );
 
-                    // shift all genes by 3
+                    // shift all genes
 
                     for(int i=instr_to_del;i<nb_instructions-1;i++)
                     {
