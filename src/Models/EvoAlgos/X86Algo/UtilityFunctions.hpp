@@ -1,5 +1,8 @@
 #pragma once
 
+#include <fstream>
+#include <sstream>
+
 #include "EvoX.hpp"
 #include "InstructionMapping.hpp"
 
@@ -122,4 +125,64 @@ inline std::vector<int> get_func_IDs_in_genome(std::vector<int> genome)
     }
 
     return funcs_no_duplicates;
+}
+
+inline void write_genes_to_csv(std::vector<int> genes, std::string file_name_relative)
+{
+    std::string file_name_absolute = project_folder + "data/" + file_name_relative;
+    std::ofstream genesfile;
+
+    genesfile.open(file_name_absolute, std::ios::out | std::ios::app);
+
+    // iterate line by line
+    for(int i=0;i<genes.size()/SIZE_INSTR;i++)
+    {
+        genesfile << genes[SIZE_INSTR*i] << ",";
+
+        for(int j=1;j<SIZE_INSTR; j++)
+        {
+            genesfile << " " << genes[SIZE_INSTR*i + j] << ",";
+        }
+        genesfile << std::endl;
+    }
+
+    genesfile.close();
+}
+
+/**
+ * @brief read a csv encoding a genome
+ *
+ * @param file_name_relative file name in data/ folder
+ */
+inline std::vector<int> get_genes_from_csv(std::string file_name_relative)
+{
+    // io file stream related variables
+    std::string file_name_absolute = project_folder + "data/" + file_name_relative;
+    std::ifstream genesfile(file_name_absolute);
+    std::string line;
+
+    // genome to get
+    std::vector<int> genes(0);
+
+    if(genesfile.is_open())
+    {
+        while( std::getline(genesfile, line) )
+        {
+            std::string val;
+            std::stringstream s(line);
+            // parse line into numbers
+            while (getline (s, val, ','))
+                if(val != " ")
+                    genes.push_back(std::stoi(val));
+
+        }
+        genesfile.close();
+    }
+    else
+    {
+        std::cout << "Unable to open following file : data/" << file_name_relative
+                << std::endl;
+    }
+
+    return genes;
 }

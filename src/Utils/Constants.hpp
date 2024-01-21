@@ -11,6 +11,8 @@ const bool verbose_unit_tests_1 = true;
 const bool verbose_unit_tests_2 = true;
 const bool verbose_experiment_1 = false;
 
+const std::string project_folder = "/home/adrien/Disque/Programmation/Projets/BioEvo/";
+
 
 // ------------------------------------------------------------ colors
 
