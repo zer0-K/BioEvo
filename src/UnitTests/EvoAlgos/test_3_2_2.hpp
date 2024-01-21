@@ -2,31 +2,40 @@
 
 /*
 Teleonomical IDs :
-    0 - meta exec func
-    1 - main
-    2 - core switcher
-    4 - build teleonomical ID list
+    - -100- : genetic data
+    - -1 : genome end
+    - 0-99 : core functions (meta-exec func, main, core switcher, teleonomical list builder,...)
+    - 100-199 : general genesis funcs (autopoiesis, find free genes, quine, genetic decompression,...) 
+    - 200-299 : internal utility funcs (genome size, copy input as func, func pos,...)
+    - 300-399 : external utility funcs (pick free genes, find empty place, write func as free genes,...)
+    - 400-499 : machine learning funcs (learning switcher, train, test, error correction,...)
+    - 1000+ : evaluation functions and other
 
-    100 - autopoiesis
-    101 - autopoiesis phase 1
-    102 - autopoiesis phase 2
-    103 - search and pick free genes
-    104 - quine func
-    105 - mutate before replication
+        0 - meta exec func
+        1 - main
+        2 - core switcher
+        4 - build teleonomical ID list
 
-    200 - compute gene size
-    201 - copy in as new func
-    202 - get function pos
+        100 - autopoiesis
+        101 - autopoiesis phase 1
+        102 - autopoiesis phase 2
+        103 - search and pick free genes
+        104 - quine func
+        105 - mutate before replication
 
-    300 - get free genes in input
-    301 - find empty place
-    302 - export func as free genes
+        200 - compute gene size
+        201 - copy in as new func
+        202 - get function pos
 
-    400 - learning switcher
-    401 - train phase
-    402 - test phase
-    403 - eval func
-    404 - update after error
+        300 - get free genes in input
+        301 - find empty place
+        302 - export func as free genes
+
+        400 - learning switcher
+        401 - train phase
+        402 - test phase
+        403 - eval func
+        404 - update after error
 */
 
 #pragma once
@@ -176,7 +185,7 @@ namespace ut_ea
             // data stack stuff
             instruction::GR, 1, 1, 0, 100, 3, 0,    // stack pos is at 3rd pos in genome
             instruction::CPY, 1, 1, 0, 99, 100, 0,  // set data stack pos
-            instruction::GDELW, 0, 0, 0, 27*7, 0, 0,
+            instruction::GDELW, 0, 0, 0, 27*SIZE_INSTR, 0, 0,
             // build list of funcs to add at top of data stack
             instruction::INC, 1, 0, 0, 99, 0, 0,
             instruction::CPY, 2, 0, 0, 99, 404, 0,    // update after error
@@ -291,11 +300,6 @@ namespace ut_ea
                 instruction::JRE, 0, 1, 1, 3, 102, 105,
                 instruction::CPYIN, 2, 2, 0, 104, 102, 0,
                 instruction::JRS, 0, 0, 0, 4, 0, 0,
-                // JMP (return)
-                instruction::CPY, 2, 0, 0, 104, instruction::JMP, 0,
-                instruction::INC, 1, 0, 0, 104, 0, 0,
-                instruction::CPY, 2, 0, 0, 104, 2, 0,
-                instruction::ADD, 1, 1, 0, 104, 104, 6,
                 // marker (end)
                 instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0,
                 instruction::ADD, 1, 1, 0, 104, 104, 2,
@@ -403,6 +407,12 @@ namespace ut_ea
             // call gene copy function
             instruction::CPYIN, 2, 1, 0, 99, 1, 0,    // put func id at top of stack as arg
             instruction::CALL, 0, 0, 0, 0, 302, 0,
+            instruction::DEC, 1, 0, 0, 99, 0, 0,
+            instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+            // otherwise, call function given in input
+            instruction::CPYIN, 2, 1, 0, 99, 1, 0, 
+            instruction::CALL, 0, 2, 0, 0, 99, 0,
             instruction::DEC, 1, 0, 0, 99, 0, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -586,7 +596,7 @@ namespace ut_ea
             instruction::CPY, 1, 2, 0, 102, 99, 0,  // begin is at 102 and end at 103
             // reajust (to remove markers and return (final JMP))
             instruction::ADD, 1, 1, 0, 102, 102, 7, 
-            instruction::SUB, 1, 1, 0, 103, 103, 8,
+            instruction::SUB, 1, 1, 0, 103, 103, 1,
             // stop if func not found or invalid (beg = end)
             instruction::JRG, 0, 1, 1, 2, 103, 102, 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -691,12 +701,12 @@ namespace ut_ea
             // for the moment : randomly change genome
             instruction::CPY, 1, 0, 0, 101, 1000, 0,
             instruction::CPYIN, 1, 1, 0, 101, 2, 0,
-            instruction::GR, 1, 1, 0, 102, 324*7+5, 0,
+            instruction::GR, 1, 1, 0, 102, 315*SIZE_INSTR+5, 0,
             instruction::ADD, 1, 1, 1, 103, 102, 101,
             instruction::SUB, 1, 1, 1, 102, 102, 101, 
             instruction::RUI, 1, 1, 1, 101, 102, 103,
             instruction::MUL, 1, 1, 0, 101, 101, 2, 
-            instruction::GSET, 1, 1, 0, 324*7+5, 101, 0,    // randomly change the output number is set there
+            instruction::GSET, 1, 1, 0, 315*SIZE_INSTR+5, 101, 0,    // randomly change the output number is set there
             instruction::REGEN, 0, 0, 0, 0, 0, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
