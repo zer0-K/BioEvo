@@ -164,9 +164,23 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         instruction::JMP, 2, 0, 0, 0, 0, 0,
     };
 
+    // generate the deepness of args with a random geometric distrib
+    std::vector<int> generator_order_0_arg_deepness {
+        3, 1000001,
+
+        // parameters : a, b, for geom distrib with param p=a/b
+        instruction::CPY, 1, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::RG, 2, 1, 1, 99, 100, 101,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0,
+    };
+
 
     std::map<std::string, std::vector<int>> all_parts {
-        { "order 0 : instruction", generator_order_0_instruction }
+        { "order 0 : instruction", generator_order_0_instruction },
+        { "order 0 : arg deepness", generator_order_0_arg_deepness }
     };
 
     return all_parts;
@@ -242,10 +256,35 @@ void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos univer
 
 void FreeGeneCreationEvoX::exec(sp_univ_evo_algos universe, sp_evox algo)
 {
-    std::vector<int> input_test { 5, 204, 1000000, -106 };
+    std::vector<int> input_test { 5, 204, 1000001, 9, 10 };
 
-    algo->set_input(input_test);
-    universe->exec();
+    const int nb_loops = 1000;
+    const int nb_val = 10;
+    std::array<int, nb_val> res_distrib;
+    for(int i=0;i<nb_val;i++)
+        res_distrib[i] = 0;
 
-    auto res = algo->get_output();
+
+    for(int i=0; i<nb_loops;i++)
+    {
+        algo->set_input(input_test);
+        universe->exec();
+
+        auto res = algo->get_output();
+
+        if(res.size()==1)
+        {
+            if(res[0]>nb_val-1)
+            {
+                res_distrib[nb_val-1] +=1;
+            }
+            else
+            {
+                res_distrib[res[0]] += 1;
+            }
+        }
+    }
+
+    double test = 1;
+
 }
