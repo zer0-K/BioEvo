@@ -108,16 +108,12 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         3, 203,
 
         instruction::CPYIS, 1, 0, 0, 100, 0, 0,
-        instruction::CPY, 1, 0, 0, 101, -1, 0,
         // beginning of loop
-        instruction::INC, 1, 0, 0, 101, 0, 0,
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::INC, 1, 0, 0, 99, 0, 0,    // will copy input on stack
         instruction::CPYIN, 2, 2, 0, 99, 100, 0,    // reverse order
         instruction::JRE, 0, 1, 0, 2, 100, 2,    // ignore first 2 args
-        instruction::JRS, 0, 0, 0, 5, 0, 0,
-        instruction::INC, 1, 0, 0, 99, 0, 0,    // copy nb of args on stack
-        instruction::CPY, 2, 1, 0, 99, 101, 0,
+        instruction::JRS, 0, 0, 0, 4, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -127,14 +123,11 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         3, 204,
 
         instruction::CALL, 0, 0, 0, 0, 203, 0,
-        // remove generator ID from stack (and decreases nb of args)
-        instruction::DEC, 2, 0, 0, 99, 0, 0,
-        instruction::CPY, 1, 2, 0, 100, 99, 0, 
-        instruction::DEC, 1, 0, 0, 99, 0, 0,    // second arg is the generator ID to call
-        instruction::CPY, 1, 2, 0, 101, 99, 0,
-        instruction::CPY, 2, 1, 0, 99, 100, 0,
+        // remove generator ID from stack
+        instruction::CPY, 1, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
         // call the generator
-        instruction::CALL, 0, 1, 0, 0, 101, 0,
+        instruction::CALL, 0, 1, 0, 0, 100, 0,
         // copy the generator out to out
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 2, 0, 0, 99, 0,
@@ -158,7 +151,6 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         3, 1000000,
 
         // compute arg modulo nb of instructions
-        instruction::DEC, 1, 0, 0, 99, 0, 0,    // for the moment we remove nb of args
         instruction::DIV, 1, 2, 0, 100, 99, instruction::size,
         instruction::JRE, 0, 1, 0, 3, 100, 0,
         // if |arg|>= size ( => scale in ]-size;size[ )
