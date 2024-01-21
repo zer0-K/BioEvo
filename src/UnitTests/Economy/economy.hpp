@@ -1,6 +1,6 @@
 #include "test_1_empty.hpp"
 
-void launch_tests_economy()
+bool launch_tests_economy()
 {
     bool is_passed = true;
 
@@ -12,4 +12,6 @@ void launch_tests_economy()
 
     std::cout << std::endl << "Unit test economy : ";
     passed_print(is_passed);
+
+    return is_passed;
 }

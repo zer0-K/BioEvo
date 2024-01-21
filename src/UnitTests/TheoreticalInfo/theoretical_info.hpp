@@ -1,6 +1,6 @@
 #include "test_1_empty.hpp"
 
-void launch_tests_th_info()
+bool launch_tests_th_info()
 {
     bool is_passed = true;
 
@@ -12,4 +12,6 @@ void launch_tests_th_info()
 
     std::cout << std::endl << "Unit test theoretical computer science : ";
     passed_print(is_passed);
+
+    return is_passed;
 }

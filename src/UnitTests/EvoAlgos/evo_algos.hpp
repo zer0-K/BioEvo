@@ -5,7 +5,7 @@
 
 namespace ut_ea
 {
-    void launch_tests_evo_algos()
+    bool launch_tests_evo_algos()
     {
         bool is_passed = true;
 
@@ -20,5 +20,7 @@ namespace ut_ea
 
         std::cout << std::endl << "Unit test evolutionary algorithms : ";
         passed_print(is_passed);
+
+        return is_passed;
     }
 }

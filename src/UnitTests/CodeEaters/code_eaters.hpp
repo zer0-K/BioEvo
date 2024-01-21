@@ -7,7 +7,7 @@
 namespace ut_ce 
 {
 
-    void launch_tests_code_eaters()
+    bool launch_tests_code_eaters()
     {
         bool is_passed = true;
 
@@ -21,6 +21,8 @@ namespace ut_ce
 
         std::cout << std::endl << "Unit tests code eaters : ";
         passed_print(is_passed);
+
+        return is_passed;
     }
 
 }

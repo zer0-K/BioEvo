@@ -10,15 +10,20 @@
 
 int main(int argc, char* argv[])
 {
-    launch_tests_bio_evo();
-    ut_ca::launch_tests_classical_algos();
-    launch_tests_classical_info();
-    ut_ce::launch_tests_code_eaters();
-    launch_tests_economy();
-    ut_ea::launch_tests_evo_algos();
-    launch_tests_finance();
-    launch_tests_maths();
-    launch_tests_th_info();
+    bool is_passed = true;
+
+    is_passed &= launch_tests_bio_evo();
+    is_passed &= ut_ca::launch_tests_classical_algos();
+    is_passed &= launch_tests_classical_info();
+    is_passed &= ut_ce::launch_tests_code_eaters();
+    is_passed &= launch_tests_economy();
+    is_passed &= ut_ea::launch_tests_evo_algos();
+    is_passed &= launch_tests_finance();
+    is_passed &= launch_tests_maths();
+    is_passed &= launch_tests_th_info();
+
+    std::cout << std::endl << "All unit tests : ";
+    passed_print(is_passed);
 
     return 0;
 }

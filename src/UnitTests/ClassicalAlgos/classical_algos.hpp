@@ -6,7 +6,7 @@
 namespace ut_ca
 {
 
-    void launch_tests_classical_algos()
+    bool launch_tests_classical_algos()
     {
         bool is_passed = true;
 
@@ -19,6 +19,8 @@ namespace ut_ca
 
         std::cout << std::endl << "Unit test classical algorithms : ";
         passed_print(is_passed);
+
+        return is_passed;
     } 
 
 }
