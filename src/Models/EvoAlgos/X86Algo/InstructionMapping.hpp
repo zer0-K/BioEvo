@@ -44,19 +44,20 @@ enum instruction {
     RUD,    // 35   random uniform double : between 0 and 1
     RUI,    // 36   random uniform int
     RN,     // 37   random normal : mu=0, sigma=1
+    RG,     // 38   random geometric : p=a/b
     // ******* instructions EvoX
-    GR,     // 38   read gene
-    GINS,   // 39   gene insertion
-    GDEL,   // 40   gene deletion
-    GDELW,  // 41   delete 3 genes at once
-    GSET,   // 42   set gene value
-    GADD,   // 43   add value to gene
-    GCPY,   // 44   copy data into genes (insertion)
-    MARKER, // 45   genetic marker
-    GCPYM,  // 46   copy input into genes at first genetic marker
-    EXEC,   // 47   execute genome specified in args
-    CALL,   // 48   call function (AD HOC)
-    REGEN,  // 49   regenerate code from genome
+    GR,     // 39   read gene
+    GINS,   // 40   gene insertion
+    GDEL,   // 41   gene deletion
+    GDELW,  // 42   delete 3 genes at once
+    GSET,   // 43   set gene value
+    GADD,   // 44   add value to gene
+    GCPY,   // 45   copy data into genes (insertion)
+    MARKER, // 46   genetic marker
+    GCPYM,  // 47   copy input into genes at first genetic marker
+    EXEC,   // 48   execute genome specified in args
+    CALL,   // 49   call function (AD HOC)
+    REGEN,  // 50   regenerate code from genome
     size
 };
 

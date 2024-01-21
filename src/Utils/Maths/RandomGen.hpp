@@ -10,6 +10,7 @@ class rand_gen
 public:
     std::default_random_engine generator;
     std::normal_distribution<double> normal;
+    std::geometric_distribution<int> geom;
     static rand_gen* rg;
 
 private:
@@ -48,6 +49,31 @@ public:
 
         double random_double = rg->normal(((rand_gen*)rg)->generator);
         return mean + std_dev * random_double;
+    }
+
+    // generate an integer for geometric distribution with param p=a/b
+    static int rand_geom(int a, int b)
+    {
+        if(rg == NULL)
+            rg = new rand_gen();
+
+        double p = ((double) a) / ((double) b);
+        rg->geom = std::geometric_distribution<int>(p);
+
+        int rand_nb = rg->geom(((rand_gen*)rg)->generator);
+        return rand_nb;
+    }
+    
+    // generate an integer for geometric distribution with param p
+    static int rand_geom(double p)
+    {
+        if(rg == NULL)
+            rg = new rand_gen();
+
+        rg->geom = std::geometric_distribution<int>(p);
+
+        int rand_nb = rg->geom(((rand_gen*)rg)->generator);
+        return rand_nb;
     }
 };
 

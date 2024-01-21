@@ -1352,7 +1352,55 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
                     {
                         data[destination] = rand_gen::rand_int(data[arg2_],data[arg3_]);
                     }
-                }               
+                }
+            }
+
+            break;
+
+        case instruction::RG:
+            // random geometric
+            // random geometric distribution with param p=arg2/arg3
+
+            if(destination_order>0 && destination>=0 && destination<data.size())
+            {
+                bool is_valid = true;
+
+                double p;
+                double a;
+                double b;
+
+                if(addr2_order==0)
+                {
+                    a = (double) arg2_;
+                }
+                else if(addr2_order>0 && arg2_>=0 && arg2_<data.size())
+                {
+                    a = (double) data[arg2_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+
+                if(addr3_order==0)
+                {
+                    b = (double) arg3_;
+                }
+                else if(addr3_order>0 && arg3_>=0 && arg3_<data.size())
+                {
+                    b = (double) data[arg3_];
+                }
+                else
+                {
+                    is_valid = false;
+                }
+
+
+                if(is_valid)
+                {
+                    p = a/b;
+                    data[destination] = rand_gen::rand_geom(p);
+                }
             }
 
             break;

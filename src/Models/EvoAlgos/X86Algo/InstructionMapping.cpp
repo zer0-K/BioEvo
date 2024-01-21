@@ -39,16 +39,17 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::RUD, "RUD" },        // 35
     { instruction::RUI, "RUI" },        // 36
     { instruction::RN, "RN" },          // 37
-    { instruction::GR, "GR" },          // 38
-    { instruction::GINS, "GINS" },      // 39
-    { instruction::GDEL, "GDEL" },      // 40
-    { instruction::GDELW, "GDELW" },    // 41
-    { instruction::GSET, "GSET" },      // 42
-    { instruction::GADD, "GADD" },      // 43
-    { instruction::GCPY, "GCPY"},       // 44
-    { instruction::MARKER, "MARKER"},   // 45
-    { instruction::GCPYM, "GCPYM"},     // 46
-    { instruction::EXEC, "EXEC" },      // 47
-    { instruction::CALL, "CALL" },      // 48
-    { instruction::REGEN, "REGEN" }     // 49
+    { instruction::RG, "RG" },          // 38
+    { instruction::GR, "GR" },          // 39
+    { instruction::GINS, "GINS" },      // 40
+    { instruction::GDEL, "GDEL" },      // 41
+    { instruction::GDELW, "GDELW" },    // 42
+    { instruction::GSET, "GSET" },      // 43
+    { instruction::GADD, "GADD" },      // 44
+    { instruction::GCPY, "GCPY"},       // 45
+    { instruction::MARKER, "MARKER"},   // 46
+    { instruction::GCPYM, "GCPYM"},     // 47
+    { instruction::EXEC, "EXEC" },      // 48
+    { instruction::CALL, "CALL" },      // 49
+    { instruction::REGEN, "REGEN" }     // 50
 }; 
