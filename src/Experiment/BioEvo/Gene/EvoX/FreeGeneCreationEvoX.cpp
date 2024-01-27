@@ -17,10 +17,10 @@ Teleonomical IDs of high orders:
 
 
 order 0 generation:
-    - 1,000,000 : instruction ID
-    - 1,000,001 : arg orders (0,1,2)
-    - 1,000,002 : stack & local var pos (99,100,...)
-    - 1,000,003 : arg values
+    - 1,000,00la0-1 : instruction ID (abstraction)
+    - 1,000,002-7 : arg orders (0,1,2) (abstraction)
+    - 1,000,008-13 : arg values (abstraction)
+    - 1,000,0014+ : specialisations
     - ...
 
 order 1 generation:
@@ -146,9 +146,147 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
 
 std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_order_0()
 {
+    //---------- abstractions
+    
+    // 1st instruction argument : instruction (hardcoded)
+    std::vector<int> generator_order_0_arg0_hard {
+        3, 1000000,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000014, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 1st instruction argument : instruction (dynamic)
+    std::vector<int> generator_order_0_arg0_soft {
+        3, 1000001,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // 2nd instruction argument : 1st arg deepness (hardcoded)
+    std::vector<int> generator_order_0_arg1_hard {
+        3, 1000002,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000015, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 2nd instruction argument : 1st arg deepness (dynamic)
+    std::vector<int> generator_order_0_arg1_soft {
+        3, 1000003,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // 3rd instruction argument : 2nd arg deepness (hardcoded)
+    std::vector<int> generator_order_0_arg2_hard {
+        3, 1000004,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000015, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 3rd instruction argument : 2nd arg deepness (dynamic)
+    std::vector<int> generator_order_0_arg2_soft {
+        3, 1000005,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // 4th instruction argument : 3rd arg deepness (hardcoded)
+    std::vector<int> generator_order_0_arg3_hard {
+        3, 1000006,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000015, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 4th instruction argument : 3rd arg deepness (dynamic)
+    std::vector<int> generator_order_0_arg3_soft {
+        3, 1000007,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // 5th instruction argument : 1st arg value (hardcoded)
+    std::vector<int> generator_order_0_arg4_hard {
+        3, 1000008,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000016, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 5th instruction argument : 1st arg value (dynamic)
+    std::vector<int> generator_order_0_arg4_soft {
+        3, 1000009,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // 6th instruction argument : 2nd arg value (hardcoded)
+    std::vector<int> generator_order_0_arg5_hard {
+        3, 1000010,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000016, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 6th instruction argument : 2nd arg value (dynamic)
+    std::vector<int> generator_order_0_arg5_soft {
+        3, 1000011,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // 7th instruction argument : 3rd arg value (hardcoded)
+    std::vector<int> generator_order_0_arg6_hard {
+        3, 1000012,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 0, 0, 0, 1000016, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+    // 7th instruction argument : 3rd arg value (dynamic)
+    std::vector<int> generator_order_0_arg6_soft {
+        3, 1000013,
+
+        // called a specialized version of the instruction
+        instruction::CALL, 0, 2, 0, 1, 99, 0, 
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
+    //---------- specialisations
+
     // when provided a number, interprete it as the id of an instruction
     std::vector<int> generator_order_0_instruction {
-        3, 1000000,
+        3, 1000014,
 
         // compute arg modulo nb of instructions
         instruction::DIV, 1, 2, 0, 100, 99, instruction::size,
@@ -161,12 +299,12 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 99, 99, instruction::size, 
 
-        instruction::JMP, 2, 0, 0, 0, 0, 0,
+        instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
     // generate the deepness of args with a random geometric distrib
     std::vector<int> generator_order_0_arg_deepness {
-        3, 1000001,
+        3, 1000015,
 
         // parameters : a, b, for geom distrib with param p=a/b
         instruction::CPY, 1, 2, 0, 100, 99, 0,
@@ -174,12 +312,12 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         instruction::CPY, 1, 2, 0, 101, 99, 0,
         instruction::RG, 2, 1, 1, 99, 100, 101,
 
-        instruction::JMP, 2, 0, 0, 0, 0, 0,
+        instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
     // generate the args values with a random geometric distrib
     std::vector<int> generator_order_0_arg_vals {
-        3, 1000002,
+        3, 1000016,
 
         // parameters : a, b, for geom distrib with param p=a/b
         // final nb = 99 + random geometric
@@ -189,11 +327,27 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         instruction::RG, 2, 1, 1, 99, 100, 101,
         instruction::ADD, 2, 2, 0, 99, 99, 99,
 
-        instruction::JMP, 2, 0, 0, 0, 0, 0,
+        instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
 
     std::map<std::string, std::vector<int>> all_parts {
+        // abstractions
+        { "order 0 : arg0 abstr hard", generator_order_0_arg0_hard },
+        { "order 0 : arg0 abstr dynamic", generator_order_0_arg0_soft },
+        { "order 0 : arg1 abstr hard", generator_order_0_arg1_hard },
+        { "order 0 : arg1 abstr dynamic", generator_order_0_arg1_soft },
+        { "order 0 : arg2 abstr hard", generator_order_0_arg2_hard },
+        { "order 0 : arg2 abstr dynamic", generator_order_0_arg2_soft },
+        { "order 0 : arg3 abstr hard", generator_order_0_arg3_hard },
+        { "order 0 : arg3 abstr dynamic", generator_order_0_arg3_soft },
+        { "order 0 : arg4 abstr hard", generator_order_0_arg4_hard },
+        { "order 0 : arg4 abstr dynamic", generator_order_0_arg4_soft },
+        { "order 0 : arg5 abstr hard", generator_order_0_arg5_hard },
+        { "order 0 : arg5 abstr dynamic", generator_order_0_arg5_soft },
+        { "order 0 : arg6 abstr hard", generator_order_0_arg6_hard },
+        { "order 0 : arg6 abstr dynamic", generator_order_0_arg6_soft },
+        // specialisations
         { "order 0 : instruction", generator_order_0_instruction },
         { "order 0 : arg deepness", generator_order_0_arg_deepness },
         { "order 0 : arg values", generator_order_0_arg_vals }
@@ -272,9 +426,10 @@ void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos univer
 
 void FreeGeneCreationEvoX::exec(sp_univ_evo_algos universe, sp_evox algo)
 {
-    std::vector<int> input_test { 5, 204, 1000002, 9, 10 };
+    std::vector<int> input_test { 5, 204, 1000008, 9, 10 };
+    //std::vector<int> input_test { 5, 204, 1000000, 39 };
 
-    const int nb_loops = 1000;
+    const int nb_loops = 100;
     const int nb_val = 10;
     std::array<int, nb_val> res_distrib;
     for(int i=0;i<nb_val;i++)
