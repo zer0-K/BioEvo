@@ -75,9 +75,19 @@ public:
     void provide_experiment_functions(sp_univ_evo_algos universe, sp_evox algo);
 
     /**
-     * @brief run the experiment
+     * @brief run the experiment for order 0 generation
      */
-    void exec(sp_univ_evo_algos universe, sp_evox algo);
+    void exec_order_0(sp_univ_evo_algos universe, sp_evox algo);
+
+    /**
+     * @brief run the experiment for order 1 generation
+     */
+    void exec_order_1(sp_univ_evo_algos universe, sp_evox algo);
+
+    /**
+     * @brief run the experiment for order 2 generation
+     */
+    void exec_order_2(sp_univ_evo_algos universe, sp_evox algo);
 };
 
 typedef std::shared_ptr<FreeGeneCreationEvoX> sp_experiment_evox_fgc;

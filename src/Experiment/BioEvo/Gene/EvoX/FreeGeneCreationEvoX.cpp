@@ -17,17 +17,17 @@ Teleonomical IDs of high orders:
 
 
 order 0 generation:
-    - 1,000,00la0-1 : instruction ID (abstraction)
+    - 1,000,000-1 : instruction ID (abstraction)
     - 1,000,002-7 : arg orders (0,1,2) (abstraction)
     - 1,000,008-13 : arg values (abstraction)
     - 1,000,0014+ : specialisations
     - ...
 
 order 1 generation:
-    - increment/decrement
-    - math operations
-    - atomic stack management
-    - function call
+    - 1,001,000+ : abstractions
+    - 1,002,000+ : specialisations
+    - 0-1 : increment/decrement
+    - 2-5 : math ops
     - ...
 
 order 2 generation:
@@ -58,7 +58,7 @@ void FreeGeneCreationEvoX::launch()
     provide_experiment_functions(universe, algo);
 
     // run the experiment after initialisation
-    exec(universe, algo);
+    exec_order_1(universe, algo);
 }
 
 sp_univ_evo_algos FreeGeneCreationEvoX::get_universe(sp_evox algo) 
@@ -118,8 +118,8 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
-    // given input, generate free genes
-    std::vector<int> generate_free_genes {
+    // given input, generate free genes of order 0
+    std::vector<int> generate_free_genes_order_0 {
         3, 204,
 
         instruction::CALL, 0, 0, 0, 0, 203, 0,
@@ -135,10 +135,41 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // given input, generate free genes of order 1
+    std::vector<int> generate_free_genes_order_1 {
+        3, 205,
+
+        instruction::CALL, 0, 0, 0, 0, 203, 0,
+        // remove generator ID from stack
+        instruction::CPY, 1, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        // call the generator
+        instruction::CALL, 0, 1, 0, 0, 100, 0,
+        // copy the generator out to out
+        instruction::SETOS, 0, 0, 0, 7, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 6, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 5, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 4, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 3, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 2, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 1, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYOUT, 1, 2, 0, 0, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
 
     std::map<std::string, std::vector<int>> all_parts {
         { "copy input to stack", copy_in_to_stack },
-        { "generate free genes", generate_free_genes }
+        { "generate free genes order 0", generate_free_genes_order_0 },
+        { "generate free genes order 1", generate_free_genes_order_1 }
     };
 
     return all_parts;
@@ -310,6 +341,7 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         instruction::CPY, 1, 2, 0, 100, 99, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::ADD, 1, 1, 0, 99, 99, 2,
         instruction::RG, 2, 1, 1, 99, 100, 101,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
@@ -324,6 +356,7 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         instruction::CPY, 1, 2, 0, 100, 99, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::ADD, 1, 1, 0, 99, 99, 2,
         instruction::RG, 2, 1, 1, 99, 100, 101,
         instruction::ADD, 2, 2, 0, 99, 99, 99,
 
@@ -358,7 +391,84 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
 
 std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_order_1()
 {
+    //---------- abstractions and generalisations
+
+    // a random instruction
+    std::vector<int> generator_order_1_rand_1 {
+        3, 1001000,
+
+        // parameters : a, b for geom distrib
+        // make place for new instruction on the stack (i.e. shift the a&b 7 times)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,          // pos of b
+        instruction::ADD, 1, 1, 0, 99, 99, SIZE_INSTR,  // shift stack
+        instruction::MOV, 2, 2, 0, 99, 100, 0,          // put b on top of stack
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::DEC, 1, 0, 0, 100, 0, 0,
+        instruction::MOV, 2, 2, 0, 99, 100, 0,          // put a on top of stack
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 0
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::RUI, 2, 0, 0, 99, 0, instruction::size,
+        instruction::CALL, 0, 0, 0, 0, 1000000, 0, 
+        // put arg 0 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 9,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 1
+        instruction::CALL, 0, 0, 0, 0, 1000002, 0, 
+        // put arg 1 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 8,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 2
+        instruction::CALL, 0, 0, 0, 0, 1000004, 0, 
+        // put arg 2 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 7,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 3
+        instruction::CALL, 0, 0, 0, 0, 1000006, 0, 
+        // put arg 3 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 6,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 4
+        instruction::CALL, 0, 0, 0, 0, 1000008, 0, 
+        // put arg 4 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 5,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 5
+        instruction::CALL, 0, 0, 0, 0, 1000010, 0, 
+        // put arg 5 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 4,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        // generate arg 6
+        instruction::CALL, 0, 0, 0, 0, 1000012, 0, 
+        // put arg 6 on stack where we left place for instr
+        instruction::SUB, 1, 1, 0, 100, 99, 3,
+        instruction::MOV, 2, 2, 0, 100, 99, 0,
+        instruction::SUB, 1, 1, 0, 99, 99, 3,
+
+        // return stack :
+        // top-6 top-5 top-4 top-3 top-2 top-1 top
+        // INSTR DEEP1 DEEP2 DEEP3 ARG1  ARG2  ARG3
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
     std::map<std::string, std::vector<int>> all_parts {
+        // abstractions
+        { "order 1 : random instruction", generator_order_1_rand_1 },
 
     };
 
@@ -424,7 +534,7 @@ void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos univer
     //write_genes_to_csv(algo->get_genes(), "debug.csv");
 }
 
-void FreeGeneCreationEvoX::exec(sp_univ_evo_algos universe, sp_evox algo)
+void FreeGeneCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo)
 {
     std::vector<int> input_test { 5, 204, 1000008, 9, 10 };
     //std::vector<int> input_test { 5, 204, 1000000, 39 };
@@ -455,7 +565,22 @@ void FreeGeneCreationEvoX::exec(sp_univ_evo_algos universe, sp_evox algo)
             }
         }
     }
+}
 
-    double test = 1;
+void FreeGeneCreationEvoX::exec_order_1(sp_univ_evo_algos universe, sp_evox algo)
+{
+    std::vector<int> input_test { 5, 205, 1001000, 9, 10 };
 
+    const int nb_loops = 100;
+    const int nb_val = 10;
+
+    algo->set_input(input_test);
+
+    universe->exec();
+
+    auto res = algo->get_output();
+}
+
+void FreeGeneCreationEvoX::exec_order_2(sp_univ_evo_algos universe, sp_evox algo)
+{
 }

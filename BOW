@@ -3,6 +3,7 @@ Book of work:
 1) EvoX
 
 13 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
+        - order 0 : add specialised generators for values in [0;10]
 14 - acquire amino acids (+ neighborhood change)
 15 - select on amino acid acquisition
 16 - share useful amino acids
