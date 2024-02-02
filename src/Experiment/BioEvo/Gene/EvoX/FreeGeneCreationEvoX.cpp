@@ -160,7 +160,6 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         instruction::CPYOUT, 1, 2, 0, 1, 99, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::CPYOUT, 1, 2, 0, 0, 99, 0,
-        instruction::DEC, 1, 0, 0, 99, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -351,14 +350,16 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
     std::vector<int> generator_order_0_arg_vals {
         3, 1000016,
 
-        // parameters : a, b, for geom distrib with param p=a/b
-        // final nb = 99 + random geometric
+        // parameters : a, b for geom distrib with param p=a/b and v the base value
+        // final nb = v + random geometric
         instruction::CPY, 1, 2, 0, 100, 99, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 102, 99, 0,
         instruction::ADD, 1, 1, 0, 99, 99, 2,
-        instruction::RG, 2, 1, 1, 99, 100, 101,
-        instruction::ADD, 2, 2, 0, 99, 99, 99,
+        instruction::RG, 2, 1, 1, 99, 101, 102,
+        instruction::ADD, 2, 2, 1, 99, 99, 100,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -435,23 +436,29 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
         // put arg 3 on stack where we left place for instr
         instruction::SUB, 1, 1, 0, 100, 99, 6,
         instruction::MOV, 2, 2, 0, 100, 99, 0,
-        instruction::DEC, 1, 0, 0, 99, 0, 0,
-
+ 
         // generate arg 4
+        // chooses between 0 and 99 randomly
+        instruction::RUI, 2, 0, 0, 99, 0, 1,
+        instruction::MUL, 2, 2, 0, 99, 99, 99,
         instruction::CALL, 0, 0, 0, 0, 1000008, 0, 
         // put arg 4 on stack where we left place for instr
         instruction::SUB, 1, 1, 0, 100, 99, 5,
         instruction::MOV, 2, 2, 0, 100, 99, 0,
-        instruction::DEC, 1, 0, 0, 99, 0, 0,
 
         // generate arg 5
+        // chooses between 0 and 99 randomly
+        instruction::RUI, 2, 0, 0, 99, 0, 1,
+        instruction::MUL, 2, 2, 0, 99, 99, 99,
         instruction::CALL, 0, 0, 0, 0, 1000010, 0, 
         // put arg 5 on stack where we left place for instr
         instruction::SUB, 1, 1, 0, 100, 99, 4,
         instruction::MOV, 2, 2, 0, 100, 99, 0,
-        instruction::DEC, 1, 0, 0, 99, 0, 0,
 
         // generate arg 6
+        // chooses between 0 and 99 randomly
+        instruction::RUI, 2, 0, 0, 99, 0, 1,
+        instruction::MUL, 2, 2, 0, 99, 99, 99,
         instruction::CALL, 0, 0, 0, 0, 1000012, 0, 
         // put arg 6 on stack where we left place for instr
         instruction::SUB, 1, 1, 0, 100, 99, 3,
@@ -536,7 +543,7 @@ void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos univer
 
 void FreeGeneCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo)
 {
-    std::vector<int> input_test { 5, 204, 1000008, 9, 10 };
+    std::vector<int> input_test { 5, 204, 1000008, 9, 10, 0 };
     //std::vector<int> input_test { 5, 204, 1000000, 39 };
 
     const int nb_loops = 100;
@@ -574,11 +581,14 @@ void FreeGeneCreationEvoX::exec_order_1(sp_univ_evo_algos universe, sp_evox algo
     const int nb_loops = 100;
     const int nb_val = 10;
 
-    algo->set_input(input_test);
+    for(int i=0; i<10; i++)
+    {
+        algo->set_input(input_test);
+        universe->exec();
 
-    universe->exec();
-
-    auto res = algo->get_output();
+        auto res = algo->get_output();
+        int j = 0;
+    }
 }
 
 void FreeGeneCreationEvoX::exec_order_2(sp_univ_evo_algos universe, sp_evox algo)
