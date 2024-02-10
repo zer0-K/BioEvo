@@ -26,6 +26,8 @@ void X86Algo::init()
     is_empty = [](int pos){return false;};
     get_freegenes_at = [](int pos){return std::vector<int>(0);};
     write_freegenes_at = [](int pos, std::vector<int> g){return false;};
+
+    neighborhood_size = 0;
 }
 
 void X86Algo::init_external_functions(std::function<int()> get_universe_size,
@@ -1521,6 +1523,12 @@ void X86Algo::reset_code(std::vector<std::array<int,SIZE_INSTR>> code)
     this->code = code;
 }
 
+void X86Algo::set_neighborhood_size(int size)
+{
+    neighborhood_size = size;
+}
+
+
 //----- getters
 
 std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
@@ -1531,6 +1539,11 @@ std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
 std::vector<int> X86Algo::get_output()
 {
     return output_x86;
+}
+
+int X86Algo::get_neighborhood_size()
+{
+    return neighborhood_size;
 }
 
 // utils

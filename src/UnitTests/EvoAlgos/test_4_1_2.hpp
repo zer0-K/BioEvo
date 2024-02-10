@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - UNIVERSE - FLOWS - BASIC
+//-------------------- EVOLUTIONARY ALGOS - UNIVERSE - FLOWS - CUSTOM
 
 #pragma once
 
@@ -7,173 +7,171 @@
 #include "../../Utils/Functions.hpp"
 #include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
 #include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/Universe/CustomNeighborhoods.hpp"
+#include "../../Models/EvoAlgos/Universe/UniverseEvoXCustomNeighborhood.hpp"
 
 #include "../../Entities/EntityVoid.hpp"
-#include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
 #include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
 #include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
 
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_universe_flows_basic()
+    bool launch_tests_evo_algos_universe_custom_neighborhood()
     {
-        bool launch_tests_evo_algos_universe_flows_basic_empty(void);
-        bool launch_tests_evo_algos_universe_flows_basic_read(void);
-        bool launch_tests_evo_algos_universe_flows_basic_read_fail(void);
-        bool launch_tests_evo_algos_universe_flows_basic_write(void);
-        bool launch_tests_evo_algos_universe_flows_basic_write_fail(void);
+        bool launch_tests_evo_algos_universe_flows_custom_von_neumann(void);
+        bool launch_tests_evo_algos_universe_flows_custom_read(void);
+        bool launch_tests_evo_algos_universe_flows_custom_read_fail(void);
+        bool launch_tests_evo_algos_universe_flows_custom_write(void);
+        bool launch_tests_evo_algos_universe_flows_custom_write_fail(void);
 
         bool is_passed = true;
 
-        std::cout << "Evo algos - universe - flows - basic : " << std::endl;
+        std::cout << "Evo algos - universe - flows - custom : " << std::endl;
  
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_empty();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_read();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_read_fail();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_write();
-        is_passed &= launch_tests_evo_algos_universe_flows_basic_write_fail();
+        is_passed &= launch_tests_evo_algos_universe_flows_custom_von_neumann();
+        //is_passed &= launch_tests_evo_algos_universe_flows_custom_read();
+        //is_passed &= launch_tests_evo_algos_universe_flows_custom_read_fail();
+        //is_passed &= launch_tests_evo_algos_universe_flows_custom_write();
+        //is_passed &= launch_tests_evo_algos_universe_flows_custom_write_fail();
 
-        std::cout << "Evo algos - universe - flows - basic : ";
+        std::cout << "Evo algos - universe - flows - custom : ";
         passed_print(is_passed);
 
         return is_passed;
     }
 
     /**
-     * @brief check universe cell emptyness
-     *
-     * --> tests X86
+     * @brief check von neumann neighborhood
     */
-    bool launch_tests_evo_algos_universe_flows_basic_empty()
+    bool launch_tests_evo_algos_universe_flows_custom_von_neumann()
     {
         bool is_passed = true;
 
-        //---------- ALGOS
+        int nb_rows = 5;
+        int nb_cols = 10;
+        
+        int ref_x = 8;
+        int ref_y = 3;
+        int ref_pos = ref_y*nb_cols + ref_x;
 
-        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
-        algo->init();
+        //  x  0 1 2 3 4 5 6 7 8 9       neighborhood numbering
+        //                          y    
+        // 0   * * * * * * * * * *  0        *  *  10 *  *
+        // 10  * * * * * * * * n *  1        *  8  9  11 *
+        // 20  * * * * * * * n n n  2        7  6  X  0  1
+        // 30  * * * * * * n n X n  3        *  5  3  2  *
+        // 40  * * * * * * * n n n  4        *  *  4  *  *
 
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-        freegenes->init();
+        // first quarter
 
-        sp_entity_void voidentity = std::make_shared<EntityVoid>("void entity");
-        voidentity->init();
-
-        //---------- CODE
-
-        std::vector<std::array<int,SIZE_INSTR>> code { 
-            { instruction::SETOS, 0, 0, 0, 2, 0, 0 },
-            { instruction::EMPTY, 1, 0, 0, 0, 1, 0 },
-            { instruction::EMPTY, 1, 0, 0, 1, 2, 0 },
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 },
-            { instruction::CPYOUT, 1, 1, 0, 1, 1, 0 }
+        std::vector<int> expected_pos{
+            39, -1, 49, 48, -1, 47, 37, 36, 27, 28, 18, 29
         };
 
-        std::vector<int> vals { 12, 13, 14 };
+        for(int i=0;i<expected_pos.size();i++)
+        {
+            int pos = get_pos_from_von_neumann_neighborhood(ref_pos, i, 2, nb_rows, nb_cols);
+            is_passed &= pos == expected_pos[i];
+        }
 
-        algo->reset_code(code); 
-        freegenes->set_genes(vals);
-
-        //---------- UNIVERSE
-
-        // 2 places : first with algo, second is empty
-        std::vector<sp_place> places {
-            std::make_shared<Place>(algo, 0),
-            std::make_shared<Place>(voidentity, 1),
-            std::make_shared<Place>(freegenes, 2)
-        };
-
-        // create the universe
-        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
-
-        // !! most important step : links the universe methods (get_universe_size for example) to 
-        // the individuals so that they can get te universe size (for example) !! 
-        universe->link_universe_functions_to_individuals();
-
-
-        //---------- EXPECTED OUTPUTS
-
-        std::vector<int> expected_out { 1, 0 };
-
-        //---------- EXECUTE
-
-        universe->exec();
-
-        auto res = algo->get_output();
-
-        is_passed &= x86_comp_output(res, expected_out);
-            
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - empty : ";
+            std::cout << "Evo algos - universe - flows - custom - von neumann neighborhood : ";
             passed_print(is_passed);
         } 
 
         return is_passed;
-    } 
+    }
 
     /**
      * @brief read a universe cell
      *
      * --> tests X86
     */
-    bool launch_tests_evo_algos_universe_flows_basic_read()
+    bool launch_tests_evo_algos_universe_flows_custom_read()
     {
         bool is_passed = true;
 
-        //---------- ALGOS
+        int val1 = 123;
+        int val2 = 8910;
+        int val3 = 32;
+        int nb_rows = 6;
+        int nb_cols = 15;
 
-        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        //---------- ENTITIES
+
+       
+        sp_evox algo = std::make_shared<EvoX>("algo x86");
         algo->init();
 
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-        freegenes->init();
+        sp_freegenes freegenes1 = std::make_shared<FreeGenes>("free genes 1");
+        freegenes1->init();
+        sp_freegenes freegenes2 = std::make_shared<FreeGenes>("free genes 2");
+        freegenes2->init();
+        sp_freegenes freegenes3 = std::make_shared<FreeGenes>("free genes 3");
+        freegenes3->init();
 
-        //---------- CODE
+        sp_entity_void voidentity = std::make_shared<EntityVoid>("void entity");
+        voidentity->init();
 
-        std::vector<std::array<int,SIZE_INSTR>> code { 
-            { instruction::READ, 0, 0, 0, 1, 0, 0 },
-            { instruction::CPYIN, 1, 1, 0, 0, 2, 0 },
-            { instruction::CPYOUT, 1, 1, 0, 0, 0, 0 }
+        //---------- free genes code
+
+        std::vector<int> genes1 { 
+            3, 2000,
+            instruction::SETOS, 0, 0, 0, 1, 0, 0,
+            instruction::CPYOUT, 1, 0, 0, 0, val1, 0
+        };
+        std::vector<int> genes2 { 
+            3, 2001,
+            instruction::SETOS, 0, 0, 0, 1, 0, 0,
+            instruction::CPYOUT, 1, 0, 0, 0, val2, 0
+        };
+        std::vector<int> genes3 { 
+            3, 2002,
+            instruction::SETOS, 0, 0, 0, 1, 0, 0,
+            instruction::CPYOUT, 1, 0, 0, 0, val3, 0
         };
 
-        std::vector<int> vals { 12, 13, 14 };
 
-        algo->reset_code(code); 
-        freegenes->set_genes(vals);
+        algo->set_genes(get_genes_from_csv("genes_base.csv")); 
+        freegenes1->set_genes(genes1);
+        freegenes2->set_genes(genes2);
+        freegenes3->set_genes(genes3);
 
         //---------- UNIVERSE
 
-        // 2 places : first with algo, second is empty
-        std::vector<sp_place> places {
-            std::make_shared<Place>(algo, 0),
-            std::make_shared<Place>(freegenes, 1)
-        };
-
         // create the universe
-        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
+        sp_univ_evo_algos_custom universe = std::make_shared<UniverseEvoXCustomNeighborhood>(nb_rows, nb_cols, "universe");
+        std::vector<sp_place> places = universe->get_places();
+        places[2*nb_cols+5]->set_entity(algo);
+        places[2*nb_cols+6]->set_entity(freegenes1);
+        places[3*nb_cols+5]->set_entity(freegenes2);
+        places[3*nb_cols+6]->set_entity(freegenes3);
 
-        // !! most important step : links the universe methods (get_universe_size for example) to 
-        // the individuals so that they can get te universe size (for example) !! 
-        universe->link_universe_functions_to_individuals();
+        universe->link_universe_functions_to_individuals(neighborhoodType::VON_NEUMANN, new int{ 2 });
 
-
-        //---------- EXPECTED OUTPUTS
-
-        std::vector<int> expected_out { 14 };
 
         //---------- EXECUTE
 
+        algo->set_input({ 3, 2000 });
         universe->exec();
-
         auto res = algo->get_output();
-
-        is_passed &= x86_comp_output(res, expected_out);
+        is_passed &= x86_comp_output(res, {val1});
             
+        algo->set_input({ 3, 2001 });
+        universe->exec();
+        res = algo->get_output();
+        is_passed &= x86_comp_output(res, {val2});
+
+        algo->set_input({ 3, 2002 });
+        universe->exec();
+        res = algo->get_output();
+        is_passed &= !x86_comp_output(res, {val3});
+
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - read : ";
+            std::cout << "Evo algos - universe - flows - custom - empty : ";
             passed_print(is_passed);
         } 
 
@@ -187,7 +185,7 @@ namespace ut_ea
      *
      * --> tests X86
     */
-    bool launch_tests_evo_algos_universe_flows_basic_read_fail()
+    bool launch_tests_evo_algos_universe_flows_custom_read_fail()
     {
         bool is_passed = true;
 
@@ -277,7 +275,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - fail read : ";
+            std::cout << "Evo algos - universe - flows - custom - fail read : ";
             passed_print(is_passed);
         } 
 
@@ -291,7 +289,7 @@ namespace ut_ea
      *
      * --> tests X86
     */
-    bool launch_tests_evo_algos_universe_flows_basic_write()
+    bool launch_tests_evo_algos_universe_flows_custom_write()
     {
         bool is_passed = true;
 
@@ -362,7 +360,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - write : ";
+            std::cout << "Evo algos - universe - flows - custom - write : ";
             passed_print(is_passed);
         } 
 
@@ -379,7 +377,7 @@ namespace ut_ea
      *
      * --> tests X86
     */
-    bool launch_tests_evo_algos_universe_flows_basic_write_fail()
+    bool launch_tests_evo_algos_universe_flows_custom_write_fail()
     {
         bool is_passed = true;
 
@@ -513,7 +511,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - universe - flows - basic - fail write : ";
+            std::cout << "Evo algos - universe - flows - custom - fail write : ";
             passed_print(is_passed);
         } 
 

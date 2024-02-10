@@ -2,9 +2,9 @@ Book of work:
 
 1) EvoX
 
-13 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
-        - order 0 : add specialised generators for values in [0;10]
 14 - acquire amino acids (+ neighborhood change)
+        - neighborhood change
+        - wrapping order 1 genes into free genes with teleonomical ID -1
 15 - select on amino acid acquisition
 16 - share useful amino acids
 17 - complex functions (~proteins ?) morphogenesis
@@ -30,6 +30,7 @@ What has been done :
 10 - 30/11/2023 - teleonomical design
 11 - 07/12/2023 - non regression tests for EvoX
 12 - 03/01/2024 - autopoiesis and refactoring
+13 - 02/02/2024 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
 
 2) Code eaters
 

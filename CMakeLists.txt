@@ -169,7 +169,8 @@ set(SOURCES_MODEL_CLASSICAL_ALGOS
 
 set(HEADERS_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/X86Algo/UtilityFunctions.hpp
-    src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp
+    src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp src/Models/EvoAlgos/Universe/UniverseEvoXCustomNeighborhood.hpp
+    src/Models/EvoAlgos/Universe/CustomNeighborhoods.hpp
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.hpp
     src/Models/EvoAlgos/X86Algo/X86Algo.hpp src/Models/EvoAlgos/X86Algo/EvoX.hpp
@@ -184,7 +185,7 @@ set(HEADERS_MODEL_EVO_ALGOS
     )
 
 set(SOURCES_MODEL_EVO_ALGOS
-    src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp
+    src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp src/Models/EvoAlgos/Universe/UniverseEvoXCustomNeighborhood.cpp
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.cpp
     src/Models/EvoAlgos/X86Algo/X86Algo.cpp src/Models/EvoAlgos/X86Algo/EvoX.cpp

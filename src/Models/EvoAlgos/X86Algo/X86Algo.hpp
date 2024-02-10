@@ -79,6 +79,11 @@ protected:
      */
     std::function<bool(int, std::vector<int>)> write_freegenes_at;
 
+    /**
+     * @brief size of the neighborhood of the current individual
+     */
+    int neighborhood_size;
+
 
     //---------- other
 
@@ -154,9 +159,12 @@ public:
     void set_data_at(int pos, int val);
     void reset_data();
 
+    void set_neighborhood_size(int size);
+
     // getters
     std::vector<std::array<int,SIZE_INSTR>> get_code();
     std::vector<int> get_output();
+    int get_neighborhood_size();
 
     // utils
     void print_data_debug();

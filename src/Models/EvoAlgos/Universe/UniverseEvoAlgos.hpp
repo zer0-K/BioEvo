@@ -17,6 +17,7 @@ public:
 
     /// @brief constructor
     UniverseEvoAlgos(std::vector<sp_x86algo> algos, std::string name);
+    /// @brief constructor
     UniverseEvoAlgos(std::vector<sp_evox> algos, std::string name);
 
     /// @see Universe::exec
@@ -30,7 +31,7 @@ public:
      * @param[in] pos position to check
      * @return true if given place is empty
      */
-    bool is_empty(int pos);
+    virtual bool is_empty(int pos);
 
     /**
      * @brief get free genes at given pos
@@ -38,21 +39,21 @@ public:
      * @param[in] pos position
      * @return genes (empty if no free genes at given pos)
      */
-    std::vector<int> get_freegenes_at(int pos);
+    virtual std::vector<int> get_freegenes_at(int pos);
 
     /**
-     * @brief get universe size
+     * @brief write free genes at given pos
      *
      * @param[in] pos position to write
      * @param[in] vals int sequence to write
      * @return true if write was successful
      */
-    bool write_freegenes_at(int pos, std::vector<int> vals);
+    virtual bool write_freegenes_at(int pos, std::vector<int> vals);
 
     /**
      * @brief link universe functions to x86 individuals
      */
-    void link_universe_functions_to_individuals();
+    virtual void link_universe_functions_to_individuals();
 
 };
 
