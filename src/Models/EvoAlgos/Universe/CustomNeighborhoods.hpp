@@ -11,6 +11,7 @@
  *
  */
 
+
 /**
  * @brief get absolute pos of a cell in the von neumann neighborhood of another cell
  * edges are not connected
@@ -25,7 +26,9 @@
  */
 inline int get_pos_from_von_neumann_neighborhood(int pos, int pos_neighborhood, int neighborhood_size, int nb_rows, int nb_cols)
 {
-    int nb_cells_in_von_neumann_neighborhood = 2*neighborhood_size*(neighborhood_size+1);
+    int nb_of_cells_von_neumann(int);
+
+    int nb_cells_in_von_neumann_neighborhood = nb_of_cells_von_neumann(neighborhood_size);
     if(pos<0 || pos>=nb_rows*nb_cols 
         || pos_neighborhood<0 || pos_neighborhood>=nb_cells_in_von_neumann_neighborhood)
     {
@@ -83,4 +86,16 @@ inline int get_pos_from_von_neumann_neighborhood(int pos, int pos_neighborhood, 
     int final_pos = x_absolute + y_absolute*nb_cols;
 
     return (final_pos<0 || final_pos>=nb_rows*nb_cols) ? -1 : final_pos;
+}
+
+/**
+ * @brief number of cells in the von neumann neighborhood
+ *
+ * @param neighborhood_size size of the neighborhood
+ *
+ * @return nb of cells in the neighborhood
+ */
+inline int nb_of_cells_von_neumann(int neighborhood_size)
+{
+    return 2*neighborhood_size*(neighborhood_size+1);
 }

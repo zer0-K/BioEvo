@@ -75,7 +75,7 @@ std::vector<int> UniverseEvoAlgos::get_freegenes_at(int pos)
 bool UniverseEvoAlgos::write_freegenes_at(int pos, std::vector<int> vals)
 {
     // create free genes with given values if place at given pos is empty
-    if(is_empty(pos))
+    if(UniverseEvoAlgos::is_empty(pos))
     {
         sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
         freegenes->init();

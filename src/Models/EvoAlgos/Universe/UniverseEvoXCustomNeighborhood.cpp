@@ -92,7 +92,7 @@ bool UniverseEvoXCustomNeighborhood::is_empty(int pos)
         return false;
     }
 
-    return UniverseEvoAlgos::is_empty(pos);
+    return UniverseEvoAlgos::is_empty(absolute_pos);
 }
 
 std::vector<int> UniverseEvoXCustomNeighborhood::get_freegenes_at(int pos)
@@ -109,7 +109,7 @@ std::vector<int> UniverseEvoXCustomNeighborhood::get_freegenes_at(int pos)
         return std::vector<int>(0);
     }
 
-    return UniverseEvoAlgos::get_freegenes_at(pos);
+    return UniverseEvoAlgos::get_freegenes_at(absolute_pos);
 }
 
 bool UniverseEvoXCustomNeighborhood::write_freegenes_at(int pos, std::vector<int> vals)
@@ -126,23 +126,27 @@ bool UniverseEvoXCustomNeighborhood::write_freegenes_at(int pos, std::vector<int
         return false;
     }
 
-    return UniverseEvoAlgos::write_freegenes_at(pos, vals);
+    return UniverseEvoAlgos::write_freegenes_at(absolute_pos, vals);
 }
 
 void UniverseEvoXCustomNeighborhood::link_universe_functions_to_individuals(neighborhoodType nt, int params[])
 {
     neighborhood_size = params[0];
+    int nb_cells_neighborhood = 0;
 
     switch(nt) 
     {
         case neighborhoodType::MOORE:
             get_pos_from_neighborhood_coords = std::bind(&get_pos_from_von_neumann_neighborhood, _1, _2, _3, _4, _5);
+            nb_cells_neighborhood = nb_of_cells_von_neumann(neighborhood_size);
             break;
         case neighborhoodType::VON_NEUMANN:
             get_pos_from_neighborhood_coords = std::bind(&get_pos_from_von_neumann_neighborhood, _1, _2, _3, _4, _5);
+            nb_cells_neighborhood = nb_of_cells_von_neumann(neighborhood_size);
             break;
         default:
             get_pos_from_neighborhood_coords = std::bind(&get_pos_from_von_neumann_neighborhood, _1, _2, _3, _4, _5);
+            nb_cells_neighborhood = nb_of_cells_von_neumann(neighborhood_size);
             break;
     }
 
@@ -156,9 +160,9 @@ void UniverseEvoXCustomNeighborhood::link_universe_functions_to_individuals(neig
             sp_x86algo algo = std::dynamic_pointer_cast<X86Algo>(entity);
             algo->set_neighborhood_size(neighborhood_size);
 
-            // we force universe size to be the neighborhood size
+            // we force universe size to be the nb of cells in the neighborhood
             // so that an individual cannot reach smth outside of its neighborhood 
-            std::function<int()> f1 = [algo](){ return algo->get_neighborhood_size(); };
+            std::function<int()> f1 = [nb_cells_neighborhood](){ return nb_cells_neighborhood; };
 
             // is empty
             std::function<bool(int)> f2 = std::bind(&UniverseEvoAlgos::is_empty, this, _1);
