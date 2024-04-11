@@ -440,6 +440,19 @@ add_executable(bio-evo-gene src/Experiment/BioEvo/Gene/main.cpp
     ${EXPERIMENT_RUNNERS_BIO_EVO_GENE})
 target_link_libraries(bio-evo-gene ${LIBS})
 
+# *************** Genesis
+
+set(EXPERIMENT_RUNNERS_BIO_EVO_GENESIS src/Experiment/BioEvo/Genesis/ExperimentRunnerGenesis.hpp
+    src/Experiment/BioEvo/Genesis/EvoAlgosGenesis/GenerateBaseEvoX1.hpp
+    src/Experiment/BioEvo/Genesis/EvoAlgosGenesis/GenerateBaseEvoX1.cpp
+    src/Experiment/BioEvo/Genesis/EvoAlgosGenesis/GenerateBaseEvoX2.hpp
+    src/Experiment/BioEvo/Genesis/EvoAlgosGenesis/GenerateBaseEvoX2.cpp)
+add_executable(bio-evo-genesis src/Experiment/BioEvo/Genesis/main.cpp 
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_GENESIS})
+target_link_libraries(bio-evo-genesis ${LIBS})
+
 # *************** Replicators
 
 set(EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS src/Experiment/BioEvo/Replicators/ExperimentRunnerReplicators.hpp
@@ -469,7 +482,8 @@ target_link_libraries(bio-evo-teleonomy ${LIBS})
 set(EXPERIMENT_RUNNERS_BIO_EVO 
     src/Experiment/BioEvo/ExperimentRunnerBioEvo.hpp
     ${EXPERIMENT_RUNNERS_BIO_EVO_TRAIT} ${EXPERIMENT_RUNNERS_BIO_EVO_GENE}
-    ${EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS})
+    ${EXPERIMENT_RUNNERS_BIO_EVO_GENESIS} ${EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS}
+    ${EXPERIMENT_RUNNERS_BIO_EVO_TELEONOMY})
 add_executable(bio-evo-all src/Experiment/BioEvo/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
@@ -591,6 +605,7 @@ set(HEADERS_UNIT_TESTS_EVO_ALGOS
         src/UnitTests/EvoAlgos/test_3_2.hpp
             src/UnitTests/EvoAlgos/test_3_2_x.hpp 
             src/UnitTests/EvoAlgos/test_3_2_1.hpp src/UnitTests/EvoAlgos/test_3_2_2.hpp
+            src/UnitTests/EvoAlgos/test_3_2_3.hpp
     src/UnitTests/EvoAlgos/test_4_universe.hpp
         src/UnitTests/EvoAlgos/test_4_1.hpp
             src/UnitTests/EvoAlgos/test_4_1_1.hpp)

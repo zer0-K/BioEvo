@@ -3,6 +3,7 @@
 #include "Trait/ExperimentRunnerTraits.hpp"
 #include "Gene/ExperimentRunnerGenes.hpp"
 #include "Replicators/ExperimentRunnerReplicators.hpp"
+#include "Genesis/ExperimentRunnerGenesis.hpp"
 
 #include <iostream>
 
@@ -23,7 +24,8 @@ void ExperimentRunnerBioEvo::init()
     experiments = {
         std::make_shared<ExperimentRunnerTraits>(),
         std::make_shared<ExperimentRunnerGenes>(),
-        std::make_shared<ExperimentRunnerReplicators>()
+        std::make_shared<ExperimentRunnerReplicators>(),
+        std::make_shared<ExperimentRunnerGenesis>()
     };
 
     for(int i=0;i<experiments.size();i++)

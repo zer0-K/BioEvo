@@ -2,12 +2,15 @@ Book of work:
 
 1) EvoX
 
-14 - acquire amino acids (+ neighborhood change)
-        - neighborhood change
-        - wrapping order 1 genes into free genes with teleonomical ID for random instr
-15 - select on amino acid acquisition
-16 - share useful amino acids
-17 - complex functions (~proteins ?) morphogenesis
+15 - evolve code
+        a - find simple examples : progteins
+        b - create tRNA
+        c - create subunit & mRNA
+        d - create mutable DNA
+        e - same for more examples
+16 - select on amino acid acquisition
+17 - share useful amino acids
+18 - complex functions (~proteins ?) morphogenesis
 
 For later :
 X1 - select on amino acid generation ?
@@ -31,6 +34,8 @@ What has been done :
 11 - 07/12/2023 - non regression tests for EvoX
 12 - 03/01/2024 - autopoiesis and refactoring
 13 - 02/02/2024 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
+14 - acquire amino acids (+ neighborhood change)
+        - neighborhood change
 
 2) Code eaters
 

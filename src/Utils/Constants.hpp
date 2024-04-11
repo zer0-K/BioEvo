@@ -11,7 +11,7 @@ const bool verbose_unit_tests_1 = true;
 const bool verbose_unit_tests_2 = true;
 const bool verbose_experiment_1 = false;
 
-const std::string project_folder = "/home/adrien/Disque/Programmation/Projets/BioEvo/";
+const std::string project_folder = "/home/adrien/Programmation/Projets/BioEvo/";
 
 
 // ------------------------------------------------------------ colors
@@ -133,6 +133,13 @@ const std::string name_exp_bioevo_traits_evox = "EvoX driving traits";
 
 const std::string name_exp_bioevo_genes = "experiments on genes";
 const std::string name_exp_bioevo_genes_evox_fgc = "Evox free gene creation";
+
+// ---------- GENESIS
+
+const std::string name_exp_bioevo_genesis = "generation of base evoX";
+const std::string name_exp_bioevo_genesis_1 = "generation of base evoX 1";
+const std::string name_exp_bioevo_genesis_2 = "generation of base evoX 2";
+
 
 // ---------- REPLICATORS
 
