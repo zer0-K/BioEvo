@@ -433,7 +433,9 @@ target_link_libraries(bio-evo-trait ${LIBS})
 
 set(EXPERIMENT_RUNNERS_BIO_EVO_GENE src/Experiment/BioEvo/Gene/ExperimentRunnerGenes.hpp
     src/Experiment/BioEvo/Gene/EvoX/FreeGeneCreationEvoX.hpp
-    src/Experiment/BioEvo/Gene/EvoX/FreeGeneCreationEvoX.cpp)
+    src/Experiment/BioEvo/Gene/EvoX/FreeGeneCreationEvoX.cpp
+    src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.hpp
+    src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.cpp)
 add_executable(bio-evo-gene src/Experiment/BioEvo/Gene/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}

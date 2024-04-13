@@ -357,7 +357,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_genome_parts()
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // otherwise, call function given in input
+        // otherwise, call function given ID in input
         instruction::CPYIN, 2, 1, 0, 99, 1, 0, 
         instruction::CALL, 0, 2, 0, 0, 99, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,

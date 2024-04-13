@@ -3,21 +3,20 @@ Book of work:
 1) EvoX
 
 15 - evolve code
-        a - find simple examples : progteins
         b - create tRNA
         c - create subunit & mRNA
         d - create mutable DNA
         e - same for more examples
-16 - select on amino acid acquisition
-17 - share useful amino acids
-18 - complex functions (~proteins ?) morphogenesis
+16 - organize teleonomical IDs
+17 - select on amino acid acquisition
+18 - share useful amino acids
+19 - mutate DNA when replicating individual
 
 For later :
-X1 - select on amino acid generation ?
-X2 - mutate specific regions in the code
-X3 - survival when random mutation occur
-X4 - viruses
-X5 - teleonomical ID generation (+ formal language in EvoX ASM)
+X1 - mutate specific regions in the code
+X2 - survival when random mutation occur
+X3 - viruses
+X4 - teleonomical ID generation (+ formal language in EvoX ASM)
 
 What has been done :
 
@@ -36,6 +35,8 @@ What has been done :
 13 - 02/02/2024 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
 14 - acquire amino acids (+ neighborhood change)
         - neighborhood change
+15 - evolve code
+        a - find simple examples : progteins
 
 2) Code eaters
 

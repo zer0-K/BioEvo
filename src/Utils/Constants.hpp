@@ -133,6 +133,7 @@ const std::string name_exp_bioevo_traits_evox = "EvoX driving traits";
 
 const std::string name_exp_bioevo_genes = "experiments on genes";
 const std::string name_exp_bioevo_genes_evox_fgc = "Evox free gene creation";
+const std::string name_exp_bioevo_genes_evox_gtp = "Evox gene to progtein";
 
 // ---------- GENESIS
 
