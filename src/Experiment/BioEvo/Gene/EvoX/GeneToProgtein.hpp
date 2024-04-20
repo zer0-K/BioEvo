@@ -24,8 +24,13 @@ public:
     /// @brief provide the heaviside function needed for the experiment
     std::vector<int> get_heaviside();
 
-    /// @brief firs step : example function : heaviside
+    std::map<std::string, std::vector<int>> get_tRNAs_1();
+    
+    /// @brief first step : example function : heaviside
     void exec_step_1(sp_univ_evo_algos universe, sp_evox algo);
+
+    /// @brief second step : building heavisisde with tRNA
+    void exec_step_2(sp_univ_evo_algos universe, sp_evox algo);
 
 };
 
