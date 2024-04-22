@@ -63,7 +63,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     }
 
     while(program_counter>=0 && program_counter<code.size()
-        && instr_counter < 40000)
+        && instr_counter < 60000)
     {
         std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
 
@@ -1539,6 +1539,11 @@ std::vector<std::array<int,SIZE_INSTR>> X86Algo::get_code()
 std::vector<int> X86Algo::get_output()
 {
     return output_x86;
+}
+
+std::vector<int> X86Algo::get_data()
+{
+    return data;
 }
 
 int X86Algo::get_neighborhood_size()

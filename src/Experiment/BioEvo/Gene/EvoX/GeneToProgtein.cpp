@@ -36,6 +36,7 @@ void GeneToProgtein::launch()
 
     exec_step_1(univ, algo);
     exec_step_2(univ, algo);
+    exec_step_3(univ, algo);
 }
 
 sp_univ_evo_algos GeneToProgtein::get_universe(sp_evox algo) 
@@ -97,7 +98,6 @@ std::vector<int> GeneToProgtein::get_heaviside()
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 101, 0,
         // return res
-        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::MOV, 2, 1, 0, 99, 101, 0,
         // end of func
         instruction::JMP, 2, 0, 0, 0, 0, 0};
@@ -156,6 +156,11 @@ void GeneToProgtein::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
 
 std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1() 
 {
+    // note :
+    // ribosome increments stack before calling so that
+    // we can add fct ID on stack for meta exec
+    // --> stack should be pointing to ribosome ptr initially
+
     // create n vars
     std::vector<int> tRNA_CVARS {
         3, 10000,
@@ -163,13 +168,13 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 2 args : position of heap and nb of vars
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // set heap pos and increment ribosome ptr
-        instruction::CPY, 1, 2, 0, 98, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::CPY, 1, 3, 0, 98, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // set heap size = n and increment ribosome ptr
-        instruction::CPY, 2, 2, 0, 98, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::CPY, 2, 3, 0, 98, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -179,15 +184,15 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         3, 10001,
 
         // 0 arg
-        // get and increment ribosome ptr (P site)
+        // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // set vars names
         instruction::CPY, 1, 1, 0, 101, 98, 0, // var nb ptr
         instruction::CPY, 1, 1, 0, 102, 101, 0, // var nb end
         instruction::ADD, 1, 1, 2, 102, 102, 98,
         instruction::CPY, 1, 0, 0, 103, 100, 0, // var name
-        instruction::JRG, 0, 1, 1, 5, 101, 102,
+        instruction::JRGE, 0, 1, 1, 5, 101, 102,
         instruction::INC, 1, 0, 0, 101, 0, 0,
         instruction::CPY, 2, 1, 0, 101, 103, 0,
         instruction::INC, 1, 0, 0, 103, 0, 0,
@@ -203,36 +208,38 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 2 args : arg nb, arg val (const) 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 102, 98, 100,
-        instruction::CPY, 2, 2, 0, 101, 102, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // input index
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -244,35 +251,37 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 2 args : var nb and index in input
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
         // put codons on stack
         // CPYIN
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPYIN, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPYIN, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 102, 98, 100,
-        instruction::CPY, 2, 2, 0, 101, 102, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // input index
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -284,35 +293,37 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 2 args : index in output and var nb
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
         // put codons on stack
         // CPYOUT
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPYOUT, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPYOUT, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // output index
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 102, 98, 100,
-        instruction::CPY, 2, 2, 0, 101, 102, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -325,34 +336,36 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 1 arg : var nb 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
         // put codons on stack
         // JMP IF EQL
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::JRE, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::JRE, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // JUMP SIZE
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, -142857, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, -142857, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 102, 98, 100,
-        instruction::CPY, 2, 2, 0, 101, 102, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
@@ -366,35 +379,37 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 0 arg 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
         // put codons on stack
         // JRA
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::JRA, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::JRA, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // JUMP SIZE
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, -285714, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, -285714, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // set IF jump size
-        instruction::CPY, 1, 1, 0, 102, 101, 0, // mobile subunit ptr
+        instruction::CPY, 1, 2, 0, 102, 101, 0, // mobile subunit ptr
         instruction::CPY, 1, 0, 0, 103, 1, 0, // jump size
         instruction::SUB, 1, 1, 0, 102, 102, 2, // because we seek -142857 in first instr arg val
         // look for -142857 in first instr arg val of already written in protein
@@ -415,13 +430,15 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 0 arg 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // set ELSE jump size
-        instruction::CPY, 1, 1, 0, 102, 101, 0, // mobile subunit ptr
+        instruction::CPY, 1, 2, 0, 102, 101, 0, // mobile subunit ptr
         instruction::CPY, 1, 0, 0, 103, 1, 0, // jump size
         instruction::SUB, 1, 1, 0, 102, 102, 2, // because we seek -285714 in first instr arg val
         // look for -285714 in first instr arg val of already written in protein
@@ -438,37 +455,39 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
     std::vector<int> tRNA_SOScst {
         3, 11000,
         
-        // 2 args : arg nb, arg val (const) 
+        // 1 arg : cst 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
         // SETOS
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::SETOS, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::SETOS, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // cst output size
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -480,58 +499,60 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 1 arg : cst val 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
         // 1 - increment stack
         // INC
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::INC, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 2 - put val on stack
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // cst
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -543,59 +564,61 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 1 arg : var nb 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
         // 1 - increment stack
         // INC
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::INC, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 2 - put var on stack
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 102, 98, 100,
-        instruction::CPY, 2, 2, 0, 101, 102, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -604,61 +627,63 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
     std::vector<int> tRNA_PCSWI {
         3, 11200,
         
-        // 2 args : temp var for stack manipulation, cst val 
+        // 1 arg : cst val 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
         // 1 - increment size of stack
         // INC
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::INC, 0,
-        // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 2 - put val on stack
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 3
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 3, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // cst
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -667,62 +692,64 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
     std::vector<int> tRNA_PLVSWI {
         3, 11250,
         
-        // 2 args : temp var for stack manipulation, cst val 
+        // 1 arg : cst val 
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
         // 1 - increment size of stack
         // INC
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::INC, 0,
-        // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 2 - put val on stack
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 3
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 3, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 99
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 99, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 102, 98, 100,
-        instruction::CPY, 2, 2, 0, 101, 102, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -734,14 +761,16 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 4 args : CMP OP, var nb, cst val, res var nb
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // get CMP OP
-        instruction::CPY, 1, 2, 0, 102, 100, 0,     // arg0 : CMP OP
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::CPY, 1, 3, 0, 102, 100, 0,     // arg0 : CMP OP
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // transcribe the CMP OP : 
         // 0 : ==
         // 1 : <
@@ -766,119 +795,121 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
         // 1 - JMP for LV CMP cst
         // JMP OP 
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 1, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 1, 0, 101, 102, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
-        // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 103, 98, 100,    // arg1 : var nb
-        instruction::CPY, 2, 2, 0, 101, 103, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // cst
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 100, 0,     // arg2 : cst
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,     // arg2 : cst
+        instruction::INC, 2, 0, 0, 100, 0, 0,
 
         // 2 - res <- 0
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 103, 98, 100,    // arg3 : res nb
-        instruction::CPY, 2, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg3 : res nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 3 - JRA 2
         // JRA
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::JRA, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::JRA, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 4 - res <- 1
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 103, 0,     // arg3 in 103 : res nb
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 2, 0, 101, 103, 0,     // arg3 in 103 : res nb
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
-    // CMP local var with kicak var
+    // CMP local var with local var
     std::vector<int> tRNA_CMPLVLV {
         3, 11350,
         
         // 4 args : CMP OP, var nb, var nb, res var nb
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // get E site
-        instruction::CPY, 1, 1, 0, 101, 99, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // get CMP OP
-        instruction::CPY, 1, 2, 0, 102, 100, 0,     // arg0 : CMP OP
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::CPY, 1, 3, 0, 102, 100, 0,     // arg0 : CMP OP
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // transcribe the CMP OP : 
         // 0 : ==
         // 1 : <
@@ -903,104 +934,145 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
         // 1 - JMP for LV CMP cst
         // JMP OP 
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 1, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 1, 0, 101, 102, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
-        // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
         // local var 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 103, 98, 100,    // arg1 : var nb 1
-        instruction::CPY, 2, 2, 0, 101, 103, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb 1
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // local var 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 103, 98, 100,    // arg2 : var nb 2
-        instruction::CPY, 2, 2, 0, 101, 103, 0,
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg2 : var nb 2
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
 
         // 2 - res <- 0
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::ADD, 1, 1, 2, 103, 98, 100,    // arg3 : res nb
-        instruction::CPY, 2, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg3 : res nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 3 - JRA 2
         // JRA
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::JRA, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::JRA, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 2
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 2, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         // 4 - res <- 1
         // CPY
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, instruction::CPY, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
         // 1
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 1, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // local var
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 2, 0, 101, 103, 0,     // arg3 in 103 : res nb
-        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 2, 0, 101, 103, 0,     // arg3 in 103 : res nb
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 1, 0, 0, 101, 0, 0,
-        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
+
+    // return (JMP02)
+    std::vector<int> tRNA_RET {
+        3, 9999,
+        
+        // 0 arg 
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // put codons on stack
+        // JMP
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::JMP, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
 
 
     std::map<std::string, std::vector<int>> all_parts {
@@ -1018,7 +1090,8 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : put cst on stack without increment", tRNA_PCSWI },
         { "tRNA : put local var on stack without increment", tRNA_PLVSWI },
         { "tRNA : compare local var with constant", tRNA_CMPLVcst },
-        { "tRNA : compare local var with local var", tRNA_CMPLVLV }
+        { "tRNA : compare local var with local var", tRNA_CMPLVLV },
+        { "tRNA : return", tRNA_RET }
     };
 
     return all_parts;
@@ -1046,7 +1119,8 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : put cst on stack without increment",
         "tRNA : put local var on stack without increment",
         "tRNA : compare local var with constant",
-        "tRNA : compare local var with local var"
+        "tRNA : compare local var with local var",
+        "tRNA : return"
     };
 
     for(int i=0;i<iteration_order.size();i++)
@@ -1071,4 +1145,168 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
 
+}
+
+std::vector<int> GeneToProgtein::get_ribosome()
+{
+    // input : mRNA initialised, i.e. :
+    // - mRNA end is set
+    // - RNA sequence starts at stack+2
+    std::vector<int> ribosome {
+        3, 206,
+
+        // FOR TESTS !!!
+        instruction::CPY, 1, 0, 0, 99, 163, 0,
+
+        // create progtein ptr
+        instruction::CPY, 1, 2, 0, 100, 99, 0,
+        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::CPY, 2, 1, 0, 100, 100, 0,
+
+        // init ribosome ptr
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::CPY, 2, 1, 0, 100, 100, 0,
+        instruction::ADD, 2, 2, 0, 100, 100, 2,
+
+        // call tRNAs until the end of mRNA
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 1, 0, 0, 100, 0, 0,
+        // stop if ribosome ptr > mRNA end
+        instruction::JRG, 0, 2, 2, 5, 100, 99,
+        // call tRNA
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::CALL, 0, 3, 0, 0, 100, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::JRS, 0, 0, 0, 6, 0, 0,
+
+        // remove the mRNA
+        // compute nb of amino-acids
+        instruction::CPY, 1, 2, 0, 100, 99, 0,
+        instruction::INC, 1, 0, 0, 100, 0, 0,   // progtein ptr pos
+        instruction::CPY, 1, 2, 0, 101, 100, 0, // progtein ptr val
+        instruction::SUB, 1, 2, 1, 102, 100, 100,   // nb of amino-acids
+        instruction::ADD, 2, 1, 1, 99, 99, 102,
+        instruction::CPY, 1, 1, 0, 103, 99, 0,  // cpy dest
+        // copy progtein at top of stack
+        instruction::JRGE, 0, 1, 1, 5, 100, 101,
+        instruction::INC, 1, 0, 0, 100, 0, 0,
+        instruction::INC, 1, 0, 0, 103, 0, 0,
+        instruction::CPY, 2, 2, 0, 103, 100, 0,
+        instruction::JRS, 0, 0, 0, 4, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    return ribosome;
+}
+
+void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
+{
+    //----- get ribosome
+
+    std::vector<int> ribosome = get_ribosome();
+
+    sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
+    freegenes->init();
+    freegenes->set_genes(ribosome);
+    universe->get_places()[1]->set_entity(freegenes);
+
+    algo->set_input({3, 206});
+    universe->exec();
+
+    // call ribosome for Heaviside ad hoc mRNA
+
+    int stack_pos = 170;
+
+    algo->set_data_at(stack_pos-7,195);
+    algo->set_data_at(stack_pos-6,0);
+    algo->set_data_at(stack_pos-5,0);
+    algo->set_data_at(stack_pos-4,10000);
+    algo->set_data_at(stack_pos-3,1000);
+    algo->set_data_at(stack_pos-2,3);
+    algo->set_data_at(stack_pos-1,10001);
+    algo->set_data_at(stack_pos,10200);
+    algo->set_data_at(stack_pos+1,1);
+    algo->set_data_at(stack_pos+2,2);
+    algo->set_data_at(stack_pos+3,11300);
+    algo->set_data_at(stack_pos+4,2);
+    algo->set_data_at(stack_pos+5,1);
+    algo->set_data_at(stack_pos+6,77);
+    algo->set_data_at(stack_pos+7,2);
+    algo->set_data_at(stack_pos+8,10500);
+    algo->set_data_at(stack_pos+9,2);
+    algo->set_data_at(stack_pos+10,10100);
+    algo->set_data_at(stack_pos+11,3);
+    algo->set_data_at(stack_pos+12,1);
+    algo->set_data_at(stack_pos+13,10600);
+    algo->set_data_at(stack_pos+14,10100);
+    algo->set_data_at(stack_pos+15,3);
+    algo->set_data_at(stack_pos+16,0);
+    algo->set_data_at(stack_pos+17,10700);
+    algo->set_data_at(stack_pos+18,11000);
+    algo->set_data_at(stack_pos+19,1);
+    algo->set_data_at(stack_pos+20,10250);
+    algo->set_data_at(stack_pos+21,0);
+    algo->set_data_at(stack_pos+22,3);
+    algo->set_data_at(stack_pos+23,11150);
+    algo->set_data_at(stack_pos+24,3);
+    algo->set_data_at(stack_pos+25,9999);
+    
+    algo->set_input({-1, 206});
+    universe->exec();
+
+
+    sp_freegenes freegenes2 = std::make_shared<FreeGenes>("free genes");
+    freegenes2->init();
+    std::vector<int> genes(100);
+    genes[0] = 3;
+    genes[1] = 667;
+    for(int i=0;i<98;i++)
+        genes[2+i] = algo->get_data()[164+i];
+
+
+    freegenes2->set_genes(genes);
+    universe->get_places()[1]->set_entity(freegenes2);
+
+    algo->set_input({3, 667});
+    universe->exec();
+
+    //----- test Heaviside function
+
+    int nb_test_inputs = 20;
+    bool passed = true;
+    for(int i=0;i<nb_test_inputs;i++)
+    {
+        int test_input = rand_gen::rand_normal(77, 4);
+        int expected_output = test_input > 77 ? 1 : 0;
+
+        algo->set_input({-1, 667, test_input});
+        universe->exec();
+        auto res = algo->get_output();
+
+        int output = res[0];
+        passed = output == expected_output;
+        if(!passed)
+        {
+            std::cout << "\tError : " << std::endl
+                << "\tInput : " << test_input << std::endl
+                << "\tExpected output : " << expected_output << std::endl
+                << "\tGot output : " << output << std::endl;
+        }
+    }
+
+    if(passed)
+    {
+        std::cout << "Passed ! " << std::endl;
+    }
+    else
+    {
+        std::cout << "Not passed..." << std::endl;
+    }
+
+    write_genes_to_csv(algo->get_genes(), "genes_with_ribosome_and_built_heaviside.csv");
+
+    std::cout << "Experience over" << std::endl;
 }

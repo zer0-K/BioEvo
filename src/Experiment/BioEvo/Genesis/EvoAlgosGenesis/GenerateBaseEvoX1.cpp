@@ -67,7 +67,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         instruction::MARKER, 0, 0, 0, 0, 0, 0,
         
         // find marker with given id
-        instruction::CPY, 1, 2, 1, 100, 99, 0,      // get arg from stack
+        instruction::CPY, 1, 2, 0, 100, 99, 0,      // get arg from stack
         instruction::CPY, 1, 0, 0, 110, -7, 0,
         instruction::ADD, 1, 1, 0, 110, 110, 7,
         instruction::GR, 1, 2, 0, 101, 110, 0,

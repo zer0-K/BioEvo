@@ -164,6 +164,7 @@ public:
     // getters
     std::vector<std::array<int,SIZE_INSTR>> get_code();
     std::vector<int> get_output();
+    std::vector<int> get_data();
     int get_neighborhood_size();
 
     // utils

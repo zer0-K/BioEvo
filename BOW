@@ -3,10 +3,12 @@ Book of work:
 1) EvoX
 
 15 - evolve code
-        b - create tRNA
-        c - create subunit & mRNA
-        d - create mutable DNA
-        e - same for more examples
+        c - create ribosome
+        d - create mRNA from DNA
+        e - create mutable DNA
+        f - tRNA for FOR loops
+        g - plotting progtein creation
+        h - bootstrap !
 16 - organize teleonomical IDs
 17 - select on amino acid acquisition
 18 - share useful amino acids
@@ -37,6 +39,7 @@ What has been done :
         - neighborhood change
 15 - evolve code
         a - find simple examples : progteins
+        b - create tRNAs
 
 2) Code eaters
 
