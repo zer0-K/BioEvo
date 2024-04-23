@@ -11,6 +11,8 @@ class GeneToProgtein : public Experiment
 {
 protected:
 
+    int heaviside_threshold;
+
 public:
     GeneToProgtein();
 
@@ -43,6 +45,14 @@ public:
 
     /// @brief third step : ribosome and RNAi
     void exec_step_3(sp_univ_evo_algos universe, sp_evox algo);
+
+    //-------------------- step 4
+
+    /// @brief provide DNA and RNAP
+    std::map<std::string, std::vector<int>> get_DNA_and_RNAP();
+
+    /// @brief fourth step : gene to mRNA
+    void exec_step_4(sp_univ_evo_algos universe, sp_evox algo);
 };
 
 typedef std::shared_ptr<GeneToProgtein> sp_experiment_evox_gtp;

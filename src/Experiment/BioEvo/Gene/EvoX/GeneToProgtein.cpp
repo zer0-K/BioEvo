@@ -26,7 +26,7 @@ GeneToProgtein::GeneToProgtein()
 
 void GeneToProgtein::init()
 {
-
+    heaviside_threshold = 21;
 }
 
 void GeneToProgtein::launch()
@@ -1211,8 +1211,6 @@ std::vector<int> GeneToProgtein::get_ribosome()
 
 void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
 {
-    int heaviside_threshold = 21;
-
     //----- get ribosome
 
     std::vector<int> ribosome = get_ribosome();
@@ -1325,3 +1323,83 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     std::cout << "Experience over" << std::endl;
 }
 
+//-------------------- step 4
+
+std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
+{
+    // DNA
+    std::vector<int> DNA_Heaviside {
+        instruction::MARKER, -2, -1, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, GSTART_ID, 667,
+        10000, 1000, 3, 10001, 10200, 1, 2,
+        11300, 2, 1,  heaviside_threshold, 2, 10500, 2,
+        10100, 3, 1, 10600, 10100, 3, 0,
+        10700, 11000, 1, 10250, 0, 3, 11150,
+        3, 9999, GSTOP_ID, 0, 0, 0, 0,
+        instruction::MARKER, -2, -1, 0, 0, 0, 0, 
+    };
+
+    // RNAP
+    std::vector<int> RNAP {
+        3, 207,
+
+        // first, find teleonomical ID after start ID
+        instruction::CPY, 1, 0, 0, 110, -7, 0,
+        instruction::ADD, 1, 1, 0, 110, 110, 7,
+        instruction::GR, 1, 2, 0, 101, 110, 0,
+        instruction::JRE, 0, 1, 0, 2, 101, instruction::MARKER, // marker found
+        instruction::JRS, 0, 0, 0, 3, 0, 0,
+        // check func id
+        instruction::ADD, 1, 1, 0, 110, 110, 2,
+        instruction::GR, 1, 2, 0, 101, 110, 0,
+        instruction::JRE, 0, 1, 0, 3, 101, -1,
+        instruction::SUB, 1, 1, 0, 110, 110, 2,
+        instruction::JRS, 0, 0, 0, 8, 0, 0,
+        
+        // finds start markers and corresponding teleonomical ID
+        instruction::CPY, 1, 2, 0, 100, 99, 0,      // get arg from stack
+        instruction::INC, 1, 0, 0, 110, 0, 0,
+        instruction::GR, 1, 2, 0, 101, 110, 0,
+        instruction::JRE, 0, 1, 0, 2, 101, GSTART_ID, // marker found
+        instruction::JRS, 0, 0, 0, 3, 0, 0,
+        // check func id
+        instruction::INC, 1, 0, 0, 110, 0, 0,
+        instruction::GR, 1, 2, 0, 101, 110, 0,
+        instruction::JRE, 0, 1, 1, 3, 101, 110,
+        instruction::DEC, 1, 0, 0, 110, 0, 0,
+        instruction::JRS, 0, 0, 0, 8, 0, 0,
+
+        // then, write on stack untill stop ID
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 1, 0, 101, 99, 0,      // loop ptr
+        // pass ribosome ptr and place for ID
+        instruction::INC, 1, 0, 0, 101, 0, 0,
+        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,
+        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        // loop over codons
+        instruction::INC, 1, 0, 0, 110, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,
+        instruction::GR, 2, 2, 0, 101, 110, 0,
+        instruction::JRE, 0, 2, 0, 2, 101, GSTOP_ID, // marker found
+        instruction::JRS, 0, 0, 0, 4, 0, 0,
+        // stop marker found
+        instruction::CPY, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 2, 1, 0, 99, 101, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    std::map<std::string, std::vector<int>> all_parts {
+        { "Heaviside DNA", DNA_Heaviside },
+        { "RNAP", RNAP }
+    };
+
+    return all_parts;
+}
+
+void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
+{
+
+}

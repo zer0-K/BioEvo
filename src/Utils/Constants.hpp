@@ -104,6 +104,11 @@ const std::string FREEGENES = "free code";
 inline bool EVOX_LOGGING = false;
 const std::string LOG_FILE_DEFAULT = "/home/adrien/Disque/Programmation/Projets/BioEvo/log/autopoiesis_1.csv";
 
+// ---------- Genetic constants
+
+const int GSTART_ID = -51451;
+const int GSTOP_ID = -77142;
+
 
 // ------------------------------------------------------------ Experiment names
 
