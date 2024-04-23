@@ -3,10 +3,9 @@ Book of work:
 1) EvoX
 
 15 - evolve code
-        c - create ribosome
-        d - create mRNA from DNA
-        e - create mutable DNA
-        f - tRNA for FOR loops
+        d - tRNA for FOR loops
+        e - create mRNA from DNA
+        f - create mutable DNA
         g - plotting progtein creation
         h - bootstrap !
 16 - organize teleonomical IDs
@@ -20,7 +19,9 @@ X2 - survival when random mutation occur
 X3 - viruses
 X4 - teleonomical ID generation (+ formal language in EvoX ASM)
 
+
 What has been done :
+
 
 1 - ~13/09/2023 - can execute any program 
 2 - 17/09/2023 - can self replicate (quine)
@@ -35,11 +36,13 @@ What has been done :
 11 - 07/12/2023 - non regression tests for EvoX
 12 - 03/01/2024 - autopoiesis and refactoring
 13 - 02/02/2024 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
-14 - acquire amino acids (+ neighborhood change)
+14 - 13/02/2024 - acquire amino acids (+ neighborhood change)
         - neighborhood change
 15 - evolve code
-        a - find simple examples : progteins
-        b - create tRNAs
+   - 13/04/2024 -     a - find simple examples : progteins
+   - 20/04/2024 -     b - create tRNAs
+   - 23/04/2024 -     c - create ribosome
+
 
 2) Code eaters
 

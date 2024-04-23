@@ -79,6 +79,8 @@ sp_evox GeneToProgtein::get_base_algo()
     return algo;
 }
 
+//-------------------- step 1
+
 std::vector<int> GeneToProgtein::get_heaviside()
 {
     std::vector<int> heaviside{
@@ -153,6 +155,8 @@ void GeneToProgtein::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
         std::cout << "Not passed..." << std::endl;
     }
 }
+
+//-------------------- step 2
 
 std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1() 
 {
@@ -1147,6 +1151,8 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
 }
 
+//-------------------- step 3
+
 std::vector<int> GeneToProgtein::get_ribosome()
 {
     // input : mRNA initialised, i.e. :
@@ -1155,8 +1161,7 @@ std::vector<int> GeneToProgtein::get_ribosome()
     std::vector<int> ribosome {
         3, 206,
 
-        // FOR TESTS !!!
-        instruction::CPY, 1, 0, 0, 99, 163, 0,
+        instruction::ADD, 1, 1, 0, 99, 99, 2,
 
         // create progtein ptr
         instruction::CPY, 1, 2, 0, 100, 99, 0,
@@ -1195,6 +1200,8 @@ std::vector<int> GeneToProgtein::get_ribosome()
         instruction::INC, 1, 0, 0, 103, 0, 0,
         instruction::CPY, 2, 2, 0, 103, 100, 0,
         instruction::JRS, 0, 0, 0, 4, 0, 0,
+        
+        instruction::SUB, 1, 1, 0, 99, 99, 2,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -1204,6 +1211,8 @@ std::vector<int> GeneToProgtein::get_ribosome()
 
 void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
 {
+    int heaviside_threshold = 21;
+
     //----- get ribosome
 
     std::vector<int> ribosome = get_ribosome();
@@ -1218,57 +1227,62 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
 
     // call ribosome for Heaviside ad hoc mRNA
 
-    int stack_pos = 170;
+    int stack_pos = 153;
+    int size_arn = 32;
 
-    algo->set_data_at(stack_pos-7,195);
-    algo->set_data_at(stack_pos-6,0);
-    algo->set_data_at(stack_pos-5,0);
-    algo->set_data_at(stack_pos-4,10000);
-    algo->set_data_at(stack_pos-3,1000);
-    algo->set_data_at(stack_pos-2,3);
-    algo->set_data_at(stack_pos-1,10001);
-    algo->set_data_at(stack_pos,10200);
-    algo->set_data_at(stack_pos+1,1);
-    algo->set_data_at(stack_pos+2,2);
-    algo->set_data_at(stack_pos+3,11300);
-    algo->set_data_at(stack_pos+4,2);
-    algo->set_data_at(stack_pos+5,1);
-    algo->set_data_at(stack_pos+6,77);
-    algo->set_data_at(stack_pos+7,2);
-    algo->set_data_at(stack_pos+8,10500);
+    algo->set_data_at(stack_pos, stack_pos+size_arn);
+    algo->set_data_at(stack_pos+1,0);
+    algo->set_data_at(stack_pos+2,0);
+    algo->set_data_at(stack_pos+3,10000);
+    algo->set_data_at(stack_pos+4,1000);
+    algo->set_data_at(stack_pos+5,3);
+    algo->set_data_at(stack_pos+6,10001);
+    algo->set_data_at(stack_pos+7,10200);
+    algo->set_data_at(stack_pos+8,1);
     algo->set_data_at(stack_pos+9,2);
-    algo->set_data_at(stack_pos+10,10100);
-    algo->set_data_at(stack_pos+11,3);
+    algo->set_data_at(stack_pos+10,11300);
+    algo->set_data_at(stack_pos+11,2);
     algo->set_data_at(stack_pos+12,1);
-    algo->set_data_at(stack_pos+13,10600);
-    algo->set_data_at(stack_pos+14,10100);
-    algo->set_data_at(stack_pos+15,3);
-    algo->set_data_at(stack_pos+16,0);
-    algo->set_data_at(stack_pos+17,10700);
-    algo->set_data_at(stack_pos+18,11000);
+    algo->set_data_at(stack_pos+13,heaviside_threshold);
+    algo->set_data_at(stack_pos+14,2);
+    algo->set_data_at(stack_pos+15,10500);
+    algo->set_data_at(stack_pos+16,2);
+    algo->set_data_at(stack_pos+17,10100);
+    algo->set_data_at(stack_pos+18,3);
     algo->set_data_at(stack_pos+19,1);
-    algo->set_data_at(stack_pos+20,10250);
-    algo->set_data_at(stack_pos+21,0);
+    algo->set_data_at(stack_pos+20,10600);
+    algo->set_data_at(stack_pos+21,10100);
     algo->set_data_at(stack_pos+22,3);
-    algo->set_data_at(stack_pos+23,11150);
-    algo->set_data_at(stack_pos+24,3);
-    algo->set_data_at(stack_pos+25,9999);
+    algo->set_data_at(stack_pos+23,0);
+    algo->set_data_at(stack_pos+24,10700);
+    algo->set_data_at(stack_pos+25,11000);
+    algo->set_data_at(stack_pos+26,1);
+    algo->set_data_at(stack_pos+27,10250);
+    algo->set_data_at(stack_pos+28,0);
+    algo->set_data_at(stack_pos+29,3);
+    algo->set_data_at(stack_pos+30,11150);
+    algo->set_data_at(stack_pos+31,3);
+    algo->set_data_at(stack_pos+32,9999);
     
     algo->set_input({-1, 206});
     universe->exec();
 
+    // get built protein ad hoc from data
 
-    sp_freegenes freegenes2 = std::make_shared<FreeGenes>("free genes");
-    freegenes2->init();
-    std::vector<int> genes(100);
-    genes[0] = 3;
-    genes[1] = 667;
+    std::vector<int> built_progtein(100);
+    built_progtein[0] = 3;
+    built_progtein[1] = 667;
     for(int i=0;i<98;i++)
-        genes[2+i] = algo->get_data()[164+i];
+        built_progtein[2+i] = algo->get_data()[stack_pos+1+i];
 
 
-    freegenes2->set_genes(genes);
-    universe->get_places()[1]->set_entity(freegenes2);
+    // add heaviside progtein to funcs
+
+    sp_freegenes freegenes_heaviside_built = std::make_shared<FreeGenes>("Heaviside built progtein");
+    freegenes_heaviside_built->init();
+
+    freegenes_heaviside_built->set_genes(built_progtein);
+    universe->get_places()[1]->set_entity(freegenes_heaviside_built);
 
     algo->set_input({3, 667});
     universe->exec();
@@ -1279,8 +1293,8 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     bool passed = true;
     for(int i=0;i<nb_test_inputs;i++)
     {
-        int test_input = rand_gen::rand_normal(77, 4);
-        int expected_output = test_input > 77 ? 1 : 0;
+        int test_input = rand_gen::rand_normal(heaviside_threshold, 4);
+        int expected_output = test_input > heaviside_threshold ? 1 : 0;
 
         algo->set_input({-1, 667, test_input});
         universe->exec();
@@ -1310,3 +1324,4 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
 
     std::cout << "Experience over" << std::endl;
 }
+
