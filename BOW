@@ -3,8 +3,7 @@ Book of work:
 1) EvoX
 
 15 - evolve code
-        d - tRNA for FOR loops
-        e - create mRNA from DNA
+        e - tRNA for FOR loops
         f - create mutable DNA
         g - plotting progtein creation
         h - bootstrap !
@@ -42,6 +41,7 @@ What has been done :
    - 13/04/2024 -     a - find simple examples : progteins
    - 20/04/2024 -     b - create tRNAs
    - 23/04/2024 -     c - create ribosome
+   - 25/04/2024 -     d - create mRNA from DNA
 
 
 2) Code eaters

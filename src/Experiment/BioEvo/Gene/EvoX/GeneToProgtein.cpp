@@ -37,6 +37,7 @@ void GeneToProgtein::launch()
     exec_step_1(univ, algo);
     exec_step_2(univ, algo);
     exec_step_3(univ, algo);
+    exec_step_4(univ, algo);
 }
 
 sp_univ_evo_algos GeneToProgtein::get_universe(sp_evox algo) 
@@ -1103,10 +1104,8 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
 void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 {
-    // get functions for autopoiesis
+    // get functions
     auto genome_parts = this->get_tRNAs_1();
-
-    //----- trigger autopoiesis
 
     std::vector<std::string> iteration_order {
         "tRNA : create vars",
@@ -1147,7 +1146,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     universe->exec();
 
-    write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
+    //write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
 
 }
 
@@ -1318,7 +1317,7 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
         std::cout << "Not passed..." << std::endl;
     }
 
-    write_genes_to_csv(algo->get_genes(), "genes_with_ribosome_and_built_heaviside.csv");
+    //write_genes_to_csv(algo->get_genes(), "genes_with_ribosome_and_built_heaviside.csv");
 
     std::cout << "Experience over" << std::endl;
 }
@@ -1329,14 +1328,13 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
 {
     // DNA
     std::vector<int> DNA_Heaviside {
-        instruction::MARKER, -2, -1, 0, 0, 0, 0,
+        3, -1,
         0, 0, 0, 0, 0, GSTART_ID, 667,
         10000, 1000, 3, 10001, 10200, 1, 2,
         11300, 2, 1,  heaviside_threshold, 2, 10500, 2,
         10100, 3, 1, 10600, 10100, 3, 0,
         10700, 11000, 1, 10250, 0, 3, 11150,
         3, 9999, GSTOP_ID, 0, 0, 0, 0,
-        instruction::MARKER, -2, -1, 0, 0, 0, 0, 
     };
 
     // RNAP
@@ -1365,7 +1363,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
         // check func id
         instruction::INC, 1, 0, 0, 110, 0, 0,
         instruction::GR, 1, 2, 0, 101, 110, 0,
-        instruction::JRE, 0, 1, 1, 3, 101, 110,
+        instruction::JRE, 0, 1, 1, 3, 101, 100,
         instruction::DEC, 1, 0, 0, 110, 0, 0,
         instruction::JRS, 0, 0, 0, 8, 0, 0,
 
@@ -1391,9 +1389,23 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // RNAP wrapper
+    std::vector<int> RNAP_wrapper {
+        3, -207,
+
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::CPYIN, 2, 1, 0, 99, 2, 0,
+        instruction::CALL, 0, 0, 0, 0, 207, 0,
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
     std::map<std::string, std::vector<int>> all_parts {
         { "Heaviside DNA", DNA_Heaviside },
-        { "RNAP", RNAP }
+        { "RNAP", RNAP },
+        { "RNAP wrapper", RNAP_wrapper}
     };
 
     return all_parts;
@@ -1401,5 +1413,38 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
 
 void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
 {
+    // get functions
+    auto genome_parts = this->get_DNA_and_RNAP();
 
+    std::vector<std::string> iteration_order {
+        "Heaviside DNA",
+        "RNAP",
+        "RNAP wrapper"
+    };
+
+    for(int i=0;i<iteration_order.size();i++)
+    {
+        std::string step_name = iteration_order[i];
+        std::vector<int> genome_part = genome_parts[step_name];
+
+        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
+        freegenes->init();
+        freegenes->set_genes(genome_part);
+
+        // tell the algo to get the code
+        std::vector<int> input{ 3, genome_part[1] };
+        algo->set_input(input);
+
+        universe->get_places()[2]->set_entity(freegenes);
+
+        universe->exec();
+    }
+
+    algo->set_input({-1, -207, 667 });
+    universe->exec();
+
+ 
+    write_genes_to_csv(algo->get_genes(), "genes_with_DNA.csv");
+
+    std::cout << "Experience over" << std::endl;
 }
