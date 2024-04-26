@@ -456,6 +456,61 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // while
+    /// to use with IF
+    std::vector<int> tRNA_SWJ {
+        3, 10800,
+        
+        // 1 arg : var nb 
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // set WHILE jump size
+        instruction::CPY, 1, 2, 0, 102, 101, 0, // mobile subunit ptr
+        instruction::CPY, 1, 0, 0, 103, 1, 0, // jump size
+        instruction::SUB, 1, 1, 0, 102, 102, 2, // because we seek -142857 in first instr arg val
+        // look for -142857 in first instr arg val of already written in protein
+        instruction::JRE, 0, 2, 0, 4, 102, -142857,
+        instruction::SUB, 1, 1, 0, 102, 102, 7, // move one instruction below
+        instruction::INC, 1, 0, 0, 103, 0, 0,   // increase jump size
+        instruction::JRS, 0, 0, 0, 3, 0, 0, 
+        instruction::CPY, 2, 1, 0, 102, 103, 0, // set jump size
+
+
+        // put codons on stack
+        // JMP IF EQL
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::JRS, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // JUMP SIZE
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 1, 0, 101, 103, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
     // set output size (cst)
     std::vector<int> tRNA_SOScst {
         3, 11000,
@@ -1089,6 +1144,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : jump IF 0", tRNA_IF0 },
         { "tRNA : size of if jump", tRNA_SIJ },
         { "tRNA : size of else jump", tRNA_SEJ },
+        { "tRNA : size of while jump", tRNA_SWJ },
         { "tRNA : set output size", tRNA_SOScst },
         { "tRNA : put cst on stack with increment", tRNA_PCSI },
         { "tRNA : put local var on stack with increment", tRNA_PLVSI },
@@ -1116,6 +1172,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : jump IF 0",
         "tRNA : size of if jump",
         "tRNA : size of else jump",
+        "tRNA : size of while jump",
         "tRNA : set output size",
         "tRNA : put cst on stack with increment",
         "tRNA : put local var on stack with increment",
@@ -1146,7 +1203,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     universe->exec();
 
-    //write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
+    write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
 
 }
 
@@ -1444,7 +1501,7 @@ void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
     universe->exec();
 
  
-    write_genes_to_csv(algo->get_genes(), "genes_with_DNA.csv");
+    //write_genes_to_csv(algo->get_genes(), "genes_with_DNA.csv");
 
     std::cout << "Experience over" << std::endl;
 }
