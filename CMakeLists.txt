@@ -460,6 +460,8 @@ target_link_libraries(bio-evo-genesis ${LIBS})
 set(EXPERIMENT_RUNNERS_BIO_EVO_REPLICATORS src/Experiment/BioEvo/Replicators/ExperimentRunnerReplicators.hpp
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/SelfCompilationEvoX.hpp
+    src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/SelfCompilationEvoX.cpp
 )
 add_executable(bio-evo-replication src/Experiment/BioEvo/Replicators/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 

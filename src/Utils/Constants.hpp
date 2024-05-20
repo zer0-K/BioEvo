@@ -139,6 +139,69 @@ const std::string name_exp_bioevo_traits_evox = "EvoX driving traits";
 const std::string name_exp_bioevo_genes = "experiments on genes";
 const std::string name_exp_bioevo_genes_evox_fgc = "Evox free gene creation";
 const std::string name_exp_bioevo_genes_evox_gtp = "Evox gene to progtein";
+const std::string name_exp_bioevo_genes_evox_selfc = "Evox gene self-compilation";
+
+// tRNAs
+const int id_tRNA_RET = 9999;
+
+const int id_tRNA_CVARS = 10000; // heap pos, nb vars
+const int id_tRNA_IVARS = 10001;
+
+const int id_tRNA_SLVcst = 10100; // var nb, cst val
+const int id_tRNA_SDLVcst = 10101; // var nb, cst val
+const int id_tRNA_SLVLV = 10110; // var nb, var nb
+const int id_tRNA_SDLVLV = 10111; // var nb, var nb
+const int id_tRNA_SLVDLV = 10112; // var nb, var nb
+const int id_tRNA_SDLVDLV = 10113; // var nb, var nb
+const int id_tRNA_RGLVLV = 10150; // var nb, var nb
+const int id_tRNA_WGDLV = 10170; // var nb, var nb, var nb
+const int id_tRNA_GILV = 10200; // var nb, input index
+const int id_tRNA_GDILV = 10201; // var nb, input index
+const int id_tRNA_GIDLV = 10202; // var nb, input index
+const int id_tRNA_GDIDLV = 10203; // var nb, input index
+const int id_tRNA_GTSLV = 10210; // var nb
+const int id_tRNA_GTSLVD = 10211; // var nb
+const int id_tRNA_GLVO = 10250; // output index, var nb
+
+const int id_tRNA_IF0 = 10500; // var nb
+const int id_tRNA_SIJ = 10600;
+const int id_tRNA_SEJ = 10700;
+const int id_tRNA_SWJ = 10800; // var nb
+const int id_tRNA_JLV = 10900; // var nb
+
+const int id_tRNA_SOScst = 11000; // cst
+const int id_tRNA_GISLV = 11001; // var nb
+const int id_tRNA_PCSI = 11100; // cst
+const int id_tRNA_PLVSI = 11150; // var nb
+const int id_tRNA_PCSWI = 11200; // cst
+const int id_tRNA_PLVSWI = 11250; // var nb
+
+const int id_tRNA_CMPLVcst = 11300; // CMP OP, var nb, cst, var nb
+const int id_tRNA_CMPLVLV = 11350; // CMP OP, var nb, var nb, var nb
+
+const int id_tRNA_OPELVcst = 11400; // OP, var nb, cst
+const int id_tRNA_OPELVLV = 11401; // OP, var nb, var nb
+const int id_tRNA_INCcst = 11450; // inc/dec flag, cst
+const int id_tRNA_INCLV = 11451; // inc/dec flag, var nb
+const int id_tRNA_INCDLV = 11452; // inc/dec flag, var nb
+
+const int id_tRNA_CALLcst = 11500; // cst
+const int id_tRNA_CALLLV = 11501; // var nb
+
+const int id_tRNA_GScstcst = 12000; // cst, cst
+const int id_tRNA_GScstLV = 12001; // cst, var
+const int id_tRNA_GSLVcst = 12002; // var, cst
+const int id_tRNA_GSLVLV = 12003; // var, var
+
+const int id_tRNA_USLV = 13000; // var nb
+const int id_tRNA_RULV = 13001; // var nb
+
+const int id_tRNA_HALT = 14999;
+
+const int id_tRNA_SP_GPTR = 15000;
+const int id_tRNA_SP_FCTADD = 15001;
+const int id_tRNA_SP_GFPTRLV = 15002; // var nb
+
 
 // ---------- GENESIS
 
