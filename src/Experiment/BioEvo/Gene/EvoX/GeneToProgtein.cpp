@@ -2008,6 +2008,58 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
     
+    // increment/decrement stack
+    std::vector<int> tRNA_INCS {
+        3, id_tRNA_INCS,
+        
+        // 1 arg : INC/DEC flag
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // get OP
+        instruction::CPY, 1, 3, 0, 102, 100, 0,     // arg0 : OP
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // transcribe the OP : 
+        // 0 : INC
+        // else : DEC
+        instruction::JRE, 0, 1, 0, 3, 102, 0,
+        instruction::CPY, 1, 0, 0, 102, instruction::DEC, 0,
+        instruction::JRA, 0, 0, 0, 2, 0, 0,
+        instruction::CPY, 1, 0, 0, 102, instruction::INC, 0,
+
+        // put codons on stack
+
+        // OP 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 1, 0, 101, 102, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // stack
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
     // call function : cst
     std::vector<int> tRNA_CALLcst {
         3, id_tRNA_CALLcst,
@@ -2602,6 +2654,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : increment/decrement cst address", tRNA_INCcst },
         { "tRNA : increment/decrement at local var", tRNA_INCLV },
         { "tRNA : increment/decrement at dereferenced local var", tRNA_INCDLV },
+        { "tRNA : increment/decrement stack", tRNA_INCS },
         { "tRNA : call func cst ID", tRNA_CALLcst },
         { "tRNA : call func cst var", tRNA_CALLLV },
         { "tRNA : set gene at cst to cst", tRNA_GScstcst },
@@ -2659,6 +2712,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : increment/decrement cst address",
         "tRNA : increment/decrement at local var",
         "tRNA : increment/decrement at dereferenced local var",
+        "tRNA : increment/decrement stack",
         "tRNA : compare local var with local var",
         "tRNA : call func cst ID",
         "tRNA : call func cst var",

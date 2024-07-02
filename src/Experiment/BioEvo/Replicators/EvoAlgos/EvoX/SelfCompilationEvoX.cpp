@@ -149,7 +149,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_WGDLV, 6, 3, 4, id_tRNA_RET, GSTOP_ID, 0,
 
 
-        // 201 - copy free genes into code as new func
+        // 300 - get free genes in input
 
         GSTART_ID, 300, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_USLV,
         1, id_tRNA_SLVcst, 5, 0, id_tRNA_SLVcst, 9, 1,
@@ -162,13 +162,25 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_GTSLV, 6, id_tRNA_CMPLVLV, 0, 4, 6, 7, id_tRNA_CMPLVcst,
         6, -1, 8, id_tRNA_OPELVLV, 7, 8, id_tRNA_IF0,
         7, id_tRNA_PCSWI, 1, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SIJ, 
-        id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0
+        id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0,
 
 
 
     //---------- additional DNA
 
         // 2 - core switcher
+
+        GSTART_ID, 2, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_GISLV,
+        1, id_tRNA_CMPLVcst, 1, 2, 1, 2, id_tRNA_CMPLVcst, 
+        0, 4, 2, 1, id_tRNA_IF0, 4, id_tRNA_RET, 
+        id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3, 0, id_tRNA_CMPLVcst, 0, 
+        3, 3, id_tRNA_CMPLVcst, 0, 4, 2, 1,
+        id_tRNA_IF0, 4, id_tRNA_GILV, 4, 1, id_tRNA_CALLcst, 103, 
+        id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 2, 3, 
+        4, id_tRNA_CMPLVcst, 0, 4, 2, 1, id_tRNA_IF0, 
+        4, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_CALLcst,
+        302, id_tRNA_INCS, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 4,
+        1, id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID, 0, 0
 
     };
 

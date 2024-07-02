@@ -184,6 +184,7 @@ const int id_tRNA_OPELVLV = 11401; // OP, var nb, var nb
 const int id_tRNA_INCcst = 11450; // inc/dec flag, cst
 const int id_tRNA_INCLV = 11451; // inc/dec flag, var nb
 const int id_tRNA_INCDLV = 11452; // inc/dec flag, var nb
+const int id_tRNA_INCS = 11453; // inc/dec flag
 
 const int id_tRNA_CALLcst = 11500; // cst
 const int id_tRNA_CALLLV = 11501; // var nb
