@@ -833,6 +833,47 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // get top of stack into dereferenced local variable
+    std::vector<int> tRNA_GTSDLV {
+        3, id_tRNA_GTSDLV,
+
+        // 1 args : var nb
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+        // put codons on stack
+        // CPY
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // 99
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
 
     // get local var into output
     std::vector<int> tRNA_GLVO {
@@ -2575,6 +2616,95 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // get stack pos
+    std::vector<int> tRNA_SP_GSPLV {
+        3, id_tRNA_SP_GSPLV,
+        
+        // 1 arg : var nb
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // put codons on stack
+        //instruction::CPY, 1, 1, 0, 100, 99, 0,
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        // 99
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // genetic copy between dereferenced vars
+    std::vector<int> tRNA_SP_GCPY {
+        3, id_tRNA_SP_GCPY,
+        
+        // 1 arg : var nb
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // put codons on stack
+        //instruction::CPY, 1, 1, 0, 100, 99, 0,
+
+        // GCPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::GCPY, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg2 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
 
     // return (JMP02)
     std::vector<int> tRNA_RET {
@@ -2635,6 +2765,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : get dereferenced input in dereferenced local var", tRNA_GDIDLV },
         { "tRNA : get top of stack in local var", tRNA_GTSLV },
         { "tRNA : get top of stack in local var with decrement", tRNA_GTSLVD },
+        { "tRNA : get top of stack in dereferenced local var", tRNA_GTSDLV },
         { "tRNA : get local var in output", tRNA_GLVO },
         { "tRNA : jump IF 0", tRNA_IF0 },
         { "tRNA : size of if jump", tRNA_SIJ },
@@ -2667,6 +2798,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : change prog ptr special tRNA", tRNA_SP_GPTR },
         { "tRNA : add fct ptr specil tRNA", tRNA_SP_FCTADD },
         { "tRNA : get fct ptr in var", tRNA_SP_GFPTRLV },
+        { "tRNA : get stack pos in var", tRNA_SP_GSPLV },
         { "tRNA : return", tRNA_RET }
     };
 
@@ -2694,6 +2826,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : get dereferenced input in dereferenced local var",
         "tRNA : get top of stack in local var",
         "tRNA : get top of stack in local var with decrement",
+        "tRNA : get top of stack in dereferenced local var",
         "tRNA : get local var in output",
         "tRNA : jump IF 0",
         "tRNA : size of if jump",
@@ -2727,6 +2860,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : change prog ptr special tRNA",
         "tRNA : add fct ptr specil tRNA",
         "tRNA : get fct ptr in var",
+        "tRNA : get stack pos in var",
         "tRNA : return"
     };
 

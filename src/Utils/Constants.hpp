@@ -161,6 +161,7 @@ const int id_tRNA_GIDLV = 10202; // var nb, input index
 const int id_tRNA_GDIDLV = 10203; // var nb, input index
 const int id_tRNA_GTSLV = 10210; // var nb
 const int id_tRNA_GTSLVD = 10211; // var nb
+const int id_tRNA_GTSDLV = 10212; // var nb
 const int id_tRNA_GLVO = 10250; // output index, var nb
 
 const int id_tRNA_IF0 = 10500; // var nb
@@ -202,6 +203,8 @@ const int id_tRNA_HALT = 14999;
 const int id_tRNA_SP_GPTR = 15000;
 const int id_tRNA_SP_FCTADD = 15001;
 const int id_tRNA_SP_GFPTRLV = 15002; // var nb
+const int id_tRNA_SP_GSPLV = 15003; // var nb
+const int id_tRNA_SP_GCPY = 15004; // var nb, var nb, var nb
 
 
 // ---------- GENESIS
