@@ -2752,11 +2752,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : create vars", tRNA_CVARS },
         { "tRNA : init vars", tRNA_IVARS },
         { "tRNA : set local var to cst", tRNA_SLVcst },
-        { "tRNA : set dereferenced local var to cst", tRNA_SDLVcst },
+        { "tRNA : set dereferenced local var by cst", tRNA_SDLVcst },
         { "tRNA : set local var to local var", tRNA_SLVLV },
-        { "tRNA : set dereferenced local var to local var", tRNA_SDLVLV },
+        { "tRNA : set dereferenced local var by local var", tRNA_SDLVLV },
         { "tRNA : set local var to dereferenced local var", tRNA_SLVDLV },
-        { "tRNA : set dereferenced local var to dereferenced local var", tRNA_SDLVDLV },
+        { "tRNA : set dereferenced local var by dereferenced local var", tRNA_SDLVDLV },
         { "tRNA : read gene at local var in local var", tRNA_RGLVLV },
         { "tRNA : write genes at dereferenced vars", tRNA_WGDLV},
         { "tRNA : get input in local var", tRNA_GILV },
@@ -2799,6 +2799,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : add fct ptr specil tRNA", tRNA_SP_FCTADD },
         { "tRNA : get fct ptr in var", tRNA_SP_GFPTRLV },
         { "tRNA : get stack pos in var", tRNA_SP_GSPLV },
+        { "tRNA : copy genes between vars", tRNA_SP_GCPY },
         { "tRNA : return", tRNA_RET }
     };
 
@@ -2814,11 +2815,11 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : create vars",
         "tRNA : init vars",
         "tRNA : set local var to cst",
-        "tRNA : set dereferenced local var to cst",
+        "tRNA : set dereferenced local var by cst",
         "tRNA : set local var to local var",
-        "tRNA : set dereferenced local var to local var",
+        "tRNA : set dereferenced local var by local var",
         "tRNA : set local var to dereferenced local var",
-        "tRNA : set dereferenced local var to dereferenced local var",
+        "tRNA : set dereferenced local var by dereferenced local var",
         "tRNA : read gene at local var in local var",
         "tRNA : get input in local var",
         "tRNA : get dereferenced input in local var",
@@ -2861,6 +2862,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : add fct ptr specil tRNA",
         "tRNA : get fct ptr in var",
         "tRNA : get stack pos in var",
+        "tRNA : copy genes between vars", 
         "tRNA : return"
     };
 
