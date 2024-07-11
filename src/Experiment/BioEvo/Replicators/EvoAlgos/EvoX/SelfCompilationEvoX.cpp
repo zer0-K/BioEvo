@@ -258,10 +258,20 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         0, 6, id_tRNA_SDLVDLV, 6, 1, id_tRNA_CMPLVLV, 1, 
         7, 1, 2, id_tRNA_SWJ, id_tRNA_GTSLV, 4, id_tRNA_OPELVcst, 
         0, 4, 7, id_tRNA_PLVSWI, 4, id_tRNA_INCcst, 1, 
-        99, id_tRNA_INCcst, 1, 99, id_tRNA_RET, GSTOP_ID, 0
+        99, id_tRNA_INCcst, 1, 99, id_tRNA_RET, GSTOP_ID, 0,
 
 
-        // TRNAs
+        //---------- tRNAs
+
+        // tRNA_CVARS
+
+        GSTART_ID, id_tRNA_CVARS, id_tRNA_CVARS, LV_place, 2, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_SLVDLV, 2, 1, id_tRNA_SLVDLV, 2, 2, id_tRNA_ScstLV, 
+        98, 2, id_tRNA_INCDLV, 1, id_tRNA_SLVDLV, 2, 1, 
+        id_tRNA_SLVDLV, 2, 2, id_tRNA_ScstLV, 98, 2, id_tRNA_INCDLV, 
+        1, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0
+
+
 
     };
 

@@ -468,6 +468,96 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // set const addr with LV
+    std::vector<int> tRNA_ScstLV {
+        3, id_tRNA_ScstLV,
+        
+        // 2 args : addr, var nb
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // put codons on stack
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // addr
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,     // arg0 : addr
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // set LV with cst address
+    std::vector<int> tRNA_SLVaddr {
+        3, id_tRNA_SLVaddr,
+        
+        // 2 args : var nb, addr
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
+
+        // put codons on stack
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // local var
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
+        instruction::CPY, 3, 2, 0, 101, 103, 0,
+        // addr
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,     // arg1 : addr
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
+
     // read gene at local var in local var
     std::vector<int> tRNA_RGLVLV {
         3, id_tRNA_RGLVLV,
@@ -2663,7 +2753,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
     std::vector<int> tRNA_SP_GCPY {
         3, id_tRNA_SP_GCPY,
         
-        // 1 arg : var nb
+        // 3 arg : var nb, var nb, var nb
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
@@ -2704,6 +2794,574 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+
+
+
+    // meta tRNA for P-site
+    std::vector<int> tRNA_MP {
+        3, id_tRNA_MP,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 100
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 100, 0,
+        // 99
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 100
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 100, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA for E-site
+    std::vector<int> tRNA_ME {
+        3, id_tRNA_ME,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // DEC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::DEC, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 99
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 99
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 99
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 99, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA to copy 0
+    std::vector<int> tRNA_M0 {
+        3, id_tRNA_M0,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA to copy 1
+    std::vector<int> tRNA_M1 {
+        3, id_tRNA_M1,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA for custom instruction
+    std::vector<int> tRNA_MInstr {
+        3, id_tRNA_MInstr,
+        
+        // 1 arg : instr nb
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // instr
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,     // arg0 : instr
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA for CPY instr
+    std::vector<int> tRNA_MCPY {
+        3, id_tRNA_MCPY,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // CPY
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
+    // meta tRNA for arg val
+    std::vector<int> tRNA_Marg {
+        3, id_tRNA_Marg,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 100
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 100, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 100
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 100, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA to LV
+    std::vector<int> tRNA_MLV {
+        3, id_tRNA_MLV,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        // ADD 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::ADD, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 1
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 103
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 103, 0,
+        // 98
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 98, 0,
+        // 100
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 100, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 103
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 103, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
 
 
     // return (JMP02)
@@ -2757,6 +3415,8 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : set dereferenced local var by local var", tRNA_SDLVLV },
         { "tRNA : set local var to dereferenced local var", tRNA_SLVDLV },
         { "tRNA : set dereferenced local var by dereferenced local var", tRNA_SDLVDLV },
+        { "tRNA : set const addr with LV", tRNA_ScstLV},
+        { "tRNA : set LV with cst addr", tRNA_SLVaddr},
         { "tRNA : read gene at local var in local var", tRNA_RGLVLV },
         { "tRNA : write genes at dereferenced vars", tRNA_WGDLV},
         { "tRNA : get input in local var", tRNA_GILV },
@@ -2795,11 +3455,21 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : get universe size in var", tRNA_USLV },
         { "tRNA : read universe at local var", tRNA_RULV },
         { "tRNA : halt", tRNA_HALT },
+        // special tRNAs
         { "tRNA : change prog ptr special tRNA", tRNA_SP_GPTR },
         { "tRNA : add fct ptr specil tRNA", tRNA_SP_FCTADD },
         { "tRNA : get fct ptr in var", tRNA_SP_GFPTRLV },
         { "tRNA : get stack pos in var", tRNA_SP_GSPLV },
         { "tRNA : copy genes between vars", tRNA_SP_GCPY },
+        // meta tRNAs
+        { "tRNA : meta P-site", tRNA_MP },
+        { "tRNA : meta E-site", tRNA_ME },
+        { "tRNA : meta cpy 0", tRNA_M0 },
+        { "tRNA : meta cpy 1", tRNA_M1 },
+        { "tRNA : meta instr", tRNA_MInstr },
+        { "tRNA : meta CPY", tRNA_MCPY },
+        { "tRNA : meta arg", tRNA_Marg },
+        { "tRNA : meta LV", tRNA_MLV },
         { "tRNA : return", tRNA_RET }
     };
 
@@ -2820,6 +3490,8 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : set dereferenced local var by local var",
         "tRNA : set local var to dereferenced local var",
         "tRNA : set dereferenced local var by dereferenced local var",
+        "tRNA : set const addr with LV",
+        "tRNA : set LV with cst addr",
         "tRNA : read gene at local var in local var",
         "tRNA : get input in local var",
         "tRNA : get dereferenced input in local var",
@@ -2863,6 +3535,15 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : get fct ptr in var",
         "tRNA : get stack pos in var",
         "tRNA : copy genes between vars", 
+        // meta tRNAs
+        "tRNA : meta P-site",
+        "tRNA : meta E-site",
+        "tRNA : meta cpy 0",
+        "tRNA : meta cpy 1",
+        "tRNA : meta instr",
+        "tRNA : meta CPY",
+        "tRNA : meta arg",
+        "tRNA : meta LV",
         "tRNA : return"
     };
 

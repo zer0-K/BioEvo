@@ -153,6 +153,8 @@ const int id_tRNA_SLVLV = 10110; // var nb, var nb
 const int id_tRNA_SDLVLV = 10111; // var nb, var nb
 const int id_tRNA_SLVDLV = 10112; // var nb, var nb
 const int id_tRNA_SDLVDLV = 10113; // var nb, var nb
+const int id_tRNA_ScstLV = 10114; // addr, var nb
+const int id_tRNA_SLVaddr = 10115; // var nb, addr
 const int id_tRNA_RGLVLV = 10150; // var nb, var nb
 const int id_tRNA_WGDLV = 10170; // var nb, var nb, var nb
 const int id_tRNA_GILV = 10200; // var nb, input index
@@ -197,6 +199,19 @@ const int id_tRNA_GSLVLV = 12003; // var, var
 
 const int id_tRNA_USLV = 13000; // var nb
 const int id_tRNA_RULV = 13001; // var nb
+
+
+const int id_tRNA_MP = 14000;
+const int id_tRNA_ME = 14010;
+
+const int id_tRNA_M0 = 14100;
+const int id_tRNA_M1 = 14101;
+const int id_tRNA_MInstr = 14200;
+const int id_tRNA_MCPY = 14201;
+
+const int id_tRNA_Marg = 14300;
+const int id_tRNA_MLV = 14310;
+
 
 const int id_tRNA_HALT = 14999;
 
