@@ -534,9 +534,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
-        // 0
+        // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -1456,36 +1456,12 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
-        // 1 - increment size of stack
-        // INC
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
-        // 1
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 1, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 99
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 99, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-
-        // 2 - put val on stack
         // CPY
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
-        // 3
+        // 2
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -1521,37 +1497,13 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
-        // 1 - increment size of stack
-        // INC
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
-        // 1
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 1, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 99
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 99, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 0
-        instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
-
-        // 2 - put val on stack
         // CPY
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
-        // 3
+        // 2
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 3, 0,
-        // 0
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
@@ -1760,9 +1712,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
-        // 0
+        // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 3
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 3, 0,
@@ -2255,9 +2207,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // 0
+        // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2292,9 +2244,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
         // put codons on stack
 
-        // CALL
+        // GSET
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, instruction::CALL, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::GSET, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
@@ -2335,9 +2287,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
         // put codons on stack
 
-        // CALL
+        // GSET
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, instruction::CALL, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::GSET, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
@@ -2379,9 +2331,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
         // put codons on stack
 
-        // CALL
+        // GSET
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, instruction::CALL, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::GSET, 0,
         // 2
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 2, 0,
@@ -2423,9 +2375,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 
         // put codons on stack
 
-        // CALL
+        // GSET
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, instruction::CALL, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::GSET, 0,
         // 2
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 2, 0,
@@ -2962,6 +2914,66 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
+    // meta tRNA to copy cst
+    std::vector<int> tRNA_Mcst {
+        3, id_tRNA_Mcst,
+        
+        // 1 arg
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // val
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
     // meta tRNA to copy 0
     std::vector<int> tRNA_M0 {
         3, id_tRNA_M0,
@@ -3073,6 +3085,125 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+
+    // meta tRNA to copy 2
+    std::vector<int> tRNA_M2 {
+        3, id_tRNA_M2,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+        instruction::JMP, 2, 0, 0, 0, 0, 0
+    };
+
+    // meta tRNA to copy 3
+    std::vector<int> tRNA_M3 {
+        3, id_tRNA_M3,
+        
+        // 0 args
+        // get ribosome ptr (P site)
+        instruction::CPY, 1, 1, 0, 100, 99, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
+
+        // put codons on stack
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+        // CPY 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 101
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 101, 0,
+        // 3
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 3, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -3360,6 +3491,29 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
 
+
+        // INC 
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
+        // 2
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 100
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 100, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        // 0
+        instruction::INC, 2, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
+
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
@@ -3464,8 +3618,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // meta tRNAs
         { "tRNA : meta P-site", tRNA_MP },
         { "tRNA : meta E-site", tRNA_ME },
+        { "tRNA : meta cpy cst", tRNA_Mcst },
         { "tRNA : meta cpy 0", tRNA_M0 },
         { "tRNA : meta cpy 1", tRNA_M1 },
+        { "tRNA : meta cpy 2", tRNA_M2 },
+        { "tRNA : meta cpy 2", tRNA_M3 },
         { "tRNA : meta instr", tRNA_MInstr },
         { "tRNA : meta CPY", tRNA_MCPY },
         { "tRNA : meta arg", tRNA_Marg },
@@ -3538,8 +3695,11 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         // meta tRNAs
         "tRNA : meta P-site",
         "tRNA : meta E-site",
+        "tRNA : meta cpy cst",
         "tRNA : meta cpy 0",
         "tRNA : meta cpy 1",
+        "tRNA : meta cpy 2",
+        "tRNA : meta cpy 3",
         "tRNA : meta instr",
         "tRNA : meta CPY",
         "tRNA : meta arg",

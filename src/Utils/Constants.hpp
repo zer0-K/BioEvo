@@ -204,8 +204,11 @@ const int id_tRNA_RULV = 13001; // var nb
 const int id_tRNA_MP = 14000;
 const int id_tRNA_ME = 14010;
 
-const int id_tRNA_M0 = 14100;
-const int id_tRNA_M1 = 14101;
+const int id_tRNA_Mcst = 14100;
+const int id_tRNA_M0 = 14101;
+const int id_tRNA_M1 = 14102;
+const int id_tRNA_M2 = 14103;
+const int id_tRNA_M3 = 14104;
 const int id_tRNA_MInstr = 14200;
 const int id_tRNA_MCPY = 14201;
 
