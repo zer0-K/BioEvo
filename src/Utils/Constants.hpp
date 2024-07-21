@@ -97,6 +97,7 @@ const int DEFAULT_X86_DATA_SIZE = 10000;
 const int DEFAULT_X86_CODE_SIZE = 100;
 const int MAX_OUTPUT_SIZE_X86 = 10000;
 const int SIZE_INSTR = 7;
+const int MAX_NB_INSTR_EXEC = 40000;
 
 const std::string EVOX = "evo x86 algo";
 const std::string FREEGENES = "free code";

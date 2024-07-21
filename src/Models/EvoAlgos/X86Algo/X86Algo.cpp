@@ -11,6 +11,7 @@ void X86Algo::init()
     add_type(X86_ALGO);
 
     program_counter = 0;
+    max_nb_instr_exec = MAX_NB_INSTR_EXEC;
 
     code = std::vector<std::array<int,SIZE_INSTR>>(DEFAULT_X86_CODE_SIZE);
     set_data_size(DEFAULT_X86_DATA_SIZE);
@@ -63,7 +64,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     }
 
     while(program_counter>=0 && program_counter<code.size()
-        && instr_counter < 60000)
+        && instr_counter < max_nb_instr_exec)
     {
         std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
 
@@ -1455,6 +1456,11 @@ std::array<int,SIZE_INSTR> X86Algo::get_addrs(bool &is_valid, int addr1_order, i
     }
 
     return result;
+}
+
+void X86Algo::set_max_nb_instr_exec(int n)
+{
+    this->max_nb_instr_exec = n;
 }
 
 void X86Algo::set_data_size(int n)

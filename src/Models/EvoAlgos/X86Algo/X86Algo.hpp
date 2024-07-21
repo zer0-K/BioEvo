@@ -43,6 +43,7 @@ protected:
     */
     int program_counter;
     int instr_counter;  ///< count the number of instructions executed
+    int max_nb_instr_exec;  ///< max number of instructions to execute
 
 
     //---------- external functions
@@ -147,6 +148,8 @@ public:
         int arg1, int arg2, int arg3);
 
     // setters
+    void set_max_nb_instr_exec(int n);
+
     void set_data_size(int n);
     void set_input_size(int n);
     void set_output_size(int n);

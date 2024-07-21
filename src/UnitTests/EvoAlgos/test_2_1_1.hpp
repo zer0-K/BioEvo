@@ -82,7 +82,7 @@ namespace ut_ea
 
         // the expected outputs of the code the genomes should create
         std::vector<int> expected_out_0 { 0, 0, 0, 31415, 0 };
-        std::vector<int> expected_out_1 = expected_out_1;
+        std::vector<int> expected_out_1 = expected_out_0;
         std::vector<int> expected_out_2 { 0, 0, 0, input_2[2], 0 };
 
         std::vector<std::vector<int>> expected_outs {
