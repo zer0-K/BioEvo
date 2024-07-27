@@ -174,7 +174,8 @@ const int id_tRNA_SWJ = 10800; // var nb
 const int id_tRNA_JLV = 10900; // var nb
 
 const int id_tRNA_SOScst = 11000; // cst
-const int id_tRNA_GISLV = 11001; // var nb
+const int id_tRNA_SOSLV = 11001; // var nb
+const int id_tRNA_GISLV = 11010; // var nb
 const int id_tRNA_PCSI = 11100; // cst
 const int id_tRNA_PLVSI = 11150; // var nb
 const int id_tRNA_PCSWI = 11200; // cst
@@ -183,8 +184,10 @@ const int id_tRNA_PLVSWI = 11250; // var nb
 const int id_tRNA_CMPLVcst = 11300; // CMP OP, var nb, cst, var nb
 const int id_tRNA_CMPLVLV = 11350; // CMP OP, var nb, var nb, var nb
 
-const int id_tRNA_OPELVcst = 11400; // OP, var nb, cst
-const int id_tRNA_OPELVLV = 11401; // OP, var nb, var nb
+const int id_tRNA_OPEcstcst = 11400; // OP, cst addr, cst val
+const int id_tRNA_OPEcstLV = 11401; // OP, cst addr, var nb
+const int id_tRNA_OPELVcst = 11402; // OP, var nb, cst
+const int id_tRNA_OPELVLV = 11403; // OP, var nb, var nb
 const int id_tRNA_INCcst = 11450; // inc/dec flag, cst
 const int id_tRNA_INCLV = 11451; // inc/dec flag, var nb
 const int id_tRNA_INCDLV = 11452; // inc/dec flag, var nb
