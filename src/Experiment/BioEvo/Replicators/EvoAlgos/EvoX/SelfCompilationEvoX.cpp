@@ -61,7 +61,7 @@ sp_evox SelfCompilationEvoX::get_base_algo()
     algo->set_max_nb_instr_exec(max_nb_instr_exec);
 
     // get genes from csv
-    std::vector<int> genes = get_genes_from_csv("genes_with_ribosome_and_built_heaviside.csv");
+    std::vector<int> genes = get_genes_from_csv("genes_base_self_transcription.csv");
     algo->set_genes(genes);
 
     // set data stack at 150
@@ -860,7 +860,13 @@ void SelfCompilationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({3, -1});
     universe->exec();
 
-    write_genes_to_csv(algo->get_genes(), "genes_with_bootstrap_DNA.csv");
+    //write_genes_to_csv(algo->get_genes(), "genes_with_bootstrap_DNA.csv");
 
+    algo->set_input({-1, 208, 209});
+    universe->exec();
+    algo->set_input({-1, 208, 210});
+    universe->exec();
+    algo->set_input({-1, 209});
+    universe->exec();
 
 }

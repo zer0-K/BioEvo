@@ -38,6 +38,8 @@ void GeneToProgtein::launch()
     exec_step_2(univ, algo);
     exec_step_3(univ, algo);
     exec_step_4(univ, algo);
+
+    std::cout << "Experiment over" << std::endl;
 }
 
 sp_univ_evo_algos GeneToProgtein::get_universe(sp_evox algo) 
@@ -69,7 +71,7 @@ sp_evox GeneToProgtein::get_base_algo()
     // create algo
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
-
+    algo->set_max_nb_instr_exec(80000);
     // get genes from csv
     std::vector<int> genes = get_genes_from_csv("genes_base_algo_1.csv");
     algo->set_genes(genes);
@@ -3793,7 +3795,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : meta cpy 0", tRNA_M0 },
         { "tRNA : meta cpy 1", tRNA_M1 },
         { "tRNA : meta cpy 2", tRNA_M2 },
-        { "tRNA : meta cpy 2", tRNA_M3 },
+        { "tRNA : meta cpy 3", tRNA_M3 },
         { "tRNA : meta instr", tRNA_MInstr },
         { "tRNA : meta CPY", tRNA_MCPY },
         { "tRNA : meta arg", tRNA_Marg },
@@ -3835,7 +3837,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : size of while jump",
         "tRNA : jump var",
         "tRNA : set output size with cst",
-        "tRNA : set output size with locl=al var",
+        "tRNA : set output size with local var",
         "tRNA : get input size",
         "tRNA : put cst on stack with increment",
         "tRNA : put local var on stack with increment",
@@ -4074,8 +4076,6 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     }
 
     //write_genes_to_csv(algo->get_genes(), "genes_with_ribosome_and_built_heaviside.csv");
-
-    std::cout << "Experience over" << std::endl;
 }
 
 //-------------------- step 4
@@ -4272,11 +4272,10 @@ void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
         universe->exec();
     }
 
+    algo->set_max_nb_instr_exec(10000*12);
     algo->set_input({-1, 208, 667 });
     universe->exec();
 
  
-    //write_genes_to_csv(algo->get_genes(), "genes_with_DNA.csv");
-
-    std::cout << "Experience over" << std::endl;
+    write_genes_to_csv(algo->get_genes(), "genes_base_self_transcription.csv");
 }
