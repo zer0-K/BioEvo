@@ -489,9 +489,9 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // CPY 
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
-        // 0
+        // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
@@ -506,6 +506,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -546,6 +547,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // addr
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 3, 0, 101, 100, 0,     // arg1 : addr
@@ -1157,6 +1159,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 1, 0, 0, 103, 0, 0,   // increase jump size
         instruction::JRS, 0, 0, 0, 3, 0, 0, 
         instruction::CPY, 2, 1, 0, 102, 103, 0, // set jump size
+        instruction::INC, 2, 0, 0, 102, 0, 0,   // increase jump size to avoid fencepost error
 
 
         // put codons on stack
@@ -1168,7 +1171,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -1219,6 +1222,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -1344,6 +1348,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2198,6 +2203,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2251,6 +2257,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2261,7 +2268,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
     
-    // increment/decrement val at stack
+    // increment/decrement val at top of stack
     std::vector<int> tRNA_INCS {
         3, id_tRNA_INCS,
         
@@ -2606,6 +2613,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2648,6 +2656,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2818,6 +2827,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -2861,6 +2871,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // 99
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 99, 0,
@@ -2904,10 +2915,12 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg0 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // local var
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
         // local var
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg2 : var nb
@@ -3903,7 +3916,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     universe->exec();
 
-    //write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
+    write_genes_to_csv(algo->get_genes(), "genes_with_tRNAs.csv");
 }
 
 //-------------------- step 3
@@ -4075,7 +4088,7 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
         std::cout << "Not passed..." << std::endl;
     }
 
-    //write_genes_to_csv(algo->get_genes(), "genes_with_ribosome_and_built_heaviside.csv");
+    write_genes_to_csv(algo->get_genes(), "genes_with_ribosome_and_built_heaviside.csv");
 }
 
 //-------------------- step 4

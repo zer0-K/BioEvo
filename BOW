@@ -7,9 +7,10 @@ Book of work:
         g - create mutable DNA
         h - plotting progtein creation
 16 - organize teleonomical IDs
-17 - select on amino acid acquisition
-18 - share useful amino acids
-19 - mutate DNA when replicating individual
+17 - rename genes as body (DNA is between -1's) and document
+18 - select on amino acid acquisition
+19 - share useful amino acids
+20 - mutate DNA when replicating individual
 
 For later :
 X1 - mutate specific regions in the code
