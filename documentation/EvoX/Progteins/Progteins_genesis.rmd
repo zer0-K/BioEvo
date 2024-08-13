@@ -7,6 +7,7 @@ List of functions:
 
 # Progteins documentation
 
+
 ## 100X1 : self-compilation func ID List
 
 ### General info
@@ -23,9 +24,11 @@ var 2 : genetic value at var 1
 var 3 : condition to check if pointed place is the DNA marker
 var 4 : condition to check if pointed place is a genetic marker
 var 5 : stack ptr
+var 6 : begin and end pos for transcription
 
 ### Pseudo-code
 
+```{pseudo class.source='foldable'}
 While !var3:
     Go 7 steps forward in body
     If body part is a genetic marker:
@@ -47,6 +50,9 @@ While !var3:
         Increment var5, last list element pos
         Put func ID there
 
+Get pos of first memory cell after end of list
+Set transcription pointers to this pos
+```
 
 ### Code
 
@@ -54,32 +60,40 @@ While !var3:
 
 **Raw code**
 
-GSTART_ID, 209, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_SLVcst,
-1, -7, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, 
-id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 1, 
-id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 4, 
-id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_RGLVLV, 2, 1, 
-id_tRNA_CMPLVcst, 0, 2, -1, 3, id_tRNA_INCLV, 1, 
-3, id_tRNA_OPELVcst, 1, 1, 2, id_tRNA_SIJ, id_tRNA_SEJ,
-id_tRNA_SWJ, id_tRNA_OPEcstcst, 0, 99, 2, id_tRNA_PCSWI, 0, 
-id_tRNA_SLVaddr, 5, 99, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 
-3, id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 
-1, id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 
-4, id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_RGLVLV, 2, 
-1, id_tRNA_CMPLVcst, 0, 2, -1, 3, id_tRNA_INCLV, 
-1, 3, id_tRNA_OPELVcst, 1, 1, 2, id_tRNA_SIJ, 
-id_tRNA_SLVcst, 6, GSTART_ID-1, id_tRNA_INCLV, 0, 6, id_tRNA_CMPLVLV, 
-0, 2, 6, 4, id_tRNA_IF0, 4, id_tRNA_INCLV, 
-0, 1, id_tRNA_INCLV, 0, 5, id_tRNA_INCS, 0, 
-id_tRNA_RGLVLV, 6, 1, id_tRNA_SDLVLV, 5, 6, id_tRNA_INCLV, 
-1, 1, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_OPEcstcst,
-1, 99, 2, id_tRNA_RET, GSTOP_ID, 0, 0,
+```{DNA class.source='foldable'}
+GSTART_ID, 209, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_INCcst, 
+0, 99, id_tRNA_SLVcst,1, -7, id_tRNA_SLVcst, 3, 
+1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 1, 7, 
+id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 
+4, id_tRNA_IF0, 4, id_tRNA_OPELVcst, 0, 1, 2, 
+id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, -1, 
+3, id_tRNA_INCLV, 1, 3, id_tRNA_OPELVcst, 1, 1, 
+2, id_tRNA_SIJ, id_tRNA_SEJ,id_tRNA_SWJ, id_tRNA_OPEcstcst, 0, 99, 
+3, id_tRNA_PCSWI, 0, id_tRNA_SLVaddr, 5, 99, id_tRNA_SLVcst, 
+3, 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 1, 
+7, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, 
+instruction::MARKER, 4, id_tRNA_IF0, 4, id_tRNA_OPELVcst, 0, 1, 
+2, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, 
+-1, 3, id_tRNA_INCLV, 1, 3, id_tRNA_OPELVcst, 1, 
+1, 2, id_tRNA_SIJ, id_tRNA_SLVcst, 6, GSTART_ID-1, id_tRNA_INCLV, 
+0, 6, id_tRNA_CMPLVLV, 0, 2, 6, 4, 
+id_tRNA_IF0, 4, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0, 
+5, id_tRNA_INCS, 0, id_tRNA_RGLVLV, 6, 1, id_tRNA_SDLVLV, 
+5, 6, id_tRNA_INCLV, 1, 1, id_tRNA_SIJ, id_tRNA_SEJ, 
+id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SP_GSPLV, 6, id_tRNA_GTSLV, 5, id_tRNA_OPELVLV, 
+0, 6, 5, id_tRNA_INCLV, 0, 6, id_tRNA_INCcst, 
+1, 99, id_tRNA_PLVSWI, 6, id_tRNA_INCcst, 1, 99, 
+id_tRNA_PLVSWI, 6, id_tRNA_OPEcstcst, 1, 99, 2, id_tRNA_RET, 
+GSTOP_ID, 0, 0, 0, 0, 0, 0,
+```
 
 
 
 **Organised code**
 
 
+```{pseudoDNA class.source='foldable'}
+id_tRNA_INCcst, 0, 99                               // stack ptr ++
 id_tRNA_SLVcst, 1, -7                               // v1 = -7
 id_tRNA_SLVcst, 3, 1                                // v3 = 1
 
@@ -101,7 +115,7 @@ id_tRNA_IF0, 3                                      // while v3
 id_tRNA_SWJ
 
 *v5 is a second stack ptr*
-id_tRNA_OPEcstcst, 0, 99, 2                         // stack ptr += 2 (leave room for ribosome)
+id_tRNA_OPEcstcst, 0, 99, 3                         // stack ptr += 2 (leave room for ribosome)
 id_tRNA_PCSWI, 0,                                   // TOPS = 0
 id_tRNA_SLVaddr, 5, 99                              // v5 = stack ptr
 id_tRNA_SLVcst, 3, 1                                // v3 = 1
@@ -137,16 +151,27 @@ id_tRNA_IF0, 3                                      // while v3
 | id_tRNA_SEJ, 
 id_tRNA_SWJ
 
-id_tRNA_OPEcstcst, 1, 99, 2                         // 'reset' stack ptr
+id_tRNA_SP_GSPLV, 6                                 // var 6 <- stack ptr
+id_tRNA_GTSLV, 5                                    // var 5 <- TOPS (list size)
+id_tRNA_OPELVLV, 0, 6, 5                            // var 6 += var 5 (ptr to end of list)
+id_tRNA_INCLV, 0, 6                                 // var 6++
+id_tRNA_INCcst, 1, 99                               // stack ptr--
+id_tRNA_PLVSWI, 6                                   // TOPS <- var 6
+id_tRNA_INCcst, 1, 99                               // stack ptr--
+id_tRNA_PLVSWI, 6                                   // TOPS <- var 6
+id_tRNA_OPEcstcst, 1, 99, 2                         // stack ptr-=2
 
 id_tRNA_RET
-
+```
 
 
 #### functional code
 
+
+```{XASM class.source='foldable'}
 instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
 
+instruction::INC, 1, 0, 0, 99, 0, 0
 instruction::CPY, 1, 0, 0, 100, -7, 0,
 instruction::CPY, 1, 0, 0, 102, 1, 0,
 
@@ -169,7 +194,7 @@ instruction::SUB, 1, 1, 0, 100, 100, 2,
 instruction::JRA, 0, 0, 0, 1, 0, 0,
 instruction::JRS, 0, 1, 0, 17, 0, 0,
 
-instruction::ADD, 1, 1, 0, 99, 99, 2,
+instruction::ADD, 1, 1, 0, 99, 99, 3,
 instruction::CPY, 2, 0, 0, 99, 0, 0,
 instruction::CPY, 1, 1, 0, 104, 99, 0,
 instruction::CPY, 1, 0, 0, 102, 1, 0,
@@ -181,7 +206,6 @@ instruction::JRE, 0, 1, 0, 3, 101, instruction::MARKER,
 instruction::CPY, 1, 0, 0, 103, 0, 0,
 instruction::JRA, 0, 0, 0, 2, 0, 0,
 instruction::CPY, 1, 0, 0, 103, 1, 0,
-instruction::DEC, 1, 0, 0, 103, 0, 0,
 instruction::JRE, 0, 1, 0, 10, 103, 0,
 instruction::ADD, 1, 1, 0, 100, 100, 2,
 instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -208,9 +232,358 @@ instruction::DEC, 1, 0, 0, 100, 0, 0,
 instruction::JRA, 0, 0, 0, 1, 0, 0,
 instruction::JRS, 0, 0, 0, 31, 100, 0,
 
+instruction::CPY, 1, 1, 0, 105, 99, 0,
+instruction::CPY, 1, 2, 0, 104, 99, 0,
+instruction::ADD, 1, 1, 1, 105, 105, 104,
+instruction::INC, 1, 0, 0, 105, 0, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 2, 1, 0, 99, 105, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 2, 1, 0, 99, 105, 0,
 instruction::SUB, 1, 1, 0, 99, 99, 2,
 
 instruction::JMP, 2, 0, 0, 0, 0, 0,
 instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
+```
 
 
+## 100X2 : self-compilation - transcription
+
+### General info
+
+Goal : transcribe to progtein all funcs of the list built by the self-compilation func ID list builder
+
+Input : nothing
+Output : builds a list of progtein codes when executed several tmes ; executed once it will transcribe 
+    the code of the last progtein ID on ID list
+
+This function transcribes the RNAs one by one : 
+It gets the last progtein ID of the list, transcribes it to a progtein, and decreases the func ID list size.
+
+### Variables
+
+var 1 : position to transcribe code
+var 2 : ptr to end of transcribed code
+var 3 : func size & end of ID list ptr
+var 4 : stack ptr manip var
+var 5 : last ID of ID list
+var 6 : current pos in body of transcribed code to cpy to output
+var 7 : are we at end of transcription code ?
+var 8 : current pos in output to copy transcribed code
+
+
+During the execution of the code, the stack should look like this :
+
+
+end of transcribed code
+...
+begin of transcribed code
+list val
+list size
+end of transcribed code ptr
+beginning of transcribed code ptr
+
+
+### Pseudo-code
+
+```{pseudo class.source='foldable'}
+get begin of transcribed code
+get end of transcribed code
+
+If list size!=0:
+    get end of list val
+    store stack ptr in end of list pos
+    store end of list val after end of list pos
+    set stack ptr to end of list val
+    CALL RNAP 
+    CALL ribosome
+    get back func ID for genetic marker
+    decrease stack ptr to get old stack ptr
+    increase stack ptr several times to get end of transcribed genes
+    set stack ptr to old stack ptr
+    decrease val at TOPS (i.e. list size)
+    set x = pos after end of list
+    write genetic marker (begin of func)
+    set y = x + v where v is such that y is the first transcribed codon
+    While y != end of transcribed genes
+        data at x = data at y
+    write genetic marker (end of func)
+    update begin and end of transcribed code (under TOPS)
+Else
+    set output size to transcribed code size
+    copy transcribed code to output
+```
+
+### Code
+
+#### DNA code
+
+**Raw code**
+
+```{DNA class.source='foldable'}
+GSTART_ID, 100X2, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_OPEcstcst, 
+0, 99, 2, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 0, 
+99, id_tRNA_GTSLV, 2, id_tRNA_INCcst, 0, 99, id_tRNA_GTSLV, 
+3, id_tRNA_IF0, 3, id_tRNA_SLVaddr, 4, 99, id_tRNA_OPELVLV, 
+0, 3, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_INCLV, 
+0, 3, id_tRNA_SDLVLV, 3, 4, id_tRNA_ScstLV, 99, 
+3, id_tRNA_PLVSI, 5, id_tRNA_PLVSI, 5, id_tRNA_CALLcst, 207, 
+id_tRNA_CALLcst, 206, id_tRNA_GTSLV, 3, id_tRNA_INCcst, 1, 99, 
+id_tRNA_GTSLV,  4, id_tRNA_OPEcstcst, 0, 99, 3, id_tRNA_GTSLV, 
+2, id_tRNA_INCLV, 0, 2, id_tRNA_ScstLV, 99, 4, 
+id_tRNA_INCS, 1, id_tRNA_INCcst, 1, 99, id_tRNA_INCS, 1, 
+id_tRNA_GTSLV, 1, id_tRNA_SDLVcst, 1, instruction::MARKER, id_tRNA_INCLV, 0, 
+1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 1, 
+id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 
+1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 
+0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, 
+id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 
+0, 1, id_tRNA_SLVLV, 5, 1, id_tRNA_OPELVcst, 0, 
+5, 5, id_tRNA_CMPLVLV, 0, 5, 2, 6, 
+id_tRNA_INCLV, 1, 6, id_tRNA_IF0, 6, id_tRNA_SDLVDLV, 1, 
+5, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0, 5, 
+id_tRNA_CMPLVLV, 0, 5, 2, 6, id_tRNA_INCLV, 1, 
+6, id_tRNA_SWJ, id_tRNA_SDLVcst, 1, instruction::MARKER, id_tRNA_INCLV, 0, 
+1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 1, 
+id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 
+1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 
+0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, 
+id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 
+0, 1, id_tRNA_PLVSWI, 1, id_tRNA_OPEcstcst, 1, 99, 
+3, id_tRNA_SIJ, id_tRNA_INCLV, 0, 6, id_tRNA_OPELVLV, 1, 
+6, 1, id_tRNA_SOSLV, 6, id_tRNA_SLVLV, 6, 1, 
+id_tRNA_CMPLVLV, 0, 6, 2, 7, id_tRNA_INCLV, 1, 
+7, id_tRNA_SLVcst, 8, 0, id_tRNA_IF0, 7, id_tRNA_SLVDLV, 
+7, 6, id_tRNA_GLVO, 8, 7, id_tRNA_INCLV, 0, 
+6, id_tRNA_INCLV, 0, 8, id_tRNA_CMPLVLV, 0, 6, 
+2, 7, id_tRNA_INCLV, 1, 7, id_tRNA_SIJ, id_tRNA_SEJ, 
+id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+```
+
+
+
+
+**Organised code**
+
+```{pseudoDNA class.source='foldable'}
+id_tRNA_OPEcstcst, 0, 99, 2         // stack ptr+=2 (to begin at right place and avoid overlap)
+id_tRNA_GTSLV, 1                    // var 1 <- TOPS (get begin of transcription ptr)
+id_tRNA_INCcst, 0, 99               // stack ptr++
+id_tRNA_GTSLV, 2                    // var 2 <- TOPS (get end of transcription ptr)
+id_tRNA_INCcst, 0, 99               // stack ptr++
+id_tRNA_GTSLV, 3                    // var 3 <- TOPS (get func ID size)
+
+id_tRNA_IF0, 3                      // if var 3
+| id_tRNA_SLVaddr, 4, 99            // var 4 <- stack ptr
+| id_tRNA_OPELVLV, 0, 3, 4          // var 3+= var 4 (pointer to end of list)
+| id_tRNA_SLVDLV, 5, 3              // var 5 <- *var 3 (last func ID)
+| id_tRNA_INCLV, 0, 3               // var 3++
+| id_tRNA_SDLVLV, 3, 4              // *var 3 <- var 4 (first pos after list = stack ptr)
+| id_tRNA_ScstLV, 99, 3             // stack ptr <- var 3
+| id_tRNA_PLVS, 5,                  // arg for RNAP
+| id_tRNA_PLVS, 5,                  // arg for RNAP (same as prev line)
+|
+| id_tRNA_CALLcst, 207              // CALL RNAP
+| id_tRNA_CALLcst, 206              // CALL ribosome
+|
+| id_tRNA_GTSLV, 3                  // var 3 <- func ID
+| id_tRNA_INCcst, 1, 99             // stack ptr-- (pos of stack before calling funcs)
+| id_tRNA_GTSLV, 4                  // var 4 <- stack ptr before calls
+| id_tRNA_OPEcstcst, 0, 99, 3       // stck ptr += 3 (ptr to end of transcribed genes)
+| id_tRNA_GTSLV, 2                  // var 2 <- end of transcribed genes
+| id_tRNA_INCLV, 0, 2               // var2++ (fencepost)
+| id_tRNA_ScstLV, 99, 4             // stack ptr <- var 4
+| id_tRNA_INCS, 1                   // decrease func ID list size
+| id_tRNA_INCcst, 1, 99             // stack ptr-- (pos of first transcribed codon)
+| id_tRNA_INCS, 1                   // update pos of first transcribed codon (1 func ID less)
+| id_tRNA_GTSLV, 1                  // var 1 <- ptr to shift transcribed genes
+| id_tRNA_SDLVcst, 1, instruction::MARKER // genetic marker (begin)
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVLV, 1, 3 
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1               // genetic marker (begin)
+| id_tRNA_SLVLV, 5, 1               
+| id_tRNA_OPELVcst, 0, 5, 5         // transcribed genes are shifted of 5 pos toward 0
+| id_tRNA_CMPLVLV, 0, 5, 2, 6 
+| id_tRNA_INCLV, 1, 6
+| id_tRNA_IF0, 6                    // jmp if cpy ptr == end ptr 
+| | id_tRNA_SDLVDLV, 1, 5           // shift data
+| | id_tRNA_INCLV, 0, 1
+| | id_tRNA_INCLV, 0, 5
+| | id_tRNA_CMPLVLV, 0, 5, 2, 6 
+| | id_tRNA_INCLV, 1, 6
+| id_tRNA_SWJ
+|
+| id_tRNA_SDLVcst, 1, instruction::MARKER // genetic marker (end)
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVLV, 1, 3 
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1               // genetic marker (end)
+| id_tRNA_PLVSWI, 1                 // put end of transcribed code
+| id_tRNA_OPEcstcst, 1, 99, 3       // stack ptr -= 3 (set prog ptr to val at begin)
+|
+id_tRNA_SIJ
+| id_tRNA_INCLV, 0, 6               // var 6++
+| id_tRNA_OPELVLV, 1, 6, 1          // var 6 -= var 1 (var 6 = transcribed code size)
+| id_tRNA_SOSLV, 6                  // output size = var 6
+| id_tRNA_SLVLV, 6, 1               // var 6 <- begin of transcription ptr
+| id_tRNA_CMPLVLV, 0, 6, 2, 7       // var 7 = var 6 == end of transcription ?
+| id_tRNA_INCLV, 1, 7               // var 7--
+| id_tRNA_SLVcst, 8, 0              // var 8 <- 0
+| id_tRNA_IF0, 7                    // if var 7
+| | id_tRNA_SLVDLV, 7, 6            // var 7 <- *var 6
+| | id_tRNA_GLVO, 8, 7              // output[var 8] <- var 7
+| | id_tRNA_INCLV, 0, 6             // var 6++
+| | id_tRNA_INCLV, 0, 8             // var 8++
+| | id_tRNA_CMPLVLV, 0, 6, 2, 7     // var 7  = var 5 == end of transcription ?
+| | id_tRNA_INCLV, 1, 7             // var 7--
+| id_tRNA_SIJ
+| id_tRNA_SEJ
+id_tRNA_SEJ
+
+id_tRNA_RET
+```
+
+
+#### functional code
+
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
+
+
+instruction::ADD, 1, 1, 0, 99, 99, 2,
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 102, 99, 0,
+
+
+instruction::JRE, 0, 1, 0, 72, 102, 0,
+instruction::CPY, 1, 0, 0, 103, 99, 0,
+instruction::ADD, 1, 1, 1, 102, 102, 103,
+instruction::CPY, 1, 2, 0, 104, 102, 0,
+instruction::INC, 1, 0, 0, 102, 0, 0,
+instruction::CPY, 2, 1, 0, 102, 103, 0,
+instruction::CPY, 1, 1, 0, 99, 102, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 2 ,1, 0, 99, 104, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 2 ,1, 0, 99, 104, 0,
+
+instruction::CALL, 0, 0, 0, 0, 207, 0,
+instruction::CALL, 0, 0, 0, 0, 206, 0,
+
+instruction::CPY, 1, 2, 0, 102, 99, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 103, 99,
+instruction::ADD, 1, 1, 0, 99, 99, 3,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+instruction::CPY, 1, 1, 0, 99, 103, 0,
+instruction::DEC, 2, 0, 0, 99, 0, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::DEC, 2, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+instruction::CPY, 2, 0, 0, 100, 46, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 1, 0, 100, 102, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+
+
+instruction::CPY, 1, 1, 0, 104, 100, 0,
+instruction::ADD, 1, 1, 0, 104, 104, 5,
+instruction::JRE, 0, 1, 1, 3, 104, 101,
+instruction::CPY, 1, 0, 0, 105, 0, 0, 
+instruction::JRA, 0, 0, 0, 2, 0, 0,
+instruction::CPY, 2, 0, 0, 105, 1, 0,
+instruction::DEC, 1, 0, 0, 105, 0, 0,
+instruction::JRE, 0, 1, 0, 10, 105, 0,
+instruction::CPY, 2, 2, 0, 100, 104, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 104, 0, 0, 
+instruction::JRE, 0, 1, 1, 3, 104, 101,
+instruction::CPY, 1, 0, 0, 105, 0, 0, 
+instruction::JRA, 0, 0, 0, 2, 0, 0,
+instruction::CPY, 2, 0, 0, 105, 1, 0,
+instruction::DEC, 1, 0, 0, 105, 0, 0,
+instruction::JRS, 0, 0, 0, 9, 0, 0,
+
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+instruction::CPY, 2, 0, 0, 100, 46, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 1, 0, 100, 102, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::SUB, 1, 1, 0, 99, 99, 3,
+instruction::JRA, 0, 0, 0, 22, 0, 0,
+
+
+instruction::INC, 1, 0, 0, 105, 0, 0,
+instruction::SUB, 1, 1, 1, 105, 105, 100,
+instruction::SETOS, 0, 0, 0, 105, 0, 0,
+instruction::CPY, 1, 1, 0, 105, 100, 0,
+instruction::JRE, 0, 1, 1, 3, 105, 101,
+instruction::CPY, 1, 0, 0, 106, 0, 0,
+instruction::JRA, 0, 0, 0, 2, 0, 0,
+instruction::CPY, 1, 0, 0, 106, 1, 0,
+instruction::DEC, 1, 0, 0, 106, 0, 0,
+instruction::CPY, 1, 0, 0, 107, 0, 0,
+
+instruction::JRE, 0, 1, 0, 11, 106, 0,
+instruction::CPY, 1, 2, 0, 106, 105, 0,
+instruction::CPYOUT, 1, 1, 0, 8, 106, 0,
+instruction::INC, 1, 0, 0, 105, 0, 0,
+instruction::INC, 1, 0, 0, 107, 0, 0,
+instruction::JRE, 0, 1, 1, 3, 105, 101,
+instruction::CPY, 1, 0, 0, 106, 0, 0,
+instruction::JRA, 0, 0, 0, 2, 0, 0,
+instruction::CPY, 1, 0, 0, 106, 1, 0,
+instruction::DEC, 1, 0, 0, 106, 0, 0,
+instruction::JRA, 0, 0, 0, 1, 0, 0,
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
+```

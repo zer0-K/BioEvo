@@ -1554,7 +1554,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, 2, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -1960,7 +1960,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // cst
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 3, 0, 101, 100, 0,     // arg1 : cst
@@ -2088,7 +2088,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // local var
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg1 : var nb
@@ -2940,6 +2940,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3000,6 +3005,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3105,6 +3115,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3165,6 +3180,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3224,6 +3244,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3284,6 +3309,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3343,6 +3373,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3402,6 +3437,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3462,6 +3502,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3522,6 +3567,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
@@ -3604,6 +3654,11 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // get ribosome ptr (P site)
         instruction::CPY, 1, 1, 0, 100, 99, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
+        // get E site
+        instruction::DEC, 1, 0, 0, 99, 0, 0,
+        instruction::CPY, 1, 2, 0, 101, 99, 0,
+        instruction::INC, 1, 0, 0, 99, 0, 0,
+        instruction::INC, 1, 0, 0, 101, 0, 0,   // E site in 101
 
         // put codons on stack
 
