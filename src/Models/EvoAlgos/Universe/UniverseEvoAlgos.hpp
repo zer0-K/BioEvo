@@ -34,21 +34,21 @@ public:
     virtual bool is_empty(int pos);
 
     /**
-     * @brief get free genes at given pos
+     * @brief get free molecules at given pos
      *
      * @param[in] pos position
-     * @return genes (empty if no free genes at given pos)
+     * @return molecular body (empty if no free molecules at given pos)
      */
-    virtual std::vector<int> get_freegenes_at(int pos);
+    virtual std::vector<int> get_free_molecules_at(int pos);
 
     /**
-     * @brief write free genes at given pos
+     * @brief write free molecules at given pos
      *
      * @param[in] pos position to write
      * @param[in] vals int sequence to write
      * @return true if write was successful
      */
-    virtual bool write_freegenes_at(int pos, std::vector<int> vals);
+    virtual bool write_free_molecules_at(int pos, std::vector<int> vals);
 
     /**
      * @brief link universe functions to x86 individuals

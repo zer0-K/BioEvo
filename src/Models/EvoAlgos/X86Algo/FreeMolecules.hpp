@@ -11,10 +11,10 @@
  * 
  * Non executable code, aimed to be used later
 */
-class FreeGenes : public Entity
+class FreeMolecules : public Entity
 {
 protected:
-    std::vector<int> genes;
+    std::vector<int> molecular_body;
 
 public:
     using Entity::Entity;
@@ -22,9 +22,9 @@ public:
     void init() override;
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
 
-    std::vector<int> get_genes();
+    std::vector<int> get_molecular_body();
 
-    void set_genes(std::vector<int> genes);
+    void set_molecular_body(std::vector<int> molecular_body);
 };
 
-typedef std::shared_ptr<FreeGenes> sp_freegenes;
+typedef std::shared_ptr<FreeMolecules> sp_free_molecules;

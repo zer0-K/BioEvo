@@ -3,7 +3,7 @@
 #include "../../../Utils/Maths/RandomGen.hpp"
 #include "../../../Entities/EntityInt.hpp"
 #include "InstructionMapping.hpp"
-//#include "FreeGenes.hpp"
+//#include "FreeMolecules.hpp"
 
 void X86Algo::init()
 {
@@ -25,20 +25,20 @@ void X86Algo::init()
     // init external function with dummy lambdas
     get_universe_size = [](){return 0;};
     is_empty = [](int pos){return false;};
-    get_freegenes_at = [](int pos){return std::vector<int>(0);};
-    write_freegenes_at = [](int pos, std::vector<int> g){return false;};
+    get_free_molecules_at = [](int pos){return std::vector<int>(0);};
+    write_free_molecules_at = [](int pos, std::vector<int> g){return false;};
 
     neighborhood_size = 0;
 }
 
 void X86Algo::init_external_functions(std::function<int()> get_universe_size,
-    std::function<bool(int)> is_empty, std::function<std::vector<int>(int)> get_freegenes_at,
-    std::function<bool(int, std::vector<int>)> write_freegenes_at)
+    std::function<bool(int)> is_empty, std::function<std::vector<int>(int)> get_free_molecules_at,
+    std::function<bool(int, std::vector<int>)> write_free_molecules_at)
 {
     this->get_universe_size = get_universe_size;
     this->is_empty = is_empty;
-    this->get_freegenes_at = get_freegenes_at;
-    this->write_freegenes_at = write_freegenes_at;
+    this->get_free_molecules_at = get_free_molecules_at;
+    this->write_free_molecules_at = write_free_molecules_at;
 }
 
 
@@ -46,10 +46,10 @@ void X86Algo::init_external_functions(std::function<int()> get_universe_size,
 std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
 {
     // check if there is an input first
-    //if(entries.size() == 1 && std::dynamic_pointer_cast<FreeGenes>(entries[0]) != NULL)
+    //if(entries.size() == 1 && std::dynamic_pointer_cast<FreeMolecules>(entries[0]) != NULL)
     //{
-    //    sp_freegenes freegenes = std::dynamic_pointer_cast<FreeGenes>(entries[0]);
-    //    set_input(freegenes->get_genes());
+    //    sp_free_molecules free_molecules = std::dynamic_pointer_cast<FreeMolecules>(entries[0]);
+    //    set_input(free_molecules->get_molecular_body());
     //}
 
     // execution starts at pos 0
@@ -132,7 +132,7 @@ void X86Algo::exec_instruction(int instr, int addr1_order, int addr2_order, int 
     int arg1, int arg2, int arg3)
 {
     exec_instruction_basic(instr, addr1_order, addr2_order, addr3_order, arg1, arg2, arg3);
-    exec_instruction_gene(instr, addr1_order, addr2_order, addr3_order, arg1, arg2, arg3);
+    exec_instruction_molecule(instr, addr1_order, addr2_order, addr3_order, arg1, arg2, arg3);
 }
 
 void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order, int addr3_order, 
@@ -501,11 +501,11 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
 
             if(addr1_order==0)
             {
-                input_x86 = get_freegenes_at(arg1_);
+                input_x86 = get_free_molecules_at(arg1_);
             }
             else
             {
-                input_x86 = get_freegenes_at(data[arg1_]);
+                input_x86 = get_free_molecules_at(data[arg1_]);
             }
 
             break;
@@ -517,11 +517,11 @@ void X86Algo::exec_instruction_basic(int instr, int addr1_order, int addr2_order
             {
                 if(addr2_order == 0)
                 {
-                    data[destination] = write_freegenes_at(arg2_, output_x86) ? 1 : 0;
+                    data[destination] = write_free_molecules_at(arg2_, output_x86) ? 1 : 0;
                 }
                 else
                 {
-                    data[destination] = write_freegenes_at(data[arg2_], output_x86) ? 1 : 0;
+                    data[destination] = write_free_molecules_at(data[arg2_], output_x86) ? 1 : 0;
                 }
             }
 

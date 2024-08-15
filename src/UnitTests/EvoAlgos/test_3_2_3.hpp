@@ -13,7 +13,7 @@
 #include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 
 #include "../../Entities/EntityVoid.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 #include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
 #include "../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 

@@ -1,9 +1,13 @@
+---
+title: Progteins documentation
+---
+
 This folder contains the documentation of progteins necessary for the basic working of the EvoX algo.
 
 # General info
 
 -100- : genetic data
--1 : genome end
+-1 : molecular body end
 0-99 : core functions
 100-199 : general genesis functions
 200-299 : internal utility functions

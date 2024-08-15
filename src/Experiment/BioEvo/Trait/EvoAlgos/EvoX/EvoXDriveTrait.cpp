@@ -26,12 +26,12 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
     sp_evox algo = std::make_shared<EvoX>(name);
     algo->init();
 
-    //---------- GENOME
+    //---------- MOLECULAR BODY
 
-    // genome for an ranom gene mutation
+    // molecular body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> genome { 
+    std::vector<int> molecular_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -137,17 +137,17 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = genes
+    //----- replication func : output = molecular body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate genome
+        // mutate molecular body
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.69
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        // find end of genome
+        // find end of molecular body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -158,9 +158,9 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of genome
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = genome size
-        // copy genome
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
+        // copy molecular body
         instruction::CPY, 1, 0, 0, 102, -1, 0, 
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -188,7 +188,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update genes
+        // if error flag is 1, update molecular body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -221,7 +221,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from genome
+        // for the moment : just output a constant from molecular body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.128
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -232,7 +232,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change genome
+        // for the moment : randomly change molecular body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.134
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 128*7+5, 0,
@@ -248,18 +248,18 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
     //----- mutate before replciating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change genome
+        // for the moment : randomly change molecular body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.145
         instruction::GSET, 1, 1, 0, 128*7+5, 101, 0,    // randomly change the output number
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-    //----- end of genome
+    //----- end of molecular body
         instruction::MARKER, -1, 0, 0, 0, 0, 0
     };
 
-    algo->set_genes(genome);
+    algo->set_molecular_body(molecular_body);
 
     return algo;
 }
@@ -305,21 +305,21 @@ void EvoXDriveTrait::test_setup()
                 << ", in=(0,1," << error << ")"
                 << std::endl;
             
-            std::vector<int>::const_iterator beg = algo->get_genes().begin()+129*7;
-            std::vector<int>::const_iterator end = algo->get_genes().begin()+130*7;
+            std::vector<int>::const_iterator beg = algo->get_molecular_body().begin()+129*7;
+            std::vector<int>::const_iterator end = algo->get_molecular_body().begin()+130*7;
 
-            std::vector<int> genes(beg, end);
+            std::vector<int> molecular_body(beg, end);
 
-            std::cout << "Old genome : " << to_str(genes) << std::endl;
+            std::cout << "Old molecular body : " << to_str(molecular_body) << std::endl;
             algo->set_input({0,1,error});
             algo->exec(std::vector<sp_entity>(0));
 
-            beg = algo->get_genes().begin()+128*7;
-            end = algo->get_genes().begin()+129*7;
+            beg = algo->get_molecular_body().begin()+128*7;
+            end = algo->get_molecular_body().begin()+129*7;
 
-            std::vector<int> new_genes(beg, end);
+            std::vector<int> new_molecular_body(beg, end);
 
-            std::cout << "New genome : " << to_str(new_genes) << std::endl; 
+            std::cout << "New molecular body : " << to_str(new_molecular_body) << std::endl; 
         }
     }
 
@@ -329,7 +329,7 @@ void EvoXDriveTrait::test_setup()
     algo->exec(std::vector<sp_entity>(0));
 
     std::vector<int> copied_out = algo->get_output();
-    if(x86_comp_output(copied_out, algo->get_genes()))
+    if(x86_comp_output(copied_out, algo->get_molecular_body()))
     {
         std::cout << "Genes copied successfully" << std::endl;
     }

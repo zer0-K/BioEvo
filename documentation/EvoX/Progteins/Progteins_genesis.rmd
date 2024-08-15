@@ -1,3 +1,11 @@
+---
+title: Documentation of genesis-related progteins
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
 # General info
 
 These correspond to the teleonomical IDs between 100 and 199.
@@ -22,7 +30,7 @@ Output : list of the progteins IDs in the DNA
 var 1 : index var - to loop on body and find DNA begin and end
 var 2 : genetic value at var 1
 var 3 : condition to check if pointed place is the DNA marker
-var 4 : condition to check if pointed place is a genetic marker
+var 4 : condition to check if pointed place is a molecular marker
 var 5 : stack ptr
 var 6 : begin and end pos for transcription
 
@@ -31,7 +39,7 @@ var 6 : begin and end pos for transcription
 ```{pseudo class.source='foldable'}
 While !var3:
     Go 7 steps forward in body
-    If body part is a genetic marker:
+    If body part is a molecular marker:
         Go 2 steps forward in body
         var3 <- body part is DNA marker
         Go 2 steps backward in body
@@ -40,7 +48,7 @@ Leave room for transcriptions pointers and get stack ptr in var5
 
 While !var3:
     Go 7 steps forward in body
-    If body part is a genetic marker:
+    If body part is a molecular marker:
        Go 2 steps forward 
        var3 <- body part is DNA marker
        Go 2 steps backward in body
@@ -297,17 +305,17 @@ If list size!=0:
     set stack ptr to end of list val
     CALL RNAP 
     CALL ribosome
-    get back func ID for genetic marker
+    get back func ID for molecular marker
     decrease stack ptr to get old stack ptr
-    increase stack ptr several times to get end of transcribed genes
+    increase stack ptr several times to get end of transcribed molecular body
     set stack ptr to old stack ptr
     decrease val at TOPS (i.e. list size)
     set x = pos after end of list
-    write genetic marker (begin of func)
+    write molecular marker (begin of func)
     set y = x + v where v is such that y is the first transcribed codon
-    While y != end of transcribed genes
+    While y != end of transcribed molecular body
         data at x = data at y
-    write genetic marker (end of func)
+    write molecular marker (end of func)
     update begin and end of transcribed code (under TOPS)
 Else
     set output size to transcribed code size
@@ -389,15 +397,15 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_GTSLV, 3                  // var 3 <- func ID
 | id_tRNA_INCcst, 1, 99             // stack ptr-- (pos of stack before calling funcs)
 | id_tRNA_GTSLV, 4                  // var 4 <- stack ptr before calls
-| id_tRNA_OPEcstcst, 0, 99, 3       // stck ptr += 3 (ptr to end of transcribed genes)
-| id_tRNA_GTSLV, 2                  // var 2 <- end of transcribed genes
+| id_tRNA_OPEcstcst, 0, 99, 3       // stck ptr += 3 (ptr to end of transcribed molecules)
+| id_tRNA_GTSLV, 2                  // var 2 <- end of transcribed molecules
 | id_tRNA_INCLV, 0, 2               // var2++ (fencepost)
 | id_tRNA_ScstLV, 99, 4             // stack ptr <- var 4
 | id_tRNA_INCS, 1                   // decrease func ID list size
 | id_tRNA_INCcst, 1, 99             // stack ptr-- (pos of first transcribed codon)
 | id_tRNA_INCS, 1                   // update pos of first transcribed codon (1 func ID less)
-| id_tRNA_GTSLV, 1                  // var 1 <- ptr to shift transcribed genes
-| id_tRNA_SDLVcst, 1, instruction::MARKER // genetic marker (begin)
+| id_tRNA_GTSLV, 1                  // var 1 <- ptr to shift transcribed molecules
+| id_tRNA_SDLVcst, 1, instruction::MARKER // molecular marker (begin)
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
@@ -410,7 +418,7 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
-| id_tRNA_INCLV, 0, 1               // genetic marker (begin)
+| id_tRNA_INCLV, 0, 1               // molecular marker (begin)
 | id_tRNA_SLVLV, 5, 1               
 | id_tRNA_OPELVcst, 0, 5, 5         // transcribed genes are shifted of 5 pos toward 0
 | id_tRNA_CMPLVLV, 0, 5, 2, 6 
@@ -423,7 +431,7 @@ id_tRNA_IF0, 3                      // if var 3
 | | id_tRNA_INCLV, 1, 6
 | id_tRNA_SWJ
 |
-| id_tRNA_SDLVcst, 1, instruction::MARKER // genetic marker (end)
+| id_tRNA_SDLVcst, 1, instruction::MARKER // molecular marker (end)
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
@@ -436,7 +444,7 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
-| id_tRNA_INCLV, 0, 1               // genetic marker (end)
+| id_tRNA_INCLV, 0, 1               // molecular marker (end)
 | id_tRNA_PLVSWI, 1                 // put end of transcribed code
 | id_tRNA_OPEcstcst, 1, 99, 3       // stack ptr -= 3 (set prog ptr to val at begin)
 |

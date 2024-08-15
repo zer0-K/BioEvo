@@ -3,11 +3,11 @@
 /*
 Teleonomical IDs :
     - -100- : genetic data
-    - -1 : genome end
+    - -1 : molecular body end
     - 0-99 : core functions (meta-exec func, main, core switcher, teleonomical list builder,...)
-    - 100-199 : general genesis funcs (autopoiesis, find free genes, quine, genetic decompression,...) 
-    - 200-299 : internal utility funcs (genome size, copy input as func, func pos,...)
-    - 300-399 : external utility funcs (pick free genes, find empty place, write func as free genes,...)
+    - 100-199 : general genesis funcs (autopoiesis, find free molecules, quine, genetic decompression,...) 
+    - 200-299 : internal utility funcs (molecular body size, copy input as func, func pos,...)
+    - 300-399 : external utility funcs (pick free molecules, find empty place, write func as free molecules,...)
     - 400-499 : machine learning funcs (learning switcher, train, test, error correction,...)
     - 1000+ : evaluation functions and other
 
@@ -19,7 +19,7 @@ Teleonomical IDs :
         100 - autopoiesis
         101 - autopoiesis phase 1
         102 - autopoiesis phase 2
-        103 - search and pick free genes
+        103 - search and pick free molecules
         104 - quine func
         105 - mutate before replication
 
@@ -27,9 +27,9 @@ Teleonomical IDs :
         201 - copy in as new func
         202 - get function pos
 
-        300 - get free genes in input
+        300 - get free molecules in input
         301 - find empty place
-        302 - export func as free genes
+        302 - export func as free molecules
 
         400 - learning switcher
         401 - train phase
@@ -89,25 +89,25 @@ namespace ut_ea
         sp_evox algo = std::make_shared<EvoX>("evox algo");
         algo->init();
 
-        //---------- GENOME
+        //---------- molecular body
 
-        // base genome for an autonomical genesis
+        // base molecular body for an autonomical genesis
         // teleonomical IDs:
         //      - -100- : genetic data
-        //      - -1 : genome end
+        //      - -1 : molecular body end
         //      - 0-99 : core functions (meta-exec func, main, core switcher, teleonomical list builder,...)
-        //      - 100-199 : general genesis funcs (autopoiesis, find free genes, quine, genetic decompression,...) 
-        //      - 200-299 : internal utility funcs (genome size, copy input as func, func pos,...)
-        //      - 300-399 : external utility funcs (pick free genes, find empty place, write func as free genes,...)
+        //      - 100-199 : general genesis funcs (autopoiesis, find free molecules, quine, genetic decompression,...) 
+        //      - 200-299 : internal utility funcs (molecular body size, copy input as func, func pos,...)
+        //      - 300-399 : external utility funcs (pick free molecules, find empty place, write func as free molecules,...)
         //      - 400-499 : machine learning funcs (learning switcher, train, test, error correction,...)
         //      - 1000+ : evaluation functions and other
-        std::vector<int> genome { 
+        std::vector<int> molecular_body { 
         //----- metadata
             // "-1" = not set
 
             //--- genetic metadata
             // position of meta-exec func
-            // genome size
+            // molecular body size
             // position of data stack
             instruction::XXX, 3, -1, 150, -1, 0, 0,
 
@@ -171,7 +171,7 @@ namespace ut_ea
             instruction::JRE, 0, 1, 0, 2, 98, 1,    // skip phase 1 if first phase was done before
             instruction::CALL, 0, 0, 0, 0, 101, 0,
             instruction::CALL, 0, 0, 0, 0, 102, 0,
-            // compute genome size
+            // compute molecular body size
             instruction::CALL, 0, 0, 0, 0, 200, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -183,7 +183,7 @@ namespace ut_ea
 
             // temporary use an autopoeisis phase at 98
             // data stack stuff
-            instruction::GR, 1, 1, 0, 100, 3, 0,    // stack pos is at 3rd pos in genome
+            instruction::GR, 1, 1, 0, 100, 3, 0,    // stack pos is at 3rd pos in molecular body
             instruction::CPY, 1, 1, 0, 99, 100, 0,  // set data stack pos
             instruction::GDELW, 0, 0, 0, 27*SIZE_INSTR, 0, 0,
             // build list of funcs to add at top of data stack
@@ -198,7 +198,7 @@ namespace ut_ea
             instruction::INC, 1, 0, 0, 99, 0, 0,
             instruction::CPY, 2, 0, 0, 99, 400, 0,    // learning switcher
             instruction::INC, 1, 0, 0, 99, 0, 0,
-            instruction::CPY, 2, 0, 0, 99, 302, 0,    // write func as free genes
+            instruction::CPY, 2, 0, 0, 99, 302, 0,    // write func as free molecules
             instruction::INC, 1, 0, 0, 99, 0, 0,
             instruction::CPY, 2, 0, 0, 99, 301, 0,    // find empty place
             instruction::INC, 1, 0, 0, 99, 0, 0,
@@ -211,7 +211,7 @@ namespace ut_ea
             instruction::CPY, 2, 0, 0, 99, 2, 0,      // core switcher
             // update autopoiesis phase
             instruction::CPY, 1, 0, 0, 98, 1, 0,
-            // recalc genome size
+            // recalc molecular body size
             instruction::CALL, 0, 0, 0, 0, 200, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -221,7 +221,7 @@ namespace ut_ea
             // this phase consists in finding the needed parts
             instruction::MARKER, 0, 102, 0, 0, 0, 0,
 
-            // find genes for top of list
+            // find molecular molecules for top of list
             instruction::GR, 1, 1, 0, 100, 3, 0,
             instruction::JRE, 0, 1, 1, 3, 99, 100,
             instruction::CALL, 0, 0, 0, 0, 103, 0,
@@ -232,14 +232,14 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 102, 0, 0, 0, 0,
 
-        //----- search and pick free genes
+        //----- search and pick free molecules
             instruction::MARKER, 0, 103, 0, 0, 0, 0,
 
-            // find free genes with given teleonomical ID (in param at pos 1)
+            // find free molecules with given teleonomical ID (in param at pos 1)
             instruction::CALL, 0, 0, 0, 0, 300, 0,
 
-            // copy if genes found
-            instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free genes not found, skip
+            // copy if molecular molecules found
+            instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
             instruction::DEC, 1, 0, 0, 99, 0, 0,
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::DEC, 1, 0, 0, 99, 0, 0,
@@ -248,7 +248,7 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 103, 0, 0, 0, 0,
 
-        //----- calc genome size (in nb of genes)
+        //----- calc molecular body size (in nb of molecular body)
             instruction::MARKER, 0, 200, 0, 0, 0, 0,
         
             instruction::CPY, 1, 0, 0, 100, -7, 0,
@@ -261,17 +261,17 @@ namespace ut_ea
             instruction::DEC, 1, 0, 0, 100, 0, 0,
             instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
             instruction::JRS, 0, 0, 0, 8, 0, 0,
-            instruction::ADD, 1, 1, 0, 100, 100, 7, // end of genome
+            instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
 
             instruction::GSET, 1, 1, 0, 2, 100, 0, 
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 200, 0, 0, 0, 0,
 
-        //----- copy input (free genes) into code as new func
+        //----- copy input (free molecules) into code as new func
             instruction::MARKER, 0, 201, 0, 0, 0, 0,
 
-            // find end of genome
+            // find end of molecular body
             instruction::CPY, 1, 0, 0, 100, -7, 0,
             instruction::ADD, 1, 1, 0, 100, 100, 7,
             instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -285,9 +285,9 @@ namespace ut_ea
             // get id in input
             instruction::CPYIN, 1, 1, 0, 101, 1, 0,
             // copy input into data
-            instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of genes to copy in input
+            instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular molecules to copy in input
             instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-            instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data genes
+            instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
             instruction::CPYIS, 1, 0, 0, 105, 0, 0,
                 // marker (begin)
                 instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0,
@@ -305,13 +305,13 @@ namespace ut_ea
                 instruction::ADD, 1, 1, 0, 104, 104, 2,
                 instruction::CPY, 2, 1, 0, 104, 101, 0,
                 instruction::ADD, 1, 1, 0, 104, 104, 4,
-            // copy data into genes before ending marker
+            // copy data into molecular bodybefore ending marker
             instruction::GCPY, 2, 2, 2, 100, 103, 104,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 201, 0, 0, 0, 0,
 
-        //----- get free genes in input
+        //----- get free molecules in input
             instruction::MARKER, 0, 300, 0, 0, 0, 0,
 
             instruction::CPYUS, 1, 0, 0, 100, 0, 0,
@@ -330,33 +330,33 @@ namespace ut_ea
             instruction::CPYIN, 1, 1, 0, 102, 0, 0, 
             instruction::CPYIN, 1, 1, 0, 103, 1, 0, 
             // check meta params
-            instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free genes
+            instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free molecules
             instruction::JRS, 0, 0, 0, 12, 0, 0,
             instruction::DEC, 1, 0, 0, 99, 0, 0,
-            instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free genes
-            instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free genes
+            instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free molecules
+            instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free molecules
             instruction::INC, 1, 0, 0, 99, 0, 0, 
             instruction::JRS, 0, 0, 0, 5, 0, 0,
-            // appropriate free genes found
-            instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy genes)
+            // appropriate free molecules found
+            instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 300, 0, 0, 0, 0,
 
 
-        //----- end of genome
+        //----- end of molecular body
             instruction::MARKER, -1, 0, 0, 0, 0, 0
         };
 
-        algo->set_genes(genome);
+        algo->set_molecular_body(molecular_body);
 
         return algo;
     }
 
-    std::map<std::string, std::vector<int>> get_genome_parts()
+    std::map<std::string, std::vector<int>> get_molecular_body_parts()
     {
 
-        std::vector<int> genome_core_switcher {
+        std::vector<int> molecular_body_core_switcher {
         //----- core switcher
             //instruction::MARKER, 0, 2, 0, 0, 0, 0,
             3, 2,
@@ -419,7 +419,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 2, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_ID_list {
+        std::vector<int> molecular_body_ID_list {
         //----- func ID list building
             // create the list of current teleonomical IDs
             //instruction::MARKER, 0, 4, 0, 0, 0, 0,
@@ -461,11 +461,11 @@ namespace ut_ea
             instruction::DEC, 1, 0, 0, 103, 0, 0,
             instruction::CPY, 1, 1, 0, 100, 103, 0, // reset top of local data stack
 
-            // save at end of genome (i is the nb of funcs)
+            // save at end of molecular body (i is the nb of funcs)
             instruction::GR, 1, 1, 0, 103, 2, 0,
             instruction::GCPY, 2, 2, 2, 103, 101, 100,
             instruction::GSET, 1, 1, 0, 10, 103, 0,   // set teleo list pos
-            instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc genome size
+            instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc molecular body size
             instruction::GSET, 1, 1, 0, 2, 103, 0, 
 
 
@@ -473,18 +473,18 @@ namespace ut_ea
             //instruction::MARKER, 0, 4, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_quine_function {
-        //----- quine replication func : output = genes
+        std::vector<int> molecular_body_quine_function {
+        //----- quine replication func : output = molecular body
             //instruction::MARKER, 0, 104, 0, 0, 0, 0,
             3, 104,
 
-            // mutate genome
+            // mutate molecular body
             instruction::CALL, 0, 0, 0, 0, 105, 0,
-            // get end of genome
+            // get end of molecular body
             instruction::CALL, 0, 0, 0, 0, 200, 0,
-            instruction::GR, 1, 1, 0, 100, 2, 0,    // end of genome
-            instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = genome size
-            // copy genome
+            instruction::GR, 1, 1, 0, 100, 2, 0,    // end of molecular body
+            instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
+            // copy molecular body
             instruction::CPY, 1, 0, 0, 102, -1, 0,
             instruction::INC, 1, 0, 0, 102, 0, 0,
             instruction::JRE, 0, 1, 1, 4, 102, 100,
@@ -502,12 +502,12 @@ namespace ut_ea
             //instruction::MARKER, 0, 104, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_mutate_before_replication {
+        std::vector<int> molecular_body_mutate_before_replication {
         //----- mutate before replicating func
             //instruction::MARKER, 0, 105, 0, 0, 0, 0,
             3, 105,
 
-            // for the moment : randomly change genome
+            // for the moment : randomly change molecular body
             instruction::RUI, 1, 0, 0, 101, -1000, 1000,
             instruction::GSET, 1, 1, 0, 5, 101, 0,    // randomly change a number
 
@@ -515,8 +515,8 @@ namespace ut_ea
             //instruction::MARKER, 0, 105, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_func_pos {
-        //----- get function begining and end in genes
+        std::vector<int> molecular_body_func_pos {
+        //----- get function begining and end in molecular body
             // arg1 : func ID
             //instruction::MARKER, 0, 202, 0, 0, 0, 0,
             3, 202,
@@ -557,7 +557,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 202, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_find_empty_place {
+        std::vector<int> molecular_body_find_empty_place {
         //----- find an empty place
             //instruction::MARKER, 0, 301, 0, 0, 0, 0,
             3, 301,
@@ -576,14 +576,14 @@ namespace ut_ea
             //instruction::MARKER, 0, 301, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_export_func {
-        //----- write function as free genes
+        std::vector<int> molecular_body_export_func {
+        //----- write function as free molecules
             //instruction::MARKER, 0, 302, 0, 0, 0, 0,
             3, 302,
 
             // copy metadata first - do metadata
             instruction::CPY, 1, 2, 0, 100, 99, 0,
-            instruction::INC, 1, 0, 0, 99, 0, 0,      // free genes
+            instruction::INC, 1, 0, 0, 99, 0, 0,      // free molecules
             instruction::CPY, 2, 1, 0, 99, 100, 0,    // teolonomical ID
 
 
@@ -600,8 +600,8 @@ namespace ut_ea
             // stop if func not found or invalid (beg = end)
             instruction::JRG, 0, 1, 1, 2, 103, 102, 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
-            // copy genes
-            instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 genes left for metadata
+            // copy molecular body
+            instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 molecular molecules  left for metadata
             instruction::SUB, 1, 1, 1, 104, 103, 102,
             instruction::SETOS, 1, 0, 0, 104, 0, 0,
             instruction::CPY, 1, 1, 0, 110, 102, 0,     // cpy beg-2 (-3 actually) in index var 
@@ -614,7 +614,7 @@ namespace ut_ea
             instruction::JRS, 0, 0, 0, 5, 0, 0,
             // end of copy - metadata
             instruction::DEC, 1, 0, 0, 99, 0, 0,
-            instruction::CPYOUT, 1, 0, 0, 0, 3, 0,      // free genes
+            instruction::CPYOUT, 1, 0, 0, 0, 3, 0,      // free molecules
             instruction::CPYOUT, 1, 2, 0, 1, 99, 0,    // teolonomical ID
             instruction::INC, 1, 0, 0, 99, 0, 0,
 
@@ -632,7 +632,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 302, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_learning_switcher {
+        std::vector<int> molecular_body_learning_switcher {
         //----- learning switcher
             //instruction::MARKER, 0, 400, 0, 0, 0, 0,
             3, 400,
@@ -641,7 +641,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 400, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_train_phase {
+        std::vector<int> molecular_body_train_phase {
         //----- train phase evaluation func
             // exec func with given teleonomical ID
             //instruction::MARKER, 0, 401, 0, 0, 0, 0,
@@ -657,7 +657,7 @@ namespace ut_ea
             instruction::CALL, 0, 1, 0, 0, 100, 0,
             instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-            // if error flag is 1, update genes
+            // if error flag is 1, update molecular body
             instruction::CPYIN, 1, 1, 0, 100, 1, 0,
             instruction::JRE, 0, 1, 0, 2, 100, 1,
             instruction::JRA, 0, 0, 0, 2, 0, 0,     // does not evaluate if error flag is 1
@@ -667,7 +667,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 401, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_test_phase {
+        std::vector<int> molecular_body_test_phase {
         //----- test phase evaluation func
             //instruction::MARKER, 0, 402, 0, 0, 0, 0,
             3, 402,
@@ -679,12 +679,12 @@ namespace ut_ea
             //instruction::MARKER, 0, 402, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_evalution_function {
+        std::vector<int> molecular_body_evalution_function {
         //----- evaluation func
             //instruction::MARKER, 0, 403, 0, 0, 0, 0,
             3, 403,
 
-            // for the moment : just output a constant from genome
+            // for the moment : just output a constant from molecular body
             instruction::CPY, 1, 0, 0, 100, -1, 0,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -693,12 +693,12 @@ namespace ut_ea
             //instruction::MARKER, 0, 403, 0, 0, 0, 0
         };
 
-        std::vector<int> genome_update_on_error {
+        std::vector<int> molecular_body_update_on_error {
         //----- update after error func
             //instruction::MARKER, 0, 404, 0, 0, 0, 0,
             3, 404,
 
-            // for the moment : randomly change genome
+            // for the moment : randomly change molecular body
             instruction::CPY, 1, 0, 0, 101, 1000, 0,
             instruction::CPYIN, 1, 1, 0, 101, 2, 0,
             instruction::GR, 1, 1, 0, 102, 315*SIZE_INSTR+5, 0,
@@ -714,18 +714,18 @@ namespace ut_ea
         };
 
         std::map<std::string, std::vector<int>> all_parts {
-            { "core switcher", genome_core_switcher },
-            //{ "teleonomical list", genome_ID_list },
-            { "quine function", genome_quine_function },
-            { "mutate before replication", genome_mutate_before_replication },
-            { "function position", genome_func_pos },
-            { "find empty place", genome_find_empty_place },
-            { "export func", genome_export_func },
-            { "learning switcher", genome_learning_switcher },
-            { "train phase", genome_train_phase },
-            { "test phase", genome_test_phase },
-            { "evaluation", genome_evalution_function },
-            { "update on error", genome_update_on_error }
+            { "core switcher", molecular_body_core_switcher },
+            //{ "teleonomical list", molecular_body_ID_list },
+            { "quine function", molecular_body_quine_function },
+            { "mutate before replication", molecular_body_mutate_before_replication },
+            { "function position", molecular_body_func_pos },
+            { "find empty place", molecular_body_find_empty_place },
+            { "export func", molecular_body_export_func },
+            { "learning switcher", molecular_body_learning_switcher },
+            { "train phase", molecular_body_train_phase },
+            { "test phase", molecular_body_test_phase },
+            { "evaluation", molecular_body_evalution_function },
+            { "update on error", molecular_body_update_on_error }
         };
 
         return all_parts;
@@ -760,10 +760,10 @@ namespace ut_ea
 
     void trigger_evox_autopoiesis_evolution_preliminaries_autopoiesis(sp_evox algo, sp_univ_evo_algos universe)
     {
-        std::map<std::string, std::vector<int>> get_genome_parts(void);
+        std::map<std::string, std::vector<int>> get_molecular_body_parts(void);
 
         // get functions for autopoiesis
-        auto genome_parts = get_genome_parts();
+        auto molecular_body_parts = get_molecular_body_parts();
 
         //----- trigger autopoiesis
 
@@ -784,13 +784,13 @@ namespace ut_ea
         for(int i=0;i<iteration_order.size();i++)
         {
             std::string step_name = iteration_order[i];
-            std::vector<int> genome_part = genome_parts[step_name];
+            std::vector<int> molecular_body_part = molecular_body_parts[step_name];
 
-            sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-            freegenes->init();
-            freegenes->set_genes(genome_part);
+            sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+            free_molecules->init();
+            free_molecules->set_molecular_body(molecular_body_part);
 
-            universe->get_places()[2]->set_entity(freegenes);
+            universe->get_places()[2]->set_entity(free_molecules);
     
             universe->exec();
         }

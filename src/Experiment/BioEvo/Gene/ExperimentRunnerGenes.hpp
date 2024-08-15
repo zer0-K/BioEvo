@@ -2,7 +2,7 @@
 
 #include "../../ExperimentRunner.hpp"
 
-#include "EvoX/FreeGeneCreationEvoX.hpp" 
+#include "EvoX/FreeMoleculesCreationEvoX.hpp" 
 #include "EvoX/GeneToProgtein.hpp" 
 
 #include <iostream>
@@ -16,13 +16,13 @@ public:
 };
 
 ExperimentRunnerGenes::ExperimentRunnerGenes()
-    : ExperimentRunner(name_exp_bioevo_genes)
+    : ExperimentRunner(name_exp_bioevo_molecular_body)
 {}
 
 void ExperimentRunnerGenes::init()
 {
     experiments = {
-        std::make_shared<FreeGeneCreationEvoX>(),
+        std::make_shared<FreeMoleculesCreationEvoX>(),
         std::make_shared<GeneToProgtein>()
     };
 
@@ -32,4 +32,4 @@ void ExperimentRunnerGenes::init()
     }
 }
 
-typedef std::shared_ptr<ExperimentRunnerGenes> sp_experiment_runner_genes;
+typedef std::shared_ptr<ExperimentRunnerGenes> sp_experiment_runner_molecular_body;

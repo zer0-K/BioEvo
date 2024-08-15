@@ -12,7 +12,7 @@
 
 #include "../../Entities/EntityVoid.hpp"
 #include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
 namespace ut_ea
 {
@@ -95,8 +95,8 @@ namespace ut_ea
 
         int x_algo = 8;
         int y_algo = 3;
-        int x_genes = 7;
-        int y_genes = 2;
+        int x_molecular_body = 7;
+        int y_molecular_body = 2;
 
         //---------- ENTITIES
 
@@ -104,19 +104,19 @@ namespace ut_ea
         sp_evox algo = std::make_shared<EvoX>("algo");
         algo->init();
 
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-        freegenes->init();
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+        free_molecules->init();
 
-        //---------- free genes code
+        //---------- free molecules code
 
-        std::vector<int> genes { 
+        std::vector<int> molecular_body { 
             3, 2000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, val, 0
         };
 
-        algo->set_genes(get_genes_from_csv("genes_base.csv")); 
-        freegenes->set_genes(genes);
+        algo->set_molecular_body(get_molecular_body_from_csv("molecular_body_base.csv")); 
+        free_molecules->set_molecular_body(molecular_body);
         // set data stack at 150
         algo->set_data_at(99, 150);
 
@@ -126,7 +126,7 @@ namespace ut_ea
         sp_univ_evo_algos_custom universe = std::make_shared<UniverseEvoXCustomNeighborhood>(nb_rows, nb_cols, "universe");
         std::vector<sp_place> places = universe->get_places();
         places[y_algo*nb_cols+x_algo]->set_entity(algo);
-        places[y_genes*nb_cols+x_genes]->set_entity(freegenes);
+        places[y_molecular_body*nb_cols+x_molecular_body]->set_entity(free_molecules);
 
         universe->link_universe_functions_to_individuals(neighborhoodType::VON_NEUMANN, new int{ 2 });
 
@@ -160,7 +160,7 @@ namespace ut_ea
     /**
      * @brief write output in a cell in the von neumann neighborhood
      *
-     * write output as free genes in an empty cell
+     * write output as free molecules in an empty cell
      *
      * --> tests X86
     */
@@ -174,8 +174,8 @@ namespace ut_ea
 
         int x_algo = 8;
         int y_algo = 3;
-        int x_genes = 7;
-        int y_genes = 2;
+        int x_molecular_body = 7;
+        int y_molecular_body = 2;
 
         //---------- ENTITIES
 
@@ -183,19 +183,19 @@ namespace ut_ea
         sp_evox algo = std::make_shared<EvoX>("algo");
         algo->init();
 
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-        freegenes->init();
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+        free_molecules->init();
 
-        //---------- free genes code
+        //---------- free molecules code
 
-        std::vector<int> genes { 
+        std::vector<int> molecular_body { 
             3, 2000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, val, 0
         };
 
-        algo->set_genes(get_genes_from_csv("genes_base.csv")); 
-        freegenes->set_genes(genes);
+        algo->set_molecular_body(get_molecular_body_from_csv("molecular_body_base.csv")); 
+        free_molecules->set_molecular_body(molecular_body);
         // set data stack at 150
         algo->set_data_at(99, 150);
 
@@ -205,7 +205,7 @@ namespace ut_ea
         sp_univ_evo_algos_custom universe = std::make_shared<UniverseEvoXCustomNeighborhood>(nb_rows, nb_cols, "universe");
         std::vector<sp_place> places = universe->get_places();
         places[y_algo*nb_cols+x_algo]->set_entity(algo);
-        places[y_genes*nb_cols+x_genes]->set_entity(freegenes);
+        places[y_molecular_body*nb_cols+x_molecular_body]->set_entity(free_molecules);
 
         universe->link_universe_functions_to_individuals(neighborhoodType::VON_NEUMANN, new int{ 2 });
 
@@ -229,13 +229,13 @@ namespace ut_ea
 
         if(entity->is_type(FREEGENES))
         {
-            sp_freegenes f = std::dynamic_pointer_cast<FreeGenes>(entity);
+            sp_free_molecules f = std::dynamic_pointer_cast<FreeMolecules>(entity);
 
-            is_passed &= x86_comp_output(f->get_genes(), genes);
+            is_passed &= x86_comp_output(f->get_molecular_body(), molecular_body);
         }
         else
         {
-            std::cout << "\t\tFree genes actually not written " << std::endl;
+            std::cout << "\t\tFree molecules actually not written " << std::endl;
             is_passed = false;
         }
 

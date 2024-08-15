@@ -5,7 +5,7 @@
 #include "../../../../Utils/Functions.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
 
 GenerateBaseEvoX2::GenerateBaseEvoX2()
@@ -22,7 +22,7 @@ void GenerateBaseEvoX2::init()
 void GenerateBaseEvoX2::launch()
 {
     sp_evox algo = this->get_base_evox();
-    auto genome_parts = this->get_genome_parts();
+    auto molecular_body_parts = this->get_molecular_body_parts();
     auto universe = this->get_evox_universe(algo);
 
     trigger_synthesis(algo, universe);
@@ -34,9 +34,9 @@ sp_evox GenerateBaseEvoX2::get_base_evox()
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
-    // get genes from csv
-    std::vector<int> genes = get_genes_from_csv("genes_base_algo_1.csv");
-    algo->set_genes(genes);
+    // get molecular body from csv
+    std::vector<int> molecular_body = get_molecular_body_from_csv("molecular_body_base_algo_1.csv");
+    algo->set_molecular_body(molecular_body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -61,8 +61,8 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_utility_generator
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
-    // given input, generate free genes of order 0
-    std::vector<int> generate_free_genes_order_0 {
+    // given input, generate free molecules of order 0
+    std::vector<int> generate_free_molecules_order_0 {
         3, 204,
 
         instruction::CALL, 0, 0, 0, 0, 203, 0,
@@ -78,8 +78,8 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_utility_generator
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
-    // given input, generate free genes of order 1
-    std::vector<int> generate_free_genes_order_1 {
+    // given input, generate free molecules of order 1
+    std::vector<int> generate_free_molecules_order_1 {
         3, 205,
 
         instruction::CALL, 0, 0, 0, 0, 203, 0,
@@ -110,8 +110,8 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_utility_generator
 
     std::map<std::string, std::vector<int>> all_parts {
         { "copy input to stack", copy_in_to_stack },
-        { "generate free genes order 0", generate_free_genes_order_0 },
-        { "generate free genes order 1", generate_free_genes_order_1 }
+        { "generate free molecules order 0", generate_free_molecules_order_0 },
+        { "generate free molecules order 1", generate_free_molecules_order_1 }
     };
 
     return all_parts;
@@ -425,7 +425,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_generators_order_
     return all_parts;
 }
 
-std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_genome_parts()
+std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_molecular_body_parts()
 {
     std::vector<std::map<std::string, std::vector<int>>> generators {
         get_utility_generators(),
@@ -477,16 +477,16 @@ sp_univ_evo_algos GenerateBaseEvoX2::get_evox_universe(sp_evox algo)
 void GenerateBaseEvoX2::trigger_synthesis(sp_evox algo, sp_univ_evo_algos universe)
 {
     // get functions for autopoiesis
-    auto genome_parts = this->get_genome_parts();
+    auto molecular_body_parts = this->get_molecular_body_parts();
 
-    for(auto const& [generator_name, generator_code] : genome_parts)
+    for(auto const& [generator_name, generator_code] : molecular_body_parts)
     {
-        // create freegenes with the generator's code
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes " + generator_name);
-        freegenes->init();
-        freegenes->set_genes(generator_code);
+        // create free molecules with the generator's code
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules " + generator_name);
+        free_molecules->init();
+        free_molecules->set_molecular_body(generator_code);
 
-        universe->get_places()[2]->set_entity(freegenes);
+        universe->get_places()[2]->set_entity(free_molecules);
 
         // tell the algo to get the code
         std::vector<int> input{ 3, generator_code[1] };
@@ -498,6 +498,6 @@ void GenerateBaseEvoX2::trigger_synthesis(sp_evox algo, sp_univ_evo_algos univer
 
     universe->exec();
 
-    write_genes_to_csv(algo->get_genes(), "genes_base_algo_2.csv");
+    write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_base_algo_2.csv");
 }
 

@@ -64,12 +64,12 @@ protected:
     std::function<bool(int)> is_empty;
 
     /**
-     * @brief get free genes at given pos
+     * @brief get free molecules at given pos
      *
      * @param int position
-     * @return genes (empty if no free genes at given pos)
+     * @return molecular body (empty if no free molecules at given pos)
      */
-    std::function<std::vector<int>(int)> get_freegenes_at;
+    std::function<std::vector<int>(int)> get_free_molecules_at;
 
     /**
      * @brief get universe size
@@ -78,7 +78,7 @@ protected:
      * @param vector_int int sequence to write
      * @return true if write was successful
      */
-    std::function<bool(int, std::vector<int>)> write_freegenes_at;
+    std::function<bool(int, std::vector<int>)> write_free_molecules_at;
 
     /**
      * @brief size of the neighborhood of the current individual
@@ -100,8 +100,8 @@ public:
     void init() override;
     /// @brief set the external functions (get universe size, read, write,...)
     void init_external_functions(std::function<int()> get_universe_size,
-        std::function<bool(int)> is_empty, std::function<std::vector<int>(int)> get_freegenes_at,
-        std::function<bool(int, std::vector<int>)> write_freegenes_at);
+        std::function<bool(int)> is_empty, std::function<std::vector<int>(int)> get_free_molecules_at,
+        std::function<bool(int, std::vector<int>)> write_free_molecules_at);
 
 
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
@@ -126,7 +126,7 @@ public:
         int arg1, int arg2, int arg3);
 
     /// @brief Genetic instructions @see exec_instruction
-    virtual void exec_instruction_gene(int instr, int addr1_order, int addr2_order, int addr3_order, 
+    virtual void exec_instruction_molecule(int instr, int addr1_order, int addr2_order, int addr3_order, 
         int arg1, int arg2, int arg3) {};
 
     /**

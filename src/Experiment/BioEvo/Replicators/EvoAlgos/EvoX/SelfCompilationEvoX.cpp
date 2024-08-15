@@ -6,12 +6,12 @@
 #include "../../../../../Utils/Maths/RandomGen.hpp"
 #include "../../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 #include "../../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
 
 
 SelfCompilationEvoX::SelfCompilationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_genes_evox_selfc)
+    :Experiment::Experiment(name_exp_bioevo_molecular_body_evox_selfc)
 {
     init();
 }
@@ -63,12 +63,12 @@ sp_evox SelfCompilationEvoX::get_base_algo(int step)
     algo->init();
     algo->set_max_nb_instr_exec(max_nb_instr_exec);
 
-    // get genes from csv
-    std::string file_algo = "genes_base_self_transcription.csv";
+    // get molecular body from csv
+    std::string file_algo = "molecular_body_base_self_transcription.csv";
     if(step == 2)
-        file_algo = "genes_with_bootstrap_DNA.csv";
-    std::vector<int> genes = get_genes_from_csv(file_algo);
-    algo->set_genes(genes);
+        file_algo = "molecular_body_with_bootstrap_DNA.csv";
+    std::vector<int> molecular_body = get_molecular_body_from_csv(file_algo);
+    algo->set_molecular_body(molecular_body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -108,14 +108,14 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         2, id_tRNA_HALT, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 
 
-        // 103 - search and pick free genes
+        // 103 - search and pick free molecules
 
         GSTART_ID, 103, id_tRNA_CVARS, LV_place, 1, id_tRNA_IVARS, id_tRNA_CALLcst,
         300, id_tRNA_GTSLVD, 1, id_tRNA_IF0, 1, id_tRNA_CALLcst, 201,
         id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 
 
-        // 200 - calc genome size
+        // 200 - calc molecular_body size
 
         GSTART_ID, 200, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_SLVcst,
         1, 1, id_tRNA_SLVcst, 2, -7, id_tRNA_IF0, 1,
@@ -128,7 +128,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         GSTOP_ID, 0, 0, 0, 0, 0, 0,
 
 
-        // 201 - copy free genes into code as new func
+        // 201 - copy free molecules into code as new func
 
         GSTART_ID, 201, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_SLVcst,
         8, 1, id_tRNA_SLVcst, 6, 0, id_tRNA_IF0, 8, 
@@ -157,7 +157,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_WGDLV, 6, 3, 4, id_tRNA_RET, GSTOP_ID, 0,
 
 
-        // 300 - get free genes in input
+        // 300 - get free molecules in input
 
         GSTART_ID, 300, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_USLV,
         1, id_tRNA_SLVcst, 5, 0, id_tRNA_SLVcst, 9, 1,
@@ -883,15 +883,15 @@ void SelfCompilationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
 
     std::vector<int> DNA = get_DNA_step_1();
 
-    sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-    freegenes->init();
-    freegenes->set_genes(DNA);
-    universe->get_places()[1]->set_entity(freegenes);
+    sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+    free_molecules->init();
+    free_molecules->set_molecular_body(DNA);
+    universe->get_places()[1]->set_entity(free_molecules);
 
     algo->set_input({3, -1});
     universe->exec();
 
-    write_genes_to_csv(algo->get_genes(), "genes_with_bootstrap_DNA.csv");
+    write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_with_bootstrap_DNA.csv");
 }
 
 void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
@@ -902,7 +902,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 208, 210});
     universe->exec();
 
-    //write_genes_to_csv(algo->get_genes(), "genes_with_bootstrap_DNA_full.csv");
+    //write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_with_bootstrap_DNA_full.csv");
     // apply the self compilation functions
     algo->set_input({-1, 209});
     universe->exec();

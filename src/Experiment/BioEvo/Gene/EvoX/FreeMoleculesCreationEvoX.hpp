@@ -7,13 +7,13 @@
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/EvoX.hpp"
 
-class FreeGeneCreationEvoX : public Experiment
+class FreeMoleculesCreationEvoX : public Experiment
 {
 protected:
     /**
      * @brief get utility functions for generators
      *
-     * The codes are in a freegenes format
+     * The codes are in a free_molecules format
      *
      * @return a map of utility functions for the generators
      */
@@ -23,7 +23,7 @@ protected:
     /**
      * @brief get grammars or other generators for order 0 elements (integer)
      *
-     * The generators' codes are in a freegenes format
+     * The generators' codes are in a free_molecules format
      *
      * @param generators list of the maps of generators (map<generator name,generator code>)
      *
@@ -35,7 +35,7 @@ protected:
     /**
      * @brief get grammars or other generators for order 0 elements (integer)
      *
-     * The generators' codes are in a freegenes format
+     * The generators' codes are in a free_molecules format
      *
      * @return the map of generators (map<generator name, generator code>)
      */
@@ -44,7 +44,7 @@ protected:
     /**
      * @brief get grammars or other generators for order 1 elements (instructions)
      *
-     * The generators' codes are in a freegenes format
+     * The generators' codes are in a free_molecules format
      *
      * @return the map of generators (map<generator name, generator code>)
      */
@@ -53,14 +53,14 @@ protected:
     /**
      * @brief get grammars or other generators for order 2 elements (atomic programs)
      *
-     * The generators' codes are in a freegenes format
+     * The generators' codes are in a free_molecules format
      *
      * @return the map of generators (map<generator name, generator code>)
      */
     std::map<std::string, std::vector<int>> get_generators_order_2();
 
 public:
-    FreeGeneCreationEvoX();
+    FreeMoleculesCreationEvoX();
 
     void init() override;
 
@@ -90,4 +90,4 @@ public:
     void exec_order_2(sp_univ_evo_algos universe, sp_evox algo);
 };
 
-typedef std::shared_ptr<FreeGeneCreationEvoX> sp_experiment_evox_fgc;
+typedef std::shared_ptr<FreeMoleculesCreationEvoX> sp_experiment_evox_fgc;

@@ -22,7 +22,7 @@ This is genetic programming (https://en.wikipedia.org/wiki/Genetic_programming).
 The general idea of this project is to map a number to an assembly instruction (MOV, CPY, ADD,...), so that at the end of the training/selection/... phases we get some strings/list of integers that correspond to a general program.
 The "X86Algo" (based on X86 ASM language) has only some instructions, while the "EvoX" has some genes, that aims at being translated into instructions.
 
-For example, the sequence { 5, 1, 0, 0, 100, 0, 0 } in the genome corresponds to the instruction "increment data at position 100".
+For example, the sequence { 5, 1, 0, 0, 100, 0, 0 } in the molecular body corresponds to the instruction "increment data at position 100".
 So genes are actually a list of integers, and it translated into a list of instructions ; then the individual can be executed, because it is a list of instructions in an assembly-like language. To facilitate evolution, there are way more instructions than in assembly languages ; the goal was to have some elementary but not fundamental instructions.
 
 

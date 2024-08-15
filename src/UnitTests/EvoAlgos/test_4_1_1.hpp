@@ -11,7 +11,7 @@
 #include "../../Entities/EntityVoid.hpp"
 #include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
 #include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
 namespace ut_ea
 {
@@ -54,8 +54,8 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
         algo->init();
 
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-        freegenes->init();
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+        free_molecules->init();
 
         sp_entity_void voidentity = std::make_shared<EntityVoid>("void entity");
         voidentity->init();
@@ -73,7 +73,7 @@ namespace ut_ea
         std::vector<int> vals { 12, 13, 14 };
 
         algo->reset_code(code); 
-        freegenes->set_genes(vals);
+        free_molecules->set_molecular_body(vals);
 
         //---------- UNIVERSE
 
@@ -81,7 +81,7 @@ namespace ut_ea
         std::vector<sp_place> places {
             std::make_shared<Place>(algo, 0),
             std::make_shared<Place>(voidentity, 1),
-            std::make_shared<Place>(freegenes, 2)
+            std::make_shared<Place>(free_molecules, 2)
         };
 
         // create the universe
@@ -127,8 +127,8 @@ namespace ut_ea
         sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
         algo->init();
 
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-        freegenes->init();
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+        free_molecules->init();
 
         //---------- CODE
 
@@ -141,14 +141,14 @@ namespace ut_ea
         std::vector<int> vals { 12, 13, 14 };
 
         algo->reset_code(code); 
-        freegenes->set_genes(vals);
+        free_molecules->set_molecular_body(vals);
 
         //---------- UNIVERSE
 
         // 2 places : first with algo, second is empty
         std::vector<sp_place> places {
             std::make_shared<Place>(algo, 0),
-            std::make_shared<Place>(freegenes, 1)
+            std::make_shared<Place>(free_molecules, 1)
         };
 
         // create the universe
@@ -183,7 +183,7 @@ namespace ut_ea
     /**
      * @brief cases for which algo can't write
      *
-     * We can't read a cell containing a non free genes entity
+     * We can't read a cell containing a non free molecules entity
      *
      * --> tests X86
     */
@@ -261,7 +261,7 @@ namespace ut_ea
 
         universe->exec();
 
-        // free genes must have been written on the third place
+        // free molecules must have been written on the third place
         std::vector<sp_place> places_after_exec = universe->get_places();
         sp_entity first_entity = places_after_exec[0]->get_entity();
         sp_entity second_entity = places_after_exec[1]->get_entity();
@@ -287,7 +287,7 @@ namespace ut_ea
     /**
      * @brief write output in a universe cell
      *
-     * write output as free genes in an empty cell
+     * write output as free molecules in an empty cell
      *
      * --> tests X86
     */
@@ -336,13 +336,13 @@ namespace ut_ea
         //---------- EXPECTED OUTPUTS
 
         std::vector<int> expected_out { 1, 11, 12 };
-        std::vector<int> expected_genes { 10, 11, 12 };
+        std::vector<int> expected_molecular_body { 10, 11, 12 };
         
         //---------- EXECUTE
 
         universe->exec();
 
-        // free genes must have been written on the second place
+        // free molecules must have been written on the second place
         std::vector<sp_place> places_after_exec = universe->get_places();
         sp_entity first_entity = places_after_exec[0]->get_entity();
         sp_entity second_entity = places_after_exec[1]->get_entity();
@@ -351,9 +351,9 @@ namespace ut_ea
             
         if(is_passed)
         {
-            // if second place contains free genes, we check that they are what we expect
-            sp_freegenes written_genes = std::dynamic_pointer_cast<FreeGenes>(second_entity);
-            is_passed &= x86_comp_output(written_genes->get_genes(), expected_genes);
+            // if second place contains free molecules, we check that they are what we expect
+            sp_free_molecules written_molecules = std::dynamic_pointer_cast<FreeMolecules>(second_entity);
+            is_passed &= x86_comp_output(written_molecules->get_molecular_body(), expected_molecular_body);
 
             // also compare algo out
             auto res = algo->get_output();
@@ -372,7 +372,7 @@ namespace ut_ea
     /**
      * @brief cases for which algo can't write
      *
-     * We can't write in a non empty cell (other algo or free genes already there)
+     * We can't write in a non empty cell (other algo or free molecules already there)
      * -> first algo write on cell 
      * -> second algo tries to write on same cell
      * -> third algo tries to write on first algo
@@ -475,8 +475,8 @@ namespace ut_ea
             expected_out_1, expected_out_2, expected_out_3
         };
 
-        // expected freegenes value
-        std::vector<int> expected_free_genes {
+        // expected free_molecules value
+        std::vector<int> expected_free_molecules{
             10, 11, 12
         };
 
@@ -484,7 +484,7 @@ namespace ut_ea
 
         universe->exec();
 
-        // free genes must have been written on the third place
+        // free molecules must have been written on the third place
         std::vector<sp_place> places_after_exec = universe->get_places();
         sp_entity first_entity = places_after_exec[0]->get_entity();
         sp_entity second_entity = places_after_exec[1]->get_entity();
@@ -498,9 +498,9 @@ namespace ut_ea
             
         if(is_passed)
         {
-            // we check value of free genes at fourth place
-            sp_freegenes written_genes = std::dynamic_pointer_cast<FreeGenes>(fourth_entity);
-            is_passed &= x86_comp_output(written_genes->get_genes(), expected_free_genes);
+            // we check value of free molecules at fourth place
+            sp_free_molecules written_molecules = std::dynamic_pointer_cast<FreeMolecules>(fourth_entity);
+            is_passed &= x86_comp_output(written_molecules->get_molecular_body(), expected_free_molecules);
 
             // compare algos out
             for(int i=0;i<algos.size();i++)

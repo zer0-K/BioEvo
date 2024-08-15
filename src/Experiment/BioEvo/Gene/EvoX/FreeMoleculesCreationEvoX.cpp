@@ -1,11 +1,11 @@
-#include "FreeGeneCreationEvoX.hpp"
+#include "FreeMoleculesCreationEvoX.hpp"
 
 #include <fstream>
 
 #include "../../../../Utils/Functions.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
 /*
 Teleonomical IDs of high orders:
@@ -39,18 +39,18 @@ order 2 generation:
 
 */
 
-FreeGeneCreationEvoX::FreeGeneCreationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_genes_evox_fgc)
+FreeMoleculesCreationEvoX::FreeMoleculesCreationEvoX()
+    :Experiment::Experiment(name_exp_bioevo_molecular_body_evox_fgc)
 {
     init();
 }
 
-void FreeGeneCreationEvoX::init()
+void FreeMoleculesCreationEvoX::init()
 {
 
 }
 
-void FreeGeneCreationEvoX::launch()
+void FreeMoleculesCreationEvoX::launch()
 {
     // initialisation : create algo, universe, and add the algo the funcs needed for the experiment
     sp_evox algo = get_base_algo("algo");
@@ -61,7 +61,7 @@ void FreeGeneCreationEvoX::launch()
     exec_order_1(universe, algo);
 }
 
-sp_univ_evo_algos FreeGeneCreationEvoX::get_universe(sp_evox algo) 
+sp_univ_evo_algos FreeMoleculesCreationEvoX::get_universe(sp_evox algo) 
 {
     int nb_entity_void = 2;
 
@@ -85,15 +85,15 @@ sp_univ_evo_algos FreeGeneCreationEvoX::get_universe(sp_evox algo)
     return universe;
 }
 
-sp_evox FreeGeneCreationEvoX::get_base_algo(std::string name)
+sp_evox FreeMoleculesCreationEvoX::get_base_algo(std::string name)
 {
     // create algo
     sp_evox algo = std::make_shared<EvoX>(name);
     algo->init();
 
-    // get genes from csv
-    std::vector<int> genes = get_genes_from_csv("genes_base.csv");
-    algo->set_genes(genes);
+    // get molecular body from csv
+    std::vector<int> molecular_body = get_molecular_body_from_csv("molecular_body_base.csv");
+    algo->set_molecular_body(molecular_body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -101,7 +101,7 @@ sp_evox FreeGeneCreationEvoX::get_base_algo(std::string name)
     return algo;
 }
 
-std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_generators()
+std::map<std::string, std::vector<int>> FreeMoleculesCreationEvoX::get_utility_generators()
 {
     // copy input args to stack in reverse order
     std::vector<int> copy_in_to_stack {
@@ -118,8 +118,8 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
-    // given input, generate free genes of order 0
-    std::vector<int> generate_free_genes_order_0 {
+    // given input, generate free molecules of order 0
+    std::vector<int> generate_free_molecules_order_0 {
         3, 204,
 
         instruction::CALL, 0, 0, 0, 0, 203, 0,
@@ -135,8 +135,8 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
 
-    // given input, generate free genes of order 1
-    std::vector<int> generate_free_genes_order_1 {
+    // given input, generate free molecules of order 1
+    std::vector<int> generate_free_molecules_order_1 {
         3, 205,
 
         instruction::CALL, 0, 0, 0, 0, 203, 0,
@@ -167,14 +167,14 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_utility_genera
 
     std::map<std::string, std::vector<int>> all_parts {
         { "copy input to stack", copy_in_to_stack },
-        { "generate free genes order 0", generate_free_genes_order_0 },
-        { "generate free genes order 1", generate_free_genes_order_1 }
+        { "generate free molecules order 0", generate_free_molecules_order_0 },
+        { "generate free molecules order 1", generate_free_molecules_order_1 }
     };
 
     return all_parts;
 }
 
-std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_order_0()
+std::map<std::string, std::vector<int>> FreeMoleculesCreationEvoX::get_generators_order_0()
 {
     //---------- abstractions
     
@@ -390,7 +390,7 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
     return all_parts;
 }
 
-std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_order_1()
+std::map<std::string, std::vector<int>> FreeMoleculesCreationEvoX::get_generators_order_1()
 {
     //---------- abstractions and generalisations
 
@@ -482,7 +482,7 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
     return all_parts;
 }
 
-std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_order_2()
+std::map<std::string, std::vector<int>> FreeMoleculesCreationEvoX::get_generators_order_2()
 {
     std::map<std::string, std::vector<int>> all_parts {
 
@@ -491,7 +491,7 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::get_generators_ord
     return all_parts;
 }
 
-std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::merge_generators(std::vector<std::map<std::string, std::vector<int>>> generators)
+std::map<std::string, std::vector<int>> FreeMoleculesCreationEvoX::merge_generators(std::vector<std::map<std::string, std::vector<int>>> generators)
 {
     std::map<std::string, std::vector<int>> all_parts {};
 
@@ -507,7 +507,7 @@ std::map<std::string, std::vector<int>> FreeGeneCreationEvoX::merge_generators(s
 }
 
 
-void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos universe, sp_evox algo)
+void FreeMoleculesCreationEvoX::provide_experiment_functions(sp_univ_evo_algos universe, sp_evox algo)
 {
     //----- first, add order 0 generators
     std::vector<std::map<std::string, std::vector<int>>> generators_list_by_order {
@@ -521,12 +521,12 @@ void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos univer
 
     for(auto const& [generator_name, generator_code] : all_generators)
     {
-        // create freegenes with the generator's code
-        sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes " + generator_name);
-        freegenes->init();
-        freegenes->set_genes(generator_code);
+        // create free_molecules with the generator's code
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules " + generator_name);
+        free_molecules->init();
+        free_molecules->set_molecular_body(generator_code);
 
-        universe->get_places()[2]->set_entity(freegenes);
+        universe->get_places()[2]->set_entity(free_molecules);
 
         // tell the algo to get the code
         std::vector<int> input{ 3, generator_code[1] };
@@ -538,10 +538,10 @@ void FreeGeneCreationEvoX::provide_experiment_functions(sp_univ_evo_algos univer
 
     universe->exec();
 
-    //write_genes_to_csv(algo->get_genes(), "debug.csv");
+    //write_molecular_body_to_csv(algo->get_molecular_body(), "debug.csv");
 }
 
-void FreeGeneCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo)
+void FreeMoleculesCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo)
 {
     std::vector<int> input_test { 5, 204, 1000008, 9, 10, 0 };
     //std::vector<int> input_test { 5, 204, 1000000, 39 };
@@ -574,7 +574,7 @@ void FreeGeneCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo
     }
 }
 
-void FreeGeneCreationEvoX::exec_order_1(sp_univ_evo_algos universe, sp_evox algo)
+void FreeMoleculesCreationEvoX::exec_order_1(sp_univ_evo_algos universe, sp_evox algo)
 {
     std::vector<int> input_test { 5, 205, 1001000, 9, 10 };
 
@@ -591,6 +591,6 @@ void FreeGeneCreationEvoX::exec_order_1(sp_univ_evo_algos universe, sp_evox algo
     }
 }
 
-void FreeGeneCreationEvoX::exec_order_2(sp_univ_evo_algos universe, sp_evox algo)
+void FreeMoleculesCreationEvoX::exec_order_2(sp_univ_evo_algos universe, sp_evox algo)
 {
 }

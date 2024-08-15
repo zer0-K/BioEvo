@@ -23,7 +23,7 @@ void FunctionExecutionEvoX::launch()
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
-    //---------- GENOME
+    //---------- MOLECULAR BODY
 
     /*
      * stack-based function executer
@@ -44,7 +44,7 @@ void FunctionExecutionEvoX::launch()
      *  5 - push the return addr to the data stack
      *  6 - reset the prog ptr to last one in prog ptr stack
      */
-    std::vector<int> genome_simple {
+    std::vector<int> molecular_body_simple {
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -109,7 +109,7 @@ void FunctionExecutionEvoX::launch()
     /**
      * multi-level exec : function call inside function call
      */
-    std::vector<int> genome_multilevel {
+    std::vector<int> molecular_body_multilevel {
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -229,7 +229,7 @@ void FunctionExecutionEvoX::launch()
     /**
      * memory exec : uses the memory across different executions
      */
-    std::vector<int> genome_memory {
+    std::vector<int> molecular_body_memory {
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -360,7 +360,7 @@ void FunctionExecutionEvoX::launch()
     /**
      * Multi level short call function : uses the 'CALL' instruction
      */
-    std::vector<int> genome_multilevel_call {
+    std::vector<int> molecular_body_multilevel_call {
         instruction::XXX, 3, 0, 0, 0, 0, 0,
         instruction::JMP, 0, 0, 0, 26, 0, 0,    // skip meta-exec func
 
@@ -459,8 +459,8 @@ void FunctionExecutionEvoX::launch()
     };
 
 
-    std::vector<std::vector<int>> genomes {
-        genome_simple, genome_multilevel, genome_memory, genome_multilevel_call
+    std::vector<std::vector<int>> molecular_bodys {
+        molecular_body_simple, molecular_body_multilevel, molecular_body_memory, molecular_body_multilevel_call
     };
 
 
@@ -497,11 +497,11 @@ void FunctionExecutionEvoX::launch()
        
     //---------- EXECUTE
 
-    for(int i=0;i<genomes.size();i++)
+    for(int i=0;i<molecular_bodys.size();i++)
     {
-        // set genome and execute
+        // set molecular body and execute
         algo->set_output_size(1);
-        algo->set_genes(genomes[i]);
+        algo->set_molecular_body(molecular_bodys[i]);
         algo->reset_data();
 
         for(int j=0;j<inputs[i].size();j++)
@@ -512,7 +512,7 @@ void FunctionExecutionEvoX::launch()
             // get result
             auto out_res = algo->get_output();
 
-            std::cout << "Output of function execution (genome " 
+            std::cout << "Output of function execution (molecular_body " 
                 << i << ", input : " << to_str(inputs[i][j]) << ") : " 
                 << std::endl
                 << to_str(out_res) << std::endl;

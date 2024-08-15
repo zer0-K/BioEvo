@@ -12,25 +12,25 @@
 namespace ut_ca 
 {
     /**
-     * @brief test all kinds of genes
+     * @brief test all kinds of molecular body
     */
-    bool launch_tests_classical_algos_genes_single()
+    bool launch_tests_classical_algos_molecular_body_single()
     {
-        bool launch_tests_classical_algos_genes_single_gaussian(void);
+        bool launch_tests_classical_algos_molecular_body_single_gaussian(void);
 
         bool is_passed = true;
 
-        std::cout << "Classical algos - genes - single : " << std::endl;
+        std::cout << "Classical algos - molecular body - single : " << std::endl;
 
-        is_passed &= launch_tests_classical_algos_genes_single_gaussian();
+        is_passed &= launch_tests_classical_algos_molecular_body_single_gaussian();
 
-        std::cout << "Classical algos - genes - single : ";
+        std::cout << "Classical algos - molecular body - single : ";
         passed_print(is_passed);
 
         return is_passed;
     }
 
-    bool launch_tests_classical_algos_genes_single_gaussian()
+    bool launch_tests_classical_algos_molecular_body_single_gaussian()
     {
 
         bool is_passed = true;
@@ -67,7 +67,7 @@ namespace ut_ca
 
         if(verbose_unit_tests)
         {
-            std::cout << "Classical algos - genes - single - gaussian : ";
+            std::cout << "Classical algos - molecular body - single - gaussian : ";
             passed_print(is_passed);
         }
 

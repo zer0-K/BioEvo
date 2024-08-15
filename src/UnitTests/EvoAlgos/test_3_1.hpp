@@ -11,19 +11,19 @@
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_genes()
+    bool launch_tests_evo_algos_evox_molecular_body()
     {
         bool is_passed = true;
 
-        std::cout << "Evo algos - evox - genes :" << std::endl;
+        std::cout << "Evo algos - evox - molecular body :" << std::endl;
 
-        is_passed &= launch_tests_evo_algos_evox_genes_basic();
-        is_passed &= launch_tests_evo_algos_evox_genes_mutations();
-        //is_passed &= launch_tests_evo_algos_evox_genes_markers();
-        is_passed &= launch_tests_evo_algos_evox_genes_exec();
-        is_passed &= launch_tests_evo_algos_evox_genes_regen();
+        is_passed &= launch_tests_evo_algos_evox_molecular_body_basic();
+        is_passed &= launch_tests_evo_algos_evox_molecular_body_mutations();
+        //is_passed &= launch_tests_evo_algos_evox_molecular_body_markers();
+        is_passed &= launch_tests_evo_algos_evox_molecular_body_exec();
+        is_passed &= launch_tests_evo_algos_evox_molecular_body_regen();
 
-        std::cout << "Evo algos - evox - genes : ";
+        std::cout << "Evo algos - evox - molecular body : ";
         passed_print(is_passed);
 
         return is_passed;

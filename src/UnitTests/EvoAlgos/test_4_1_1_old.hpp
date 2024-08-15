@@ -568,16 +568,16 @@ namespace ut_ea
 
         //---------- GENES
 
-        // genes of algo 0
-        std::vector<int> genes_0 { 
+        // molecular body of algo 0
+        std::vector<int> molecular_body_0 { 
             instruction::AIF, 0, 0, 0, 0, 0, 0,  // to connect in to second algo out
             instruction::AOF, 0, 0, 0, 1, 0, 0,  // to connect out to second algo in
             instruction::CPYIN, 1, 1, 0, 1, 0, 0,
             instruction::ADD, 1, 1, 1, 0, 0, 1,  // fibo
             instruction::CPYOUT, 1, 1, 0, 0, 0, 0
         };
-        // genes of algo 1
-        std::vector<int> genes_1 { 
+        // molecular body of algo 1
+        std::vector<int> molecular_body_1 { 
             instruction::AIF, 0, 0, 0, 1, 0, 0,  // to connect in to first algo out
             instruction::AOF, 0, 0, 0, 0, 0, 0,  // to connect out to first algo in
             instruction::CPYIN, 1, 1, 0, 1, 0, 0,
@@ -585,14 +585,14 @@ namespace ut_ea
             instruction::CPYOUT, 1, 1, 0, 0, 0, 0
         };
 
-        std::vector<std::vector<int>> genes {
-            genes_0, genes_1
+        std::vector<std::vector<int>> molecular_body {
+            molecular_body_0, molecular_body_1
         };
 
-        // set the genes to the algos
+        // set the molecular body to the algos
         for(int i=0;i<algos.size();i++)
         {
-           algos[i]->set_genes(genes[i]); 
+           algos[i]->set_molecular_body(molecular_body[i]); 
         }
 
         //---------- UNIVERSE

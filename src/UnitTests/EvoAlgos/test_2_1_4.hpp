@@ -80,7 +80,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the genomes should create
+        // the expected outputs of the code the molecular bodys should create
         std::vector<int> expected_out_0 { 0 };
         std::vector<int> expected_out_1 { 0 };
 
@@ -93,7 +93,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set genome and execute
+            // set molecular body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -165,7 +165,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the genomes should create
+        // the expected outputs of the code the molecular bodys should create
         std::vector<int> expected_out_0 { 667 };
         std::vector<int> expected_out_1 { 667 };
 
@@ -178,7 +178,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set genome and execute
+            // set molecular body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -254,7 +254,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the genomes should create
+        // the expected outputs of the code the molecular bodys should create
         std::vector<int> expected_out_0 { 667 };
         std::vector<int> expected_out_1 { 667 };
 
@@ -267,7 +267,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set genome and execute
+            // set molecular body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -334,7 +334,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the genomes should create
+        // the expected outputs of the code the molecular bodys should create
         std::vector<int> expected_out_0 { 3 };
 
         std::vector<std::vector<int>> expected_outs {
@@ -346,7 +346,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set genome and execute
+            // set molecular body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 

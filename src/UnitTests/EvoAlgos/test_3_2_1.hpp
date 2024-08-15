@@ -42,16 +42,16 @@ namespace ut_ea
         sp_evox algo = std::make_shared<EvoX>("evox algo for simple behavior in evolution preliminaries");
         algo->init();
 
-        //---------- GENOME
+        //---------- MOLECULAR BODY
 
         // code template comes from FunctionExecutionEvoX
-        std::vector<int> genome { 
+        std::vector<int> molecular_body { 
         //----- metadata
             // "-1" = not set
 
             //--- genetic metadata
             // position of meta-exec func
-            // genome size
+            // molecular body size
             // instr pos of main func (entry point)
             instruction::XXX, 4, -1, -1, 0, 0, 0,
 
@@ -171,16 +171,16 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-        //----- replication func : output = genes
+        //----- replication func : output = molecular body
             instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-            // mutate genome
+            // mutate molecular body
             instruction::CALL, 0, 0, 0, 0, 8, 0,    //----- l.71
-            // get end of genome
+            // get end of molecular body
             instruction::CALL, 0, 0, 0, 0, 17, 0,
-            instruction::GR, 1, 1, 0, 100, 2, 0,    // end of genome
-            instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = genome size
-            // copy genome
+            instruction::GR, 1, 1, 0, 100, 2, 0,    // end of molecular body
+            instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
+            // copy molecular body
             instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- l.75
             instruction::INC, 1, 0, 0, 102, 0, 0,
             instruction::JRE, 0, 1, 1, 4, 102, 100,
@@ -211,7 +211,7 @@ namespace ut_ea
             instruction::CALL, 0, 1, 0, 0, 100, 0,
             instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-            // if error flag is 1, update genes
+            // if error flag is 1, update molecular body
             instruction::CPYIN, 1, 1, 0, 100, 1, 0,
             instruction::JRE, 0, 1, 0, 2, 100, 1,
             instruction::JRA, 0, 0, 0, 2, 0, 0,     // does not evaluate if error flag is 1
@@ -232,7 +232,7 @@ namespace ut_ea
         //----- evaluation func
             instruction::MARKER, 0, 403, 0, 0, 0, 0,
 
-            // for the moment : just output a constant from genome
+            // for the moment : just output a constant from molecular body
             instruction::CPY, 1, 0, 0, 100, -1, 0,      //----- l.106
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -243,7 +243,7 @@ namespace ut_ea
         //----- update after error func
             instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-            // for the moment : randomly change genome
+            // for the moment : randomly change molecular body
             instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.112
             instruction::CPYIN, 1, 1, 0, 101, 2, 0,
             instruction::GR, 1, 1, 0, 102, 106*7+5, 0,
@@ -260,7 +260,7 @@ namespace ut_ea
         //----- mutate before replicating func
             instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-            // for the moment : randomly change genome
+            // for the moment : randomly change molecular body
             instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.124
             instruction::GSET, 1, 1, 0, 106*7+5, 101, 0,    // randomly change the output number
 
@@ -283,7 +283,7 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 9, 0, 0, 0, 0,
 
-        //----- get free genes satisfying specs
+        //----- get free molecules satisfying specs
             instruction::MARKER, 0, 10, 0, 0, 0, 0,
 
             instruction::CPYUS, 1, 0, 0, 100, 0, 0,         //----- l.139
@@ -302,24 +302,24 @@ namespace ut_ea
             instruction::CPYIN, 1, 1, 0, 102, 0, 0, 
             instruction::CPYIN, 1, 1, 0, 103, 1, 0, 
             // check meta params
-            instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free genes
+            instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free molecules
             instruction::JRS, 0, 0, 0, 12, 0, 0,
             instruction::DEC, 1, 0, 0, 99, 0, 0,
-            instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free genes
-            instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free genes
+            instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free molecules
+            instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free molecules
             instruction::INC, 1, 0, 0, 99, 0, 0, 
             instruction::JRS, 0, 0, 0, 5, 0, 0,
-            // appropriate free genes found
+            // appropriate free molecules found
             instruction::DEC, 1, 0, 0, 99, 0, 0,    // remove loop index from stack
-            instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy genes)
+            instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 10, 0, 0, 0, 0,
 
-        //----- copy input (free genes) into code as new func
+        //----- copy input (free molecules) into code as new func
             instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-            // find end of genome
+            // find end of molecular body
             instruction::CPY, 1, 0, 0, 100, -7, 0,      //----- l.165
             instruction::ADD, 1, 1, 0, 100, 100, 7,
             instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -333,9 +333,9 @@ namespace ut_ea
             // get id in input
             instruction::CPYIN, 1, 1, 0, 101, 1, 0,
             // copy input into data
-            instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of genes to copy in input
+            instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
             instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-            instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data genes
+            instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
             instruction::CPYIS, 1, 0, 0, 105, 0, 0,
                 // marker (begin)
                 instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0, //----- l.180
@@ -358,7 +358,7 @@ namespace ut_ea
                 instruction::ADD, 1, 1, 0, 104, 104, 2,
                 instruction::CPY, 2, 1, 0, 104, 101, 0,
                 instruction::ADD, 1, 1, 0, 104, 104, 4,
-            // copy data into genes before ending marker
+            // copy data into molecular body before ending marker
             instruction::GCPY, 2, 2, 2, 100, 103, 104,
             // REGEN ?
             // instruction::REGEN, 0, 0, 0, 0, 0, 0,
@@ -366,16 +366,16 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-        //----- search and pick free genes
+        //----- search and pick free molecules
             instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-            // find free genes with given teleonomical ID (in param at pos 1)
+            // find free molecules with given teleonomical ID (in param at pos 1)
             instruction::INC, 1, 0, 0, 99, 0, 0,            //----- l.201
             instruction::CPYIN, 2, 1, 0, 99, 1, 0,
             instruction::CALL, 0, 0, 0, 0, 10, 0,
 
-            // copy if genes found
-            instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free genes not found, skip
+            // copy if molecular molecules found
+            instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
             instruction::DEC, 1, 0, 0, 99, 0, 0,
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             // exec the func
@@ -385,7 +385,7 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-        //----- get function begining and end in genes
+        //----- get function begining and end in molecular body
             // arg1 : func ID
             instruction::MARKER, 0, 13, 0, 0, 0, 0,
 
@@ -424,12 +424,12 @@ namespace ut_ea
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 13, 0, 0, 0, 0,
 
-        //----- write function as free genes
+        //----- write function as free molecules
             instruction::MARKER, 0, 14, 0, 0, 0, 0,
 
             // copy metadata first - do metadata
             instruction::CPY, 1, 2, 0, 100, 99, 0,        //----- l.239
-            instruction::INC, 1, 0, 0, 99, 0, 0,      // free genes
+            instruction::INC, 1, 0, 0, 99, 0, 0,      // free molecules
             instruction::CPY, 2, 1, 0, 99, 100, 0,    // teolonomical ID
 
 
@@ -446,8 +446,8 @@ namespace ut_ea
             // stop if func not found or invalid (beg = end)
             instruction::JRG, 0, 1, 1, 2, 103, 102, 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
-            // copy genes
-            instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 genes left for metadata
+            // copy molecular body
+            instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 molecular molecules left for metadata
             instruction::SUB, 1, 1, 1, 104, 103, 102,
             instruction::SETOS, 1, 0, 0, 104, 0, 0,
             instruction::CPY, 1, 1, 0, 110, 102, 0,     // cpy beg-2 (-3 actually) in index var 
@@ -460,7 +460,7 @@ namespace ut_ea
             instruction::JRS, 0, 0, 0, 5, 0, 0,
             // end of copy - metadata
             instruction::DEC, 1, 0, 0, 99, 0, 0,
-            instruction::CPYOUT, 1, 0, 0, 0, 3, 0,      // free genes
+            instruction::CPYOUT, 1, 0, 0, 0, 3, 0,      // free molecules
             instruction::CPYOUT, 1, 2, 0, 1, 99, 0,    // teolonomical ID
             instruction::INC, 1, 0, 0, 99, 0, 0,
 
@@ -480,7 +480,7 @@ namespace ut_ea
         //----- autopoiesis
             instruction::MARKER, 0, 15, 0, 0, 0, 0,
     
-            // compute genome size
+            // compute molecular body size
             instruction::CALL, 0, 0, 0, 0, 17, 0,       //----- l.273
             // call func that maps func ID and teleo IDs
             //instruction::CALL, 0, 0, 0, 0, 16, 0,
@@ -528,18 +528,18 @@ namespace ut_ea
             instruction::DEC, 1, 0, 0, 103, 0, 0,
             instruction::CPY, 1, 1, 0, 100, 103, 0, // reset top of local data stack
 
-            // save at end of genome (i is the nb of funcs)
+            // save at end of molecular body (i is the nb of funcs)
             instruction::GR, 1, 1, 0, 103, 2, 0,
             instruction::GCPY, 2, 2, 2, 103, 101, 100,    //----- l.307
             instruction::GSET, 1, 1, 0, 10, 103, 0,   // set teleo list pos
-            instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc genome size
+            instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc molecular body size
             instruction::GSET, 1, 1, 0, 2, 103, 0, 
 
 
             instruction::JMP, 2, 0, 0, 0, 0, 0,
             instruction::MARKER, 0, 16, 0, 0, 0, 0,
 
-        //----- calc genome size (in nb of genes)
+        //----- calc molecular body size (in nb of molecular body)
             instruction::MARKER, 0, 17, 0, 0, 0, 0,
         
             instruction::CPY, 1, 0, 0, 100, -7, 0,  //----- 314
@@ -552,7 +552,7 @@ namespace ut_ea
             instruction::DEC, 1, 0, 0, 100, 0, 0,
             instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
             instruction::JRS, 0, 0, 0, 8, 0, 0,
-            instruction::ADD, 1, 1, 0, 100, 100, 7, // end of genome
+            instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
 
             instruction::GSET, 1, 1, 0, 2, 100, 0, 
 
@@ -560,11 +560,11 @@ namespace ut_ea
             instruction::MARKER, 0, 17, 0, 0, 0, 0,
 
 
-        //----- end of genome
+        //----- end of molecular body
             instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.328
         };
 
-        algo->set_genes(genome);
+        algo->set_molecular_body(molecular_body);
 
         return algo;
     }

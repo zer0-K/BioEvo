@@ -1,41 +1,41 @@
-#include "GeneticFunctionAcquisition.hpp"
+#include "MolecularFunctionAcquisition.hpp"
 
 #include "../../../../Entities/EntityVoid.hpp"
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../Utils/Functions.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
-GeneticFunctionAcquisition::GeneticFunctionAcquisition()
+MolecularFunctionAcquisition::MolecularFunctionAcquisition()
     :Experiment::Experiment(name_exp_classical_info_func_acqu_evox)
 {
     init();
 }
 
-void GeneticFunctionAcquisition::init()
+void MolecularFunctionAcquisition::init()
 {
 
 }
 
-void GeneticFunctionAcquisition::launch()
+void MolecularFunctionAcquisition::launch()
 {
-    //FreeGenesFunctionRead();
-    FreeGenesFunctionWrite();
+    //FreeMoleculesFunctionRead();
+    FreeMoleculesFunctionWrite();
 }
 
 //-------------------- READ experiment
 
-sp_evox GeneticFunctionAcquisition::get_algo_read()
+sp_evox MolecularFunctionAcquisition::get_algo_read()
 {
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
 
-    // genome for an ranom gene mutation
+    // molecular body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> genome { 
+    std::vector<int> molecular_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -153,17 +153,17 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = genes
+    //----- replication func : output = molecular body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate genome
+        // mutate molecular body
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.77
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        // find end of genome
+        // find end of molecular body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -174,9 +174,9 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of genome
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = genome size
-        // copy genome
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
+        // copy molecular body
         instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- l.95
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -215,7 +215,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update genes
+        // if error flag is 1, update molecular body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -247,7 +247,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from genome
+        // for the moment : just output a constant from molecular body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.145
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -258,7 +258,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change genome
+        // for the moment : randomly change molecular body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.151
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 136*7+5, 0,
@@ -274,7 +274,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
     //----- mutate before replicating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change genome
+        // for the moment : randomly change molecular body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.162
         instruction::GSET, 1, 1, 0, 136*7+5, 101, 0,    // randomly change the output number
 
@@ -297,7 +297,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 9, 0, 0, 0, 0,
 
-    //----- get free genes satisfying specs
+    //----- get free molecules satisfying specs
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
 
         instruction::CPYUS, 1, 0, 0, 100, 0, 0,         //----- l.179
@@ -316,24 +316,24 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::CPYIN, 1, 1, 0, 102, 0, 0, 
         instruction::CPYIN, 1, 1, 0, 103, 1, 0, 
         // check meta params
-        instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free genes
+        instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free molecules
         instruction::JRS, 0, 0, 0, 12, 0, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,
-        instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free genes
-        instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free genes
+        instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free molecules
+        instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free molecules
         instruction::INC, 1, 0, 0, 99, 0, 0, 
         instruction::JRS, 0, 0, 0, 5, 0, 0,
-        // appropriate free genes found
+        // appropriate free molecules found
         instruction::DEC, 1, 0, 0, 99, 0, 0,    // remove loop index from stack
-        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy genes)
+        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
 
-    //----- copy input (free genes) into code as new func
+    //----- copy input (free molecules) into code as new func
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-        // find end of genome
+        // find end of molecular body
         instruction::CPY, 1, 0, 0, 100, -7, 0,      //----- l.205
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -350,9 +350,9 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::INC, 1, 0, 0, 101, 0, 0,   // new func id
         instruction::ADD, 1, 1, 0, 100, 100, 4, // reajust pos for last func
         // copy input into data
-        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of genes to copy in input
+        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
         instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data genes
+        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
         instruction::CPYIS, 1, 0, 0, 105, 0, 0,
             // marker (begin)
             instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0, //----- l.223
@@ -370,7 +370,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
             instruction::ADD, 1, 1, 0, 104, 104, 2,
             instruction::CPY, 2, 1, 0, 104, 101, 0,
             instruction::ADD, 1, 1, 0, 104, 104, 4,
-        // copy data into genes before ending marker
+        // copy data into molecular body before ending marker
         instruction::GCPY, 2, 2, 2, 100, 103, 104,
         // REGEN ?
         // instruction::REGEN, 0, 0, 0, 0, 0, 0,
@@ -378,10 +378,10 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-    //----- search and pick free genes
+    //----- search and pick free molecules
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-        // find free genes with teleonomical ID = 1
+        // find free molecules with teleonomical ID = 1
         instruction::INC, 1, 0, 0, 99, 0, 0,            //----- l.240
         instruction::CPY, 2, 0, 0, 99, 1, 0,
         instruction::INC, 1, 0, 0, 99, 0, 0,
@@ -391,8 +391,8 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
 
-        // copy if genes found
-        instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free genes not found, skip
+        // copy if molecular body found
+        instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         // exec the func
@@ -405,43 +405,43 @@ sp_evox GeneticFunctionAcquisition::get_algo_read()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-    //----- end of genome
+    //----- end of molecular body
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.258
     };
 
-    algo->set_genes(genome);
+    algo->set_molecular_body(molecular_body);
 
     return algo;
 }
 
-std::vector<int> GeneticFunctionAcquisition::get_genes_function_write()
+std::vector<int> MolecularFunctionAcquisition::get_molecular_body_function_write()
 {
     return {
-        // phase flag = 3, func teleonomical ID = 1 (ID in genes can be != teleonomical ID)
+        // phase flag = 3, func teleonomical ID = 1 (ID in molecular body can be != teleonomical ID)
         3, 1,
         // (for the moment, only increment arg on stack)
         instruction::INC, 2, 0, 0, 99, 0, 0,
     };
 }
 
-void GeneticFunctionAcquisition::FreeGenesFunctionRead()
+void MolecularFunctionAcquisition::FreeMoleculesFunctionRead()
 {
-    std::cout << "Acquire free genes as function (begin)" << std::endl << std::endl;
+    std::cout << "Acquire free molecules as function (begin)" << std::endl << std::endl;
 
     sp_evox algo = get_algo_read();
 
     //---------- FREE GENES
 
-    sp_freegenes freegenes = std::make_shared<FreeGenes>("free genes");
-    freegenes->init();
+    sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+    free_molecules->init();
 
-    // get the genes for the free genes 
-    std::vector<int> genes = get_genes_function_write();
-    freegenes->set_genes(genes);
+    // get the molecular body for the free molecules 
+    std::vector<int> molecular_body = get_molecular_body_function_write();
+    free_molecules->set_molecular_body(molecular_body);
 
     std::vector<sp_place> places {
         std::make_shared<Place>(algo, 0),
-        std::make_shared<Place>(freegenes, 1)
+        std::make_shared<Place>(free_molecules, 1)
     };
 
     //---------- UNIVERSE
@@ -452,42 +452,42 @@ void GeneticFunctionAcquisition::FreeGenesFunctionRead()
 
     //---------- EXEC
 
-    std::vector<int>::const_iterator beg = algo->get_genes().begin()+256*7;
-    std::vector<int>::const_iterator end = algo->get_genes().end()-1;
+    std::vector<int>::const_iterator beg = algo->get_molecular_body().begin()+256*7;
+    std::vector<int>::const_iterator end = algo->get_molecular_body().end()-1;
 
-    std::vector<int> end_of_genome_before(beg, end);
+    std::vector<int> end_of_molecular_body_before(beg, end);
 
-    std::cout << "End of genome before execution : " << std::endl
-        << to_str(end_of_genome_before) << std::endl << std::endl;
+    std::cout << "End of molecular body before execution : " << std::endl
+        << to_str(end_of_molecular_body_before) << std::endl << std::endl;
 
 
     algo->set_input({3,1});
     algo->exec(std::vector<sp_entity>(0));
 
-    beg = algo->get_genes().begin()+256*7;
-    end = algo->get_genes().end()-1;
+    beg = algo->get_molecular_body().begin()+256*7;
+    end = algo->get_molecular_body().end()-1;
 
-    std::vector<int> end_of_genome_after(beg, end);
+    std::vector<int> end_of_molecular_body_after(beg, end);
 
-    std::cout << "End of genome after execution : " << std::endl
-        << to_str(end_of_genome_after) << std::endl << std::endl;
+    std::cout << "End of molecular body after execution : " << std::endl
+        << to_str(end_of_molecular_body_after) << std::endl << std::endl;
 
-    std::cout << "Acquire free genes as function (end)" << std::endl << std::endl;
+    std::cout << "Acquire free molecules as function (end)" << std::endl << std::endl;
 }
 
 //-------------------- WRITE experiment
 
 
-sp_evox GeneticFunctionAcquisition::get_algo_write()
+sp_evox MolecularFunctionAcquisition::get_algo_write()
 {
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
 
-    // genome for an ranom gene mutation
+    // molecular body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> genome { 
+    std::vector<int> molecular_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -621,17 +621,17 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = genes
+    //----- replication func : output = molecular body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate genome
+        // mutate molecular body
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.89
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        // find end of genome
+        // find end of molecular body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -642,9 +642,9 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of genome
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = genome size
-        // copy genome
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
+        // copy molecular body
         instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- l.107
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -683,7 +683,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update genes
+        // if error flag is 1, update molecular body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -715,7 +715,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from genome
+        // for the moment : just output a constant from molecular body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.157
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -726,7 +726,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change genome
+        // for the moment : randomly change molecular body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.163
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 136*7+5, 0,
@@ -742,7 +742,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
     //----- mutate before replicating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change genome
+        // for the moment : randomly change molecular body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.174
         instruction::GSET, 1, 1, 0, 136*7+5, 101, 0,    // randomly change the output number
 
@@ -765,7 +765,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 9, 0, 0, 0, 0,
 
-    //----- get free genes satisfying specs
+    //----- get free molecules satisfying specs
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
 
         instruction::CPYUS, 1, 0, 0, 100, 0, 0,         //----- l.191
@@ -784,24 +784,24 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::CPYIN, 1, 1, 0, 102, 0, 0, 
         instruction::CPYIN, 1, 1, 0, 103, 1, 0, 
         // check meta params
-        instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free genes
+        instruction::JRE, 0, 1, 0, 2, 102, 3,   // check if input is free molecules
         instruction::JRS, 0, 0, 0, 12, 0, 0,
         instruction::DEC, 1, 0, 0, 99, 0, 0,
-        instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free genes
-        instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free genes
+        instruction::JRE, 0, 2, 0, 4, 99, -1,   // if func arg is -1 we get free molecules
+        instruction::JRE, 0, 2, 1, 3, 99, 103,  // otherwise check if we want these free molecules
         instruction::INC, 1, 0, 0, 99, 0, 0, 
         instruction::JRS, 0, 0, 0, 5, 0, 0,
-        // appropriate free genes found
+        // appropriate free molecules found
         instruction::DEC, 1, 0, 0, 99, 0, 0,    // remove loop index from stack
-        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy genes)
+        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
 
-    //----- copy input (free genes) into code as new func
+    //----- copy input (free molecules) into code as new func
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-        // find end of genome
+        // find end of molecular body
         instruction::CPY, 1, 0, 0, 100, -7, 0,      //----- l.217
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -818,9 +818,9 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::INC, 1, 0, 0, 101, 0, 0,   // new func id
         instruction::ADD, 1, 1, 0, 100, 100, 4, // reajust pos for last func
         // copy input into data
-        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of genes to copy in input
+        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
         instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data genes
+        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
         instruction::CPYIS, 1, 0, 0, 105, 0, 0,
             // marker (begin)
             instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0, //----- l.235
@@ -838,7 +838,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
             instruction::ADD, 1, 1, 0, 104, 104, 2,
             instruction::CPY, 2, 1, 0, 104, 101, 0,
             instruction::ADD, 1, 1, 0, 104, 104, 4,
-        // copy data into genes before ending marker
+        // copy data into molecular body before ending marker
         instruction::GCPY, 2, 2, 2, 100, 103, 104,
         // REGEN ?
         // instruction::REGEN, 0, 0, 0, 0, 0, 0,
@@ -846,10 +846,10 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-    //----- search and pick free genes
+    //----- search and pick free molecules
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-        // find free genes with teleonomical ID = 1
+        // find free molecules with teleonomical ID = 1
         instruction::INC, 1, 0, 0, 99, 0, 0,            //----- l.252
         instruction::CPY, 2, 0, 0, 99, 1, 0,
         instruction::INC, 1, 0, 0, 99, 0, 0,
@@ -859,8 +859,8 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
 
-        // copy if genes found
-        instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free genes not found, skip
+        // copy if molecular body found
+        instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         // exec the func
@@ -873,7 +873,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-    //----- get function begining and end in genes
+    //----- get function begining and end in molecular body
         // arg1 : func ID
         instruction::MARKER, 0, 13, 0, 0, 0, 0,
 
@@ -912,7 +912,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 13, 0, 0, 0, 0,
 
-    //----- write function as free genes
+    //----- write function as free molecules
         instruction::MARKER, 0, 14, 0, 0, 0, 0,
 
         instruction::CPY, 1, 2, 0, 100, 99, 0,          //----- l.299
@@ -935,8 +935,8 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         // stop if func not found or invalid (beg = end)
         instruction::JRG, 0, 1, 1, 2, 103, 102, 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
-        // copy genes
-        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 genes left for metadata
+        // copy molecular body
+        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 molecular body left for metadata
         instruction::SUB, 1, 1, 1, 104, 103, 102,
         instruction::SETOS, 1, 0, 0, 104, 0, 0,
         instruction::CPY, 1, 1, 0, 110, 102, 0,     // cpy beg-2 (-3 actually) in index var 
@@ -948,7 +948,7 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JRE, 0, 1, 1, 2, 110, 103,
         instruction::JRS, 0, 0, 0, 5, 0, 0,
         // end of copy - do metadata
-        instruction::CPYOUT, 1, 0, 0, 0, 3, 0,      // free genes
+        instruction::CPYOUT, 1, 0, 0, 0, 3, 0,      // free molecules
         instruction::CPYOUT, 1, 1, 0, 1, 100, 0,    // teolonomical ID
         // find a vacant place
         instruction::INC, 1, 0, 0, 99, 0, 0,        //----- l.328
@@ -966,18 +966,18 @@ sp_evox GeneticFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 14, 0, 0, 0, 0,
 
-    //----- end of genome
+    //----- end of molecular body
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.340
     };
 
-    algo->set_genes(genome);
+    algo->set_molecular_body(molecular_body);
 
     return algo;
 }
 
-void GeneticFunctionAcquisition::FreeGenesFunctionWrite()
+void MolecularFunctionAcquisition::FreeMoleculesFunctionWrite()
 {
-    std::cout << "Write function as free genes (begin)" << std::endl << std::endl;
+    std::cout << "Write function as free molecules (begin)" << std::endl << std::endl;
 
     sp_evox algo = get_algo_write();
 
@@ -999,7 +999,7 @@ void GeneticFunctionAcquisition::FreeGenesFunctionWrite()
 
     //---------- EXPECTED OUT
 
-    std::vector<int> expected_free_genes {
+    std::vector<int> expected_free_molecules{
         3, 6,
         instruction::CPY, 1, 0, 0, 100, 6, 0,
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
@@ -1015,36 +1015,36 @@ void GeneticFunctionAcquisition::FreeGenesFunctionWrite()
     sp_entity entity = universe->get_places()[1]->get_entity();
     if(entity->is_type(FREEGENES))
     {
-        sp_freegenes free_genes = std::dynamic_pointer_cast<FreeGenes>(entity);
-        std::vector<int> genes = free_genes->get_genes();
+        sp_free_molecules free_molecules = std::dynamic_pointer_cast<FreeMolecules>(entity);
+        std::vector<int> molecular_body = free_molecules->get_molecular_body();
 
-        bool is_valid = x86_comp_output(expected_free_genes, genes);
+        bool is_valid = x86_comp_output(expected_free_molecules, molecular_body);
 
         if(is_valid)
         {
-            std::cout << "Function successfully copied as free genes"
+            std::cout << "Function successfully copied as free molecules"
                 << std::endl << std::endl;
         }
         else
         {
-            int diff_index = first_diff_index(genes, expected_free_genes);
+            int diff_index = first_diff_index(molecular_body, expected_free_molecules);
 
             if(diff_index==-1)
             {
-                std::cout << "Expected free genes don't have expected size"
+                std::cout << "Expected free molecules don't have expected size"
                     << std::endl << std::endl;
             }
               
-            std::cout << "Expected free genes : " << std::endl
-                << to_str(expected_free_genes) << std::endl
-                << "Actual free genes : " << std::endl
-                << to_str(genes) << std::endl << std::endl;
+            std::cout << "Expected free molecules : " << std::endl
+                << to_str(expected_free_molecules) << std::endl
+                << "Actual free molecules : " << std::endl
+                << to_str(molecular_body) << std::endl << std::endl;
         }
     }
     else
     {
-        std::cout << "No free genes at place" << std::endl << std::endl;
+        std::cout << "No free molecules at place" << std::endl << std::endl;
     }
 
-    std::cout << "Write function as free genes (end)" << std::endl << std::endl;
+    std::cout << "Write function as free molecules (end)" << std::endl << std::endl;
 }

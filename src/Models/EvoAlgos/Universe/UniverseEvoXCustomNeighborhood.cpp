@@ -95,7 +95,7 @@ bool UniverseEvoXCustomNeighborhood::is_empty(int pos)
     return UniverseEvoAlgos::is_empty(absolute_pos);
 }
 
-std::vector<int> UniverseEvoXCustomNeighborhood::get_freegenes_at(int pos)
+std::vector<int> UniverseEvoXCustomNeighborhood::get_free_molecules_at(int pos)
 {
     int absolute_pos = get_pos_from_neighborhood_coords(current_exec_pos, 
         pos, 
@@ -109,10 +109,10 @@ std::vector<int> UniverseEvoXCustomNeighborhood::get_freegenes_at(int pos)
         return std::vector<int>(0);
     }
 
-    return UniverseEvoAlgos::get_freegenes_at(absolute_pos);
+    return UniverseEvoAlgos::get_free_molecules_at(absolute_pos);
 }
 
-bool UniverseEvoXCustomNeighborhood::write_freegenes_at(int pos, std::vector<int> vals)
+bool UniverseEvoXCustomNeighborhood::write_free_molecules_at(int pos, std::vector<int> vals)
 {
     int absolute_pos = get_pos_from_neighborhood_coords(current_exec_pos, 
         pos, 
@@ -126,7 +126,7 @@ bool UniverseEvoXCustomNeighborhood::write_freegenes_at(int pos, std::vector<int
         return false;
     }
 
-    return UniverseEvoAlgos::write_freegenes_at(absolute_pos, vals);
+    return UniverseEvoAlgos::write_free_molecules_at(absolute_pos, vals);
 }
 
 void UniverseEvoXCustomNeighborhood::link_universe_functions_to_individuals(neighborhoodType nt, int params[])
@@ -168,10 +168,10 @@ void UniverseEvoXCustomNeighborhood::link_universe_functions_to_individuals(neig
             std::function<bool(int)> f2 = std::bind(&UniverseEvoAlgos::is_empty, this, _1);
 
             // read at place
-            std::function<std::vector<int>(int)> f3 = std::bind(&UniverseEvoAlgos::get_freegenes_at, this, _1);
+            std::function<std::vector<int>(int)> f3 = std::bind(&UniverseEvoAlgos::get_free_molecules_at, this, _1);
 
             // write at place
-            std::function<bool(int, std::vector<int>)> f4 = std::bind(&UniverseEvoAlgos::write_freegenes_at, this, _1, _2);
+            std::function<bool(int, std::vector<int>)> f4 = std::bind(&UniverseEvoAlgos::write_free_molecules_at, this, _1, _2);
 
             sp_x86algo x86algo = std::dynamic_pointer_cast<X86Algo>(entity);
             x86algo->init_external_functions(f1, f2, f3, f4);

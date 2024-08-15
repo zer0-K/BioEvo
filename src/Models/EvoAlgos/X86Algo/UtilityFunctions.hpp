@@ -6,12 +6,12 @@
 #include "EvoX.hpp"
 #include "InstructionMapping.hpp"
 
-inline bool evox_comp_genes(std::vector<int> genome_1, std::vector<int> genome_2)
+inline bool evox_comp_molecular_body(std::vector<int> molecular_body_1, std::vector<int> molecular_body_2)
 {
     bool comp_vectors(std::vector<int>, std::vector<int>);
 
-    // for the moment, genomes are only int vectors
-    return comp_vectors(genome_1, genome_2);
+    // for the moment, molecular bodys are only int vectors
+    return comp_vectors(molecular_body_1, molecular_body_2);
 }
 
 inline bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<std::array<int,SIZE_INSTR>> code_2)
@@ -90,17 +90,17 @@ inline bool comp_flows(std::vector<std::array<int,2>> f1, std::vector<std::array
     return true;
 }
 
-inline std::vector<int> get_func_IDs_in_genome(std::vector<int> genome)
+inline std::vector<int> get_func_IDs_in_molecular_body(std::vector<int> molecular_body)
 {
     std::vector<int> func_IDs(0);
 
-    // find funcs in genome
-    for(int i=0;i<genome.size()/SIZE_INSTR;i++)
+    // find funcs in molecular body
+    for(int i=0;i<molecular_body.size()/SIZE_INSTR;i++)
     {
-        if(genome[7*i] == instruction::MARKER && genome[7*i+1] != -1)
+        if(molecular_body[7*i] == instruction::MARKER && molecular_body[7*i+1] != -1)
         {
             // get func ID
-            func_IDs.push_back(genome[7*i+2]);
+            func_IDs.push_back(molecular_body[7*i+2]);
         }
     }
 
@@ -127,56 +127,56 @@ inline std::vector<int> get_func_IDs_in_genome(std::vector<int> genome)
     return funcs_no_duplicates;
 }
 
-inline void write_genes_to_csv(std::vector<int> genes, std::string file_name_relative)
+inline void write_molecular_body_to_csv(std::vector<int> molecular_body, std::string file_name_relative)
 {
     std::string file_name_absolute = project_folder + "data/" + file_name_relative;
-    std::ofstream genesfile;
+    std::ofstream mfile;
 
-    genesfile.open(file_name_absolute, std::ios::out | std::ios::app);
+    mfile.open(file_name_absolute, std::ios::out | std::ios::app);
 
     // iterate line by line
-    for(int i=0;i<genes.size()/SIZE_INSTR;i++)
+    for(int i=0;i<molecular_body.size()/SIZE_INSTR;i++)
     {
-        genesfile << genes[SIZE_INSTR*i] << ",";
+        mfile << molecular_body[SIZE_INSTR*i] << ",";
 
         for(int j=1;j<SIZE_INSTR; j++)
         {
-            genesfile << " " << genes[SIZE_INSTR*i + j] << ",";
+            mfile << " " << molecular_body[SIZE_INSTR*i + j] << ",";
         }
-        genesfile << std::endl;
+        mfile << std::endl;
     }
 
-    genesfile.close();
+    mfile.close();
 }
 
 /**
- * @brief read a csv encoding a genome
+ * @brief read a csv encoding a molecular body
  *
  * @param file_name_relative file name in data/ folder
  */
-inline std::vector<int> get_genes_from_csv(std::string file_name_relative)
+inline std::vector<int> get_molecular_body_from_csv(std::string file_name_relative)
 {
     // io file stream related variables
     std::string file_name_absolute = project_folder + "data/" + file_name_relative;
-    std::ifstream genesfile(file_name_absolute);
+    std::ifstream mfile(file_name_absolute);
     std::string line;
 
-    // genome to get
-    std::vector<int> genes(0);
+    // molecular body to get
+    std::vector<int> molecular_body(0);
 
-    if(genesfile.is_open())
+    if(mfile.is_open())
     {
-        while( std::getline(genesfile, line) )
+        while( std::getline(mfile, line) )
         {
             std::string val;
             std::stringstream s(line);
             // parse line into numbers
             while (getline (s, val, ','))
                 if(val != " ")
-                    genes.push_back(std::stoi(val));
+                    molecular_body.push_back(std::stoi(val));
 
         }
-        genesfile.close();
+        mfile.close();
     }
     else
     {
@@ -184,5 +184,5 @@ inline std::vector<int> get_genes_from_csv(std::string file_name_relative)
                 << std::endl;
     }
 
-    return genes;
+    return molecular_body;
 }

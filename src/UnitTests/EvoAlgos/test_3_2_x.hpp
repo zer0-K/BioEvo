@@ -9,7 +9,7 @@
 #include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
 
 #include "../../Entities/EntityVoid.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeGenes.hpp"
+#include "../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 #include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
 #include "../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 
@@ -34,31 +34,31 @@ namespace ut_ea
         algo->set_input(replication_trigger);
         univ->exec();
 
-        // check if entity is indeed free genes        
-        sp_entity entity_where_freegenes = univ->get_places()[1]->get_entity();
-        is_passed &= entity_where_freegenes->is_type(FREEGENES);
+        // check if entity is indeed free molecules        
+        sp_entity entity_where_free_molecules = univ->get_places()[1]->get_entity();
+        is_passed &= entity_where_free_molecules->is_type(FREEGENES);
 
         if(!is_passed)
         {
             std::cout << redcol << "\tError : " << defcol
-                    << "Entity at pos 1 should be free genes" << std::endl;
+                    << "Entity at pos 1 should be free molecules" << std::endl;
         }
         else
         {
-            // check if free genes correspond to algo's genome
-            std::vector<int> genome = algo->get_genes();
-            std::vector<int> copied_genes = std::dynamic_pointer_cast<FreeGenes>(entity_where_freegenes)->get_genes();
+            // check if free molecules correspond to algo's molecular body
+            std::vector<int> molecular_body = algo->get_molecular_body();
+            std::vector<int> copied_molecular_body = std::dynamic_pointer_cast<FreeMolecules>(entity_where_free_molecules)->get_molecular_body();
 
-            // copied genes don't have the teleonomical IDs at the end
+            // copied molecular molecules  don't have the teleonomical IDs at the end
             //for(int i=0;i<18;i++)
             //{
-            //    copied_genes.push_back(i);
+            //    copied_molecular_body.push_back(i);
             //}
-            //genome.insert(genome.begin(), genome.size());
-            //genome.insert(genome.begin(), 3);
-            //genome.insert(genome.begin(), 0);
+            //molecular body.insert(molecular_body.begin(), molecular_body.size());
+            //molecular body.insert(molecular_body.begin(), 3);
+            //molecular body.insert(molecular_body.begin(), 0);
 
-            is_passed &= x86_comp_output(genome, copied_genes);
+            is_passed &= x86_comp_output(molecular_body, copied_molecular_body);
         }
 
         if(verbose_unit_tests)
@@ -79,7 +79,7 @@ namespace ut_ea
         bool is_passed = true;
 
         // input that should trigger the train phase 
-        // (error is rubbish, it's just to check that genome was indeed updated)
+        // (error is rubbish, it's just to check that molecular body was indeed updated)
 
         std::vector<int> train_in { 0, 0, 403 };
         std::vector<int> train_error { 0, 1, 4 };
@@ -149,7 +149,7 @@ namespace ut_ea
     }
 
     /**
-     * @brief acquire some free genes and putting them into genome
+     * @brief acquire some free molecules and putting them into molecular body
     */
     inline bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_acquire(
         std::string test_name, sp_evox algo, sp_univ_evo_algos univ)
@@ -161,21 +161,21 @@ namespace ut_ea
         std::vector<int> in_test_acquire { 0, 0, 1000 };
         
 
-        sp_freegenes free_genes = std::make_shared<FreeGenes>("free genes");
-        free_genes->init();
-        std::vector<int> genes { 3, 1000,
+        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+        free_molecules->init();
+        std::vector<int> molecular_body { 3, 1000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, -12, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0
         };
-        free_genes->set_genes(genes);
+        free_molecules->set_molecular_body(molecular_body);
 
 
         //---------- EVALUATION PHASE
 
         algo->set_input(in_acquire);
-        univ->get_places()[1]->set_entity(free_genes);
+        univ->get_places()[1]->set_entity(free_molecules);
         univ->exec();
 
         algo->set_input(in_test_acquire);
@@ -196,7 +196,7 @@ namespace ut_ea
     }
 
     /**
-     * @brief write a function as free genes in the universe
+     * @brief write a function as free molecules in the universe
     */
     inline bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_dispose(
         std::string test_name, sp_evox algo, sp_univ_evo_algos univ)
@@ -210,8 +210,8 @@ namespace ut_ea
         sp_entity_void entity_void = std::make_shared<EntityVoid>("entity void");
         entity_void->init();
 
-        //----- expected free genes
-        std::vector<int> expected_genes { 3, 1000,
+        //----- expected free molecules
+        std::vector<int> expected_molecular_body { 3, 1000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, -12, 0,
 
@@ -224,20 +224,20 @@ namespace ut_ea
         univ->get_places()[1]->set_entity(entity_void);
         univ->exec();
 
-        // check if entity is indeed free genes        
-        sp_entity entity_where_freegenes = univ->get_places()[1]->get_entity();
-        is_passed &= entity_where_freegenes->is_type(FREEGENES);
+        // check if entity is indeed free molecules        
+        sp_entity entity_where_free_molecules = univ->get_places()[1]->get_entity();
+        is_passed &= entity_where_free_molecules->is_type(FREEGENES);
 
         if(!is_passed)
         {
             std::cout << redcol << "\tError : " << defcol
-                    << "Entity at pos 1 should be free genes" << std::endl;
+                    << "Entity at pos 1 should be free molecules" << std::endl;
         }
         else
         {
-            std::vector<int> copied_genes = std::dynamic_pointer_cast<FreeGenes>(entity_where_freegenes)->get_genes();
+            std::vector<int> copied_molecular_body = std::dynamic_pointer_cast<FreeMolecules>(entity_where_free_molecules)->get_molecular_body();
 
-            is_passed &= x86_comp_output(copied_genes, expected_genes);
+            is_passed &= x86_comp_output(copied_molecular_body, expected_molecular_body);
         }
 
 

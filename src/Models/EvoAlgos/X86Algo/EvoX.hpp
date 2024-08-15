@@ -10,7 +10,7 @@
 class EvoX : public X86Algo
 {
 protected:
-    std::vector<int> genes;
+    std::vector<int> molecular_body;
 
 public:
     using X86Algo::X86Algo;
@@ -18,27 +18,27 @@ public:
     void init() override;
     std::vector<sp_entity> exec(std::vector<sp_entity> entries) override;
     
-    void exec_instruction_gene(int instr, int is_addr1, int is_addr2, int is_addr3, 
+    void exec_instruction_molecule(int instr, int is_addr1, int is_addr2, int is_addr3, 
     int addr1, int addr2, int addr3);
 
     /**
-     * @brief create the code from the genes
+     * @brief create the executable code from the body (XASM molecules)
     */
-    void create_code_from_genes();
+    void create_code_from_molecular_body();
 
     /**
-     * @brief modify (or not a genetic marker once it's been used)
+     * @brief modify (or not a molecular marker once it's been used)
     */
     void post_process_marker(int marker_pos);
 
     // setters
-    void set_genes(std::vector<int> genes);
+    void set_molecular_body(std::vector<int> molecular_body);
 
     // getters
-    std::vector<int> get_genes();
+    std::vector<int> get_molecular_body();
 
     // utils
-    void print_genome();
+    void print_molecular_body();
 };
 
 typedef std::shared_ptr<EvoX> sp_evox;

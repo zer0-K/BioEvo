@@ -174,7 +174,7 @@ set(HEADERS_MODEL_EVO_ALGOS
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.hpp
     src/Models/EvoAlgos/X86Algo/X86Algo.hpp src/Models/EvoAlgos/X86Algo/EvoX.hpp
-    src/Models/EvoAlgos/X86Algo/FreeGenes.hpp
+    src/Models/EvoAlgos/X86Algo/FreeMolecules.hpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
@@ -189,7 +189,7 @@ set(SOURCES_MODEL_EVO_ALGOS
 # x86 evo algos
     src/Models/EvoAlgos/X86Algo/InstructionMapping.cpp
     src/Models/EvoAlgos/X86Algo/X86Algo.cpp src/Models/EvoAlgos/X86Algo/EvoX.cpp
-    src/Models/EvoAlgos/X86Algo/FreeGenes.cpp
+    src/Models/EvoAlgos/X86Algo/FreeMolecules.cpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
@@ -344,8 +344,8 @@ set(EXPERIMENTS_EVO_ALGOS
     src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.cpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.hpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.cpp
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp 
 )
@@ -394,8 +394,8 @@ target_link_libraries(finance ${LIBS})
 set(EXPERIMENT_RUNNERS_CLASSICAL_INFO_FUNC_EXEC src/Experiment/ClassicalInfo/FunctionExecution/ExperimentRunnerFunctionExecution.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.hpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/GeneticFunctionAcquisition.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.cpp
 )
 add_executable(classical-info-func-exec src/Experiment/ClassicalInfo/FunctionExecution/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
@@ -432,8 +432,8 @@ target_link_libraries(bio-evo-trait ${LIBS})
 # *************** Gene
 
 set(EXPERIMENT_RUNNERS_BIO_EVO_GENE src/Experiment/BioEvo/Gene/ExperimentRunnerGenes.hpp
-    src/Experiment/BioEvo/Gene/EvoX/FreeGeneCreationEvoX.hpp
-    src/Experiment/BioEvo/Gene/EvoX/FreeGeneCreationEvoX.cpp
+    src/Experiment/BioEvo/Gene/EvoX/FreeMoleculesCreationEvoX.hpp
+    src/Experiment/BioEvo/Gene/EvoX/FreeMoleculesCreationEvoX.cpp
     src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.hpp
     src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.cpp)
 add_executable(bio-evo-gene src/Experiment/BioEvo/Gene/main.cpp 
@@ -536,7 +536,7 @@ target_link_libraries(unit_tests_bio_evo ${LIBS})
 
 set(HEADERS_UNIT_TESTS_CLASSICAL_ALGOS 
     src/UnitTests/ClassicalAlgos/test_1_empty.hpp
-    src/UnitTests/ClassicalAlgos/test_2_genes.hpp
+    src/UnitTests/ClassicalAlgos/test_2_molecular_body.hpp
             src/UnitTests/ClassicalAlgos/test_2_1.hpp)
 
 add_executable(unit_tests_classical_algos src/UnitTests/ClassicalAlgos/main.cpp 

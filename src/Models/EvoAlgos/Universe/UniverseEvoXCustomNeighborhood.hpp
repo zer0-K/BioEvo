@@ -56,21 +56,21 @@ public:
     bool is_empty(int pos) override;
 
     /**
-     * @brief get free genes at given pos in the neighborhood
+     * @brief get free molecules at given pos in the neighborhood
      *
      * @param[in] pos position
-     * @return genes (empty if no free genes at given pos)
+     * @return molecular body (empty if no free molecules at given pos)
      */
-    std::vector<int> get_freegenes_at(int pos) override;
+    std::vector<int> get_free_molecules_at(int pos) override;
 
     /**
-     * @brief write free genes at given pos
+     * @brief write free molecules at given pos
      *
      * @param[in] pos position to write
      * @param[in] vals int sequence to write
      * @return true if write was successful
      */
-    bool write_freegenes_at(int pos, std::vector<int> vals) override;
+    bool write_free_molecules_at(int pos, std::vector<int> vals) override;
 
     /**
      * @brief link universe functions to x86 individuals

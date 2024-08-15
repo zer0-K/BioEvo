@@ -17,7 +17,7 @@ protected:
     */
     std::vector<sp_abstracttrait> coeffs;
     
-    std::vector<sp_gene> genes;
+    std::vector<sp_gene> molecular_body;
 
 public:
     using Entity::Entity;

@@ -13,45 +13,45 @@
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_genes_exec()
+    bool launch_tests_evo_algos_evox_molecular_body_exec()
     {
-        bool test_evo_algos_evox_genes_exec_simple(void);
-        bool test_evo_algos_evox_genes_exec_JMP01call(void);
+        bool test_evo_algos_evox_molecular_body_exec_simple(void);
+        bool test_evo_algos_evox_molecular_body_exec_JMP01call(void);
 
         bool is_passed = true;
 
-        std::cout << "Evo algos - evox - genes - exec :" << std::endl;
+        std::cout << "Evo algos - evox - molecular body - exec :" << std::endl;
  
-        is_passed &= test_evo_algos_evox_genes_exec_simple();
-        is_passed &= test_evo_algos_evox_genes_exec_JMP01call();
+        is_passed &= test_evo_algos_evox_molecular_body_exec_simple();
+        is_passed &= test_evo_algos_evox_molecular_body_exec_JMP01call();
 
-        std::cout << "Evo algos - evox - genes - exec : ";
+        std::cout << "Evo algos - evox - molecular body - exec : ";
         passed_print(is_passed);
 
         return is_passed;
     }
 
     /**
-     * @brief exec genome dynamically
+     * @brief exec molecular body dynamically
     */
-    bool test_evo_algos_evox_genes_exec_simple()
+    bool test_evo_algos_evox_molecular_body_exec_simple()
     {
         bool is_passed = true;
 
         sp_evox algo = std::make_shared<EvoX>("evox algo");
         algo->init();
 
-        //---------- GENOME
+        //---------- MOLECULAR BODY
 
-        // genomes coding simple programs
+        // molecular bodys coding simple programs
         // 
-        std::vector<int> genome_1 { 
+        std::vector<int> molecular_body_1 { 
             instruction::INC, 1, 0, 0, 5, 0, 0,
             instruction::EXEC, 0, 0, 0, 0, 1, 0,
             instruction::CPYOUT, 1, 1, 0, 0, 5, 0,
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
-        std::vector<int> genome_2 {
+        std::vector<int> molecular_body_2 {
             instruction::XXX, 0, 0, 0, 0, 0, 0,
             instruction::INC, 1, 0, 0, 5, 0, 0,
             instruction::INC, 1, 0, 0, 5, 0, 0,
@@ -60,8 +60,8 @@ namespace ut_ea
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
 
-        std::vector<std::vector<int>> genomes {
-            genome_1, genome_2
+        std::vector<std::vector<int>> molecular_bodies {
+            molecular_body_1, molecular_body_2
         };
 
         //---------- INPUTS
@@ -82,7 +82,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the genomes should create
+        // the expected outputs of the code the molecular bodys should create
         std::vector<int> expected_out_1_1 { 2 };
         std::vector<int> expected_out_1_2 { 4 };
         std::vector<int> expected_out_1_3 { 6 };
@@ -109,8 +109,8 @@ namespace ut_ea
 
         for(int i=0; i<expected_outs.size(); i++)
         {
-            // set genome and execute
-            algo->set_genes(genomes[i]);
+            // set molecular body and execute
+            algo->set_molecular_body(molecular_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -129,7 +129,7 @@ namespace ut_ea
 
                 if(verbose_unit_tests_1)
                 {
-                    std::cout << "Evo algos - evox - genes - exec - simple "
+                    std::cout << "Evo algos - evox - molecular body - exec - simple "
                               << i << " - " << j << ": ";
                     passed_print(is_passed_i_j);
                 } 
@@ -137,14 +137,14 @@ namespace ut_ea
 
             if(verbose_unit_tests_1)
             {
-                std::cout << "Evo algos - evox - genes - exec - simple " << i << " : ";
+                std::cout << "Evo algos - evox - molecular body - exec - simple " << i << " : ";
                 passed_print(is_passed_i);
             } 
        }
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - evox - genes - exec - simple " << " : ";
+            std::cout << "Evo algos - evox - molecular body - exec - simple " << " : ";
             passed_print(is_passed);
         } 
 
@@ -155,19 +155,19 @@ namespace ut_ea
     /**
      * @brief perform a function call on JMP01 architecture
     */
-    bool test_evo_algos_evox_genes_exec_JMP01call()
+    bool test_evo_algos_evox_molecular_body_exec_JMP01call()
     {
         bool is_passed = true;
 
         sp_evox algo = std::make_shared<EvoX>("evox algo");
         algo->init();
 
-        //---------- GENOME
+        //---------- MOLECULAR BODY
 
-        // genomes coding simple programs
+        // molecular bodys coding simple programs
 
         // with automatic data stack increment
-        std::vector<int> genome_1 { 
+        std::vector<int> molecular_body_1 { 
             instruction::XXX, 3, 0, 0, 0, 0, 0,
             instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
@@ -243,7 +243,7 @@ namespace ut_ea
        };
 
         // without automatic data stack increment
-        std::vector<int> genome_2 { 
+        std::vector<int> molecular_body_2 { 
             instruction::XXX, 3, 0, 0, 0, 0, 0,
             instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
@@ -319,8 +319,8 @@ namespace ut_ea
             instruction::MARKER, 0, 3, 0, 0, 0, 0,
        };
 
-        std::vector<std::vector<int>> genomes {
-            genome_1, genome_2
+        std::vector<std::vector<int>> molecular_bodies {
+            molecular_body_1, molecular_body_2
         };
 
         //---------- INPUTS
@@ -340,7 +340,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the genomes should create
+        // the expected outputs of the code the molecular bodys should create
         std::vector<int> expected_out_1_1 { 20, -1234 };
         std::vector<int> expected_out_1_2 { 30, -1234 };
 
@@ -360,8 +360,8 @@ namespace ut_ea
 
         for(int i=0; i<expected_outs.size(); i++)
         {
-            // set genome and execute
-            algo->set_genes(genomes[i]);
+            // set molecular body and execute
+            algo->set_molecular_body(molecular_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -380,7 +380,7 @@ namespace ut_ea
 
                 if(verbose_unit_tests_1)
                 {
-                    std::cout << "Evo algos - evox - genes - exec - JMP01 call "
+                    std::cout << "Evo algos - evox - molecular body - exec - JMP01 call "
                               << i << " - " << j << ": ";
                     passed_print(is_passed_i_j);
                 } 
@@ -388,14 +388,14 @@ namespace ut_ea
 
             if(verbose_unit_tests_1)
             {
-                std::cout << "Evo algos - evox - genes - exec - JMP01 call " << i << " : ";
+                std::cout << "Evo algos - evox - molecular body - exec - JMP01 call " << i << " : ";
                 passed_print(is_passed_i);
             } 
        }
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - evox - genes - exec - JMP01 call " << " : ";
+            std::cout << "Evo algos - evox - molecular body - exec - JMP01 call " << " : ";
             passed_print(is_passed);
         } 
 

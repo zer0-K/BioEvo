@@ -7,7 +7,6 @@ Book of work:
         g - create mutable DNA
         h - plotting progtein creation
 16 - organize teleonomical IDs
-17 - rename genes as body (DNA is between -1's) and document
 18 - select on amino acid acquisition
 19 - share useful amino acids
 20 - mutate DNA when replicating individual
@@ -27,10 +26,10 @@ What has been done :
 3 - 13/11/2023 - can execute some functions (function stack)
 4 - 19/11/2023 - has a memory stack 
 5 - 24/11/2023 - several behaviors depending on input (train, test, replicate)
-6 - 28/11/2023 - can read and write free genes in the environment
+6 - 28/11/2023 - can read and write free molecules in the environment
 7 - 28/11/2023 - can mutate a simple trait in train phase
-8 - 28/11/2023 - can add free genes in environment as new functions in genome
-9 - 28/11/2023 - write function as free genes in environment
+8 - 28/11/2023 - can add free molecules in environment as new functions in molecular body
+9 - 28/11/2023 - write function as free molecules in environment
 10 - 30/11/2023 - teleonomical design
 11 - 07/12/2023 - non regression tests for EvoX
 12 - 03/01/2024 - autopoiesis and refactoring
@@ -43,6 +42,7 @@ What has been done :
    - 23/04/2024 -     c - create ribosome
    - 25/04/2024 -     d - create mRNA from DNA
    - 26/04/2024 -     e - tRNA for WHILE loops
+17 - 15/08/2024 - rename genes as body (DNA is between -1's) and document
 
 
 2) Code eaters
