@@ -1,5 +1,5 @@
 ---
-title: Documentation of the return tRNA
+title: Documentation of the genetic copy special tRNA
 output: 
   html_document:
     code_folding: hide
@@ -8,7 +8,7 @@ output:
 
 # General info
 
-Goal : This tRNA transcribes the RNA of the return instruction, i.e. the end of function.
+Goal : This tRNA transcribes the RNA of a GCPYW instruction, i.e. the end of function.
 In the JMP01 architecture, it corresponds to a jump back to the meta-exec function.
 
 
@@ -19,6 +19,7 @@ Output : code of the 'return' amino acid
 
 var 1 : ribosome ptr
 var 2 : exit ptr
+var 3 : tmp var
 
 # Pseudo-code
 
@@ -26,7 +27,7 @@ var 2 : exit ptr
 Init P site
 Init E site
 
-Writes the instruction JMP, 2, 0, 0, 0, 0, 0 at the E site
+Writes the instruction GCPY, 2, 2, 2, v1, v2, v3 at the E site
 ```
 
 # Code
@@ -36,9 +37,9 @@ Writes the instruction JMP, 2, 0, 0, 0, 0, 0 at the E site
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, id_tRNA_RET, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-id_tRNA_MInstr, instruction::JMP, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
-id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0
+GSTART_ID, id_tRNA_SP_GCPY, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
+id_tRNA_MInstr, instruction::GCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M2, id_tRNA_MLV, id_tRNA_MLV, 
+id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 ```
 
 
@@ -50,14 +51,14 @@ id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0
 id_tRNA_MP
 id_tRNA_ME 
 
-*write amino acid JMP, 2, 0, 0, 0, 0, 0*
-id_tRNA_MInstr, instruction::JMP
+*write amino acid GCPY, 2, 2, 2, v1, v2, v3*
+id_tRNA_MInstr, instruction::GCPY
 id_tRNA_M2
-id_tRNA_M0
-id_tRNA_M0
-id_tRNA_M0
-id_tRNA_M0 
-id_tRNA_M0
+id_tRNA_M2
+id_tRNA_M2
+id_tRNA_MLV
+id_tRNA_MLV 
+id_tRNA_MLV
 
 id_tRNA_RET
 ```
@@ -80,27 +81,33 @@ instruction::INC, 1, 0, 0, 101, 0, 0,
 
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, instruction::JMP, 0,
+instruction::CPY, 3, 0, 0, 101, instruction::GCPY, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, 2, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 2, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 2, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
 
-instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::JMP, 2, 0, 0, 0, 0, 0
 
 instruction::MARKER, 0, 9999, 0, 0, 0, 0,
 ```
@@ -108,7 +115,7 @@ instruction::MARKER, 0, 9999, 0, 0, 0, 0,
 ### Raw code
 
 ```{RAW class.source='foldable'}
-46, 0, 9999, 0, 0, 0, 0,
+46, 0, 15002, 0, 0, 0, 0,
 2, 1, 1, 0, 100, 99, 0,
 5, 2, 0, 0, 100, 0, 0,
 6, 1, 0, 0, 99, 0, 0,
@@ -116,19 +123,21 @@ instruction::MARKER, 0, 9999, 0, 0, 0, 0,
 5, 1, 0, 0, 99, 0, 0,
 5, 1, 0, 0, 101, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 19, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 2, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 0, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 102, 98, 100,
+2, 3, 2, 0, 101, 102, 0,
+5, 2, 0, 0, 100, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 0, 0,
 19, 2, 0, 0, 0, 0, 0,
-46, 0, 9999, 0, 0, 0, 0,
+46, 0, 15002, 0, 0, 0, 0,
 ```

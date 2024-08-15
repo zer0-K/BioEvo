@@ -91,38 +91,39 @@ GSTART_ID, 100X2, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_OPEcstcst,
 99, id_tRNA_GTSLV, 2, id_tRNA_INCcst, 0, 99, id_tRNA_GTSLV, 
 3, id_tRNA_IF0, 3, id_tRNA_SLVaddr, 4, 99, id_tRNA_OPELVLV, 
 0, 3, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_INCLV, 
-0, 3, id_tRNA_SDLVLV, 3, 4, id_tRNA_ScstLV, 99, 
-3, id_tRNA_PLVSI, 5, id_tRNA_PLVSI, 5, id_tRNA_CALLcst, 207, 
-id_tRNA_CALLcst, 206, id_tRNA_GTSLV, 3, id_tRNA_INCcst, 1, 99, 
-id_tRNA_GTSLV,  4, id_tRNA_OPEcstcst, 0, 99, 3, id_tRNA_GTSLV, 
-2, id_tRNA_INCLV, 0, 2, id_tRNA_ScstLV, 99, 4, 
-id_tRNA_INCS, 1, id_tRNA_INCcst, 1, 99, id_tRNA_INCS, 1, 
-id_tRNA_GTSLV, 1, id_tRNA_SDLVcst, 1, instruction::MARKER, id_tRNA_INCLV, 0, 
+0, 3, id_tRNA_SDLVLV, 2, 4, id_tRNA_ScstLV, 99, 
+3, id_tRNA_ScstLV, 99, 2, id_tRNA_PLVSI, 5, id_tRNA_PLVSI, 
+5, id_tRNA_CALLcst, 207, id_tRNA_CALLcst, 206, id_tRNA_GTSLV, 3, 
+id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV,  4, id_tRNA_OPEcstcst, 0, 
+99, 3, id_tRNA_GTSLV, 2, id_tRNA_INCLV, 0, 2, 
+id_tRNA_ScstLV, 99, 4, id_tRNA_INCS, 1, id_tRNA_INCcst, 1, 
+99, id_tRNA_INCS, 1, id_tRNA_GTSLV, 1, id_tRNA_SDLVcst, 1, 
+instruction::MARKER, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, 
+id_tRNA_INCLV, 0, 1, id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 
+0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 
 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 1, 
-id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 
-1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 
-0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, 
-id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 
-0, 1, id_tRNA_SLVLV, 5, 1, id_tRNA_OPELVcst, 0, 
-5, 5, id_tRNA_CMPLVLV, 0, 5, 2, 6, 
-id_tRNA_INCLV, 1, 6, id_tRNA_IF0, 6, id_tRNA_SDLVDLV, 1, 
-5, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0, 5, 
-id_tRNA_CMPLVLV, 0, 5, 2, 6, id_tRNA_INCLV, 1, 
-6, id_tRNA_SWJ, id_tRNA_SDLVcst, 1, instruction::MARKER, id_tRNA_INCLV, 0, 
+id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 
+1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SLVLV, 5, 
+1, id_tRNA_OPELVcst, 0, 5, 5, id_tRNA_CMPLVLV, 0, 
+5, 2, 6, id_tRNA_INCLV, 1, 6, id_tRNA_IF0, 
+6, id_tRNA_SDLVDLV, 1, 5, id_tRNA_INCLV, 0, 1, 
+id_tRNA_INCLV, 0, 5, id_tRNA_CMPLVLV, 0, 5, 2, 
+6, id_tRNA_INCLV, 1, 6, id_tRNA_SWJ, id_tRNA_SDLVcst, 1, 
+instruction::MARKER, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, 
+id_tRNA_INCLV, 0, 1, id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 
+0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 
 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 1, 
-id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 
+id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 
 1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 
-0, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, 
-id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 
-0, 1, id_tRNA_PLVSWI, 1, id_tRNA_OPEcstcst, 1, 99, 
-3, id_tRNA_SIJ, id_tRNA_INCLV, 0, 6, id_tRNA_OPELVLV, 1, 
-6, 1, id_tRNA_SOSLV, 6, id_tRNA_SLVLV, 6, 1, 
-id_tRNA_CMPLVLV, 0, 6, 2, 7, id_tRNA_INCLV, 1, 
-7, id_tRNA_SLVcst, 8, 0, id_tRNA_IF0, 7, id_tRNA_SLVDLV, 
-7, 6, id_tRNA_GLVO, 8, 7, id_tRNA_INCLV, 0, 
-6, id_tRNA_INCLV, 0, 8, id_tRNA_CMPLVLV, 0, 6, 
-2, 7, id_tRNA_INCLV, 1, 7, id_tRNA_SIJ, id_tRNA_SEJ, 
-id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+0, id_tRNA_INCLV,0, 1, id_tRNA_PLVSWI, 1, id_tRNA_OPEcstcst, 
+1, 99, 3, id_tRNA_SIJ, id_tRNA_INCLV, 0, 6, 
+id_tRNA_OPELVLV, 1, 6, 1, id_tRNA_SOSLV, 6, id_tRNA_SLVLV, 
+6, 1, id_tRNA_CMPLVLV, 0, 6, 2, 7, 
+id_tRNA_INCLV, 1, 7, id_tRNA_SLVcst, 8, 0, id_tRNA_IF0, 
+7, id_tRNA_SLVDLV, 7, 6, id_tRNA_GLVO, 8, 7, 
+id_tRNA_INCLV, 0, 6, id_tRNA_INCLV, 0, 8, id_tRNA_CMPLVLV, 
+0, 6, 2, 7, id_tRNA_INCLV, 1, 7, 
+id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 
 ```
 
 
@@ -143,8 +144,8 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_OPELVLV, 0, 3, 4          // var 3+= var 4 (pointer to end of list)
 | id_tRNA_SLVDLV, 5, 3              // var 5 <- *var 3 (last func ID)
 | id_tRNA_INCLV, 0, 3               // var 3++
-| id_tRNA_SDLVLV, 3, 4              // *var 3 <- var 4 (first pos after list = stack ptr)
-| id_tRNA_ScstLV, 99, 3             // stack ptr <- var 3
+| id_tRNA_SDLVLV, 2, 4              // *var 2 <- var 4 (end of transcribed code = stack ptr)
+| id_tRNA_ScstLV, 99, 2             // stack ptr <- var 2
 | id_tRNA_PLVS, 5,                  // arg for RNAP
 | id_tRNA_PLVS, 5,                  // arg for RNAP (same as prev line)
 |
@@ -201,6 +202,8 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
+| id_tRNA_INCLV, 0, 1
+| id_tRNA_SDLVcst, 1, 0             // add one more for overwriting
 | id_tRNA_INCLV, 0, 1               // molecular marker (end)
 | id_tRNA_PLVSWI, 1                 // put end of transcribed code
 | id_tRNA_OPEcstcst, 1, 99, 3       // stack ptr -= 3 (set prog ptr to val at begin)
