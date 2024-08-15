@@ -1,5 +1,5 @@
 ---
-title: Documentation of genesis-related progteins
+title: Documentation of meta-sequential transcription processor
 output: 
   html_document:
     code_folding: hide
@@ -8,267 +8,36 @@ output:
 
 # General info
 
-These correspond to the teleonomical IDs between 100 and 199.
-
-List of functions:
-- 100X1 : self-compilation func ID List
-
-# Progteins documentation
-
-
-## 100X1 : self-compilation func ID List
-
-### General info
-
-Goal : building the list (on the stack) of the progteins that need to be transcribed.
+Goal : transcribe to progtein and processors all funcs of the list built by the self-compilation func ID list builder
 
 Input : nothing
-Output : list of the progteins IDs in the DNA
-
-### Variables
-
-var 1 : index var - to loop on body and find DNA begin and end
-var 2 : genetic value at var 1
-var 3 : condition to check if pointed place is the DNA marker
-var 4 : condition to check if pointed place is a molecular marker
-var 5 : stack ptr
-var 6 : begin and end pos for transcription
-
-### Pseudo-code
-
-```{pseudo class.source='foldable'}
-While !var3:
-    Go 7 steps forward in body
-    If body part is a molecular marker:
-        Go 2 steps forward in body
-        var3 <- body part is DNA marker
-        Go 2 steps backward in body
-
-Leave room for transcriptions pointers and get stack ptr in var5
-
-While !var3:
-    Go 7 steps forward in body
-    If body part is a molecular marker:
-       Go 2 steps forward 
-       var3 <- body part is DNA marker
-       Go 2 steps backward in body
-    Else 
-    If body part is progtein begin marker:
-        Increment list size (TOPS)
-        Increment var5, last list element pos
-        Put func ID there
-
-Get pos of first memory cell after end of list
-Set transcription pointers to this pos
-```
-
-### Code
-
-#### DNA code
-
-**Raw code**
-
-```{DNA class.source='foldable'}
-GSTART_ID, 209, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_INCcst, 
-0, 99, id_tRNA_SLVcst,1, -7, id_tRNA_SLVcst, 3, 
-1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 1, 7, 
-id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 
-4, id_tRNA_IF0, 4, id_tRNA_OPELVcst, 0, 1, 2, 
-id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, -1, 
-3, id_tRNA_INCLV, 1, 3, id_tRNA_OPELVcst, 1, 1, 
-2, id_tRNA_SIJ, id_tRNA_SEJ,id_tRNA_SWJ, id_tRNA_OPEcstcst, 0, 99, 
-3, id_tRNA_PCSWI, 0, id_tRNA_SLVaddr, 5, 99, id_tRNA_SLVcst, 
-3, 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 1, 
-7, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, 
-instruction::MARKER, 4, id_tRNA_IF0, 4, id_tRNA_OPELVcst, 0, 1, 
-2, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, 
--1, 3, id_tRNA_INCLV, 1, 3, id_tRNA_OPELVcst, 1, 
-1, 2, id_tRNA_SIJ, id_tRNA_SLVcst, 6, GSTART_ID-1, id_tRNA_INCLV, 
-0, 6, id_tRNA_CMPLVLV, 0, 2, 6, 4, 
-id_tRNA_IF0, 4, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0, 
-5, id_tRNA_INCS, 0, id_tRNA_RGLVLV, 6, 1, id_tRNA_SDLVLV, 
-5, 6, id_tRNA_INCLV, 1, 1, id_tRNA_SIJ, id_tRNA_SEJ, 
-id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SP_GSPLV, 6, id_tRNA_GTSLV, 5, id_tRNA_OPELVLV, 
-0, 6, 5, id_tRNA_INCLV, 0, 6, id_tRNA_INCcst, 
-1, 99, id_tRNA_PLVSWI, 6, id_tRNA_INCcst, 1, 99, 
-id_tRNA_PLVSWI, 6, id_tRNA_OPEcstcst, 1, 99, 2, id_tRNA_RET, 
-GSTOP_ID, 0, 0, 0, 0, 0, 0,
-```
-
-
-
-**Organised code**
-
-
-```{pseudoDNA class.source='foldable'}
-id_tRNA_INCcst, 0, 99                               // stack ptr ++
-id_tRNA_SLVcst, 1, -7                               // v1 = -7
-id_tRNA_SLVcst, 3, 1                                // v3 = 1
-
-*find beginning of DNA* ; store pos in var 1
-id_tRNA_IF0, 3                                      // while v3
-|
-| id_tRNA_OPELVcst, 0, 1, 7                         // v1 += 7
-| id_tRNA_RGLVLV, 2, 1                              // v2 = genes at v1
-| id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4    // v4 = v2==MARKER
-| id_tRNA_IF0, 4                                    // if v4
-| |
-| | id_tRNA_OPELVcst, 0, 1, 2                       // v1 += 2
-| | id_tRNA_RGLVLV, 2, 1                            // v2 = genes at v1
-| | id_tRNA_CMPLVcst, 0, 2, -1, 3                   // v3 = v2==-1
-| | id_tRNA_INCLV, 1, 3                             // v3--
-| | id_tRNA_OPELVcst, 1, 1, 2                       // v1 -= 2
-| id_tRNA_SIJ
-| id_tRNA_SEJ
-id_tRNA_SWJ
-
-*v5 is a second stack ptr*
-id_tRNA_OPEcstcst, 0, 99, 3                         // stack ptr += 2 (leave room for ribosome)
-id_tRNA_PCSWI, 0,                                   // TOPS = 0
-id_tRNA_SLVaddr, 5, 99                              // v5 = stack ptr
-id_tRNA_SLVcst, 3, 1                                // v3 = 1
-
-*loop through DNA and copy func IDs on TOPS*
-id_tRNA_IF0, 3                                      // while v3
-|
-| id_tRNA_OPELVcst, 0, 1, 7                         // v1 += 7
-| id_tRNA_RGLVLV, 2, 1                              // v2 = genes at v1
-| id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4    // v4 = v2==MARKER  (to find end of DNA)
-| id_tRNA_IF0, 4                                    // if v4 (end of DNA)
-| |
-| | id_tRNA_OPELVcst, 0, 1, 2                       // v1 += 2
-| | id_tRNA_RGLVLV, 2, 1                            // v2 = genes at v1
-| | id_tRNA_CMPLVcst, 0, 2, -1, 3                   // v3 = v2==-1
-| | id_tRNA_INCLV, 1, 3                             // v3--
-| | id_tRNA_OPELVcst, 1, 1, 2                       // v1 -= 2
-| id_tRNA_SIJ
-| |
-| | id_tRNA_SLVcst, 6, GSTART_ID-1                  // v6 = DNA start marker
-| | id_tRNA_INCLV, 0, 6                             // idem
-| | id_tRNA_CMPLVLV, 0, 2, 6, 4                     // v4 = v2==v6
-| | id_tRNA_IF0, 4                                  // if v4 (new progtein DNA found)
-| | |
-| | | id_tRNA_INCLV, 0, 1                           // v1++
-| | | id_tRNA_INCLV, 0, 5                           // v5++
-| | | id_tRNA_INCS, 0                               // TOPS++
-| | | id_tRNA_RGLVLV, 6, 1,                         // v6 = genes at v1
-| | | id_tRNA_SDLVLV, 5, 6                          // *v5 = v6
-| | | id_tRNA_INCLV, 1, 1                           // v1--
-| | id_tRNA_SIJ
-| | id_tRNA_SEJ
-| id_tRNA_SEJ, 
-id_tRNA_SWJ
-
-id_tRNA_SP_GSPLV, 6                                 // var 6 <- stack ptr
-id_tRNA_GTSLV, 5                                    // var 5 <- TOPS (list size)
-id_tRNA_OPELVLV, 0, 6, 5                            // var 6 += var 5 (ptr to end of list)
-id_tRNA_INCLV, 0, 6                                 // var 6++
-id_tRNA_INCcst, 1, 99                               // stack ptr--
-id_tRNA_PLVSWI, 6                                   // TOPS <- var 6
-id_tRNA_INCcst, 1, 99                               // stack ptr--
-id_tRNA_PLVSWI, 6                                   // TOPS <- var 6
-id_tRNA_OPEcstcst, 1, 99, 2                         // stack ptr-=2
-
-id_tRNA_RET
-```
-
-
-#### functional code
-
-
-```{XASM class.source='foldable'}
-instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
-
-instruction::INC, 1, 0, 0, 99, 0, 0
-instruction::CPY, 1, 0, 0, 100, -7, 0,
-instruction::CPY, 1, 0, 0, 102, 1, 0,
-
-instruction::JRE, 0, 1, 0, 18, 102, 0,
-instruction::ADD, 1, 1, 0, 100, 100, 7
-instruction::GR, 1, 2, 0, 101, 100, 0,
-instruction::JRE, 0, 1, 0, 3, 101, instruction::MARKER,
-instruction::CPY, 1, 0, 0, 103, 0, 0,
-instruction::JRA, 0, 0, 0, 2, 0, 0,
-instruction::CPY, 1, 0, 0, 103, 1, 0,
-instruction::JRE, 0, 1, 0, 10, 103, 0,
-instruction::ADD, 1, 1, 0, 100, 100, 2,
-instruction::GR, 1, 2, 0, 101, 100, 0,
-instruction::JRE, 0, 1, 0, 3, 101, -1
-instruction::CPY, 1, 0, 0, 102, 0, 0,
-instruction::JRA, 0, 0, 0, 2, 0, 0,
-instruction::CPY, 1, 0, 0, 102, 1, 0,
-instruction::DEC, 1, 0, 0, 102, 0, 0,
-instruction::SUB, 1, 1, 0, 100, 100, 2,
-instruction::JRA, 0, 0, 0, 1, 0, 0,
-instruction::JRS, 0, 1, 0, 17, 0, 0,
-
-instruction::ADD, 1, 1, 0, 99, 99, 3,
-instruction::CPY, 2, 0, 0, 99, 0, 0,
-instruction::CPY, 1, 1, 0, 104, 99, 0,
-instruction::CPY, 1, 0, 0, 102, 1, 0,
-
-instruction::JRE, 0, 1, 0, 32, 102, 0,
-instruction::INC, 1, 1, 0, 100, 100, 7,
-instruction::GR, 1, 2, 0, 101, 100, 0,
-instruction::JRE, 0, 1, 0, 3, 101, instruction::MARKER,
-instruction::CPY, 1, 0, 0, 103, 0, 0,
-instruction::JRA, 0, 0, 0, 2, 0, 0,
-instruction::CPY, 1, 0, 0, 103, 1, 0,
-instruction::JRE, 0, 1, 0, 10, 103, 0,
-instruction::ADD, 1, 1, 0, 100, 100, 2,
-instruction::GR, 1, 2, 0, 101, 100, 0,
-instruction::JRE, 0, 1, 0, 3, 101, -1,
-instruction::CPY, 1, 0, 0, 102, 0, 0,
-instruction::JRA, 0, 0, 0, 2, 0, 0,
-instruction::CPY, 1, 0, 0, 102, 1, 0,
-instruction::DEC, 1, 0, 0, 102, 0, 0,
-instruction::SUB, 1, 1, 0, 100, 100, 2,
-instruction::JRA, 0, 0, 0, 15, 0, 0,
-instruction::CPY, 1, 0, 0, 105, -51452, 0,
-instruction::INC, 1, 0, 0, 105, 0, 0,
-instruction::JRE, 0, 1, 1, 3, 101, 105,
-instruction::CPY, 1, 0, 0, 103, 0, 0,
-instruction::JRA, 0, 0, 0, 2, 0, 0,
-instruction::CPY, 1, 0, 0, 103, 1, 0,
-instruction::JRE, 0, 1, 0, 8, 103, 0,
-instruction::INC, 1, 0, 0, 100, 0, 0,
-instruction::INC, 1, 0, 0, 104, 0, 0,
-instruction::INC, 2, 0, 0, 99, 0, 0,
-instruction::GR, 1, 2, 0, 105, 100, 0,
-instruction::CPY, 2, 1, 0, 104, 105, 0,
-instruction::DEC, 1, 0, 0, 100, 0, 0,
-instruction::JRA, 0, 0, 0, 1, 0, 0,
-instruction::JRS, 0, 0, 0, 31, 100, 0,
-
-instruction::CPY, 1, 1, 0, 105, 99, 0,
-instruction::CPY, 1, 2, 0, 104, 99, 0,
-instruction::ADD, 1, 1, 1, 105, 105, 104,
-instruction::INC, 1, 0, 0, 105, 0, 0,
-instruction::DEC, 1, 0, 0, 99, 0, 0,
-instruction::CPY, 2, 1, 0, 99, 105, 0,
-instruction::DEC, 1, 0, 0, 99, 0, 0,
-instruction::CPY, 2, 1, 0, 99, 105, 0,
-instruction::SUB, 1, 1, 0, 99, 99, 2,
-
-instruction::JMP, 2, 0, 0, 0, 0, 0,
-instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
-```
-
-
-## 100X2 : self-compilation - transcription
-
-### General info
-
-Goal : transcribe to progtein all funcs of the list built by the self-compilation func ID list builder
-
-Input : nothing
-Output : builds a list of progtein codes when executed several tmes ; executed once it will transcribe 
-    the code of the last progtein ID on ID list
+Output : builds a list of teleonomical code when executed several tmes ; executed once it will transcribe 
+    the code of the last progtein or processor ID on ID list
 
 This function transcribes the RNAs one by one : 
 It gets the last progtein ID of the list, transcribes it to a progtein, and decreases the func ID list size.
 
-### Variables
+## Description
+
+This processor is meta-sequential, i.e. the individual needs to call this processor several times 
+for it to work properly.
+
+More precisely, the first part is called as much as it should, after what the second part is 
+executed automatically.
+
+### First part : DNA transcription
+
+The meta-sequential transcriber gets the last ID of the list and decreases its size, 
+and then call the transcription process (RNAP + ribosome) to transcribe the DNA into functional code.
+After the transcription process has ended, the meta-sequential transcriber shift the func code 
+so that it is contiguous with previously transcribed code.
+ 
+### Second part 
+
+After all DNA functions have been transcribed, the meta-sequential transcriber writes the code 
+and DNA (TODO) into the output, and then (TODO) dumps the output into an available place in the environment.
+
+# Variables
 
 var 1 : position to transcribe code
 var 2 : ptr to end of transcribed code
@@ -280,19 +49,7 @@ var 7 : are we at end of transcription code ?
 var 8 : current pos in output to copy transcribed code
 
 
-During the execution of the code, the stack should look like this :
-
-
-end of transcribed code
-...
-begin of transcribed code
-list val
-list size
-end of transcribed code ptr
-beginning of transcribed code ptr
-
-
-### Pseudo-code
+# Pseudo-code
 
 ```{pseudo class.source='foldable'}
 get begin of transcribed code
@@ -322,11 +79,11 @@ Else
     copy transcribed code to output
 ```
 
-### Code
+# Code
 
-#### DNA code
+## DNA code
 
-**Raw code**
+### Raw code
 
 ```{DNA class.source='foldable'}
 GSTART_ID, 100X2, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_OPEcstcst, 
@@ -371,7 +128,7 @@ id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
 
 
-**Organised code**
+### Commented code
 
 ```{pseudoDNA class.source='foldable'}
 id_tRNA_OPEcstcst, 0, 99, 2         // stack ptr+=2 (to begin at right place and avoid overlap)
@@ -471,8 +228,9 @@ id_tRNA_RET
 ```
 
 
-#### functional code
+## Teleonomical code
 
+### XASM code
 
 ```{XASM class.source='foldable'}
 instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
@@ -594,4 +352,111 @@ instruction::JRA, 0, 0, 0, 1, 0, 0,
 instruction::JMP, 2, 0, 0, 0, 0, 0,
 
 instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 210, 0, 0, 0, 0,
+7, 1, 1, 0, 99, 99, 2,
+2, 1, 2, 0, 100, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 102, 99, 0,
+27, 0, 1, 0, 72, 102, 0,
+2, 1, 1, 0, 103, 99, 0,
+7, 1, 1, 1, 102, 102, 103,
+2, 1, 2, 0, 104, 102, 0,
+5, 1, 0, 0, 102, 0, 0,
+2, 2, 1, 0, 102, 103, 0,
+2, 1, 1, 0, 99, 102, 0,
+5, 1, 0, 0, 99, 0, 0,
+2, 2, 1, 0, 99, 104, 0,
+5, 1, 0, 0, 99, 0, 0,
+2, 2, 1, 0, 99, 104, 0,
+49, 0, 0, 0, 0, 207, 0,
+49, 0, 0, 0, 0, 206, 0,
+2, 1, 2, 0, 102, 99, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 103, 99, 0,
+7, 1, 1, 0, 99, 99, 3,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 101, 0, 0,
+2, 1, 1, 0, 99, 103, 0,
+6, 2, 0, 0, 99, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+6, 2, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 100, 99, 0,
+2, 2, 0, 0, 100, 46, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 1, 0, 100, 102, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 1, 1, 0, 104, 100, 0,
+7, 1, 1, 0, 104, 104, 5,
+27, 0, 1, 1, 3, 104, 101,
+2, 1, 0, 0, 105, 0, 0,
+20, 0, 0, 0, 2, 0, 0,
+2, 1, 0, 0, 105, 1, 0,
+6, 1, 0, 0, 105, 0, 0,
+27, 0, 1, 0, 10, 105, 0,
+2, 2, 2, 0, 100, 104, 0,
+5, 1, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 104, 0, 0,
+27, 0, 1, 1, 3, 104, 101,
+2, 1, 0, 0, 105, 0, 0,
+20, 0, 0, 0, 2, 0, 0,
+2, 1, 0, 0, 105, 1, 0,
+6, 1, 0, 0, 105, 0, 0,
+21, 0, 0, 0, 9, 0, 0,
+2, 2, 0, 0, 100, 46, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 1, 0, 100, 102, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 1, 0, 99, 100, 0,
+8, 1, 1, 0, 99, 99, 3,
+20, 0, 0, 0, 22, 0, 0,
+5, 1, 0, 0, 105, 0, 0,
+8, 1, 1, 1, 105, 105, 100,
+13, 0, 0, 0, 105, 0, 0,
+2, 1, 1, 0, 105, 100, 0,
+27, 0, 1, 1, 3, 105, 101,
+2, 1, 0, 0, 106, 0, 0,
+20, 0, 0, 0, 2, 0, 0,
+2, 1, 0, 0, 106, 1, 0,
+6, 1, 0, 0, 106, 0, 0,
+2, 1, 0, 0, 107, 0, 0,
+27, 0, 1, 0, 11, 106, 0,
+2, 1, 2, 0, 106, 105, 0,
+4, 1, 1, 0, 8, 106, 0,
+5, 1, 0, 0, 105, 0, 0,
+5, 1, 0, 0, 107, 0, 0,
+27, 0, 1, 1, 3, 105, 101,
+2, 1, 0, 0, 106, 0, 0,
+20, 0, 0, 0, 2, 0, 0,
+2, 1, 0, 0, 106, 1, 0,
+6, 1, 0, 0, 106, 0, 0,
+20, 0, 0, 0, 1, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 210, 0, 0, 0, 0,
 ```

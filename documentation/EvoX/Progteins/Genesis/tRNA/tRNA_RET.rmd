@@ -1,0 +1,133 @@
+---
+title: Documentation of return tRNA
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribed the RNA of the return instruction, i.e. the end of function.
+In the JMP01 architecture, it corresponds to a jump back to the meta-exec function.
+
+
+Arg : nothing
+Output : code of the 'return' amino acid
+
+# Variables
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+Init E site
+
+Writes the instruction JMP, 2, 0, 0, 0, 0, 0 at the E site
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_RET, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
+id_tRNA_MInstr, instruction::JMP, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
+id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site and E site*
+id_tRNA_MP
+id_tRNA_ME 
+
+*write amino acid JMP, 2, 0, 0, 0, 0, 0*
+id_tRNA_MInstr, instruction::JMP
+id_tRNA_M2
+id_tRNA_M0
+id_tRNA_M0
+id_tRNA_M0
+id_tRNA_M0 
+id_tRNA_M0
+
+id_tRNA_RET
+```
+
+
+## teleonomical code code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 9999, 0, 0, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, instruction::JMP, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 2, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 9999, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 9999, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+5, 1, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 19, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 9999, 0, 0, 0, 0,
+```
+

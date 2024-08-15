@@ -1,0 +1,35 @@
+---
+title: tRNA documentation
+---
+
+This folder contains the documentation of some special progteins : tRNAs.
+
+
+# General info
+
+tRNA progteins are atomic interpretation units : given an opcode/function ID/teleonomical ID it will transcribe the RNA into teleonomical code.
+After the DNA gene has been isolated into the stack as a RNA, the ribosome will transcribe the RNA sequentially into a teleonomical progtein by calling the tRNAs.
+A tRNA transcribed an atomic part of the tRNA (few codons) into a molecule in the body called amino acid : at the end if k tRNA have been called we would have a final progtein composed of k amino acids.
+
+By analogy with biology, the atomic structures that the tRNAs are concatenating in the E-site will be called progteinogenic amino acids.
+
+## Summary
+
+* 9999 : tRNA_RET
+
+
+# Details
+
+You can find the IDs of the tRNAs in the Constants.hpp file.
+tRNA IDs goes from 9999 ('return' tRNA) to 15000+ (15000 and more are special tRNAs).
+
+## P site initialisation
+
+Also called ribosome ptr, the tRNA gets it from the top of stack and increases it each time 
+it reads a RNA codon.
+
+## E site initialisation
+
+Also called exit ptr, the tRNA gets it from stack (second element after top of stack) and increases 
+it each time it writes a codon.
+It corresponds to the place where the current amino acid is being transcribed to build the progtein.

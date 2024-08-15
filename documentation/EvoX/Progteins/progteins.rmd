@@ -1,0 +1,24 @@
+---
+title: Progteins documentation
+---
+
+This folder contains the documentation of progteins necessary for the basic working of the EvoX algo.
+
+# General info
+
+A progtein is an atomic teleonomical unit, in the sense that it does not call any other progtein.
+
+# Teleonomical summary
+
+## Genesis progteins
+
+The 'Genesis' folder dcoments the progteins necessary for the genesis of individuals.
+This paragraph summarises them.
+
+* 100X1 : self-compilation func ID List
+
+### tRNA progteins
+
+tRNA progteins ar a special case of genesis progteins
+
+* 9999 : tRNA_RET
