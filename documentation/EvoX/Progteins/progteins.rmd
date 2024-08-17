@@ -22,3 +22,22 @@ This paragraph summarises them.
 tRNA progteins ar a special case of genesis progteins
 
 * 9999 : tRNA_RET
+
+*Meta tRNAs*
+* 14000 : tRNA_MP
+* 14010 : tRNA_ME
+* 14100 : tRNA_Mcst
+* 14101 : tRNA_M0
+* 14102 : tRNA_M1
+* 14103 : tRNA_M2
+* 14104 : tRNA_M3
+* 14201 : tRNA_MCPY
+* 14300 : tRNA_Marg
+* 14310 : tRNA_MLV
+
+*Special tRNAs*
+* 15000 : tRNA_GPTR
+* 15001 : tRNA_SP_FCTADD
+* 15002 : tRNA_SP_GFPTRLV
+* 15003 : tRNA_SP_GSPLV
+* 15004 : tRNA_SP_GCPY

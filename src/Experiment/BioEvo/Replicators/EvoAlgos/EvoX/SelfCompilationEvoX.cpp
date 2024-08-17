@@ -764,10 +764,10 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         GSTART_ID, id_tRNA_ME, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
         id_tRNA_MInstr, instruction::DEC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, 
         id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, 
-        id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+        101, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M1, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, 
+        instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
         // tRNA_Mcst
 
@@ -824,7 +824,8 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
         id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M3, id_tRNA_M0, id_tRNA_Mcst, 
         101, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, 
-        id_tRNA_M2, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID,
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET,
+        GSTOP_ID, 0, 0, 0, 0, 0, 0,
 
         // tRNA_MLV
 
@@ -833,8 +834,8 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, instruction::ADD, id_tRNA_M1, id_tRNA_M1, id_tRNA_M3, 
         id_tRNA_Mcst, 103, id_tRNA_Mcst, 98, id_tRNA_Mcst, 100, id_tRNA_MCPY, 
         id_tRNA_M3, id_tRNA_M2, id_tRNA_M0, id_tRNA_Mcst, 101, id_tRNA_Mcst, 103, 
-        id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M2, id_tRNA_Mcst, 100, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+        id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
 
         // tRNA_SP_GPTR
 
