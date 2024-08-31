@@ -344,140 +344,139 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         GSTART_ID, id_tRNA_CVARS, id_tRNA_CVARS, LV_place, 2, id_tRNA_IVARS, id_tRNA_MP, 
         id_tRNA_SLVDLV, 2, 1, id_tRNA_SLVDLV, 2, 2, id_tRNA_ScstLV, 
-        98, 2, id_tRNA_INCDLV, 1, id_tRNA_SLVDLV, 2, 1, 
-        id_tRNA_SLVDLV, 2, 2, id_tRNA_ScstLV, 98, 2, id_tRNA_INCDLV, 
-        1, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        98, 2, id_tRNA_INCDLV, 1, id_tRNA_SLVDLV, 3, 1, 
+        id_tRNA_SDLVDLV, 2, 3, id_tRNA_INCDLV, 1, id_tRNA_RET, GSTOP_ID,
 
         // tRNA_IVARS
 
         GSTART_ID, id_tRNA_IVARS, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_MP,
         id_tRNA_SLVaddr, 2, 98, id_tRNA_SLVLV, 3, 2, id_tRNA_SLVDLV,
-        4, 2, id_tRNA_OPELVLV, 0, 3, 4, id_tRNA_CMPLVLV, 
-        1, 2, 3, 5, id_tRNA_IF0, 5, id_tRNA_INCLV, 
-        0, 2, id_tRNA_SDLVLV, 2, 4, id_tRNA_INCLV, 0, 
-        4, id_tRNA_CMPLVLV, 1, 2, 3, 5, id_tRNA_SWJ, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        4, 2, id_tRNA_OPELVLV, 0, 3, 4, id_tRNA_SLVcst, 
+        4, 100, id_tRNA_CMPLVLV, 1, 2, 3, 5, 
+        id_tRNA_IF0, 5, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVLV, 2, 
+        4, id_tRNA_INCLV, 0, 4, id_tRNA_CMPLVLV, 1, 2, 
+        3, 5, id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0,
 
         // tRNA_SLVcst
 
-        GSTART_ID, id_tRNA_SLVcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SLVcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_SDLVcst
 
-        GSTART_ID, id_tRNA_SDLVcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SDLVcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_SLVLV
 
-        GSTART_ID, id_tRNA_SLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_SDLVLV
 
-        GSTART_ID, id_tRNA_SDLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SDLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
-        // tRNA_SLVLV
+        // tRNA_SLVDLV
 
-        GSTART_ID, id_tRNA_SLVDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SLVDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_SDLVDLV
 
-        GSTART_ID, id_tRNA_SDLVDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SDLVDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_ScstLV
 
-        GSTART_ID, id_tRNA_ScstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_ScstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_SLVaddr
 
-        GSTART_ID, id_tRNA_SLVaddr, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SLVaddr, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
         // tRNA_RGLVLV
 
-        GSTART_ID, id_tRNA_RGLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GR, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV,  id_tRNA_MLV, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_RGLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GR, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_WGDLV
 
-        GSTART_ID, id_tRNA_WGDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GR, id_tRNA_M2, id_tRNA_M2, id_tRNA_M2, id_tRNA_MLV,  id_tRNA_MLV, 
-        id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_WGDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M2, id_tRNA_MLV, 
+        id_tRNA_MLV, id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 
         // tRNA_GILV
 
-        GSTART_ID, id_tRNA_GILV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GILV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GDILV
 
-        GSTART_ID, id_tRNA_GDILV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GDILV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GIDLV
 
-        GSTART_ID, id_tRNA_GDILV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GDILV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GDIDLV
 
-        GSTART_ID, id_tRNA_GDIDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GDIDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYIN, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GTSLV
 
-        GSTART_ID, id_tRNA_GTSLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GTSLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GTSLVD
 
-        GSTART_ID, id_tRNA_GTSLVD, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        99, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_GTSLVD, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_MInstr, instruction::DEC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_GTSDLV
 
-        GSTART_ID, id_tRNA_GTSDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GTSDLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GLVO
 
-        GSTART_ID, id_tRNA_GLVO, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYOUT, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, id_tRNA_MLV, 
-        99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+        GSTART_ID, id_tRNA_GLVO, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYOUT, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, 
+        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_IFO
 
-        GSTART_ID, id_tRNA_IF0, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::JRE, id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, -142857, 
-        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+        GSTART_ID, id_tRNA_IF0, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::JRE, id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 
+        -142857, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 
 
         // tRNA_SIJ
 
-        GSTART_ID, id_tRNA_SIJ, id_tRNA_CVARS, LV_place, 6, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::JRA, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_INCDLV, 0, 
-        2, id_tRNA_SLVDLV, 4, 3, 2, id_tRNA_SDLVcst, 4, 
+        GSTART_ID, id_tRNA_SIJ, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::JRA, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_INCDLV, 
+        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVcst, 4, 
         -285714, id_tRNA_M0, id_tRNA_M0, id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 
         5, 1, id_tRNA_OPELVcst, 1, 2, 2, id_tRNA_SLVDLV, 
         6, 3, id_tRNA_CMPLVcst, 0, 6, -142857, 6, 
@@ -489,390 +488,403 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // tRNA_SEJ
 
-        GSTART_ID, id_tRNA_SEJ, id_tRNA_CVARS, LV_place, 5, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 4, 1, id_tRNA_OPELVcst, 
-        1, 2, 2, id_tRNA_SLVDLV, 6, 3, id_tRNA_CMPLVcst, 
+        GSTART_ID, id_tRNA_SEJ, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 4, 1, 
+        id_tRNA_OPELVcst, 1, 2, 2, id_tRNA_SLVDLV, 5, 3, 
+        id_tRNA_CMPLVcst, 0, 5, -285714, 5, id_tRNA_INCLV, 1, 
+        5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 1, 3, 7, 
+        id_tRNA_INCLV, 0, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_CMPLVcst, 
         0, 5, -285714, 5, id_tRNA_INCLV, 1, 5, 
-        id_tRNA_IF0, 5, id_tRNA_OPELVcst, 1, 3, 7, id_tRNA_INCLV, 
-        0, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_CMPLVcst, 0, 
-        5, -285714, 5, id_tRNA_INCLV, 1, 5, id_tRNA_SWJ, 
-        id_tRNA_SDLVLV, 3, 4, id_tRNA_RET, GSTOP_ID, 0, 0,
+        id_tRNA_SWJ, id_tRNA_SDLVLV, 3, 4, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_SWJ
 
-        GSTART_ID, id_tRNA_SWJ, id_tRNA_CVARS, LV_place, 6, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 4, 1, id_tRNA_OPELVcst, 
-        1, 2, 2, id_tRNA_CMPLVcst, 0, 5, -142857, 
-        5, id_tRNA_INCLV, 1, 5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 
-        1, 3, 7, id_tRNA_INCLV, 0, 4, id_tRNA_SLVDLV, 
-        5, 3, id_tRNA_CMPLVcst, 0, 5, -142857, 5, 
-        id_tRNA_INCLV, 1, 5, id_tRNA_SWJ, id_tRNA_SDLVLV, 3, 4, 
-        id_tRNA_INCDLV, 0, 3, id_tRNA_MInstr, instruction::JRS, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 6, 2, 
-        id_tRNA_SDLVLV, 6, 4, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID,
+        GSTART_ID, id_tRNA_SWJ, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 4, 1, 
+        id_tRNA_OPELVcst, 1, 2, 2, id_tRNA_SLVDLV, 5, 3,
+        id_tRNA_CMPLVcst, 0, 5, -142857, 5, id_tRNA_INCLV, 1, 
+        5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 1, 3, 7, 
+        id_tRNA_INCLV, 0, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_CMPLVcst, 
+        0, 5, -142857, 5, id_tRNA_INCLV, 1, 5, 
+        id_tRNA_SWJ, id_tRNA_SDLVLV, 3, 4, id_tRNA_INCDLV, 0, 3, 
+        id_tRNA_MInstr, instruction::JRS, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_INCDLV, 0, 
+        2, id_tRNA_SLVDLV, 6, 2, id_tRNA_SDLVLV, 6, 4, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_JLV
 
-        GSTART_ID, id_tRNA_JLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::JMP, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_JLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::JMP, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_SOScst
 
-        GSTART_ID, id_tRNA_SOScst, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::SETOS, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_Marg, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SOScst, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::SETOS, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_Marg, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_SOSLV
 
-        GSTART_ID, id_tRNA_SOSLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::SETOS, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SOSLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::SETOS, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GISLV
 
-        GSTART_ID, id_tRNA_GISLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYIS, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GISLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYIS, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_PCSI
 
-        GSTART_ID, id_tRNA_PCSI, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_INCDLV,
-        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVcst, 4, 
-        99, id_tRNA_Mcst, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_PCSI, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 99, id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_PLVSI
 
-        GSTART_ID, id_tRNA_PLVSI, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_INCDLV,
-        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVcst, 4, 
-        99, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_PLVSI, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, 
+        id_tRNA_Mcst, 99, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_PCSWI
 
-        GSTART_ID, id_tRNA_PCSWI, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_Mcst, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_PCSWI, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_PLVSWI
 
-        GSTART_ID, id_tRNA_PLVSWI, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_MLV, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_PLVSWI, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 99, 
+        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_CMPLVcst
 
-        GSTART_ID, id_tRNA_CMPLVcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRE, id_tRNA_SIJ, id_tRNA_CMPLVcst, 
-        0, 3, 1, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 
-        3, instruction::JRL, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 2, 
-        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRG, id_tRNA_SIJ, 
-        id_tRNA_CMPLVcst, 0, 3, 3, 4, id_tRNA_IF0, 4, 
-        id_tRNA_SLVcst, 3, instruction::JRLE, id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::JRGE, 
-        id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, 
-        id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M0, 
-        id_tRNA_M1, id_tRNA_M0, id_tRNA_M3, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_MCPY, id_tRNA_M1,
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, instruction::JRA,
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, 
-        id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M1, id_tRNA_M0, id_tRNA_RET,
-        GSTOP_ID, 0, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_CMPLVcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRE, id_tRNA_SIJ, 
+        id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+        id_tRNA_SLVcst, 3, instruction::JRL, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+        2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRG, 
+        id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 3, 4, id_tRNA_IF0, 
+        4, id_tRNA_SLVcst, 3, instruction::JRLE, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 
+        instruction::JRGE, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 
+        2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, 
+        id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_M3, id_tRNA_MLV, id_tRNA_Marg, id_tRNA_MCPY, 
+        id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, 
+        instruction::JRA, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLVW, id_tRNA_M1, id_tRNA_M0, 
+        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0, 
 
         // tRNA_CMPLVLV
 
-        GSTART_ID, id_tRNA_CMPLVLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRE, id_tRNA_SIJ, id_tRNA_CMPLVcst, 
-        0, 3, 1, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 
-        3, instruction::JRL, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 2, 
-        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRG, id_tRNA_SIJ, 
-        id_tRNA_CMPLVcst, 0, 3, 3, 4, id_tRNA_IF0, 4, 
-        id_tRNA_SLVcst, 3, instruction::JRLE, id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::JRGE, 
-        id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, 
-        id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M0, 
-        id_tRNA_M1, id_tRNA_M1, id_tRNA_M3, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_MCPY, id_tRNA_M1,
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, instruction::JRA,
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, 
-        id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M1, id_tRNA_M0, id_tRNA_RET,
-        GSTOP_ID, 0, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_CMPLVLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4,id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRE, id_tRNA_SIJ, 
+        id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+        id_tRNA_SLVcst, 3, instruction::JRL, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+        2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRG, 
+        id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 3, 4, id_tRNA_IF0, 
+        4, id_tRNA_SLVcst, 3, instruction::JRLE, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 
+        instruction::JRGE, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 
+        2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, 
+        id_tRNA_M0, id_tRNA_M1, id_tRNA_M1, id_tRNA_M3, id_tRNA_MLV, id_tRNA_MLV, id_tRNA_MCPY, 
+        id_tRNA_M1,id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, 
+        instruction::JRA, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLVW, id_tRNA_M1, id_tRNA_M0, 
+        id_tRNA_RET,GSTOP_ID, 0, 0, 0, 0, 0, 
 
         // tRNA_OPEcstcst
 
-        GSTART_ID, id_tRNA_OPEcstcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4, 
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, id_tRNA_CMPLVcst, 
-        0, 3, 1, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 
-        3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 2, 
-        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, id_tRNA_SIJ, 
-        id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 
-        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 
-        3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, id_tRNA_INCDLV, 1, 
-        1, id_tRNA_Marg, id_tRNA_Marg, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_OPEcstcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, 
+        id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+        id_tRNA_SLVcst, 3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+        2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, 
+        id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, 
+        id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 
+        4, 3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MargW, id_tRNA_Marg, 
+        id_tRNA_Marg, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
         // tRNA_OPEcstLV
 
-        GSTART_ID, id_tRNA_OPEcstLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4, 
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, id_tRNA_CMPLVcst, 
-        0, 3, 1, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 
-        3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 2, 
-        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, id_tRNA_SIJ, 
-        id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 
-        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 
-        3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, id_tRNA_INCDLV, 1, 
-        1, id_tRNA_Marg, id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_OPEcstLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, 
+        id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+        id_tRNA_SLVcst, 3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+        2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, 
+        id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, 
+        id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 
+        4, 3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MargW, id_tRNA_Marg, 
+        id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_OPELVcst
 
-        GSTART_ID, id_tRNA_OPELVcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, id_tRNA_CMPLVcst, 
-        0, 3, 1, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 
-        3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 2, 
-        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, id_tRNA_SIJ, 
-        id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 
-        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 
-        3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_INCDLV, 1, 
-        1, id_tRNA_MLV, id_tRNA_Marg, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_OPELVcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4,id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, 
+        id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+        id_tRNA_SLVcst, 3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+        2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, 
+        id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, 
+        id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 
+        4, 3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLVW, 
+        id_tRNA_Marg, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
         // tRNA_OPELVLV
 
-        GSTART_ID, id_tRNA_OPELVLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, id_tRNA_CMPLVcst, 
-        0, 3, 1, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 
-        3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 2, 
-        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, id_tRNA_SIJ, 
-        id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_INCDLV, 
-        0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 
-        3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M1, id_tRNA_MLV, id_tRNA_INCDLV, 1, 
-        1, id_tRNA_MLV, id_tRNA_Marg, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_OPELVLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4,id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, 
+        id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+        id_tRNA_SLVcst, 3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+        2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, 
+        id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, 
+        id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 
+        4, 3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M1, id_tRNA_MLV, id_tRNA_MLVW, 
+        id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
         // tRNA_INCcst
 
-        GSTART_ID, id_tRNA_INCcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, id_tRNA_SLVcst, 
-        3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 
-        4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M1, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_Marg, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0,
+        GSTART_ID, id_tRNA_INCcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, 
+        id_tRNA_SLVcst, 3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, 
+        id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M1, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_Marg, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 
 
         // tRNA_INCLV
 
-        GSTART_ID, id_tRNA_INCLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, id_tRNA_SLVcst, 
-        3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 
-        4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M1, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0,
+        GSTART_ID, id_tRNA_INCLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, 
+        id_tRNA_SLVcst, 3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, 
+        id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M1, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 
 
         // tRNA_INCDLV
 
-        GSTART_ID, id_tRNA_INCDLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, id_tRNA_SLVcst, 
-        3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 
-        4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M2, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0,
+        GSTART_ID, id_tRNA_INCDLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, 
+        id_tRNA_SLVcst, 3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, 
+        id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M2, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 
 
         // tRNA_INCS
 
-        GSTART_ID, id_tRNA_INCS, id_tRNA_CVARS, LV_place, 4, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, id_tRNA_INCLV, 
-        0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 4,
-        id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, id_tRNA_SLVcst, 
-        3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 
-        4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M2, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID,
+        GSTART_ID, id_tRNA_INCS, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::INC, id_tRNA_SIJ, 
+        id_tRNA_SLVcst, 3, instruction::DEC, id_tRNA_SEJ, id_tRNA_INCDLV, 0, 2, 
+        id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 4, 3, id_tRNA_M2, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, 
+        GSTOP_ID, 0, 0, 0, 0, 0, 0,
 
         // tRNA_CALLcst
 
-        GSTART_ID, id_tRNA_CALLcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CALL, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_CALLcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CALL, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_CALLLV
 
-        GSTART_ID, id_tRNA_CALLLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CALL, id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_CALLLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CALL, id_tRNA_M0, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GScstcst
 
-        GSTART_ID, id_tRNA_GScstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GSET, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Marg, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GScstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GSET, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Marg, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GScstLV
 
-        GSTART_ID, id_tRNA_GScstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GSET, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, id_tRNA_MLV, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GScstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GSET, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, 
+        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GSLVcst
 
-        GSTART_ID, id_tRNA_GSLVcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GSET, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GSLVcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GSET, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_GSLVLV
 
-        GSTART_ID, id_tRNA_GSLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GSET, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Marg, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_GSLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GSET, id_tRNA_M2, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_USLV
 
-        GSTART_ID, id_tRNA_USLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::CPYUS, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_USLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::CPYUS, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_RULV
 
-        GSTART_ID, id_tRNA_USLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::READ, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_USLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::READ, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_HALT
 
-        GSTART_ID, id_tRNA_HALT, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::HALT, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_HALT, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::HALT, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
 
         // tRNA_MP
 
-        GSTART_ID, id_tRNA_MP, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_Mcst, 
-        99, id_tRNA_MLV, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0,
+        GSTART_ID, id_tRNA_MP, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 100, 
+        id_tRNA_Mcst, 99, id_tRNA_MLV, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 
 
         // tRNA_ME
 
-        GSTART_ID, id_tRNA_ME, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::DEC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M1, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, 
-        instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_ME, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::DEC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, 
+        id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_MInstr, instruction::INC, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_Mcst
 
-        GSTART_ID, id_tRNA_Mcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_Mcst, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_M0
 
-        GSTART_ID, id_tRNA_M0, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_M0, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_M1
 
-        GSTART_ID, id_tRNA_M1, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_M1, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_M1, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_M1, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_M2
 
-        GSTART_ID, id_tRNA_M2, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_M2, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_M2, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_M2, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_M3
 
-        GSTART_ID, id_tRNA_M3, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst,
-        101, id_tRNA_M3, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_M3, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst,101, id_tRNA_M3, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_MInstr
 
-        GSTART_ID, id_tRNA_MInstr, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_MInstr, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_MCPY
 
-        GSTART_ID, id_tRNA_MCPY, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_MCPY, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_MCPY, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_MCPY, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
 
         // tRNA_Marg
 
-        GSTART_ID, id_tRNA_Marg, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M3, id_tRNA_M0, id_tRNA_Mcst, 
-        101, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET,
-        GSTOP_ID, 0, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_Marg, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M3, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, 
+        id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0, 
+
+        // tRNA_MargW
+
+        GSTART_ID, id_tRNA_MargW, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M3, id_tRNA_M0, 
+        id_tRNA_Mcst, 101, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_RET, GSTOP_ID,
 
         // tRNA_MLV
 
-        GSTART_ID, id_tRNA_MLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 101, 
-        id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, instruction::ADD, id_tRNA_M1, id_tRNA_M1, id_tRNA_M3, 
-        id_tRNA_Mcst, 103, id_tRNA_Mcst, 98, id_tRNA_Mcst, 100, id_tRNA_MCPY, 
-        id_tRNA_M3, id_tRNA_M2, id_tRNA_M0, id_tRNA_Mcst, 101, id_tRNA_Mcst, 103, 
-        id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
-        100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0,
+        GSTART_ID, id_tRNA_MLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MInstr, instruction::ADD, id_tRNA_M1, id_tRNA_M1, 
+        id_tRNA_M3, id_tRNA_Mcst, 103, id_tRNA_Mcst, 98, id_tRNA_Mcst, 100, 
+        id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M2, id_tRNA_M0, id_tRNA_Mcst, 101, id_tRNA_Mcst, 
+        103, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 
+
+        // tRNA_MLVW
+
+        GSTART_ID, id_tRNA_MLVW, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+        101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M2, id_tRNA_M0,
+        id_tRNA_Mcst, 101, id_tRNA_Mcst, 103, id_tRNA_M0, id_tRNA_RET, GSTOP_ID,
 
         // tRNA_SP_GPTR
 
-        GSTART_ID, id_tRNA_SP_GPTR, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GPTR, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SP_GPTR, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GPTR, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_SP_FCTADD
 
-        GSTART_ID, id_tRNA_SP_FCTADD, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::ADD, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_M3, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SP_FCTADD, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::ADD, id_tRNA_M2, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_M3, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_SP_GFPTRLV
 
-        GSTART_ID, id_tRNA_SP_GFPTRLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SP_GFPTRLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // tRNA_SP_GSPLV
 
-        GSTART_ID, id_tRNA_SP_GSPLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 99, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SP_GSPLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 
+        99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_SP_GCPY
 
-        GSTART_ID, id_tRNA_SP_GCPY, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::GCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M2, id_tRNA_MLV, id_tRNA_MLV, 
-        id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+        GSTART_ID, id_tRNA_SP_GCPY, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GCPY, id_tRNA_M2, id_tRNA_M2, id_tRNA_M2, id_tRNA_MLV, 
+        id_tRNA_MLV, id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
         // tRNA_RET
 
-        GSTART_ID, id_tRNA_RET, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-        id_tRNA_MInstr, instruction::JMP, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
-        id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0
-
+        GSTART_ID, id_tRNA_RET, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::JMP, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, 
+        id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0
 
     };
 
