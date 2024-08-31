@@ -217,7 +217,9 @@ const int id_tRNA_MInstr = 14200;
 const int id_tRNA_MCPY = 14201;
 
 const int id_tRNA_Marg = 14300;
+const int id_tRNA_MargW = 14301;
 const int id_tRNA_MLV = 14310;
+const int id_tRNA_MLVW = 14311;
 
 
 const int id_tRNA_HALT = 14999;

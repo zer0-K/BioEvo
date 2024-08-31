@@ -1,0 +1,189 @@
+---
+title: Documentation of the while jump tRNA
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribes the RNA that sets the while jump size.
+Like the SIJ tRNA, the SWJ looks for the IF0 token -142857.
+
+
+Arg : nothing
+Output : code of the '' amino acid
+
+# Variables
+
+var 1 : ribosome ptr
+var 2 : exit ptr
+var 3 : loop var
+var 4 : jump size
+var 5 : var 3==-142857
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+Init E site
+
+Writes the instructions
+* 
+at the E site
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_SWJ, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 4, 1, 
+id_tRNA_OPELVcst, 1, 2, 2, id_tRNA_SLVDLV, 5, 3,
+id_tRNA_CMPLVcst, 0, 5, -142857, 5, id_tRNA_INCLV, 1, 
+5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 1, 3, 7, 
+id_tRNA_INCLV, 0, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_CMPLVcst, 
+0, 5, -142857, 5, id_tRNA_INCLV, 1, 5, 
+id_tRNA_SWJ, id_tRNA_SDLVLV, 3, 4, id_tRNA_INCDLV, 0, 3, 
+id_tRNA_MInstr, instruction::JRS, id_tRNA_M0, id_tRNA_M0, id_tRNA_M0, id_tRNA_INCDLV, 0, 
+2, id_tRNA_SLVDLV, 6, 2, id_tRNA_SDLVLV, 6, 4, 
+id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site and E site*
+id_tRNA_MP
+id_tRNA_ME 
+
+id_tRNA_SLVDLV, 3, 2                // var3 <- E-site ptr
+id_tRNA_SLVcst, 4, 1,               // var4 <- 1
+id_tRNA_OPELVcst, 1, 2, 2           // var 2 -= 2
+id_tRNA_SLVDLV, 5, 3,
+id_tRNA_CMPLVcst, 0, 5, -142857, 5  // var3 == IF0 token
+id_tRNA_INCLV, 1, 5
+
+id_tRNA_IF0, 5 
+| id_tRNA_OPELVcst, 1, 3, 7         // var 3 -= 7
+| id_tRNA_INCLV, 0, 4               // var4+=
+| id_tRNA_SLVDLV, 5, 3
+| id_tRNA_CMPLVcst, 0, 5, -142857, 5
+| id_tRNA_INCLV, 1, 5
+id_tRNA_SWJ
+
+id_tRNA_SDLVLV, 3, 4                // &IF0 token <- jump size
+id_tRNA_INCDLV, 0, 3                // *var3++
+
+*write amino acid JRS, 0, 0, 0, var, 0, 0*
+id_tRNA_MInstr, instruction::JRS
+id_tRNA_M0 
+id_tRNA_M0
+id_tRNA_M0
+id_tRNA_INCDLV, 0, 2
+id_tRNA_SLVDLV, 6, 2
+id_tRNA_SDLVLV, 6, 4
+id_tRNA_M0
+id_tRNA_M0
+
+id_tRNA_RET
+```
+
+
+## teleonomical code code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 10800, 0, 0, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+
+
+instruction::CPY, 1, 2, 0, 102, 101, 0, 
+instruction::CPY, 1, 0, 0, 103, 1, 0, 
+instruction::SUB, 1, 1, 0, 102, 102, 2, 
+
+instruction::JRE, 0, 2, 0, 4, 102, -142857,
+instruction::SUB, 1, 1, 0, 102, 102, 7, 
+instruction::INC, 1, 0, 0, 103, 0, 0,   
+instruction::JRS, 0, 0, 0, 3, 0, 0, 
+instruction::CPY, 2, 1, 0, 102, 103, 0, 
+instruction::INC, 2, 0, 0, 102, 0, 0,   
+
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, instruction::JRS, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 1, 0, 101, 103, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0
+
+instruction::MARKER, 0, 10800, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 10800, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+5, 1, 0, 0, 101, 0, 0,
+2, 1, 2, 0, 102, 101, 0,
+2, 1, 0, 0, 103, 1, 0,
+8, 1, 1, 0, 102, 102, 2,
+27, 0, 2, 0, 4, 102, -142857,
+8, 1, 1, 0, 102, 102, 7,
+5, 1, 0, 0, 103, 0, 0,
+21, 0, 0, 0, 3, 0, 0,
+2, 2, 1, 0, 102, 103, 0,
+5, 2, 0, 0, 102, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 21, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 1, 0, 101, 103, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 10800, 0, 0, 0, 0,
+```

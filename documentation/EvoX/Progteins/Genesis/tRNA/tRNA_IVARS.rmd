@@ -1,0 +1,117 @@
+---
+title: Documentation of the heap var init tRNA
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribes the RNA that initialises the variable heap for genetic transcription.
+Will init the names of the variables from 100 to 99+n where n is the number of variables.
+
+Arg : nothing
+Output : code of the '' amino acid
+
+# Variables
+
+var 1 : ribosome ptr
+var 2 : var heap ptr
+var 3 : last var pos on the var heap
+var 4 : var name
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_IVARS, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_MP,
+id_tRNA_SLVaddr, 2, 98, id_tRNA_SLVLV, 3, 2, id_tRNA_SLVDLV,
+4, 2, id_tRNA_OPELVLV, 0, 3, 4, id_tRNA_SLVcst, 
+4, 100, id_tRNA_CMPLVLV, 1, 2, 3, 5, 
+id_tRNA_IF0, 5, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVLV, 2, 
+4, id_tRNA_INCLV, 0, 4, id_tRNA_CMPLVLV, 1, 2, 
+3, 5, id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0,
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site*
+id_tRNA_MP
+
+*set pointers and vars before loop*
+id_tRNA_SLVaddr, 2, 98          // var2 <- var heap ptr
+id_tRNA_SLVLV, 3, 2             // var3 <- var2
+id_tRNA_SLVDLV, 4, 2            // var4 <- nb of vars
+id_tRNA_OPELVLV, 0, 3, 4        // var3 <- pos of last var
+id_tRNA_SLVcst, 4, 100          // var4 <- 100
+id_tRNA_CMPLVLV, 1, 2, 3, 5
+
+*set names for all vars of the heap*
+id_tRNA_IF0, 5                  // while var 5 != end of var heap
+| id_tRNA_INCLV, 0, 2           // heap ptr++
+| id_tRNA_SDLVLV, 2, 4          // val at heap ptr <- var4
+| id_tRNA_INCLV, 0, 4           // var4++
+| id_tRNA_CMPLVLV, 1, 2, 3, 5
+id_tRNA_SWJ
+
+id_tRNA_RET
+```
+
+
+## teleonomical code code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 10001, 0, 0, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::CPY, 1, 1, 0, 101, 98, 0,
+instruction::CPY, 1, 1, 0, 102, 101, 0,
+instruction::ADD, 1, 1, 2, 102, 102, 98,
+instruction::CPY, 1, 0, 0, 103, 100, 0,
+instruction::JRGE, 0, 1, 1, 5, 101, 102,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+instruction::CPY, 2, 1, 0, 101, 103, 0,
+instruction::INC, 1, 0, 0, 103, 0, 0,
+instruction::JRS, 0, 0, 0, 4, 0, 0,
+
+instruction::JMP, 2, 0, 0, 0, 0, 0
+
+instruction::MARKER, 0, 10001, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 10001, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+2, 1, 1, 0, 101, 98, 0,
+2, 1, 1, 0, 102, 101, 0,
+7, 1, 1, 2, 102, 102, 98,
+2, 1, 0, 0, 103, 100, 0,
+31, 0, 1, 1, 5, 101, 102,
+5, 1, 0, 0, 101, 0, 0,
+2, 2, 1, 0, 101, 103, 0,
+5, 1, 0, 0, 103, 0, 0,
+21, 0, 0, 0, 4, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 10001, 0, 0, 0, 0,
+```

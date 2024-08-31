@@ -1,5 +1,5 @@
 ---
-title: Documentation of the P-site meta tRNA
+title: Documentation of the second local variable meta tRNA
 output: 
   html_document:
     code_folding: hide
@@ -8,12 +8,11 @@ output:
 
 # General info
 
-Goal : This tRNA transcribes the meta RNA for the P-site.
-The P-site is the ribosome ptr, location where the tRNA reads the RNA.
+Goal : This tRNA transcribes the meta RNA for local variables (without increment of the metavar stack).
 
 
 Arg : nothing
-Output : code of the 'P-site' amino acid
+Output : code of the 'MLVW' amino acid
 
 # Variables
 
@@ -27,11 +26,9 @@ var 3 : tmp var
 Init P site
 Init E site
 
-Writes the instructions
-* DEC, 1, 0, 0, 99, 0, 0
-* CPY, 1, 2, 0, 101, 99, 0
-* INC, 1, 0, 0, 99, 0, 0
-* INC, 1, 0, 0, 101, 0, 0
+Writes the instructions : 
+* INC, 2, 0, 0, 101, 0, 0 
+* CPY, 3, 2, 0, 101, 103, 0
 at the E site
 ```
 
@@ -42,10 +39,10 @@ at the E site
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, id_tRNA_MP, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_Mcst, 
-99, id_tRNA_MLV, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, 
-id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0,
+GSTART_ID, id_tRNA_MLVW, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, id_tRNA_M0, id_tRNA_Mcst, 
+101, id_tRNA_M0, id_tRNA_M0, id_tRNA_MCPY, id_tRNA_M3, id_tRNA_M2, id_tRNA_M0,
+id_tRNA_Mcst, 101, id_tRNA_Mcst, 103, id_tRNA_M0, id_tRNA_RET, GSTOP_ID,
 ```
 
 
@@ -57,22 +54,22 @@ id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0,
 id_tRNA_MP
 id_tRNA_ME 
 
-*write amino acid CPY, 1, 1, 0, 100, 99, 0*
-id_tRNA_MCPY
-id_tRNA_M1
-id_tRNA_M1
-id_tRNA_M0
-id_tRNA_Mcst, 100
-id_tRNA_Mcst, 99
-id_tRNA_MLV
-
-*write amino acid INC, 2, 0, 0, 100, 0, 0*
+*write amino acid INC, 2, 0, 0, 101, 0, 0*
 id_tRNA_MInstr, instruction::INC
 id_tRNA_M2
 id_tRNA_M0
-id_tRNA_M0 
-id_tRNA_Mcst, 100
 id_tRNA_M0
+id_tRNA_Mcst, 101
+id_tRNA_M0
+id_tRNA_M0
+
+*write amino acid CPY, 3, 2, 0, 101, 103, 0*
+id_tRNA_MCPY 
+id_tRNA_M3
+id_tRNA_M2
+id_tRNA_M0
+id_tRNA_Mcst, 101
+id_tRNA_Mcst, 103 
 id_tRNA_M0
 
 id_tRNA_RET
@@ -84,7 +81,7 @@ id_tRNA_RET
 ### XASM code
 
 ```{XASM class.source='foldable'}
-instruction::MARKER, 0, 140O0, 0, 0, 0, 0,
+instruction::MARKER, 0, 14311, 0, 0, 0, 0,
 
 instruction::CPY, 1, 1, 0, 100, 99, 0,
 instruction::INC, 2, 0, 0, 100, 0, 0,
@@ -95,29 +92,6 @@ instruction::INC, 1, 0, 0, 99, 0, 0,
 instruction::INC, 1, 0, 0, 101, 0, 0,
 
 
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
-
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 1, 0,
-
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 1, 0,
-
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
-
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 100, 0,
-
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 99, 0,
-
-instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 0, 0,
-
-
- 
 instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, instruction::INC, 0,
 
@@ -131,10 +105,32 @@ instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, 0, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 100, 0,
+instruction::CPY, 3, 0, 0, 101, 101, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+ 
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 3, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 2, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 101, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 103, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -142,33 +138,19 @@ instruction::CPY, 3, 0, 0, 101, 0, 0,
 
 instruction::JMP, 2, 0, 0, 0, 0, 0
 
-instruction::MARKER, 0, 14000, 0, 0, 0, 0,
+instruction::MARKER, 0, 14311, 0, 0, 0, 0,
 ```
 
 ### Raw code
 
 ```{RAW class.source='foldable'}
-46, 0, 14000, 0, 0, 0, 0,
+46, 0, 14311, 0, 0, 0, 0,
 2, 1, 1, 0, 100, 99, 0,
 5, 2, 0, 0, 100, 0, 0,
 6, 1, 0, 0, 99, 0, 0,
 2, 1, 2, 0, 101, 99, 0,
 5, 1, 0, 0, 99, 0, 0,
 5, 1, 0, 0, 101, 0, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 2, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 1, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 1, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 0, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 100, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 99, 0,
-5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 5, 0,
 5, 2, 0, 0, 101, 0, 0,
@@ -178,11 +160,25 @@ instruction::MARKER, 0, 14000, 0, 0, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 0, 0,
 5, 2, 0, 0, 101, 0, 0,
-2, 3, 0, 0, 101, 100, 0,
+2, 3, 0, 0, 101, 101, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 3, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 101, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 103, 0,
 5, 2, 0, 0, 101, 0, 0,
 2, 3, 0, 0, 101, 0, 0,
 19, 2, 0, 0, 0, 0, 0,
-46, 0, 14000, 0, 0, 0, 0,
+46, 2, 14311, 0, 0, 0, 0,
 ```

@@ -1,0 +1,141 @@
+---
+title: Documentation of the GTSLV tRNA
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribes the RNA that gets top of stack into a variable.
+
+
+Arg : nothing
+Output : code of the 'GTSLV' amino acid
+
+# Variables
+
+var 1 : ribosome ptr
+var 2 : exit ptr
+var 3 : tmp var
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+Init E site
+
+Writes the instructions
+* CPY, 1, 2, 0, var, 99, 0
+at the E site
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_GTSLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 
+99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site and E site*
+id_tRNA_MP
+id_tRNA_ME 
+
+*write amino acid CPY, 1, 2, 0, var, 99, 0*
+id_tRNA_MCPY
+id_tRNA_M1
+id_tRNA_M2
+id_tRNA_M0
+id_tRNA_MLV
+id_tRNA_Mcst, 99
+id_tRNA_M0
+
+id_tRNA_RET
+```
+
+
+## teleonomical code code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 10210, 0, 0, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, instruction::CPY, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 1, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 2, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 99, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0
+
+instruction::MARKER, 0, 10210, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 10210, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+5, 1, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 1, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 102, 98, 100,
+2, 3, 2, 0, 101, 102, 0,
+5, 2, 0, 0, 100, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 99, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 10210, 0, 0, 0, 0,
+```

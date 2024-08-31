@@ -1,0 +1,213 @@
+---
+title: Documentation of the OPELVcst tRNA
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribes the meta RNA for in-place operations of variable with constant.
+For example, this tRNA can transcribe for var+=4.
+
+
+Arg : nothing
+Output : code of the 'OPELVcst' amino acid
+
+# Variables
+
+var 1 : ribosome ptr
+var 2 : exit ptr
+var 3 : tmp var
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+Init E site
+
+Gets the operator instruction depending on provided arg :
+OPXXX <- ADD if arg == 0
+OPXXX <- SUB if arg == 1
+OPXXX <- MUL if arg == 2
+OPXXX <- DIV otherwise
+
+Writes the instructions
+* OPXXX, 1, 1, 0, v1, v1, cst
+at the E-site
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_OPELVcst, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
+id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+4,id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, 
+id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
+id_tRNA_SLVcst, 3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
+2, 4, id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::MUL, 
+id_tRNA_SIJ, id_tRNA_SLVcst, 3, instruction::DIV, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SEJ, 
+id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SDLVLV, 
+4, 3, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_MLVW, 
+id_tRNA_Marg, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site and E site*
+id_tRNA_MP
+id_tRNA_ME 
+
+*get operation depending on first arg*
+id_tRNA_SLVDLV, 3, 1                        // var3 <- op arg
+id_tRNA_SLVDLV, 3, 3
+id_tRNA_INCLV, 0, 1
+id_tRNA_CMPLVcst, 0, 3, 0, 4                // var3 == 0 : ADD
+id_tRNA_IF0, 4
+| id_tRNA_SLVcst, 3, instruction::ADD       // var3 <- ADD instr
+id_tRNA_SIJ
+| id_tRNA_CMPLVcst, 0, 3, 1, 4              // var3 == 1 : SUB
+| | id_tRNA_IF0, 4
+| | id_tRNA_SLVcst, 3, instruction::SUB     // var3 <- SUB instr
+| id_tRNA_SIJ
+| | id_tRNA_CMPLVcst, 0, 3, 2, 4            // var3 == 2 : MUL
+| | id_tRNA_IF0, 4
+| | | id_tRNA_SLVcst, 3, instruction::MUL   // var3 <- MUL instr
+| | id_tRNA_SIJ
+| | | id_tRNA_SLVcst, 3, instruction::DIV   // var3 <- DIV instr
+| | id_tRNA_SEJ
+| id_tRNA_SEJ
+id_tRNA_SEJ
+d_tRNA_SEJ
+
+*write amino acid OPXXX, 1, 1, 0, v1, v1, cst*
+
+id_tRNA_INCDLV, 0, 2
+id_tRNA_SLVDLV, 4, 2
+id_tRNA_SDLVLV, 4, 3
+id_tRNA_M1
+id_tRNA_M1
+id_tRNA_M0
+id_tRNA_MLV
+id_tRNA_MLVW
+id_tRNA_Marg
+
+id_tRNA_RET
+```
+
+
+## teleonomical code code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 11402, 0, 0, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+
+
+instruction::CPY, 1, 3, 0, 102, 100, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+
+instruction::JRE, 0, 1, 0, 5, 102, 0,
+instruction::JRE, 0, 1, 0, 6, 102, 1,
+instruction::JRE, 0, 1, 0, 7, 102, 2,
+instruction::CPY, 1, 0, 0, 102, instruction::DIV, 0,
+instruction::JRA, 0, 0, 0, 6, 0, 0,
+instruction::CPY, 1, 0, 0, 102, instruction::ADD, 0,
+instruction::JRA, 0, 0, 0, 4, 0, 0,
+instruction::CPY, 1, 0, 0, 102, instruction::SUB, 0,
+instruction::JRA, 0, 0, 0, 2, 0, 0,
+instruction::CPY, 1, 0, 0, 102, instruction::MUL, 0,
+
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 1, 0, 101, 102, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 1, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 1, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 103, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 103, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 103, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 103, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 3, 0, 101, 100, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0
+
+instruction::MARKER, 0, 11402, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 11402, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+5, 1, 0, 0, 101, 0, 0,
+2, 1, 3, 0, 102, 100, 0,
+5, 2, 0, 0, 100, 0, 0,
+27, 0, 1, 0, 5, 102, 0,
+27, 0, 1, 0, 6, 102, 1,
+27, 0, 1, 0, 7, 102, 2,
+2, 1, 0, 0, 102, 10, 0,
+20, 0, 0, 0, 6, 0, 0,
+2, 1, 0, 0, 102, 7, 0,
+20, 0, 0, 0, 4, 0, 0,
+2, 1, 0, 0, 102, 8, 0,
+20, 0, 0, 0, 2, 0, 0,
+2, 1, 0, 0, 102, 9, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 1, 0, 101, 102, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 1, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 1, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 103, 98, 100,
+2, 3, 2, 0, 101, 103, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 103, 98, 100,
+2, 3, 2, 0, 101, 103, 0,
+5, 2, 0, 0, 100, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 3, 0, 101, 100, 0,
+5, 2, 0, 0, 100, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 11402, 0, 0, 0, 0,
+```
