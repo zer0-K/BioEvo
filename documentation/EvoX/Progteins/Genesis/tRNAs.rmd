@@ -15,6 +15,7 @@ By analogy with biology, the atomic structures that the tRNAs are concatenating 
 
 ## Summary
 
+*Usual tRNA*
 * 9999 : tRNA_RET
 * 10000 : tRNA_CVARS
 * 10001 : tRNA_IVARS

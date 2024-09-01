@@ -1,0 +1,194 @@
+---
+title: Documentation of the core meta-execution progtein
+output: 
+  html_document:
+    code_folding: hide
+---
+
+# General info
+
+Goal : finding the progtein/processor to execute, calling it and going back to the previous processor.
+
+Input : ID of the progtein/processor to execute
+Output : nothing, this processor changes the function stack
+
+The meta-execution progtein loops through the molecular body to find the appropriate processor, 
+then put the processor position onto the function stack and changes the program pointer.
+
+## Description
+
+### First step : find processor in molecular body
+
+To find the progtein/processor ID, the progtein loops through the molecular body, 
+stops at each molecular marker and check if molecular ID corresponds to the one provided in arguments.
+
+### Second step : update function stack and jump to process
+
+When ID is found, the meta-executor updates the function stack and updates the program pointer to go to the appropriate progtein/processor.
+
+### Third step : outro
+
+After the progtein/processor has been executed, the meta-executor will remove the ID from the function stack, 
+and will go back to the function that has called the meta-executor.
+
+# Variables
+
+var 1 : func ID from TOPS
+var 2 : loop var
+var 3 : condition var : molecular ID == marker and func ID ?
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Get func ID from top of stack
+
+While var3!=0
+    loop var += 7
+    var3 = molecular value at loop var == MARKER ?
+    if var3:
+        loop var += 2
+        var3 = molecular value at loop var == func ID ?
+        var3 -= 1
+        loop var -= 2
+    else:
+        var3 = 1
+
+Decrement stack ptr (args of func to exec are before func ID)
+Get func pos (divide loop var by 7)
+Increase func ptr for return
+Exec func
+
+After exec : decrease func stack ptr
+Get ID of previous func
+Decrease func stack ptr
+Go back to previous func
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 0, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_GTSLVD,
+1, id_tRNA_SLVcst, 2, 0, id_tRNA_SLVcst, 3, 1,
+id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 2, 7, id_tRNA_RGLVLV,
+4, 2, id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3,
+id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 2, 2, id_tRNA_RGLVLV,
+4, 2, id_tRNA_CMPLVLV, 0, 4, 1, 3, 
+id_tRNA_OPELVcst, 1, 3, 1, id_tRNA_OPELVcst, 1, 2, 
+2, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1, id_tRNA_SEJ, id_tRNA_SWJ, 
+id_tRNA_INCcst, 1, 99, id_tRNA_OPELVcst, 3, 2, 7, 
+id_tRNA_INCcst, 0, 0, id_tRNA_SP_GPTR, id_tRNA_SP_FCTADD, id_tRNA_JLV, 2, 
+id_tRNA_INCcst, 1, 0, id_tRNA_SP_GFPTRLV, 5, id_tRNA_INCcst, 1, 
+0, id_tRNA_JLV, 5, GSTOP_ID, 0, 0, 0,
+```
+
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+id_tRNA_GTSLVD, 1                   // var1 <- func ID in TOPS
+id_tRNA_SLVcst, 2, 0                // var2 <- 0
+id_tRNA_SLVcst, 3, 1                // var3 <- 1
+id_tRNA_IF0, 3
+| id_tRNA_OPELVcst, 0, 2, 7         // var2 += 7
+| id_tRNA_RGLVLV, 4, 2              // var4 <- molecular value at var 2
+| id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3    // var3 <- var4==MARKER ?
+| id_tRNA_IF0, 3
+| | id_tRNA_OPELVcst, 0, 2, 2       // var2 += 2
+| | id_tRNA_RGLVLV, 4, 2            // var4 <- molecular value at var 2
+| | id_tRNA_CMPLVLV, 0, 4, 1, 3     // var3 <- var4==var1 ?
+| | id_tRNA_OPELVcst, 1, 3, 1       // var 3 -= var1
+| | id_tRNA_OPELVcst, 1, 2, 2
+| id_tRNA_SIJ
+| | id_tRNA_SLVcst, 3, 1
+| id_tRNA_SEJ
+id_tRNA_SWJ
+
+
+id_tRNA_INCcst, 1, 99           // decrement stack ptr (args of func to exec are before func ID)
+id_tRNA_OPELVcst, 3, 2, 7       // var 2 /= 7
+id_tRNA_INCcst, 0, 0            // func stack ptr++
+id_tRNA_SP_GPTR                 // update func stack (to return to meta exec func after exec)
+id_tRNA_SP_FCTADD               // idem
+id_tRNA_JLV, 2                  // exec func
+
+id_tRNA_INCcst, 1, 0            // after exec : decrease func stack ptr
+id_tRNA_SP_GFPTRLV, 5           // get ID (from func stack) of func that called meta executor
+id_tRNA_INCcst, 1, 0            // func stack ptr--
+id_tRNA_JLV, 5                  // go back to previous func
+
+
+NO RETURN tRNA !
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 0, 0, 0, 0, 0,
+
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+instruction::CPY, 1, 0, 0, 110, -7, 0,
+instruction::ADD, 1, 1, 0, 110, 110, 7,
+instruction::GR, 1, 2, 0, 101, 110, 0,
+instruction::JRE, 0, 1, 0, 2, 101, instruction::MARKER,
+instruction::JRS, 0, 0, 0, 3, 0, 0,
+
+instruction::ADD, 1, 1, 0, 110, 110, 2,
+instruction::GR, 1, 2, 0, 101, 110, 0,
+instruction::JRE, 0, 1, 1, 3, 101, 100,
+instruction::SUB, 1, 1, 0, 110, 110, 2,
+instruction::JRS, 0, 0, 0, 8, 0, 0,
+
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+instruction::DIV, 1, 1, 0, 110, 110, 7,
+instruction::INC, 1, 0, 0, 0, 0, 0,
+instruction::GPTR, 2, 0, 0, 0, 0, 0,
+instruction::ADD, 2, 2, 0, 0, 0, 3,
+instruction::JMP, 1, 0, 0, 110, 0, 0,
+
+instruction::DEC, 1, 0, 0, 0, 0, 0,
+instruction::CPY, 1, 2, 0, 103, 0, 0,
+instruction::DEC, 1, 0, 0, 0, 0, 0,
+instruction::JMP, 1, 0, 0, 103, 0, 0,
+
+instruction::MARKER, 0, 0, 0, 0, 0, 0,
+```
+
+### Raw code
+
+
+```{RAW class.source='foldable'}
+46, 0, 0, 0, 0, 0, 0,
+2, 1, 2, 1, 100, 99, 0,
+2, 1, 0, 0, 110, -7, 0,
+7, 1, 1, 0, 110, 110, 7,
+39, 1, 2, 0, 101, 110, 0,
+27, 0, 1, 0, 2, 101, 46,
+21, 0, 0, 0, 3, 0, 0,
+7, 1, 1, 0, 110, 110, 2,
+39, 1, 2, 0, 101, 110, 0,
+27, 0, 1, 1, 3, 101, 100,
+8, 1, 1, 0, 110, 110, 2,
+21, 0, 0, 0, 8, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+10, 1, 1, 0, 110, 110, 7,
+5, 1, 0, 0, 0, 0, 0,
+32, 2, 0, 0, 0, 0, 0,
+7, 2, 2, 0, 0, 0, 3,
+19, 1, 0, 0, 110, 0, 0,
+6, 1, 0, 0, 0, 0, 0,
+2, 1, 2, 0, 103, 0, 0,
+6, 1, 0, 0, 0, 0, 0,
+19, 1, 0, 0, 103, 0, 0,
+46, 0, 0, 0, 0, 0, 0,
+```
+

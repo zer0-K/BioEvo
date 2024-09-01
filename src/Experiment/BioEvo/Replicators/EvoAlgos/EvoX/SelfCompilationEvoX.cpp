@@ -89,17 +89,16 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         GSTART_ID, 0, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_GTSLVD,
         1, id_tRNA_SLVcst, 2, 0, id_tRNA_SLVcst, 3, 1,
-        // while loop
         id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 2, 7, id_tRNA_RGLVLV,
         4, 2, id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3,
         id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 2, 2, id_tRNA_RGLVLV,
-        4, 2, id_tRNA_CMPLVLV, 0, 4, 1, id_tRNA_OPELVcst,
-        1, 3, 1, id_tRNA_IF0, 3, id_tRNA_SIJ, id_tRNA_OPELVcst,
-        2, 2, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1,
-        id_tRNA_SEJ, id_tRNA_PLVSWI, id_tRNA_OPELVcst, 3, 2, 7, id_tRNA_INCcst,
-        0, 0, id_tRNA_SP_GPTR, id_tRNA_SP_FCTADD, id_tRNA_JLV, 2, id_tRNA_INCcst, 
-        1, 0, id_tRNA_SP_GFPTRLV, 5, id_tRNA_INCcst, 1, 0, 
-        id_tRNA_JLV, 5, GSTOP_ID, 0, 0, 0, 0,
+        4, 2, id_tRNA_CMPLVLV, 0, 4, 1, 3, 
+        id_tRNA_OPELVcst, 1, 3, 1, id_tRNA_OPELVcst, 1, 2, 
+        2, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1, id_tRNA_SEJ, id_tRNA_SWJ, 
+        id_tRNA_INCcst, 1, 99, id_tRNA_OPELVcst, 3, 2, 7, 
+        id_tRNA_INCcst, 0, 0, id_tRNA_SP_GPTR, id_tRNA_SP_FCTADD, id_tRNA_JLV, 2, 
+        id_tRNA_INCcst, 1, 0, id_tRNA_SP_GFPTRLV, 5, id_tRNA_INCcst, 1, 
+        0, id_tRNA_JLV, 5, GSTOP_ID, 0, 0, 0,
 
 
         // 1 - main func

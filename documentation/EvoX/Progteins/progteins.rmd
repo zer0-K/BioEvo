@@ -10,9 +10,16 @@ A progtein is an atomic teleonomical unit, in the sense that it does not call an
 
 # Teleonomical summary
 
+## Core progteins
+
+The 'Core' folder documents the progteins responsible for the day-to-day working of the individual, 
+such as executing other progteins or organs, depending on the 'sensorial' input.
+
+* 0 : meta-exec progtein
+
 ## Genesis progteins
 
-The 'Genesis' folder dcoments the progteins necessary for the genesis of individuals.
+The 'Genesis' folder documents the progteins necessary for the genesis of individuals.
 This paragraph summarises them.
 
 * 100X1 : self-compilation func ID List

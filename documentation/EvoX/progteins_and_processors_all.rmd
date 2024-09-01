@@ -19,6 +19,10 @@ This page summarizes both of them.
 
 Progteins are denoted with (p)
 
+## Core units
+
+* 0 : meta-exec progtein
+
 ## Genesis units
 
 * 100X1 : self-compilation func ID List (p)
