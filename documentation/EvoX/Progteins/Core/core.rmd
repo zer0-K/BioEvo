@@ -7,13 +7,9 @@ This folder contains the documentation of the core progteins.
 
 # General info
 
-tRNA progteins are atomic interpretation units : given an opcode/function ID/teleonomical ID it will transcribe the RNA into teleonomical code.
-After the DNA gene has been isolated into the stack as a RNA, the ribosome will transcribe the RNA sequentially into a teleonomical progtein by calling the tRNAs.
-A tRNA transcribed an atomic part of the tRNA (few codons) into a molecule in the body called amino acid : at the end if k tRNA have been called we would have a final progtein composed of k amino acids.
-
-By analogy with biology, the atomic structures that the tRNAs are concatenating in the E-site will be called progteinogenic amino acids.
+Core progteins are the building blocks of the working structure of the individual.
+They define how to find a function, how to call it,...
 
 ## Summary
 
 * 0 : meta-exec progtein
-*

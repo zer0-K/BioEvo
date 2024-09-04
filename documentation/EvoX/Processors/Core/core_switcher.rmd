@@ -1,0 +1,204 @@
+---
+title: Documentation of the core switcher
+output: 
+  html_document:
+    code_folding: hide
+---
+
+# General info
+
+Goal : basically a wrapper of the core switcher
+
+Input : nothing
+Output : depends on the processors it called
+
+The main function basically resets output and calls the core switcher.
+
+## Description
+
+Go to the core switcher documentation
+
+# Variables
+
+var 1 : input size
+var 2 : phase checker flag
+var 3 : phase value, value from input[0]
+var 4 : custom arg/func, value from input[1]
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Checks that input size is > 1
+Get phase flag from input[0]
+
+If phase flag is 3 : get func ID from input[1] and call DNA getter
+If phase flag is 4 : get func ID from input[1] and call DNA writer
+Otherwise : call func of ID from input[1]
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 2, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_GISLV,
+1, id_tRNA_CMPLVcst, 1, 1, 2, 2, id_tRNA_IF0, 
+2, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3, 0, 
+id_tRNA_CMPLVcst, 0, 3, 3, 2, id_tRNA_IF0, 2, 
+id_tRNA_GILV, 4, 1, id_tRNA_CALLcst, 103, id_tRNA_RET, id_tRNA_SIJ, 
+id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 4, 2, id_tRNA_IF0, 
+2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_CALLcst,
+302, id_tRNA_INCcst, 1, 99, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ,
+id_tRNA_GILV, 4, 1, id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID,
+```
+
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+id_tRNA_GISLV, 1                // var1 <- input size
+id_tRNA_CMPLVcst, 1, 1, 2, 2    // var2 <- var1<2 ?
+id_tRNA_IF0, 2
+| id_tRNA_RET
+id_tRNA_SIJ
+id_tRNA_SEJ
+
+id_tRNA_GILV, 3, 0              // var3 <- input[0]
+id_tRNA_CMPLVcst, 0, 3, 3, 2    // var2 <- var3 == 3
+id_tRNA_IF0, 2
+| id_tRNA_GILV, 4, 1            // var4 <- input[1]
+| id_tRNA_CALLcst, 103          // call DNA getter
+| id_tRNA_RET
+id_tRNA_SIJ
+id_tRNA_SEJ
+
+id_tRNA_CMPLVcst, 0, 3, 4, 2    // var2 <- var3 == 4 
+id_tRNA_IF0, 4
+| id_tRNA_GILV, 4, 1            // var4 <- input[1]
+| id_tRNA_PLVSI, 4              // stack ptr++, TOPS <- var4
+| id_tRNA_CALLcst, 302          // call DNA writer
+| id_tRNA_INCcst, 1, 99         // stack ptr--
+| id_tRNA_RET
+id_tRNA_SIJ
+id_tRNA_SEJ
+
+id_tRNA_GILV, 4, 1              // var4 <- input[1]
+id_tRNA_CALLLV, 4               // call func at var4
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 2, 0, 0, 0, 0,
+
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPYIS, 2, 0, 0, 99, 0, 0,
+instruction::JRG, 0, 2, 0, 3, 99, 1,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+instruction::CPYIN, 2, 1, 0, 99, 0, 0,
+
+// replicate if phase flag==2
+instruction::JRE, 0, 2, 0, 2, 99, 2,
+instruction::JRA, 0, 0, 0, 4, 0, 0,
+
+// call replication function
+instruction::CALL, 0, 0, 0, 0, 104, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+// check if train (phase flag = 0)
+instruction::JRE, 0, 2, 0, 2, 99, 0,
+instruction::JRA, 0, 0, 0, 4, 0, 0,
+instruction::CALL, 0, 0, 0, 0, 401, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+// check if test (phase flag = 1)
+instruction::JRE, 0, 2, 0, 2, 99, 1,
+instruction::JRA, 0, 0, 0, 4, 0, 0,
+instruction::CALL, 0, 0, 0, 0, 402, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+// check if acquire func (phase flag = 3)
+instruction::JRE, 0, 2, 0, 2, 99, 3,
+instruction::JRA, 0, 0, 0, 6, 0, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPYIN, 2, 1, 0, 99, 1, 0,
+instruction::CALL, 0, 0, 0, 0, 103, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+// check if write func (phase flag = 4)
+instruction::JRE, 0, 2, 0, 2, 99, 4,
+instruction::JRA, 0, 0, 0, 5, 0, 0,
+
+// call gene copy function
+instruction::CPYIN, 2, 1, 0, 99, 1, 0,
+instruction::CALL, 0, 0, 0, 0, 302, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+// otherwise, call function given ID in input
+instruction::CPYIN, 2, 1, 0, 99, 1, 0, 
+instruction::CALL, 0, 2, 0, 0, 99, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 2, 0, 0, 0, 0,
+```
+
+### Raw code
+
+
+```{RAW class.source='foldable'}
+46, 0, 2, 0, 0, 0, 0,
+5, 1, 0, 0, 99, 0, 0,
+12, 2, 0, 0, 99, 0, 0,
+29, 0, 2, 0, 3, 99, 1,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+3, 2, 1, 0, 99, 0, 0,
+27, 0, 2, 0, 2, 99, 2,
+20, 0, 0, 0, 4, 0, 0,
+49, 0, 0, 0, 0, 104, 0,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+27, 0, 2, 0, 2, 99, 0,
+20, 0, 0, 0, 4, 0, 0,
+49, 0, 0, 0, 0, 401, 0,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+27, 0, 2, 0, 2, 99, 1,
+20, 0, 0, 0, 4, 0, 0,
+49, 0, 0, 0, 0, 402, 0,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+27, 0, 2, 0, 2, 99, 3,
+20, 0, 0, 0, 6, 0, 0,
+5, 1, 0, 0, 99, 0, 0,
+3, 2, 1, 0, 99, 1, 0,
+49, 0, 0, 0, 0, 103, 0,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+27, 0, 2, 0, 2, 99, 4,
+20, 0, 0, 0, 5, 0, 0,
+3, 2, 1, 0, 99, 1, 0,
+49, 0, 0, 0, 0, 302, 0,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+3, 2, 1, 0, 99, 1, 0,
+49, 0, 2, 0, 0, 99, 0,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 2, 0, 0, 0, 0,
+```

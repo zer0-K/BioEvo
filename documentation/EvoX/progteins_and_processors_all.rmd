@@ -21,7 +21,9 @@ Progteins are denoted with (p)
 
 ## Core units
 
-* 0 : meta-exec progtein
+* 0 : meta-exec progtein (p)
+* 1 : main function
+* 2 : core switcher
 
 ## Genesis units
 

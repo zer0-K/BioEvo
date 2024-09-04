@@ -1,0 +1,16 @@
+---
+title: core processors documentation
+---
+
+This folder contains the documentation of the core processors.
+
+
+# General info
+
+Core processors are the functions that are essential to the general working of the individual.
+For exampe, the main function is a core processor.
+
+## Summary
+
+* 1 : main function
+* 2 : core switcher

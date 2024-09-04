@@ -1,0 +1,78 @@
+---
+title: Documentation of the main function
+output: 
+  html_document:
+    code_folding: hide
+---
+
+# General info
+
+Goal : basically a wrapper of the core switcher
+
+Input : nothing
+Output : depends on the processors it called
+
+The main function basically resets output and calls the core switcher.
+
+## Description
+
+Go to the core switcher documentation
+
+# Variables
+
+No variable.
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Resets output, calls the core switcher and halts program.
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 1, id_tRNA_CVARS, LV_place, 0, id_tRNA_IVARS, id_tRNA_SOScst,
+0, id_tRNA_CALLcst, 2, id_tRNA_HALT, id_tRNA_RET, GSTOP_ID, 0,
+```
+
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+id_tRNA_SOScst          // reset output
+id_tRNA_CALLcst, 2      // calls core switcher
+id_tRNA_HALT
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 1, 0, 0, 0, 0,
+
+instruction::SETOS, 0, 0, 0, 0, 0, 0,
+instruction::CALL, 0, 0, 0, 0, 100, 0,
+instruction::HALT, 0, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 1, 0, 0, 0, 0,
+```
+
+### Raw code
+
+
+```{RAW class.source='foldable'}
+46, 0, 1, 0, 0, 0, 0,
+13, 0, 0, 0, 0, 0, 0,
+49, 0, 0, 0, 0, 2, 0,
+34, 0, 0, 0, 0, 0, 0,
+46, 0, 1, 0, 0, 0, 0,
+```
+

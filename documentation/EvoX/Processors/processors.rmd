@@ -1,5 +1,5 @@
 ---
-title: Progteins documentation
+title: Processors documentation
 ---
 This folder documents the complex programs of the EvoX algo.
 
@@ -8,6 +8,13 @@ This folder documents the complex programs of the EvoX algo.
 A processor can be viewed as an organ, a structure that can perform a non atomic operation.
 Processors are composed of progteins and molecules.
 (a processor only composed of molecules is a progtein)
+
+## Core processors
+
+These correspond to the teleonomical IDs between 0 and 99.
+
+* 1 : main function
+* 2 : core switcher
 
 ## Genesis processors
 

@@ -103,8 +103,8 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // 1 - main func
 
-        GSTART_ID, 1, id_tRNA_CVARS, LV_place, 0, id_tRNA_IVARS, id_tRNA_CALLcst,
-        2, id_tRNA_HALT, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+        GSTART_ID, 1, id_tRNA_CVARS, LV_place, 0, id_tRNA_IVARS, id_tRNA_SOScst,
+        0, id_tRNA_CALLcst, 2, id_tRNA_HALT, id_tRNA_RET, GSTOP_ID, 0,
 
 
         // 103 - search and pick free molecules
@@ -178,14 +178,12 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         // 2 - core switcher
 
         GSTART_ID, 2, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_GISLV,
-        1, id_tRNA_CMPLVcst, 1, 2, 1, 2, id_tRNA_CMPLVcst, 
-        0, 4, 2, 1, id_tRNA_IF0, 4, id_tRNA_RET, 
-        id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3, 0, id_tRNA_CMPLVcst, 0, 
-        3, 3, id_tRNA_CMPLVcst, 0, 4, 2, 1,
-        id_tRNA_IF0, 4, id_tRNA_GILV, 4, 1, id_tRNA_CALLcst, 103, 
-        id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 2, 3, 
-        4, id_tRNA_CMPLVcst, 0, 4, 2, 1, id_tRNA_IF0, 
-        4, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_CALLcst,
+        1, id_tRNA_CMPLVcst, 1, 1, 2, 2, id_tRNA_IF0, 
+        2, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3, 0, 
+        id_tRNA_CMPLVcst, 0, 3, 3, 2, id_tRNA_IF0, 2, 
+        id_tRNA_GILV, 4, 1, id_tRNA_CALLcst, 103, id_tRNA_RET, id_tRNA_SIJ, 
+        id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 4, 2, id_tRNA_IF0, 
+        2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_CALLcst,
         302, id_tRNA_INCcst, 1, 99, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ,
         id_tRNA_GILV, 4, 1, id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID,
 
