@@ -110,7 +110,7 @@ Progteins are denoted with (p)
 ## Metabolic functions
 
 * 200 : body size calc (p)
-* 201 : new funct writer (p)
+* 201 : new func writer (p)
 * 206 : ribosome
 * 207 : RNAP (p)
 * 208 : transcriber (p)

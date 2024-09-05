@@ -17,26 +17,22 @@ Output : nothing, writes the free molecules in input
 
 ## Description
 
-
-
-### First part 
-
-
- 
-### Second part 
-
+Calls the free gene picker.
+If function was found and written in input, gets it in body.
 
 
 # Variables
 
-var 1 : 
+var 1 : result of the free gene picker
 
 
 # Pseudo-code
 
 ```{pseudo class.source='foldable'}
+Calls the free gene picker
 
-
+If function was found and written in input :
+     Calls the new func writer
 ```
 
 # Code
@@ -46,6 +42,9 @@ var 1 :
 ### Raw code
 
 ```{DNA class.source='foldable'}
+GSTART_ID, 103, id_tRNA_CVARS, LV_place, 1, id_tRNA_IVARS, id_tRNA_CALLcst,
+300, id_tRNA_GTSLVD, 1, id_tRNA_IF0, 1, id_tRNA_CALLcst, 201,
+id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 ```
 
 
@@ -54,6 +53,15 @@ var 1 :
 ### Commented code
 
 ```{pseudoDNA class.source='foldable'}
+id_tRNA_CALLcst, 300    // get free molecules in input
+id_tRNA_GTSLVD, 1       // var1 <- res of free molecules picker
+
+id_tRNA_IF0, 1
+| id_tRNA_CALLcst, 201  // if res is true, adds func to body
+id_tRNA_SIJ
+id_tRNA_SEJ
+
+id_tRNA_RET
 ```
 
 
@@ -64,8 +72,13 @@ var 1 :
 ```{XASM class.source='foldable'}
 instruction::MARKER, 0, 103, 0, 0, 0, 0,
 
+instruction::CALL, 0, 0, 0, 0, 300, 0,
 
-
+instruction::JRE, 0, 2, 0, 3, 99, 1,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CALL, 0, 0, 0, 0, 201, 0,
 
 instruction::JMP, 2, 0, 0, 0, 0, 0,
 
@@ -76,5 +89,11 @@ instruction::MARKER, 0, 103, 0, 0, 0, 0,
 
 ```{Raw class.source='foldable'}
 46, 0, 103, 0, 0, 0, 0,
+27, 0, 2, 0, 3, 99, 1,
+6, 1, 0, 0, 99, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+49, 0, 0, 0, 0, 201, 0,
+19, 2, 0, 0, 0, 0, 0,
 46, 0, 103, 0, 0, 0, 0,
 ```

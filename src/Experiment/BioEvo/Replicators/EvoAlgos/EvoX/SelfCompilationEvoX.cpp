@@ -114,7 +114,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 
 
-        // 200 - calc molecular_body size
+        // 200 - calc molecular body size
 
         GSTART_ID, 200, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_SLVcst,
         1, 1, id_tRNA_SLVcst, 2, -7, id_tRNA_IF0, 1,

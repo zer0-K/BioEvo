@@ -105,7 +105,7 @@ tRNA progteins ar a special case of genesis progteins
 ## Metabolic progteins
 
 * 200 : body size calc
-* 201 : new funct writer
+* 201 : new func writer
 * 207 : RNAP
 * 208 : transcriber
 
