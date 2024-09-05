@@ -1,5 +1,5 @@
 ---
-title: Documentation of the 
+title: Documentation of the body size calc
 output: 
   html_document:
     code_folding: hide
@@ -8,34 +8,49 @@ output:
 
 # General info
 
-Goal : 
+Goal : computes the size of the body
 
-Input : 
-Output : 
+Input : nothing
+Output : nothing, writes the size in molecular_body[2]
 
 
 
 ## Description
 
+Loops through the molecular body and stop at end to compute size
 
+### First part : loop through body
 
-### First part 
-
-
+Iterate through body places, and stops at molecular markers :
+If the place after the marker is -1 the progtein break out of the loop (end of body signal)
  
 ### Second part 
 
-
+After having reached the end of the body, adds 7 to the size and writes it in molecular_body[2].
 
 # Variables
 
-var 1 : 
+var 1 : loop conditions
+var 2 : loop var
+var 3 : molecular place values
 
 
 # Pseudo-code
 
 ```{pseudo class.source='foldable'}
+While condition (var1):
+  increase loop var by 7
+  condition <- molecular value at loop var == MARKER
 
+  if condition:
+    increase loop var by 1
+    condition <- molecular value at loop var == -1
+    decrease loop var by 1
+
+  Inverse condition
+
+Increase loop var by 7
+Write loop var at molecular_body[2]
 
 ```
 
@@ -46,14 +61,42 @@ var 1 :
 ### Raw code
 
 ```{DNA class.source='foldable'}
+GSTART_ID, 200, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_SLVcst,
+1, 1, id_tRNA_SLVcst, 2, -7, id_tRNA_IF0, 1,
+id_tRNA_OPELVcst, 0, 2, 7, id_tRNA_RGLVLV, 3, 2,
+id_tRNA_CMPLVcst, 0, 3, instruction::MARKER, 1, id_tRNA_IF0, 1,
+id_tRNA_INCLV, 0, 2, id_tRNA_RGLVLV, 3, 2, id_tRNA_INCLV,
+1, 2, id_tRNA_CMPLVcst, 0, 2, -1, 1, 
+id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_INCLV, 1, 1, id_tRNA_SWJ, id_tRNA_OPELVcst,
+0, 2, 7, id_tRNA_GScstLV, 2, 2, id_tRNA_RET,
+GSTOP_ID, 0, 0, 0, 0, 0, 0,
 ```
-
-
 
 
 ### Commented code
 
 ```{pseudoDNA class.source='foldable'}
+id_tRNA_SLVcst, 1, 1            // var1 <- 1
+id_tRNA_SLVcst, 2, -7           // var2 <- -7
+
+id_tRNA_IF0, 1                  // while var1
+| id_tRNA_OPELVcst, 0, 2, 7     // var2 += 7
+| id_tRNA_RGLVLV, 3, 2          // var3 <- body value at var2
+| id_tRNA_CMPLVcst, 0, 3, instruction::MARKER, 1  // var1 <- var3 == MARKER
+|
+| id_tRNA_IF0, 1                // JMP if var3 is not marker
+| | id_tRNA_INCLV, 0, 2         // var2++
+| | id_tRNA_RGLVLV, 3, 2        // var3 <- body value at var2
+| | id_tRNA_INCLV, 1, 2         // var2--
+| | id_tRNA_CMPLVcst, 0, 2, -1, 1   // var1 <- var2 == -1
+| id_tRNA_SIJ
+| id_tRNA_SEJ
+| 
+| id_tRNA_INCLV, 1, 1           // var1--
+id_tRNA_SWJ
+
+id_tRNA_OPELVcst, 0, 2, 7       // var2 += 7
+id_tRNA_GScstLV, 2, 2           // molecular_body[2] <- var2
 ```
 
 
@@ -62,19 +105,45 @@ var 1 :
 ### XASM code
 
 ```{XASM class.source='foldable'}
-instruction::MARKER, 0, XXX, 0, 0, 0, 0,
+instruction::MARKER, 0, 200, 0, 0, 0, 0,
 
 
+instruction::CPY, 1, 0, 0, 100, -7, 0,
+instruction::ADD, 1, 1, 0, 100, 100, 7,
+instruction::GR, 1, 2, 0, 101, 100, 0,
+instruction::JRE, 0, 0, 1, 2, instruction::MARKER, 101,
+instruction::JRS, 0, 0, 0, 3, 0, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::GR, 1, 2, 0, 101, 100, 0,
+instruction::DEC, 1, 0, 0, 100, 0, 0,
+instruction::JRE, 0, 0, 1, 2, -1, 101,
+instruction::JRS, 0, 0, 0, 8, 0, 0,
+instruction::ADD, 1, 1, 0, 100, 100, 7,
+
+instruction::GSET, 1, 1, 0, 2, 100, 0, 
 
 
 instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-instruction::MARKER, 0, XXX, 0, 0, 0, 0,
+instruction::MARKER, 0, 200, 0, 0, 0, 0,
 ```
 
 ### Raw code
 
 ```{Raw class.source='foldable'}
-46, 0, XXX, 0, 0, 0, 0,
-46, 0, XXX, 0, 0, 0, 0,
+46, 0, 200, 0, 0, 0, 0,
+2, 1, 0, 0, 100, -7, 0,
+7, 1, 1, 0, 100, 100, 7,
+39, 1, 2, 0, 101, 100, 0,
+27, 0, 0, 1, 2, 46, 101,
+21, 0, 0, 0, 3, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+39, 1, 2, 0, 101, 100, 0,
+6, 1, 0, 0, 100, 0, 0,
+27, 0, 0, 1, 2, -1, 101,
+21, 0, 0, 0, 8, 0, 0,
+7, 1, 1, 0, 100, 100, 7,
+43, 1, 1, 0, 2, 100, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 200, 0, 0, 0, 0,
 ```
