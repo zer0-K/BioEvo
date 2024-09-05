@@ -1,0 +1,80 @@
+---
+title: Documentation of the 
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : 
+
+Input : 
+Output : 
+
+
+
+## Description
+
+
+
+### First part 
+
+
+ 
+### Second part 
+
+
+
+# Variables
+
+var 1 : 
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+
+
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+```
+
+
+
+
+### Commented code
+
+```{pseudoDNA class.source='foldable'}
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, XXX, 0, 0, 0, 0,
+
+
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, XXX, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, XXX, 0, 0, 0, 0,
+46, 0, XXX, 0, 0, 0, 0,
+```

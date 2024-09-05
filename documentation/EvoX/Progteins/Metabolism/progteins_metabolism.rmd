@@ -1,0 +1,17 @@
+---
+title: metabolic progteins documentation
+---
+
+This folder contains the documentation of the metabolic progteins.
+
+
+# General info
+
+This folder documents the progteins necessary for the inner working of an individual.
+
+## Summary
+
+* 200 : body size calc
+* 201 : new func writer
+* 207 : RNAP
+* 208 : transcriber

@@ -101,3 +101,14 @@ tRNA progteins ar a special case of genesis progteins
 * 15002 : tRNA_SP_GFPTRLV
 * 15003 : tRNA_SP_GSPLV
 * 15004 : tRNA_SP_GCPY
+
+## Metabolic progteins
+
+* 200 : body size calc
+* 201 : new funct writer
+* 207 : RNAP
+* 208 : transcriber
+
+## Behavioral progteins
+
+* 300 : free molecules picker

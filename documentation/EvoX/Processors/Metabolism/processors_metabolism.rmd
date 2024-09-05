@@ -1,0 +1,14 @@
+---
+Title: metabolic processors documentation
+---
+
+This folder contains the documentation of the metabolic processors.
+
+
+# General info
+
+This folder documents the processors used for the inner working of the individual.
+
+## Summary
+
+* 206 : ribosome

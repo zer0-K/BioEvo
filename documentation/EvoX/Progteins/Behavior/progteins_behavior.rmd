@@ -1,0 +1,14 @@
+---
+Title: behavioral progteins documentation
+---
+
+This folder contains the documentation of the behavioral progteins.
+
+
+# General info
+
+This folder documents the progteins that have make the individual interact with the environment.
+
+## Summary
+
+* 300 : free molecules picker

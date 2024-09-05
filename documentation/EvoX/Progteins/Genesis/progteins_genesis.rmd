@@ -1,38 +1,21 @@
 ---
-title: Progteins and processors documentation
+title: genesis progteins documentation
 ---
 
-The 'Progteins' forlder documents the progteins, and the  'Processors' folder documents the processors.
-This page summarizes both of them.
+This folder contains the documentation of the genesis progteins.
 
-# General summary
 
--100- : genetic data
--1 : molecular body end
-0-99 : core functions
-100-199 : general genesis functions
-200-299 : metabolic functions : internal utility functions
-300-399 : behavioral functions : external utility functions
-400-499 : machine learning functions
+# General info
 
-# Detailed summary
+This folder documents the progteins necessary for the genesis of an individual.
 
-Progteins are denoted with (p)
+## Summary
 
-## Core units
-
-* 0 : meta-exec progtein (p)
-* 1 : main function
-* 2 : core switcher
-
-## Genesis units
-
-* 100X1 : self-compilation func ID list (p)
-* 100X2 : meta-sequential transcriber
-* 103 : free molecules picker wrapper
+* 100X1 : self-compilation func ID list
 
 ### tRNAs
 
+*Usual tRNA*
 * 9999 : tRNA_RET
 * 10000 : tRNA_CVARS
 * 10001 : tRNA_IVARS
@@ -107,15 +90,4 @@ Progteins are denoted with (p)
 * 15003 : tRNA_SP_GSPLV
 * 15004 : tRNA_SP_GCPY
 
-## Metabolic functions
-
-* 200 : body size calc (p)
-* 201 : new funct writer (p)
-* 206 : ribosome
-* 207 : RNAP (p)
-* 208 : transcriber (p)
-
-## Behavioral functions
-
-* 300 : free molecules picker (p)
 
