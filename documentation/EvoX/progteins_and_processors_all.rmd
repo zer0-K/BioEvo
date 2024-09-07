@@ -113,7 +113,7 @@ Progteins are denoted with (p)
 * 201 : new func writer (p)
 * 206 : ribosome
 * 207 : RNAP (p)
-* 208 : transcriber (p)
+* 208 : transcriber
 
 ## Behavioral functions
 

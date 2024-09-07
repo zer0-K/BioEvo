@@ -12,3 +12,4 @@ This folder documents the processors used for the inner working of the individua
 ## Summary
 
 * 206 : ribosome
+* 208 : transcriber

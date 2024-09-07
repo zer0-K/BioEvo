@@ -26,3 +26,4 @@ These correspond to the teleonomical IDs between 100 and 199.
 ## Metabolic processors
 
 * 206 ribosome
+* 208 : transcriber

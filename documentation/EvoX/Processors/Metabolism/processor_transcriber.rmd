@@ -1,0 +1,296 @@
+---
+title: Documentation of the transcriber
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : handles the whole transcription process
+
+Input : ID of func to transcribe (in input[2])
+Output : transcribed func in body
+
+
+
+## Description
+
+This processor calls the RNAP to get appropriate gene as RNA.
+Calls the ribosome to translate this RNA into a progtein/processor.
+
+Writes the molecular markers before and after the transcribed code.
+Copy the transcribed code at end of body
+
+# Variables
+
+var 1 : func ID to transcribe
+var 2 : cpy ptr var
+var 3 : begin of loop
+var 4 : val at var5 in body
+var 5 : loop var
+var 6 : condition var
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Get func ID from input
+Put func ID on stack (with increment)
+
+Call RNAP
+Call ribosome
+
+Get stack ptr and adjust pos before writing molecular markers.
+Write molecular marker before func transcribed code (ribosome left some spaces on purpose)
+
+Get stack ptr and adjust pos after writing molecular markers.
+Write molecular marker after func transcribed code
+
+Find end of body.
+
+Copy in body the transcribed code.
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 208, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_GILV,
+1, 2, id_tRNA_PLVSI, 1, id_tRNA_CALLcst, 207, id_tRNA_CALLcst,
+206, id_tRNA_SP_GSPLV, 2, id_tRNA_OPELVcst, 0, 2, 3,
+id_tRNA_SLVLV, 3, 2, id_tRNA_SLVcst, 2, instruction::MARKER, id_tRNA_INCLV, 
+0, 2, id_tRNA_SDLVcst, 2, 0, id_tRNA_INCLV, 0, 
+2, id_tRNA_GTSDLV, 2, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 
+2, 0, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 2, 
+0, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 2, 0, 
+id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 2, 0, id_tRNA_SP_GSPLV, 
+2, id_tRNA_OPELVcst, 0, 2, 2, id_tRNA_SLVDLV, 2, 
+2, id_tRNA_INCLV, 0, 2, id_tRNA_SLVcst, 2, instruction::MARKER,
+id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 2, 0, id_tRNA_INCLV,
+0, 2, id_tRNA_GTSDLV, 2, id_tRNA_INCLV, 0, 2, 
+id_tRNA_SDLVcst, 2, 0, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 
+2, 0, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 2, 
+0, id_tRNA_INCLV, 0, 2, id_tRNA_SDLVcst, 2, 0,
+id_tRNA_SLVcst, 5, -7, id_tRNA_SLVcst, 4, 1, id_tRNA_IF0,
+4, id_tRNA_OPELVcst, 0, 5, 7, id_tRNA_RGLVLV, 4, 
+5, id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 6, id_tRNA_IF0, 
+6, id_tRNA_INCLV, 0, 5, id_tRNA_RGLVLV, 4, 5, 
+id_tRNA_CMPLVcst, 0, 4, -1, 4, id_tRNA_INCLV, 1, 4, 
+id_tRNA_INCLV, 1, 5, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SP_GCPY, 
+5, 3, 2, id_tRNA_RET, GSTOP_ID, 0, 0,
+```
+
+
+
+
+### Commented code
+```{pseudoDNA class.source='foldable'}
+id_tRNA_GILV, 1, 2          // var1 <- input[2]
+id_tRNA_PLVSI, 1            // stack ptr++, TOPS <- var1
+
+id_tRNA_CALLcst, 207        // call RNAP
+id_tRNA_CALLcst, 206        // call ribosome
+
+id_tRNA_SP_GSPLV, 2         // var2 <- stack ptr
+id_tRNA_OPELVcst, 0, 2, 3   // var2 += 3
+id_tRNA_SLVLV, 3, 2         // var3 <- var2
+id_tRNA_SLVcst, 2, instruction::MARKER  // var2 <- MARKER
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_GTSDLV, 2           // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+
+id_tRNA_SP_GSPLV, 2         // var2 <- stack ptr
+id_tRNA_OPELVcst, 0, 2, 2   // var2 += 2
+id_tRNA_SLVDLV, 2, 2        // var2 <- *var2
+
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SLVcst, 2, instruction::MARKER  // var2 <- MARKER
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_GTSDLV, 2           // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+id_tRNA_INCLV, 0, 2         // var2++
+id_tRNA_SDLVcst, 2, 0       // *var2 <- 0
+
+id_tRNA_SLVcst, 5, -7       // var5 <- -7
+
+id_tRNA_SLVcst, 4, 1        // var4 <- 1
+id_tRNA_IF0, 4
+| id_tRNA_OPELVcst, 0, 5, 7       // var5+=7
+| id_tRNA_RGLVLV, 4, 5            // var4 <- body at var5
+| id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 6  // var6 <- var4==MARKER
+| id_tRNA_IF0, 6
+| | id_tRNA_INCLV, 0, 5           // var5++
+| | id_tRNA_RGLVLV, 4, 5          // var4 <- body at var5
+| | id_tRNA_CMPLVcst, 0, 4, -1, 4 // var4 <- var4 == -1
+| | id_tRNA_INCLV, 1, 4           // var4--
+| | id_tRNA_INCLV, 1, 5           // var5--
+| id_tRNA_SIJ
+| id_tRNA_SEJ
+id_tRNA_SWJ
+id_tRNA_SP_GCPY, 5, 3, 2          // copy val between var3 and var2 at pos var5 in body
+
+id_tRNA_RET
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 208, 0, 0, 0, 0,
+
+
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CPYIN, 2, 1, 0, 99, 2, 0,
+
+instruction::CALL, 0, 0, 0, 0, 207, 0,
+
+instruction::CALL, 0, 0, 0, 0, 206, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::ADD, 1, 1, 0, 100, 100, 3,
+instruction::CPY, 1, 1, 0, 101, 100, 0,
+
+instruction::CPY, 2, 0, 0, 100, instruction::MARKER, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 2, 0, 100, 99, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::ADD, 1, 1, 0, 100, 100, 2,
+instruction::CPY, 1, 2, 0, 100, 100, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+
+
+instruction::CPY, 2, 0, 0, 100, instruction::MARKER, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 2, 0, 100, 99, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 0, 0, 100, 0, 0,
+
+
+instruction::CPY, 1, 0, 0, 103, -7, 0,
+instruction::ADD, 1, 1, 0, 103, 103, 7,
+instruction::GR, 1, 2, 0, 102, 103, 0,
+instruction::JRE, 0, 0, 1, 2, instruction::MARKER, 102,
+instruction::JRS, 0, 0, 0, 3, 0, 0,
+instruction::INC, 1, 0, 0, 103, 0, 0,
+instruction::GR, 1, 2, 0, 102, 103, 0,
+instruction::DEC, 1, 0, 0, 103, 0, 0,
+instruction::JRE, 0, 0, 1, 2, -1, 102,
+instruction::JRS, 0, 0, 0, 8, 0, 0,
+
+instruction::GCPY, 2, 2, 2, 103, 101, 100,
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 208, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 208, 0, 0, 0, 0,
+5, 1, 0, 0, 99, 0, 0,
+3, 2, 1, 0, 99, 2, 0,
+49, 0, 0, 0, 0, 207, 0,
+49, 0, 0, 0, 0, 206, 0,
+2, 1, 1, 0, 100, 99, 0,
+7, 1, 1, 0, 100, 100, 3,
+2, 1, 1, 0, 101, 100, 0,
+2, 2, 0, 0, 100, 46, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 2, 0, 100, 99, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+7, 1, 1, 0, 100, 100, 2,
+2, 1, 2, 0, 100, 100, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 46, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 2, 0, 100, 99, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 0, 0, 100, 0, 0,
+2, 1, 0, 0, 103, -7, 0,
+7, 1, 1, 0, 103, 103, 7,
+39, 1, 2, 0, 102, 103, 0,
+27, 0, 0, 1, 2, 46, 102,
+21, 0, 0, 0, 3, 0, 0,
+5, 1, 0, 0, 103, 0, 0,
+39, 1, 2, 0, 102, 103, 0,
+6, 1, 0, 0, 103, 0, 0,
+27, 0, 0, 1, 2, -1, 102,
+21, 0, 0, 0, 8, 0, 0,
+45, 2, 2, 2, 103, 101, 100,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 208, 0, 0, 0, 0,
+```

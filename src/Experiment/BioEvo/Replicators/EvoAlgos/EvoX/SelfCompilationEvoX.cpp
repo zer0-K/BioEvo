@@ -211,7 +211,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         4, id_tRNA_OPELVcst, 0, 5, 7, id_tRNA_RGLVLV, 4, 
         5, id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 6, id_tRNA_IF0, 
         6, id_tRNA_INCLV, 0, 5, id_tRNA_RGLVLV, 4, 5, 
-        id_tRNA_CMPLVcst, 0, 4, -1, id_tRNA_INCLV, 1, 4, 
+        id_tRNA_CMPLVcst, 0, 4, -1, 4, id_tRNA_INCLV, 1, 4, 
         id_tRNA_INCLV, 1, 5, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SP_GCPY, 
         5, 3, 2, id_tRNA_RET, GSTOP_ID, 0, 0,
 
