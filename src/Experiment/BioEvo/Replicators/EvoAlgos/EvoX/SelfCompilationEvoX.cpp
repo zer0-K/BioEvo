@@ -136,7 +136,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         1, 6, id_tRNA_INCcst, 1, 6, id_tRNA_CMPLVcst, 0, 
         1, -1, 7, id_tRNA_IF0, 7, id_tRNA_SLVcst, 8, 
         0, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_OPELVcst, 0, 
-        6, 8, id_tRNA_SWJ, id_tRNA_GILV, 1, 1, id_tRNA_SLVcst, 
+        6, 7, id_tRNA_SWJ, id_tRNA_GILV, 1, 1, id_tRNA_SLVcst, 
         2, 1, id_tRNA_SLVcst, 3, 2000, id_tRNA_SLVLV, 4, 
         3, id_tRNA_GISLV, 5, id_tRNA_SDLVcst, 4, instruction::MARKER, id_tRNA_INCLV,
         0, 4, id_tRNA_SDLVcst, 4, 0, id_tRNA_INCLV, 0,
@@ -147,13 +147,14 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_SLVcst, 8, 1, id_tRNA_IF0, 8, id_tRNA_INCLV, 0, 
         2, id_tRNA_INCLV, 0, 4, id_tRNA_CMPLVLV, 0, 2,
         5, 8, id_tRNA_INCLV, 1, 8, id_tRNA_IF0, 8,
-        id_tRNA_GDIDLV, 2, 4, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SDLVcst,
+        id_tRNA_GDIDLV, 4, 2, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SDLVcst,
         4, instruction::MARKER,  id_tRNA_INCLV, 0, 4, id_tRNA_SDLVcst, 4,
-        0, id_tRNA_SDLVLV, 4, 1, id_tRNA_SDLVcst, 4, 0, 
+        0, id_tRNA_INCLV, 0, 4, id_tRNA_SDLVLV, 4, 1, 
         id_tRNA_INCLV, 0, 4, id_tRNA_SDLVcst, 4, 0, id_tRNA_INCLV, 
         0, 4, id_tRNA_SDLVcst, 4, 0, id_tRNA_INCLV, 0, 
         4, id_tRNA_SDLVcst, 4, 0, id_tRNA_INCLV, 0, 4, 
-        id_tRNA_WGDLV, 6, 3, 4, id_tRNA_RET, GSTOP_ID, 0,
+        id_tRNA_SDLVcst, 4, 0, id_tRNA_INCLV, 0, 4, id_tRNA_WGDLV, 
+        6, 3, 4, id_tRNA_RET, GSTOP_ID, 0, 0,
 
 
         // 300 - get free molecules in input
