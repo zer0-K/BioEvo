@@ -1,5 +1,5 @@
 ---
-title: Documentation of the 
+title: Documentation of the ribosome
 output: 
   html_document:
     code_folding: hide
@@ -8,35 +8,86 @@ output:
 
 # General info
 
-Goal : 
+Goal : translate mRNA into a progtein/processor
 
-Input : 
-Output : 
+Input : mRNA on the stack
+Output : progtein/processor on the stack
 
 
 
 ## Description
 
+The ribosome processor goes throught the mRNA, calls the appropriate tRNA each time to build the 
+progtein/processor on the stack.
+After it has been built, the ribosome removes the mRNA from the stack and shifts the progtein.
 
+### First part : init progtein ptr and ribosome ptr
 
-### First part 
-
-
+Get end of mRNA from top of stack and set progtein ptr just after end of mRNA.
+Ribosome ptr is just after stack ptr, and points to 3 places after stack ptr.
  
-### Second part 
+### Second part : translation
 
+The ribosome goes throught the mRNA using the ribosome ptr and calls the appropriate tRNA, which 
+will build the amino acid at the progtein ptr.
 
+### Thrid part : progtein shift
+
+The ribosome plays with some variables and copies the progtein where the mRNA was standing.
+It copies the progteins at a place so that there is place for the transcriber to put the molecular marker at the beginning.
 
 # Variables
 
-var 1 : 
+var 1 : progtein ptr, then ribosome ptr, then source ptr for progtein shift
+var 2 : copy of ptr, then condition for translation loop, then end of progtein ptr
+var 3 : copy of ptr (for tRNA ID), then progtein size
+var 4 : copy of ptr
+var 5 : mRNA end
+var 6 : destination ptr for progtein shift
+var 7 : condition for progtein shift
 
 
 # Pseudo-code
 
 ```{pseudo class.source='foldable'}
+Increase stack ptr by 2
+
+Create progtein ptr :
+  get mRNA end from top of stack
+  increment mRNA end ptr (pos just after mRNA)
+  Set mRNA end ptr to itself (i.e. pos after mRNA will points to pos where progtein is being built)
+
+Init ribosome ptr :
+  get stack ptr and increment (ribosome ptr is at pos after stack ptr)
+  set ribosome ptr to itself (i.e. data[pos after stack ptr] = pos after stack ptr)
+  Adds 2 to ribosome ptr
 
 
+While ribosome ptr < mRNA end:
+  increment stack ptr (for function call)
+  get func ID at ribosome ptr
+  call this func (should be a tRNA ID)
+  decrement stack ptr
+  update condition : ribosome ptr < mRNA end
+
+*Remove mRNA*
+
+*Init variables to copy progtein at top of stack*
+Iit source shift ptr (progtein ptr pos)
+Increment stack ptr to set new pos for begining of progtein
+Get end of progtein
+Get size of progtein
+TOPS <- ribosome ptr + size of progtein
+Init dest shift ptr (7 places after stack ptr : to leave room for molecular marker for the transcriber)
+
+*Progtein shift*
+while end of progtein is not reached:
+  increments source and dest ptrs for copy
+  copy source into dest (i.e. shift progtein)
+  update condition : source < end of progtein
+
+Add 7 to TOPS (i.e. TOPS points to begining of progtein)
+Decrease stack ptr by to be at right pos
 ```
 
 # Code
@@ -46,14 +97,102 @@ var 1 :
 ### Raw code
 
 ```{DNA class.source='foldable'}
+GSTART_ID, 206, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_INCcst, 
+0, 99, id_tRNA_INCcst, 0, 99, id_tRNA_GTSLV, 1, 
+id_tRNA_INCLV, 0, 1, id_tRNA_SDLVLV, 1, 1, id_tRNA_SP_GSPLV, 
+1, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVLV, 1, 1, 
+id_tRNA_SLVDLV, 2, 1, id_tRNA_OPELVcst, 0, 2, 2, 
+id_tRNA_SDLVLV, 1, 2,id_tRNA_SP_GSPLV, 1, id_tRNA_INCLV, 0, 
+1, id_tRNA_SLVDLV, 4, 1, id_tRNA_GTSLV, 5, id_tRNA_CMPLVLV, 
+3, 4, 5, 2, id_tRNA_IF0, 2, id_tRNA_INCcst, 
+0, 99, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 
+3, id_tRNA_CALLLV, 3, id_tRNA_INCcst, 1, 99, id_tRNA_SP_GSPLV, 
+1, id_tRNA_INCLV, 0, 1, id_tRNA_SLVDLV, 4, 1, 
+id_tRNA_GTSLV, 5, id_tRNA_CMPLVLV, 3, 4, 5, 2, 
+id_tRNA_SWJ, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 0, 1, id_tRNA_SLVDLV, 
+2, 1, id_tRNA_SLVDLV, 3, 1, id_tRNA_OPELVLV, 1, 
+3, 1, id_tRNA_SP_GSPLV, 4, id_tRNA_OPELVLV, 0, 4, 
+3, id_tRNA_PLVSWI, 4, id_tRNA_SP_GSPLV, 6, id_tRNA_OPELVcst, 0, 
+6, 7, id_tRNA_CMPLVLV, 1, 1, 2, 7, 
+id_tRNA_IF0, 7, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0, 
+6, id_tRNA_SDLVDLV, 6, 1, id_tRNA_CMPLVLV, 1, 1, 
+2, 7, id_tRNA_SWJ, id_tRNA_GTSLV, 4, id_tRNA_OPELVcst, 0, 
+4, 7, id_tRNA_PLVSWI, 4, id_tRNA_INCcst, 1, 99, 
+id_tRNA_INCcst, 1, 99, id_tRNA_RET, GSTOP_ID, 0, 0,
 ```
-
-
 
 
 ### Commented code
 
 ```{pseudoDNA class.source='foldable'}
+id_tRNA_INCcst, 0, 99               // stack ptr++
+id_tRNA_INCcst, 0, 99               // stack ptr++
+
+*Init progtein ptr*
+id_tRNA_GTSLV, 1                    // var1 <- TOPS (mRNA end ptr)
+id_tRNA_INCLV, 0, 1                 // var1++
+id_tRNA_SDLVLV, 1, 1                // *var1 <- var1
+
+*Init ribosome ptr*
+id_tRNA_SP_GSPLV, 1                 // var1 <- stack ptr
+id_tRNA_INCLV, 0, 1                 // var1++ (ribosome ptr is 1 place after stack ptr)
+id_tRNA_SDLVLV, 1, 1                // *var1 <- var1
+id_tRNA_SLVDLV, 2, 1                // var2 <- *var1
+id_tRNA_OPELVcst, 0, 2, 2           // var2+=2  (ribosome ptr points to 2 places after itself)
+id_tRNA_SDLVLV, 1, 2                // *var1 <- var2 (see above)
+
+*Init loop vars (some useless code here)*
+id_tRNA_SP_GSPLV, 1                 // var1 <- stack ptr
+id_tRNA_INCLV, 0, 1                 // var1++
+id_tRNA_SLVDLV, 4, 1                // var4 <- *var1 (ribosome ptr)
+id_tRNA_GTSLV, 5                    // var5 <- TOPS (mRNA end ptr)
+id_tRNA_CMPLVLV, 3, 4, 5, 2         // var2 <- var4<=var5
+
+*mRNA translation into XASM progtein*
+id_tRNA_IF0, 2
+| id_tRNA_INCcst, 0, 99             // stack ptr++ (for CALL) (*)
+| id_tRNA_SLVDLV, 3, 1              // var3 <- *var1
+| id_tRNA_SLVDLV, 3, 3              // var3 <- *var3 (tRNA func ID at ribosome ptr)
+| id_tRNA_CALLLV, 3                 // CALL func at var3
+| id_tRNA_INCcst, 1, 99             // stack ptr-- (see (*))
+| *get back ribosome ptr after CALL*
+| id_tRNA_SP_GSPLV, 1               // var1 <- stack ptr
+| id_tRNA_INCLV, 0, 1               // var1++
+| id_tRNA_SLVDLV, 4, 1              // var4 <- *var1 (ribosome ptr)
+| id_tRNA_GTSLV, 5                  // var5 <- TOPS (mRNA end ptr)
+| id_tRNA_CMPLVLV, 3, 4, 5, 2       // var2 <- var4<=var5
+id_tRNA_SWJ
+
+*After translation, progtein ptr is a ptr to the progtein end*
+
+*Init variables before progtein shift (some useless things here too)*
+id_tRNA_GTSLV, 1                    // var1 <- TOPS (mRNA end ptr)
+id_tRNA_INCcst, 0, 1                // stack ptr++
+id_tRNA_SLVDLV, 2, 1                // var2 <- *var1 (progtein end ptr)
+id_tRNA_SLVDLV, 3, 1                // var3 <- *var1
+id_tRNA_OPELVLV, 1, 3, 1            // var3-=var1 (progtein size)
+id_tRNA_SP_GSPLV, 4                 // var4 <- stack ptr (ribosome ptr)
+id_tRNA_OPELVLV, 0, 4, 3            // var4+=var3 (new progtein end ptr)
+id_tRNA_PLVSWI, 4                   // TOPS <- var4
+id_tRNA_SP_GSPLV, 6                 // var6 <- stack ptr
+id_tRNA_OPELVcst, 0, 6, 7           // var6+=7 (copy 7 places after stack ptr) (**)
+id_tRNA_CMPLVLV, 1, 1, 2, 7         // var7 <- var1<var2
+
+*Actual shift*
+id_tRNA_IF0, 7
+| id_tRNA_INCLV, 0, 1               // var1++
+| id_tRNA_INCLV, 0, 6               // var6++
+| id_tRNA_SDLVDLV, 6, 1             // *var6 <- *var1 (dest <- source)
+| id_tRNA_CMPLVLV, 1, 1, 2, 7       // var7 <- var1<var2
+id_tRNA_SWJ
+
+id_tRNA_GTSLV, 4                    // var4 <- TOPS
+id_tRNA_OPELVcst, 0, 4, 7           // var4+=7 (adds the room we left for marker, see (**))
+id_tRNA_PLVSWI, 4                   // TOPS <- var4
+id_tRNA_INCcst, 1, 99               // stack ptr--
+id_tRNA_INCcst, 1, 99               // stack ptr--
+
+id_tRNA_RET
 ```
 
 
@@ -62,19 +201,87 @@ var 1 :
 ### XASM code
 
 ```{XASM class.source='foldable'}
-instruction::MARKER, 0, XXX, 0, 0, 0, 0,
+instruction::MARKER, 0, 206, 0, 0, 0, 0,
 
 
+instruction::ADD, 1, 1, 0, 99, 99, 2,
+
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 1, 0, 100, 100, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 2, 1, 0, 100, 100, 0,
+instruction::ADD, 2, 2, 0, 100, 100, 2,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+
+instruction::JRG, 0, 2, 2, 5, 100, 99,
+
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::CALL, 0, 3, 0, 0, 100, 0,
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::JRS, 0, 0, 0, 6, 0, 0,
+
+
+instruction::CPY, 1, 2, 0, 100, 99, 0,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 100, 0,
+instruction::SUB, 1, 2, 1, 102, 100, 100,
+instruction::ADD, 2, 1, 1, 99, 99, 102,
+instruction::CPY, 1, 1, 0, 103, 99, 0,
+instruction::ADD, 1, 1, 0, 103, 103, 7,
+
+instruction::JRGE, 0, 1, 1, 5, 100, 101,
+instruction::INC, 1, 0, 0, 100, 0, 0,
+instruction::INC, 1, 0, 0, 103, 0, 0,
+instruction::CPY, 2, 2, 0, 103, 100, 0,
+instruction::JRS, 0, 0, 0, 4, 0, 0,
+
+instruction::ADD, 2, 2, 0, 99, 99, 7,
+instruction::SUB, 1, 1, 0, 99, 99, 2,
 
 
 instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-instruction::MARKER, 0, XXX, 0, 0, 0, 0,
+instruction::MARKER, 0, 206, 0, 0, 0, 0,
 ```
 
 ### Raw code
 
 ```{Raw class.source='foldable'}
-46, 0, XXX, 0, 0, 0, 0,
-46, 0, XXX, 0, 0, 0, 0,
+46, 0, 206, 0, 0, 0, 0,
+7, 1, 1, 0, 99, 99, 2,
+2, 1, 2, 0, 100, 99, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 1, 0, 100, 100, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 2, 1, 0, 100, 100, 0,
+7, 2, 2, 0, 100, 100, 2,
+2, 1, 1, 0, 100, 99, 0,
+5, 1, 0, 0, 100, 0, 0,
+29, 0, 2, 2, 5, 100, 99,
+5, 1, 0, 0, 99, 0, 0,
+49, 0, 3, 0, 0, 100, 0,
+6, 1, 0, 0, 99, 0, 0,
+21, 0, 0, 0, 6, 0, 0,
+2, 1, 2, 0, 100, 99, 0,
+5, 1, 0, 0, 100, 0, 0,
+2, 1, 2, 0, 101, 100, 0,
+8, 1, 2, 1, 102, 100, 100,
+7, 2, 1, 1, 99, 99, 102,
+2, 1, 1, 0, 103, 99, 0,
+7, 1, 1, 0, 103, 103, 7,
+31, 0, 1, 1, 5, 100, 101,
+5, 1, 0, 0, 100, 0, 0,
+5, 1, 0, 0, 103, 0, 0,
+2, 2, 2, 0, 103, 100, 0,
+21, 0, 0, 0, 4, 0, 0,
+7, 2, 2, 0, 99, 99, 7,
+8, 1, 1, 0, 99, 99, 2,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 206, 0, 0, 0, 0,
 ```
