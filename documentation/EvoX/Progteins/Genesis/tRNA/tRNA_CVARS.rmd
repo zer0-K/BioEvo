@@ -35,10 +35,11 @@ Set nb of vars at data[data[98]]
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, id_tRNA_CVARS, id_tRNA_CVARS, LV_place, 2, id_tRNA_IVARS, id_tRNA_MP, 
+GSTART_ID, id_tRNA_CVARS, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
 id_tRNA_SLVDLV, 2, 1, id_tRNA_SLVDLV, 2, 2, id_tRNA_ScstLV, 
-98, 2, id_tRNA_INCDLV, 1, id_tRNA_SLVDLV, 3, 1, 
-id_tRNA_SDLVDLV, 2, 3, id_tRNA_INCDLV, 1, id_tRNA_RET, GSTOP_ID,
+98, 2, id_tRNA_INCDLV, 0, 1, id_tRNA_SLVDLV, 3, 
+1, id_tRNA_SDLVDLV, 2, 3, id_tRNA_INCDLV, 0, 1, 
+id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
 ```
 
 
@@ -53,12 +54,12 @@ id_tRNA_MP
 id_tRNA_SLVDLV, 2, 1    // var2 <- *var1 (var1=ribosome ptr)
 id_tRNA_SLVDLV, 2, 2    // var2 <- *var2 (var heap pos)
 id_tRNA_ScstLV, 98, 2   // data[98] <- var2
-id_tRNA_INCDLV, 1
+id_tRNA_INCDLV, 0, 1
 
 *set var stack size*
 id_tRNA_SLVDLV, 3, 1    // var3 <- *var1 (next arg in robosome ptr : var heap size)
 id_tRNA_SDLVDLV, 2, 3   // *var2 <- *var3 (data[var stack pos] = var heap size)
-id_tRNA_INCDLV, 1
+id_tRNA_INCDLV, 0, 1
 
 id_tRNA_RET
 ```

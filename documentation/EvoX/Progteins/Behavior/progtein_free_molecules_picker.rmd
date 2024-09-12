@@ -65,16 +65,16 @@ Else :
 GSTART_ID, 300, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_USLV,
 1, id_tRNA_SLVcst, 5, 0, id_tRNA_SLVcst, 9, 1,
 id_tRNA_IF0, 9, id_tRNA_CMPLVLV, 0, 1, 5, 9, 
-id_tRNA_IF0,9, id_tRNA_PCSWI, -1, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, 
-id_tRNA_INCLV, 1, 9, id_tRNA_RULV, 5, id_tRNA_INCLV, 5, 
-id_tRNA_GISLV, 2, id_tRNA_CMPLVcst, 5, 2, 2, 7, 
-id_tRNA_IF0, 7, id_tRNA_GILV, 3, 0, id_tRNA_GILV, 4, 
-1,id_tRNA_CMPLVcst, 0, 3, 3, 7, id_tRNA_IF0, 
-7,id_tRNA_GTSLV, 6, id_tRNA_CMPLVLV, 0, 4, 6, 
-7, id_tRNA_CMPLVcst, 0, 6, -1, 8, id_tRNA_OPELVLV, 
-0, 7, 8, id_tRNA_IF0, 7, id_tRNA_PCSWI, 1, 
-id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, 
-id_tRNA_SWJ, id_tRNA_PCSWI, 0, id_tRNA_RET, GSTOP_ID, 0, 0,
+id_tRNA_IF0, 9, id_tRNA_PCSWI, -1, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, 
+id_tRNA_INCLV, 1, 9, id_tRNA_RULV, 5, id_tRNA_INCLV, 0, 
+5, id_tRNA_GISLV, 2, id_tRNA_CMPLVcst, 5, 2, 2, 
+7, id_tRNA_IF0, 7, id_tRNA_GILV, 3, 0, id_tRNA_GILV, 
+4, 1,id_tRNA_CMPLVcst, 0, 3, 3, 7, 
+id_tRNA_IF0, 7,id_tRNA_GTSLV, 6, id_tRNA_CMPLVLV, 0, 4, 
+6, 7, id_tRNA_CMPLVcst, 0, 6, -1, 8, 
+id_tRNA_OPELVLV, 0, 7, 8, id_tRNA_IF0, 7, id_tRNA_PCSWI, 
+1, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SIJ, 
+id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_PCSWI, 0, id_tRNA_RET, GSTOP_ID, 0,
 ```
 
 
@@ -95,7 +95,7 @@ id_tRNA_IF0, 9
 | id_tRNA_SEJ
 | id_tRNA_INCLV, 1, 9             // var9--
 | id_tRNA_RULV, 5                 // read universe cell at var5
-| id_tRNA_INCLV, 5                // var5++
+| id_tRNA_INCLV, 0, 5             // var5++
 | id_tRNA_GISLV, 2                // var2 <- input size
 | id_tRNA_CMPLVcst, 5, 2, 2, 7    // var7 <- var2>=2
 | id_tRNA_IF0, 7
@@ -105,7 +105,7 @@ id_tRNA_IF0, 9
 | | id_tRNA_IF0, 7
 | | | id_tRNA_GTSLV, 6            // var6 <- TOPS
 | | | id_tRNA_CMPLVLV, 0, 4, 6, 7 // var7 <- var4==var6
-| | | id_tRNA_CMPLVcst, 0, 6, -1, 8   // var8 <- var6==-1
+| | | id_tRNA_CMPLVcst, 0, 6, -1, 8  // var8 <- var6==-1
 | | | id_tRNA_OPELVLV, 0, 7, 8       // var7 += var8
 | | | id_tRNA_IF0, 7
 | | | | id_tRNA_PCSWI, 1          // TOPS <- 1

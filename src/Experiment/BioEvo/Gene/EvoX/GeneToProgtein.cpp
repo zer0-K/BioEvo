@@ -2932,6 +2932,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::ADD, 1, 1, 3, 103, 98, 100,    // arg2 : var nb
         instruction::CPY, 3, 2, 0, 101, 103, 0,
+        instruction::INC, 2, 0, 0, 100, 0, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0
     };
@@ -4029,6 +4030,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : set const addr with LV",
         "tRNA : set LV with cst addr",
         "tRNA : read gene at local var in local var",
+        "tRNA : write genes at dereferenced vars",
         "tRNA : get input in local var",
         "tRNA : get dereferenced input in local var",
         "tRNA : get input in dereferenced local var",
