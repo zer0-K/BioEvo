@@ -21,6 +21,7 @@ public:
     void launch() override;
 
     sp_evox get_base_algo(int step);
+    void build_molecular_body_from_transcribed_DNA(sp_evox base_algo);
     sp_univ_evo_algos get_universe(sp_evox algo);
 
     //-------------------- step 1
@@ -32,6 +33,9 @@ public:
 
     /// @brief second step
     void exec_step_2(sp_univ_evo_algos universe, sp_evox algo);
+
+    /// @brief third step
+    void exec_step_3(sp_univ_evo_algos universe, sp_evox algo);
 };
 
 typedef std::shared_ptr<SelfCompilationEvoX> sp_experiment_evox_selfc;

@@ -307,13 +307,14 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         1, id_tRNA_PLVSWI, 1, id_tRNA_OPEcstcst, 1, 99, 3, 
         id_tRNA_SIJ, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 
         6, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 1, id_tRNA_INCLV, 
-        1, 1, id_tRNA_OPELVLV, 1, 6, 1, id_tRNA_SOSLV, 
-        6, id_tRNA_SLVLV, 6, 1, id_tRNA_CMPLVLV, 0, 6, 
-        2, 7, id_tRNA_INCLV, 1, 7, id_tRNA_SLVcst, 8, 
-        0, id_tRNA_IF0, 7, id_tRNA_SLVDLV, 7, 6, id_tRNA_GLVO, 
-        8, 7, id_tRNA_INCLV, 0, 6, id_tRNA_INCLV, 0, 
-        8, id_tRNA_CMPLVLV, 0, 6, 2, 7, id_tRNA_INCLV, 
-        1, 7, id_tRNA_SWJ, id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0,
+        1, 1, id_tRNA_INCLV, 1, 2, id_tRNA_OPELVLV, 1, 
+        6, 1, id_tRNA_SOSLV, 6, id_tRNA_SLVLV, 6, 1, 
+        id_tRNA_CMPLVLV, 0, 6, 2, 7, id_tRNA_INCLV, 1, 
+        7, id_tRNA_SLVcst, 8, 0, id_tRNA_IF0, 7, id_tRNA_SLVDLV, 
+        7, 6, id_tRNA_GLVO, 8, 7, id_tRNA_INCLV, 0, 
+        6, id_tRNA_INCLV, 0, 8, id_tRNA_CMPLVLV, 0, 6, 
+        2, 7, id_tRNA_INCLV, 1, 7, id_tRNA_SWJ, id_tRNA_SEJ, 
+        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
 
 
         //---------- tRNAs
@@ -909,6 +910,53 @@ void SelfCompilationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_with_bootstrap_DNA.csv");
 }
 
+void SelfCompilationEvoX::build_molecular_body_from_transcribed_DNA(sp_evox base_algo)
+{
+    std::vector<int> molecular_body = std::vector<int>{
+        0, 3, 2331, 150, -1, 0, 0,
+        19, 0, 0, 0, 26, 0, 0
+    };
+
+    // add transcribed body
+    auto transcribed_body = base_algo->get_output();
+
+    molecular_body.insert(
+        molecular_body.end(), 
+        transcribed_body.begin(), 
+        transcribed_body.end()-1
+    );
+
+    // add DNA marker
+    molecular_body.push_back(46);
+    molecular_body.push_back(0);
+    molecular_body.push_back(-1);
+    molecular_body.push_back(0);
+    molecular_body.push_back(0);
+    molecular_body.push_back(0);
+    molecular_body.push_back(0);
+
+    // add DNA
+    auto DNA = get_DNA_step_1();
+
+    molecular_body.insert(
+        molecular_body.end(), 
+        DNA.begin()+2, 
+        DNA.end()
+    );
+
+    // add DNA marker
+    molecular_body.push_back(46);
+    molecular_body.push_back(0);
+    molecular_body.push_back(-1);
+    molecular_body.push_back(0);
+    molecular_body.push_back(0);
+    molecular_body.push_back(0);
+    molecular_body.push_back(0);
+
+
+    write_molecular_body_to_csv(molecular_body, "molecular_body_transcribed.csv");
+}
+
 void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 {
     // transcribe self compilation functions
@@ -934,4 +982,6 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     algo->set_input({-1, 210});
     universe->exec();
+
+    build_molecular_body_from_transcribed_DNA(algo);
 }
