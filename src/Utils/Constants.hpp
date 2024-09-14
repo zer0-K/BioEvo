@@ -95,7 +95,7 @@ const std::string TYPE_LINEAR = "linear";
 const std::string X86_ALGO = "x86 algo";
 const int DEFAULT_X86_DATA_SIZE = 100000;
 const int DEFAULT_X86_CODE_SIZE = 100;
-const int MAX_OUTPUT_SIZE_X86 = 10000;
+const int MAX_OUTPUT_SIZE_X86 = 30000;
 const int SIZE_INSTR = 7;
 const int MAX_NB_INSTR_EXEC = 40000;
 

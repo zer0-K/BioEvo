@@ -8,7 +8,7 @@ output:
 
 # General info
 
-Goal : This tRNA transcribes the RNA copies a variable into output.
+Goal : This tRNA transcribes the RNA copies a variable into output (outpout index is in a variable).
 
 
 Arg : nothing
@@ -27,7 +27,7 @@ Init P site
 Init E site
 
 Writes the instructions
-* CPYOUT, 1, 1, 0, addr, var, 0
+* CPYOUT, 1, 1, 0, var, var, 0
 at the E site
 ```
 
@@ -39,8 +39,8 @@ at the E site
 
 ```{DNA class.source='foldable'}
 GSTART_ID, id_tRNA_GLVO, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
-id_tRNA_ME, id_tRNA_MInstr, instruction::CPYOUT, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Marg, 
-id_tRNA_MLV, 99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+id_tRNA_ME, id_tRNA_MInstr, instruction::CPYOUT, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, 
+id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 ```
 
 
@@ -57,7 +57,7 @@ id_tRNA_MInstr, instruction::CPYOUT
 id_tRNA_M1
 id_tRNA_M1
 id_tRNA_M0
-id_tRNA_Marg, 
+id_tRNA_MLV, 
 id_tRNA_MLV
 id_tRNA_M0
 
@@ -85,7 +85,7 @@ instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, instruction::CPYOUT, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 0, 0, 101, 1, 0,
+instruction::CPY, 3, 0, 0, 101, 2, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, 1, 0,
@@ -94,7 +94,8 @@ instruction::INC, 2, 0, 0, 101, 0, 0,
 instruction::CPY, 3, 0, 0, 101, 0, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
-instruction::CPY, 3, 3, 0, 101, 100, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
 instruction::INC, 2, 0, 0, 100, 0, 0,
 
 instruction::INC, 2, 0, 0, 101, 0, 0,
@@ -115,5 +116,30 @@ instruction::MARKER, 0, 10250, 0, 0, 0, 0,
 
 ```{RAW class.source='foldable'}
 46, 0, 10250, 0, 0, 0, 0,
-46, 0, 10250, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+5, 1, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 4, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 2, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 1, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 102, 98, 100,
+2, 3, 2, 0, 101, 102, 0,
+5, 2, 0, 0, 100, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 102, 98, 100,
+2, 3, 2, 0, 101, 102, 0,
+5, 2, 0, 0, 100, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 2, 10250, 0, 101, 0, 0,
 ```

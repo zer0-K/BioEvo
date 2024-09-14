@@ -991,18 +991,19 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         // CPYOUT
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, instruction::CPYOUT, 0,
-        // 1
+        // 2
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        instruction::CPY, 3, 0, 0, 101, 2, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
-        // output index
+        // output index in local var
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 3, 0, 101, 100, 0,
+        instruction::ADD, 1, 1, 3, 102, 98, 100,
+        instruction::CPY, 3, 2, 0, 101, 102, 0,
         instruction::INC, 2, 0, 0, 100, 0, 0,
         // local var
         instruction::INC, 2, 0, 0, 101, 0, 0,
@@ -1302,7 +1303,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, instruction::SETOS, 0,
         // 1
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 0, 0,
+        instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
