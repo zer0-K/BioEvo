@@ -21,7 +21,7 @@ public:
     void launch() override;
 
     sp_evox get_base_algo(int step);
-    void build_molecular_body_from_transcribed_DNA(sp_evox base_algo);
+    void build_new_algo_artificially(sp_evox base_algo);
     sp_univ_evo_algos get_universe(sp_evox algo);
 
     //-------------------- step 1

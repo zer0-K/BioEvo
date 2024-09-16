@@ -71,7 +71,7 @@ Go back to previous func
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, 0, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_GTSLVD,
+GSTART_ID, 0, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_GTSLV,
 1, id_tRNA_SLVcst, 2, 0, id_tRNA_SLVcst, 3, 1,
 id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 2, 7, id_tRNA_RGLVLV,
 4, 2, id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3,
@@ -91,7 +91,7 @@ id_tRNA_INCcst, 1, 0, id_tRNA_SP_GFPTRLV, 5, id_tRNA_INCcst, 1,
 
 
 ```{pseudoDNA class.source='foldable'}
-id_tRNA_GTSLVD, 1                   // var1 <- func ID in TOPS
+id_tRNA_GTSLV, 1                    // var1 <- func ID in TOPS
 id_tRNA_SLVcst, 2, 0                // var2 <- 0
 id_tRNA_SLVcst, 3, 1                // var3 <- 1
 id_tRNA_IF0, 3
