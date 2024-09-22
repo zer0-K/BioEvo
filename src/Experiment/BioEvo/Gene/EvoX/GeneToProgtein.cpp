@@ -3076,7 +3076,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,
@@ -3098,7 +3098,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         instruction::CPY, 3, 0, 0, 101, 1, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
-        instruction::CPY, 3, 0, 0, 101, 1, 0,
+        instruction::CPY, 3, 0, 0, 101, 0, 0,
         // 0
         instruction::INC, 2, 0, 0, 101, 0, 0,
         instruction::CPY, 3, 0, 0, 101, 0, 0,

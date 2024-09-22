@@ -19,6 +19,7 @@ Output : code of the 'CMPLVLV' amino acid
 var 1 : ribosome ptr
 var 2 : exit ptr
 var 3 : tmp var
+var 4 : arg var
 
 # Pseudo-code
 
@@ -34,7 +35,7 @@ JXX <- JRLE if CMP op == 3
 JXX <- JRGE otherwise
 
 Writes the instructions
-* JXX, 0, 1, 0, 3, v1, v2
+* JXX, 0, 1, 1, 3, v1, v2
 * CPY, 1, 0, 0, v4, 0, 0
 * JRA, 0, 0, 0, 2, 0, 0
 * CPY, 1, 0, 0, v4, 1, 0
@@ -50,7 +51,7 @@ at the E-site
 ```{DNA class.source='foldable'}
 GSTART_ID, id_tRNA_CMPLVLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
 id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
-id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+id_tRNA_INCDLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
 4,id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::JRE, id_tRNA_SIJ, 
 id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
 id_tRNA_SLVcst, 3, instruction::JRL, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
@@ -78,7 +79,7 @@ id_tRNA_ME
 *get JMP operation depending on CMP op arg*
 id_tRNA_SLVDLV, 3, 1                  // var3 <- CMP op
 id_tRNA_SLVDLV, 3, 3
-id_tRNA_INCLV, 0, 1
+id_tRNA_INCDLV, 0, 1
 id_tRNA_CMPLVcst, 0, 3, 0, 4          // var3 == 0 : '=='
 id_tRNA_IF0, 4
 | id_tRNA_SLVcst, 3, instruction::JRE           // var3 <- JRE
@@ -102,7 +103,7 @@ id_tRNA_SIJ
 id_tRNA_SEJ
 
 
-*write amino acid JXX, 0, 1, 0, 3, v1, v2*
+*write amino acid JXX, 0, 1, 1, 3, v1, v2*
 id_tRNA_INCDLV, 0, 2
 id_tRNA_SLVDLV, 4, 2
 id_tRNA_SDLVLV, 4, 3

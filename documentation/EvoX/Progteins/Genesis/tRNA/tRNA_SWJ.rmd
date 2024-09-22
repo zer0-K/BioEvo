@@ -43,7 +43,7 @@ at the E site
 ```{DNA class.source='foldable'}
 GSTART_ID, id_tRNA_SWJ, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_MP, 
 id_tRNA_ME, id_tRNA_SLVDLV, 3, 2, id_tRNA_SLVcst, 4, 1, 
-id_tRNA_OPELVcst, 1, 2, 2, id_tRNA_SLVDLV, 5, 3,
+id_tRNA_OPELVcst, 1, 3, 2, id_tRNA_SLVDLV, 5, 3,
 id_tRNA_CMPLVcst, 0, 5, -142857, 5, id_tRNA_INCLV, 1, 
 5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 1, 3, 7, 
 id_tRNA_INCLV, 0, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_CMPLVcst, 
@@ -65,7 +65,7 @@ id_tRNA_ME
 
 id_tRNA_SLVDLV, 3, 2                // var3 <- E-site ptr
 id_tRNA_SLVcst, 4, 1,               // var4 <- 1
-id_tRNA_OPELVcst, 1, 2, 2           // var 2 -= 2
+id_tRNA_OPELVcst, 1, 3, 2           // var 3 -= 2
 id_tRNA_SLVDLV, 5, 3,
 id_tRNA_CMPLVcst, 0, 5, -142857, 5  // var3 == IF0 token
 id_tRNA_INCLV, 1, 5

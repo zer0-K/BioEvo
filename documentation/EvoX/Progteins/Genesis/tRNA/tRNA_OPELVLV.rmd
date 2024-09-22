@@ -47,7 +47,7 @@ at the E-site
 ```{DNA class.source='foldable'}
 GSTART_ID, id_tRNA_OPELVLV, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_MP, 
 id_tRNA_ME, id_tRNA_SLVDLV, 3, 1, id_tRNA_SLVDLV, 3, 3, 
-id_tRNA_INCLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
+id_tRNA_INCDLV, 0, 1, id_tRNA_CMPLVcst, 0, 3, 0, 
 4,id_tRNA_IF0, 4, id_tRNA_SLVcst, 3, instruction::ADD, id_tRNA_SIJ, 
 id_tRNA_CMPLVcst, 0, 3, 1, 4, id_tRNA_IF0, 4, 
 id_tRNA_SLVcst, 3, instruction::SUB, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, 
@@ -70,7 +70,7 @@ id_tRNA_ME
 *get operation depending on first arg*
 id_tRNA_SLVDLV, 3, 1                        // var3 <- op arg
 id_tRNA_SLVDLV, 3, 3
-id_tRNA_INCLV, 0, 1
+id_tRNA_INCDLV, 0, 1
 id_tRNA_CMPLVcst, 0, 3, 0, 4                // var3 == 0 : ADD
 id_tRNA_IF0, 4
 | id_tRNA_SLVcst, 3, instruction::ADD       // var3 <- ADD instr

@@ -109,7 +109,7 @@ id_tRNA_SDLVLV, 1, 2,id_tRNA_SP_GSPLV, 1, id_tRNA_INCLV, 0,
 3, id_tRNA_CALLLV, 3, id_tRNA_INCcst, 1, 99, id_tRNA_SP_GSPLV, 
 1, id_tRNA_INCLV, 0, 1, id_tRNA_SLVDLV, 4, 1, 
 id_tRNA_GTSLV, 5, id_tRNA_CMPLVLV, 3, 4, 5, 2, 
-id_tRNA_SWJ, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 0, 1, id_tRNA_SLVDLV, 
+id_tRNA_SWJ, id_tRNA_GTSLV, 1, id_tRNA_INCLV, 0, 1, id_tRNA_SLVDLV, 
 2, 1, id_tRNA_SLVDLV, 3, 1, id_tRNA_OPELVLV, 1, 
 3, 1, id_tRNA_SP_GSPLV, 4, id_tRNA_OPELVLV, 0, 4, 
 3, id_tRNA_PLVSWI, 4, id_tRNA_SP_GSPLV, 6, id_tRNA_OPELVcst, 0, 
@@ -167,7 +167,7 @@ id_tRNA_SWJ
 
 *Init variables before progtein shift (some useless things here too)*
 id_tRNA_GTSLV, 1                    // var1 <- TOPS (mRNA end ptr)
-id_tRNA_INCcst, 0, 1                // stack ptr++
+id_tRNA_INCLV, 0, 1                 // var1++
 id_tRNA_SLVDLV, 2, 1                // var2 <- *var1 (progtein end ptr)
 id_tRNA_SLVDLV, 3, 1                // var3 <- *var1
 id_tRNA_OPELVLV, 1, 3, 1            // var3-=var1 (progtein size)
