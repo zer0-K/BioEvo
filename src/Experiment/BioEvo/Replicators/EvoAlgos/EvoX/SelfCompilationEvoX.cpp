@@ -25,11 +25,11 @@ void SelfCompilationEvoX::launch()
 {
     sp_evox algo = get_base_algo(1);
     sp_univ_evo_algos univ = get_universe(algo);
-    exec_step_1(univ, algo);
+    //exec_step_1(univ, algo);
 
     algo = get_base_algo(2);
     univ = get_universe(algo);
-    exec_step_2(univ, algo);
+    //exec_step_2(univ, algo);
 
     // re-exec step 2 but with new molecular body
     algo = get_base_algo(3);
@@ -729,7 +729,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // tRNA_RULV
 
-        GSTART_ID, id_tRNA_USLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        GSTART_ID, id_tRNA_RULV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
         id_tRNA_ME, id_tRNA_MInstr, instruction::READ, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
         id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 
@@ -744,7 +744,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         GSTART_ID, id_tRNA_MP, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
         id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_Mcst, 100, 
-        id_tRNA_Mcst, 99, id_tRNA_MLV, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, 
+        id_tRNA_Mcst, 99, id_tRNA_M0, id_tRNA_MInstr, instruction::INC, id_tRNA_M2, id_tRNA_M0, 
         id_tRNA_M0, id_tRNA_Mcst, 100, id_tRNA_M0, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 
 
         // tRNA_ME
@@ -884,7 +884,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         
         // 0 - func executor
 
-        GSTART_ID, 123456, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_GTSLV,
+        GSTART_ID, 0, id_tRNA_CVARS, LV_place, 5, id_tRNA_IVARS, id_tRNA_GTSLV,
         1, id_tRNA_SLVcst, 2, 0, id_tRNA_SLVcst, 3, 1,
         id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 2, 7, id_tRNA_RGLVLV,
         4, 2, id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3,
@@ -918,7 +918,7 @@ void SelfCompilationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_with_bootstrap_DNA.csv");
 }
 
-void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo)
+void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo, std::string file_name)
 {
     std::vector<int> molecular_body = std::vector<int>{
         0, 3, 2331, 150, -1, 0, 0,
@@ -966,7 +966,7 @@ void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo)
     molecular_body[11] = 36;
 
 
-    write_molecular_body_to_csv(molecular_body, "molecular_body_transcribed.csv");
+    write_molecular_body_to_csv(molecular_body, file_name);
 }
 
 void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
@@ -991,7 +991,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 210});
     universe->exec();
 
-    build_new_algo_artificially(algo);
+    build_new_algo_artificially(algo, "molecular_body_transcribed.csv");
 }
 
 void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
@@ -1002,10 +1002,16 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
 
     for(int i=0;i<82;i++)
     {
+        if(i==82-5)
+        {
+            std::cout << std::endl;
+        }
         algo->set_input({-1, 210});
         universe->exec();
     }
 
     algo->set_input({-1, 210});
     universe->exec();
+
+    build_new_algo_artificially(algo, "molecular_body_transcribed_iterated.csv");
 }

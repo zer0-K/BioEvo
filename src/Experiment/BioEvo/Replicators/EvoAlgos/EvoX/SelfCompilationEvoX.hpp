@@ -21,7 +21,7 @@ public:
     void launch() override;
 
     sp_evox get_base_algo(int step);
-    void build_new_algo_artificially(sp_evox base_algo);
+    void build_new_algo_artificially(sp_evox base_alg, std::string file_nameo);
     sp_univ_evo_algos get_universe(sp_evox algo);
 
     //-------------------- step 1
