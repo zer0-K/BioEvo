@@ -1,7 +1,11 @@
 BioEvo Project
 
 This project consists in developing adaptative algorithms with an evolutionary biology perspective.
-You can find the book of work in the "BOW" file.
+You can find the book of work in the "BOW" file. Current steps:
+- last done : genetic quine in EvoX
+- next step : clean + mutate
+
+
 You can find some resources for the general mindset of the discipline here : https://en.wikipedia.org/wiki/Category:Evolutionary_algorithms.
 
 "src/Models" contains all the models, but ML models are mainly in "EvoAlgos" (but also in "CodeEaters" and "ClassicalAlgos").
@@ -10,6 +14,7 @@ You can find some resources for the general mindset of the discipline here : htt
 Generally (details below), the framework consists in a universe containing an environment and individuals that evolve inside it.
 
 Although I use this repository as a playground for evolutionary algorithms, I have mainly two projects : Evox and CodeEaters
+
 
 I/ EvoX
 
@@ -34,7 +39,7 @@ First main difference with other evolutionary machine learning algorithms:
 
 (a Turing machine)
 -> An individual has a code and a memory. When it is executed it can be seen as a program being run or as a computer running programs.
-    It is better to see the individual as a computer running programs because the goal is to create generalist individual, that can do several tasks.
+    It is better to see the individual as a computer running programs because the goal is to create generalist individuals, that can do several tasks.
 
 
 Second main difference :
@@ -58,6 +63,17 @@ The goal is to tackle :
     - computer science problem solving (sorting lists, memory management, compression,...)
     - input change (the number of inputs of a problem changes)
     - un-learning (un-learn some toxic data/behavior)
+
+4) What are the current results
+
+What has been developped for the moment :
+- individuals are made of 'molecules', an assembly-like language I called 'XASM' : 
+    - even though XASM is code, one should see it as molecules : they can change the state of the world (here - the individiual) and HAVE A TELEONOMICAL PURPOSE, i.e. we will perform artificial selection based on some XASM lines that we will consider good or bad
+- individuals have a 'computer design' I called 'JMP01 arch' : they have a program pointer, execute molecules looping throught their body, and have some core functions allowing them to change the program pointer to execute a wanted function (i.e. they have a metabolism, they can choose which organ should be executed)
+- they can dump some molecules in the environment, and can get molecules in the environment to write them in their body as a new progtein/organ
+!!!!
+- individuals have a DNA and a whole genetical metabolism, allowing the individual to generate its own code in an relatively easy way : they are genetic quine
+!!!!
 
 
 II/ Code eaters
