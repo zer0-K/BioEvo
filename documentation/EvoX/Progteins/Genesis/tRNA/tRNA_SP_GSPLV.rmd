@@ -37,9 +37,9 @@ Writes the instruction CPY, 1, 1, 0, v1, 99, 0 at the E site
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, id_tRNA_SP_GSPLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_MP, id_tRNA_ME, 
-id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 99, 
-id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
+GSTART_ID, id_tRNA_SP_GSPLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_MCPY, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, id_tRNA_Mcst, 
+99, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
 ```
 
 

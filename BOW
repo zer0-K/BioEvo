@@ -2,14 +2,13 @@ Book of work:
 
 1) EvoX
 
-15 - evolve code 1
-        f - bootstrap !
-        g - create mutable DNA
-16 - organize teleonomical IDs
-18 - select on DNA acquisition : func id arch
+16 - create mutable DNA (see X1)
+        a - theory
+        b - ... next steps depend on 16-a
+18 - select on DNA mutation (see X2)
 19 - plotting progtein creation
-20 - share useful amino acids
-21 - mutate DNA when replicating individual
+20 - share useful DNA/progteins
+21 - select on DNA acquisition (DNA sharing) (see X3)
 
 For later :
 X1 - mutate specific regions in the code
@@ -42,6 +41,7 @@ What has been done :
    - 23/04/2024 -     c - create ribosome
    - 25/04/2024 -     d - create mRNA from DNA
    - 26/04/2024 -     e - tRNA for WHILE loops
+   - 03/10/2024 -     f - bootstrap !
 17 - 15/08/2024 - rename genes as body (DNA is between -1's) and document
 
 
