@@ -75,14 +75,34 @@ std::vector<int> UniverseEvoAlgos::get_free_molecules_at(int pos)
 bool UniverseEvoAlgos::write_free_molecules_at(int pos, std::vector<int> vals)
 {
     // create free molecules with given values if place at given pos is empty
-    if(UniverseEvoAlgos::is_empty(pos))
+    if(UniverseEvoAlgos::is_empty(pos) && vals.size() > 0)
     {
-        sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
-        free_molecules->init();
+        sp_entity new_entity = std::make_shared<Entity>("Entity " + std::to_string(pos));
 
-        free_molecules->set_molecular_body(vals);
+        if(vals[0] == GGENESIS_ID)
+        {
+            sp_evox algo = std::make_shared<EvoX>("transcribed evox algo");
+            algo->init();
 
-        places[pos]->set_entity(free_molecules);
+            std::vector<int> molecular_body(vals.begin()+1, vals.end()-1);
+
+            algo->set_molecular_body(molecular_body);
+
+            // set data stack at 150
+            algo->set_data_at(99, 150);
+
+            new_entity = algo;
+        }
+        else
+        {
+            sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
+            free_molecules->init();
+
+            free_molecules->set_molecular_body(vals);
+            new_entity = free_molecules;
+        }
+
+        places[pos]->set_entity(new_entity);
 
         return true;
     }

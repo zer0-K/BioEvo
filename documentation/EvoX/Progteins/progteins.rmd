@@ -79,6 +79,8 @@ tRNA progteins ar a special case of genesis progteins
 * 12003 : tRNA_GLVLV
 * 13000 : tRNA_USLV
 * 13001 : tRNA_RULV
+* 13100 : tRNA_EMPTY
+* 13200 : tRNA_WRITE
 * 14999 : tRNA_HALT
 
 *Meta tRNAs*

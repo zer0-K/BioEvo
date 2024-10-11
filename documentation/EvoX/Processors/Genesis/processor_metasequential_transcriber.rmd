@@ -35,7 +35,7 @@ so that it is contiguous with previously transcribed code.
 ### Second part 
 
 After all DNA functions have been transcribed, the meta-sequential transcriber writes the code 
-and DNA (TODO) into the output, and then (TODO) dumps the output into an available place in the environment.
+and DNA into the output, and then dumps the output into an available place in the environment.
 
 # Variables
 
@@ -47,6 +47,8 @@ var 5 : last ID of ID list
 var 6 : current pos in body of transcribed code to cpy to output
 var 7 : are we at end of transcription code ?
 var 8 : current pos in output to copy transcribed code
+var 9 : cmp var
+var 10 : condition var
 
 
 # Pseudo-code
@@ -86,7 +88,7 @@ Else
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, 100X2, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_OPEcstcst, 
+GSTART_ID, 100X2, id_tRNA_CVARS, LV_place, 10, id_tRNA_IVARS, id_tRNA_OPEcstcst, 
 0, 99, 2, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 0, 
 99, id_tRNA_GTSLV, 2, id_tRNA_INCcst, 0, 99, id_tRNA_GTSLV, 
 3, id_tRNA_IF0, 3, id_tRNA_SLVaddr, 4, 99, id_tRNA_OPELVLV, 
@@ -116,16 +118,55 @@ id_tRNA_SDLVLV, 1, 3, id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst,
 id_tRNA_INCLV, 0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 
 0, 1, id_tRNA_SDLVcst, 1, 0, id_tRNA_INCLV, 0, 
 1, id_tRNA_PLVSWI, 1, id_tRNA_OPEcstcst, 1, 99, 3, 
-id_tRNA_SIJ, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 
-6, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 1, id_tRNA_INCLV, 
-1, 1, id_tRNA_INCLV, 1, 2, id_tRNA_OPELVLV, 1, 
-6, 1, id_tRNA_SOSLV, 6, id_tRNA_SLVLV, 6, 1, 
-id_tRNA_CMPLVLV, 0, 6, 2, 7, id_tRNA_INCLV, 1, 
-7, id_tRNA_SLVcst, 8, 0, id_tRNA_IF0, 7, id_tRNA_SLVDLV, 
-7, 6, id_tRNA_GLVO, 8, 7, id_tRNA_INCLV, 0, 
-6, id_tRNA_INCLV, 0, 8, id_tRNA_CMPLVLV, 0, 6, 
-2, 7, id_tRNA_INCLV, 1, 7, id_tRNA_SWJ, id_tRNA_SEJ, 
-id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
+id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 3, -1, 9, id_tRNA_IF0, 
+9, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_PLVSI, 1, id_tRNA_PLVSI, 
+2, id_tRNA_CALLcst, 301, id_tRNA_GTSLVD, 10, id_tRNA_GTSLVD, 2, 
+id_tRNA_GTSLVD, 1, id_tRNA_CMPLVcst, 0, 10, -1, 9, 
+id_tRNA_IF0, 9, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_INCcst, 1, 
+99, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 7, id_tRNA_INCcst, 1, 
+99, id_tRNA_GTSLV, 1, id_tRNA_INCLV, 1, 1, id_tRNA_INCLV, 
+1, 2, id_tRNA_OPELVLV, 1, 7, 1, id_tRNA_SLVcst, 
+3, -7, id_tRNA_SLVcst, 9, 1, id_tRNA_IF0, 9, 
+id_tRNA_OPELVcst, 0, 3, 7, id_tRNA_RGLVLV, 5, 3, 
+id_tRNA_CMPLVcst, 0, 5, instruction::MARKER, 6, id_tRNA_IF0, 6, 
+id_tRNA_OPELVcst, 0, 3, 2, id_tRNA_RGLVLV, 5, 3, 
+id_tRNA_CMPLVcst, 0, 5, -1, 9, id_tRNA_INCLV, 1, 
+9, id_tRNA_OPELVcst, 1, 3, 2, id_tRNA_SIJ, id_tRNA_SEJ, 
+id_tRNA_SWJ, id_tRNA_SLVLV, 4, 3, id_tRNA_SLVcst, 9, 1, 
+id_tRNA_IF0, 9, id_tRNA_OPELVcst, 0, 4, 7, id_tRNA_RGLVLV, 
+5, 4, id_tRNA_CMPLVcst, 0, 5, instruction::MARKER, 6, 
+id_tRNA_IF0, 6, id_tRNA_OPELVcst, 0, 4, 2, id_tRNA_RGLVLV, 
+5, 4, id_tRNA_CMPLVcst, 0, 5, -1, 9, 
+id_tRNA_INCLV, 1, 9, id_tRNA_OPELVcst, 1, 4, 2, 
+id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_OPELVcst, 0, 4, 6, 
+id_tRNA_SLVLV, 8, 4, id_tRNA_OPELVLV, 1, 8, 3, 
+id_tRNA_INCLV, 0, 8, id_tRNA_OPELVcst, 0, 7, 21, 
+id_tRNA_OPELVLV, 0, 7, 8, id_tRNA_SOSLV, 7, id_tRNA_SLVcst, 
+6, 0, id_tRNA_SLVcst, 5, GGENESIS_ID, id_tRNA_GLVO, 6, 
+5, id_tRNA_OPELVcst, 0, 6, 2, id_tRNA_SLVcst, 5, 
+3, id_tRNA_GLVO, 6, 5, id_tRNA_INCLV, 0, 6, 
+id_tRNA_GLVO, 6, 7, id_tRNA_INCLV, 0, 6, id_tRNA_SLVcst, 
+5, 150, id_tRNA_GLVO, 6, 5, id_tRNA_INCLV, 0, 
+6, id_tRNA_SLVcst, 5, -1, id_tRNA_GLVO, 6, 5, 
+id_tRNA_OPELVcst, 0, 6, 3, id_tRNA_SLVcst, 5, 19, 
+id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 0, 6, 4, 
+id_tRNA_SLVcst, 5, 31, id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 
+0, 6, 3, id_tRNA_OPELVLV, 1, 7, 8, 
+id_tRNA_OPELVcst, 1, 7, 21, id_tRNA_SLVLV, 7, 1, 
+id_tRNA_CMPLVLV, 0, 7, 2, 5, id_tRNA_INCLV, 1, 
+5, id_tRNA_IF0, 5, id_tRNA_SLVDLV, 5, 7, id_tRNA_GLVO, 
+6, 5, id_tRNA_INCLV, 0, 7, id_tRNA_INCLV, 0, 
+6, id_tRNA_CMPLVLV, 0, 7, 2, 5, id_tRNA_INCLV, 
+1, 5, id_tRNA_SWJ, id_tRNA_SLVLV, 7, 3, id_tRNA_CMPLVLV, 
+0, 7, 4, 5, id_tRNA_INCLV, 1, 5, 
+id_tRNA_IF0, 5, id_tRNA_RGLVLV, 5, 7, id_tRNA_GLVO, 6, 
+5, id_tRNA_INCLV, 0, 7, id_tRNA_INCLV, 0, 6, 
+id_tRNA_CMPLVLV, 0, 7, 4, 5, id_tRNA_INCLV, 1, 
+5, id_tRNA_SWJ, id_tRNA_INCLV, 0, 6, id_tRNA_SLVcst, 5, 
+46, id_tRNA_GLVO, 6, 5, id_tRNA_INCLV, 0, 6, 
+id_tRNA_SLVcst, 5, -1, id_tRNA_GLVO, 6, 5, id_tRNA_WRITE, 
+9, 10, id_tRNA_INCS, 1, id_tRNA_RET, id_tRNA_SEJ, id_tRNA_RET, 
+GSTOP_ID, 0, 0, 0, 0, 0, 0, 
 ```
 
 
@@ -139,7 +180,7 @@ id_tRNA_GTSLV, 1                    // var 1 <- TOPS (get begin of transcription
 id_tRNA_INCcst, 0, 99               // stack ptr++
 id_tRNA_GTSLV, 2                    // var 2 <- TOPS (get end of transcription ptr)
 id_tRNA_INCcst, 0, 99               // stack ptr++
-id_tRNA_GTSLV, 3                    // var 3 <- TOPS (get func ID size)
+id_tRNA_GTSLV, 3                    // var 3 <- TOPS (get func ID list size)
 
 id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_SLVaddr, 4, 99            // var 4 <- stack ptr
@@ -211,27 +252,154 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_OPEcstcst, 1, 99, 3       // stack ptr -= 3 (set prog ptr to val at begin)
 |
 id_tRNA_SIJ
+| id_tRNA_CMPLVcst, 0, 3, -1, 9     // var9 <- var3==-1 ? (STOP if -1)
+| id_tRNA_IF0, 9
+| | id_tRNA_RET
+| id_tRNA_SIJ
+| id_tRNA_SEJ
+|
+| id_tRNA_PLVSI, 1                // stack_ptr++, TOPS <- var1
+| id_tRNA_PLVSI, 2                // stack_ptr++, TOPS <- var2
+| id_tRNA_CALLcst, 301            // stack ptr++, TOPS <- empty place
+| id_tRNA_GTSLVD, 10              // var10 <- empty place (or -1)
+| id_tRNA_GTSLVD, 2               // get back var2
+| id_tRNA_GTSLVD, 1               // get back var1
+| id_tRNA_CMPLVcst, 0, 10, -1, 9  // var9 <- var10==-1 ? (1 if place not found)
+|
+| id_tRNA_IF0, 9
+| | id_tRNA_RET
+| id_tRNA_SIJ
+| id_tRNA_SEJ
+| 
 | id_tRNA_INCcst, 1, 99
-| id_tRNA_GTSLV, 2                  // var6 <- TOPS (end of transcribed code)
-| id_tRNA_GTSLV, 6                  // var6 <- TOPS
+| id_tRNA_GTSLV, 2                  // var2 <- TOPS (end of transcribed code)
+| id_tRNA_GTSLV, 7                  // var7 <- TOPS
 | id_tRNA_INCcst, 1, 99
 | id_tRNA_GTSLV, 1                  // var1 <- TOPS (beginning of transcribed code + 1)
-| id_tRNA_INCLV, 1, 1               // var 1--
-| id_tRNA_INCLV, 1, 2               // var 2--
-| id_tRNA_OPELVLV, 1, 6, 1          // var 6 -= var 1 (var 6 = transcribed code size)
-| id_tRNA_SOSLV, 6                  // output size = var 6
-| id_tRNA_SLVLV, 6, 1               // var 6 <- begin of transcription ptr
-| id_tRNA_CMPLVLV, 0, 6, 2, 7       // var 7 = var 6 == end of transcription ?
-| id_tRNA_INCLV, 1, 7               // var 7--
-| id_tRNA_SLVcst, 8, 0              // var 8 <- 0
-| id_tRNA_IF0, 7                    // if var 7
-| | id_tRNA_SLVDLV, 7, 6            // var 7 <- *var 6
-| | id_tRNA_GLVO, 8, 7              // output[var 8] <- var 7
-| | id_tRNA_INCLV, 0, 6             // var 6++
-| | id_tRNA_INCLV, 0, 8             // var 8++
-| | id_tRNA_CMPLVLV, 0, 6, 2, 7     // var 7  = var 5 == end of transcription ?
-| | id_tRNA_INCLV, 1, 7             // var 7--
+| id_tRNA_INCLV, 1, 1               // var1--
+| id_tRNA_INCLV, 1, 2               // var2--
+| id_tRNA_OPELVLV, 1, 7, 1          // var7 -= var1 (var 7 = transcribed code size)
+| 
+| *var1, var2 locate transcribed code, var7 is transcribed code size*
+| 
+| 
+| *find DNA in body*
+| id_tRNA_SLVcst, 3, -7             // var3 <- -7
+| id_tRNA_SLVcst, 9, 1              // var9 <- 1
+| id_tRNA_IF0, 9
+| | id_tRNA_OPELVcst, 0, 3, 7       // var3+=7
+| | id_tRNA_RGLVLV, 5, 3            // var5 <- body val at var3
+| | id_tRNA_CMPLVcst, 0, 5, instruction::MARKER, 6    // var6 <- var5==MARKER
+| | id_tRNA_IF0, 6
+| | | id_tRNA_OPELVcst, 0, 3, 2       // var3+=2
+| | | id_tRNA_RGLVLV, 5, 3            // var5 <- body val at var3
+| | | id_tRNA_CMPLVcst, 0, 5, -1, 9   // var9 <- var5==-1
+| | | id_tRNA_INCLV, 1, 9             // var9--
+| | | id_tRNA_OPELVcst, 1, 3, 2       // var3-=2
+| | id_tRNA_SIJ
+| | id_tRNA_SEJ
 | id_tRNA_SWJ
+| 
+| *Look for end of DNA
+| id_tRNA_SLVLV, 4, 3               // var4 <- var3
+| id_tRNA_SLVcst, 9, 1              // var9 <- 1
+| id_tRNA_IF0, 9
+| | id_tRNA_OPELVcst, 0, 4, 7       // var4+=7
+| | id_tRNA_RGLVLV, 5, 4            // var5 <- body val at var4
+| | id_tRNA_CMPLVcst, 0, 5, instruction::MARKER, 6    // var6 <- var5==MARKER
+| | id_tRNA_IF0, 6
+| | | id_tRNA_OPELVcst, 0, 4, 2       // var4+=2
+| | | id_tRNA_RGLVLV, 5, 4            // var5 <- body val at var4
+| | | id_tRNA_CMPLVcst, 0, 5, -1, 9   // var9 <- var5==-1
+| | | id_tRNA_INCLV, 1, 9             // var9--
+| | | id_tRNA_OPELVcst, 1, 4, 2       // var4-=2
+| | id_tRNA_SIJ
+| | id_tRNA_SEJ
+| id_tRNA_SWJ
+| id_tRNA_OPELVcst, 0, 4, 6         // var4+=6 (end of DNA end marker)
+|
+| id_tRNA_SLVLV, 8, 4               // var8 <- var4
+| id_tRNA_OPELVLV, 1, 8, 3          // var8-=var3 (var8 = DNA size)
+| id_tRNA_INCLV, 0, 8               // var8++ (fencepost)
+| 
+| *var3 and var4 are DNA begin and end, var8 is DNA size*
+|
+|
+| *output size = transcribed code + DNA + some metadata*
+| *init metadata at beginning of new individual*
+| id_tRNA_OPELVcst, 0, 7, 21        // var7+=21 : 3 molecules + ID
+| id_tRNA_OPELVLV, 0, 7, 8          // var7+=var8 : DNA size
+| id_tRNA_SOSLV, 7                  // output size = var 7
+|
+| id_tRNA_SLVcst, 6, 0              // var6 <- 0
+| id_tRNA_SLVcst, 5, GGENESIS_ID
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (genesis marker)
+| id_tRNA_OPELVcst, 0, 6, 2         // var6+=2
+| id_tRNA_SLVcst, 5, 3
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (3)
+| id_tRNA_INCLV, 0, 6               // var6++
+| id_tRNA_GLVO, 6, 7                // output[var6] <- var7 (body size)
+| id_tRNA_INCLV, 0, 6               // var6++
+| id_tRNA_SLVcst, 5, 150
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (stack pos)
+| id_tRNA_INCLV, 0, 6               // var6++
+| id_tRNA_SLVcst, 5, -1
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (-1)
+| *initial jmp*
+| id_tRNA_OPELVcst, 0, 6, 3         // var6+=3
+| id_tRNA_SLVcst, 5, 19
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (JMP)
+| id_tRNA_OPELVcst, 0, 6, 4         // var6+=4
+| id_tRNA_SLVcst, 5, 31
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (main pos : 31)
+| id_tRNA_OPELVcst, 0, 6, 3         // var6+=3
+|
+| id_tRNA_OPELVLV, 1, 7, 8          // var7-=var8 : DNA size
+| id_tRNA_OPELVcst, 1, 7, 21        // var7-=21
+|
+| *var6 is pos to cpy in output*
+|
+| *copy transcribed code*
+|
+| id_tRNA_SLVLV, 7, 1               // var7 <- var1 (begin of transcription ptr)
+| id_tRNA_CMPLVLV, 0, 7, 2, 5       // var5 = var7 == var2 (end of transcription)
+| id_tRNA_INCLV, 1, 5               // var5--
+|
+| id_tRNA_IF0, 5                    // if var5
+| | id_tRNA_SLVDLV, 5, 7            // var5 <- *var7
+| | id_tRNA_GLVO, 6, 5              // output[var6] <- var5
+| | id_tRNA_INCLV, 0, 7             // var7++
+| | id_tRNA_INCLV, 0, 6             // var6++
+| | id_tRNA_CMPLVLV, 0, 7, 2, 5     // var5  = var7 == var2 (end of transcription)
+| | id_tRNA_INCLV, 1, 5             // var5--
+| id_tRNA_SWJ
+|
+| *copy DNA*
+|
+| id_tRNA_SLVLV, 7, 3               // var7 <- var3 (begin of DNA ptr)
+| id_tRNA_CMPLVLV, 0, 7, 4, 5       // var5 = var7 == var4 (end of DNA)
+| id_tRNA_INCLV, 1, 5               // var5--
+|
+| id_tRNA_IF0, 5                    // if var5
+| | id_tRNA_RGLVLV, 5, 7            // var5 <- genes at var7
+| | id_tRNA_GLVO, 6, 5              // output[var6] <- var5
+| | id_tRNA_INCLV, 0, 7             // var7++
+| | id_tRNA_INCLV, 0, 6             // var6++
+| | id_tRNA_CMPLVLV, 0, 7, 4, 5     // var5  = var7 == var4 (end of DNA)
+| | id_tRNA_INCLV, 1, 5             // var5--
+| id_tRNA_SWJ
+| id_tRNA_INCLV, 0, 6               // var6++
+|
+| *end of body*
+| id_tRNA_SLVcst, 5, 46
+| id_tRNA_GLVO, 6, 5                // output[var 6] <- var5 (final genetic marker)
+| id_tRNA_INCLV, 0, 6               // var6++
+| id_tRNA_SLVcst, 5, -1
+| id_tRNA_GLVO, 6, 5                // output[var 6] <- var5 (-1)
+|
+| id_tRNA_WRITE, 9, 10            // write output at var10 (res in var9, useless)
+| id_tRNA_INCS, 1                 // func ID list size = -1
+| id_tRNA_RET
 id_tRNA_SEJ
 
 id_tRNA_RET

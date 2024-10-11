@@ -1,0 +1,147 @@
+---
+title: Documentation of the WRITE tRNA
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribes the RNA that writes output at arg
+The first var arg will be the result of the operation (1 if WRITE was a success),
+and the second var arg is the var containing the address to write output
+
+Arg : nothing
+Output : code of the 'WRITE' amino acid
+
+# Variables
+
+var 1 : ribosome ptr
+var 2 : exit ptr
+var 3 : tmp var
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+Init E site
+
+Writes the instructions
+* WRITE, 1, 1, 0, var1, var2, 0
+at the E site
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_WRITE, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_MInstr, instruction::WRITE, id_tRNA_M1, id_tRNA_M1, id_tRNA_M0, id_tRNA_MLV, 
+id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site and E site*
+id_tRNA_MP
+id_tRNA_ME 
+
+*write amino acid WRITE, 1, 1, 0, var, var, 0*
+id_tRNA_MInstr, instruction::WRITE
+id_tRNA_M1
+id_tRNA_M1
+id_tRNA_M0
+id_tRNA_MLV
+id_tRNA_MLV
+id_tRNA_M0
+
+id_tRNA_RET
+```
+
+
+## teleonomical code code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 11050, 0, 0, 0, 0,
+
+instruction::CPY, 1, 1, 0, 100, 99, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::DEC, 1, 0, 0, 99, 0, 0,
+instruction::CPY, 1, 2, 0, 101, 99, 0,
+instruction::INC, 1, 0, 0, 99, 0, 0,
+instruction::INC, 1, 0, 0, 101, 0, 0,
+
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, instruction::EMPTY, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 1, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 1, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::ADD, 1, 1, 3, 102, 98, 100,
+instruction::CPY, 3, 2, 0, 101, 102, 0,
+instruction::INC, 2, 0, 0, 100, 0, 0,
+
+instruction::INC, 2, 0, 0, 101, 0, 0,
+instruction::CPY, 3, 0, 0, 101, 0, 0,
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0
+
+instruction::MARKER, 0, 11050, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 11050, 0, 0, 0, 0,
+2, 1, 1, 0, 100, 99, 0,
+5, 2, 0, 0, 100, 0, 0,
+6, 1, 0, 0, 99, 0, 0,
+2, 1, 2, 0, 101, 99, 0,
+5, 1, 0, 0, 99, 0, 0,
+5, 1, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 15, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 1, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 1, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 102, 98, 100,
+2, 3, 2, 0, 101, 102, 0,
+5, 2, 0, 0, 100, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+7, 1, 1, 3, 102, 98, 100,
+2, 3, 2, 0, 101, 102, 0,
+5, 2, 0, 0, 100, 0, 0,
+5, 2, 0, 0, 101, 0, 0,
+2, 3, 0, 0, 101, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 11050, 0, 0, 0, 0,
+```
+

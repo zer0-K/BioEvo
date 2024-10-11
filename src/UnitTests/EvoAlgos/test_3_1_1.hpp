@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - EVO X - GENES - BASIC
+//-------------------- EVOLUTIONARY ALGOS - EVO X - MOLECULAR BODY - BASIC
 
 #pragma once
 

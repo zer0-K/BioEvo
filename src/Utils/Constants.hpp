@@ -109,6 +109,7 @@ const std::string LOG_FILE_DEFAULT = "/home/adrien/Disque/Programmation/Projets/
 
 const int GSTART_ID = -51451;
 const int GSTOP_ID = -77142;
+const int GGENESIS_ID = -130662;
 
 
 // ------------------------------------------------------------ Experiment names
@@ -203,6 +204,8 @@ const int id_tRNA_GSLVLV = 12003; // var, var
 
 const int id_tRNA_USLV = 13000; // var nb
 const int id_tRNA_RULV = 13001; // var nb
+const int id_tRNA_EMPTY = 13100; // var nb
+const int id_tRNA_WRITE = 13200; // var nb
 
 
 const int id_tRNA_MP = 14000;
