@@ -17,7 +17,7 @@ Output : 1 if found, -1 if not found
 
 ## Description
 
-The algo through environment cells and pick entity there.
+The algo loops through environment cells and pick entity there.
 If entity was free molecules, check its ID with the func arg (func ID or -1).
 If check succeeds we return 1.
 Otherwise we continue to search for the appropriate molecules.

@@ -18,7 +18,7 @@ SelfCompilationEvoX::SelfCompilationEvoX()
 
 void SelfCompilationEvoX::init()
 {
-    max_nb_instr_exec = 2<<20;
+    max_nb_instr_exec = 2<<22;
 }
 
 void SelfCompilationEvoX::launch()
@@ -34,7 +34,7 @@ void SelfCompilationEvoX::launch()
     // re-exec step 2 but with new molecular body
     algo = get_base_algo(3);
     univ = get_universe(algo);
-    //exec_step_3(univ, algo);
+    exec_step_3(univ, algo);
 }
 
 sp_univ_evo_algos SelfCompilationEvoX::get_universe(sp_evox algo) 
@@ -162,7 +162,13 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // 301 - find empty place
 
-        
+        GSTART_ID, 301, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_USLV, 
+        1, id_tRNA_PCSI, -1, id_tRNA_SLVcst, 2, 0, id_tRNA_SLVcst, 
+        3, 1, id_tRNA_IF0, 3, id_tRNA_EMPTY, 4, 2, 
+        id_tRNA_INCLV, 1, 4, id_tRNA_INCLV, 0, 2, id_tRNA_IF0, 
+        4, id_tRNA_CMPLVLV, 0, 2, 1, 3, id_tRNA_INCLV, 
+        1, 3, id_tRNA_SIJ, id_tRNA_PLVSWI, 2, id_tRNA_SLVcst, 3, 
+        0, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0,
 
 
     //---------- additional DNA
@@ -350,7 +356,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         6, id_tRNA_SLVcst, 5, -1, id_tRNA_GLVO, 6, 5, 
         id_tRNA_OPELVcst, 0, 6, 3, id_tRNA_SLVcst, 5, 19, 
         id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 0, 6, 4, 
-        id_tRNA_SLVcst, 5, 31, id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 
+        id_tRNA_SLVcst, 5, 36, id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 
         0, 6, 3, id_tRNA_OPELVLV, 1, 7, 8, 
         id_tRNA_OPELVcst, 1, 7, 21, id_tRNA_SLVLV, 7, 1, 
         id_tRNA_CMPLVLV, 0, 7, 2, 5, id_tRNA_INCLV, 1, 
@@ -1085,7 +1091,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 209});
     universe->exec();
 
-    for(int i=0;i<84;i++)
+    for(int i=0;i<85;i++)
     {
         algo->set_input({-1, 210});
         universe->exec();
@@ -1101,13 +1107,16 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     if(transcribed_algo != nullptr)
     {
-        std::cout << "Algo transcribed :" << std::endl;
+        std::cout << "Algo transcribed !" << std::endl;
         std::vector<int> molecular_body = transcribed_algo->get_molecular_body();
         write_molecular_body_to_csv(molecular_body, "molecular_body_transcribed.csv");
     }
     else
     {
-        std::cout << "Failed ! place 1 doesn't contain an EvoX algo..." << std::endl;
+        std::cout << "Failed ! place " << expected_place
+                  <<" doesn't contain an EvoX algo..." 
+                  << std::endl;
+
     }
 }
 
@@ -1117,12 +1126,8 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 209});
     universe->exec();
 
-    for(int i=0;i<84;i++)
+    for(int i=0;i<85;i++)
     {
-        if(i==84-5)
-        {
-            std::cout << std::endl;
-        }
         algo->set_input({-1, 210});
         universe->exec();
     }
@@ -1130,5 +1135,21 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 210});
     universe->exec();
 
-    build_new_algo_artificially(algo, "molecular_body_transcribed_iterated.csv");
+    // algo must have replicated at place 2
+    int expected_place = 2;
+    sp_entity entity = universe->get_places()[expected_place]->get_entity();
+    sp_evox transcribed_algo = std::dynamic_pointer_cast<EvoX>(entity);
+
+    if(transcribed_algo != nullptr)
+    {
+        std::cout << "Algo transcribed !" << std::endl;
+        std::vector<int> molecular_body = transcribed_algo->get_molecular_body();
+        write_molecular_body_to_csv(molecular_body, "molecular_body_transcribed_iterated.csv");
+    }
+    else
+    {
+        std::cout << "Failed ! place " << expected_place
+                  <<" doesn't contain an EvoX algo..." 
+                  << std::endl;
+    }
 }

@@ -150,7 +150,7 @@ id_tRNA_GLVO, 6, 7, id_tRNA_INCLV, 0, 6, id_tRNA_SLVcst,
 6, id_tRNA_SLVcst, 5, -1, id_tRNA_GLVO, 6, 5, 
 id_tRNA_OPELVcst, 0, 6, 3, id_tRNA_SLVcst, 5, 19, 
 id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 0, 6, 4, 
-id_tRNA_SLVcst, 5, 31, id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 
+id_tRNA_SLVcst, 5, 36, id_tRNA_GLVO, 6, 5, id_tRNA_OPELVcst, 
 0, 6, 3, id_tRNA_OPELVLV, 1, 7, 8, 
 id_tRNA_OPELVcst, 1, 7, 21, id_tRNA_SLVLV, 7, 1, 
 id_tRNA_CMPLVLV, 0, 7, 2, 5, id_tRNA_INCLV, 1, 
@@ -350,8 +350,8 @@ id_tRNA_SIJ
 | id_tRNA_SLVcst, 5, 19
 | id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (JMP)
 | id_tRNA_OPELVcst, 0, 6, 4         // var6+=4
-| id_tRNA_SLVcst, 5, 31
-| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (main pos : 31)
+| id_tRNA_SLVcst, 5, 36
+| id_tRNA_GLVO, 6, 5                // output[var6] <- var5 (main pos : 36)
 | id_tRNA_OPELVcst, 0, 6, 3         // var6+=3
 |
 | id_tRNA_OPELVLV, 1, 7, 8          // var7-=var8 : DNA size

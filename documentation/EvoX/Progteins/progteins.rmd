@@ -113,3 +113,4 @@ tRNA progteins ar a special case of genesis progteins
 ## Behavioral progteins
 
 * 300 : free molecules picker
+* 301 : find empty place

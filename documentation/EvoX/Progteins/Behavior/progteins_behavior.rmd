@@ -12,3 +12,4 @@ This folder documents the progteins that have make the individual interact with 
 ## Summary
 
 * 300 : free molecules picker
+* 301 : find empty place
