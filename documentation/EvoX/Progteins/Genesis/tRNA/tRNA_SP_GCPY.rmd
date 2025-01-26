@@ -9,7 +9,7 @@ output:
 # General info
 
 Goal : This tRNA transcribes the RNA of a GCPY instruction
-The transcribed amino acid copies values between args in the molecular body at the place specified byt the first arg.
+The transcribed amino acid copies values between args in the phenotypic body at the place specified byt the first arg.
 
 
 Arg : nothing

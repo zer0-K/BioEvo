@@ -10,7 +10,7 @@
 class EvoX : public X86Algo
 {
 protected:
-    std::vector<int> molecular_body;
+    std::vector<int> phenotypic_body;
 
 public:
     using X86Algo::X86Algo;
@@ -24,21 +24,21 @@ public:
     /**
      * @brief create the executable code from the body (XASM molecules)
     */
-    void create_code_from_molecular_body();
+    void create_code_from_phenotypic_body();
 
     /**
-     * @brief modify (or not a molecular marker once it's been used)
+     * @brief modify (or not a phenotypic marker once it's been used)
     */
     void post_process_marker(int marker_pos);
 
     // setters
-    void set_molecular_body(std::vector<int> molecular_body);
+    void set_phenotypic_body(std::vector<int> phenotypic_body);
 
     // getters
-    std::vector<int> get_molecular_body();
+    std::vector<int> get_phenotypic_body();
 
     // utils
-    void print_molecular_body();
+    void print_phenotypic_body();
 };
 
 typedef std::shared_ptr<EvoX> sp_evox;

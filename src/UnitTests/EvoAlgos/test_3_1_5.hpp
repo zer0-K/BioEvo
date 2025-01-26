@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - EVO X - MOLECULAR BODY - EXEC
+//-------------------- EVOLUTIONARY ALGOS - EVO X - PHENOTYPIC BODY - EXEC
 
 #pragma once
 
@@ -13,37 +13,37 @@
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_molecular_body_regen()
+    bool launch_tests_evo_algos_evox_phenotypic_body_regen()
     {
-        bool test_evo_algos_evox_molecular_body_regen_simple(void);
+        bool test_evo_algos_evox_phenotypic_body_regen_simple(void);
 
         bool is_passed = true;
 
-        std::cout << "Evo algos - evox - molecular body - regen :" << std::endl;
+        std::cout << "Evo algos - evox - phenotypic body - regen :" << std::endl;
  
-        is_passed &= test_evo_algos_evox_molecular_body_regen_simple();
+        is_passed &= test_evo_algos_evox_phenotypic_body_regen_simple();
 
-        std::cout << "Evo algos - evox - molecular body - regen : ";
+        std::cout << "Evo algos - evox - phenotypic body - regen : ";
         passed_print(is_passed);
 
         return is_passed;
     }
 
     /**
-     * @brief regenerate code from molecular body
+     * @brief regenerate code from phenotypic body
     */
-    bool test_evo_algos_evox_molecular_body_regen_simple()
+    bool test_evo_algos_evox_phenotypic_body_regen_simple()
     {
         bool is_passed = true;
 
         sp_evox algo = std::make_shared<EvoX>("evox algo");
         algo->init();
 
-        //---------- MOLECULAR BODY
+        //---------- PHENOTYPIC BODY
 
-        // molecular bodys coding simple programs
+        // phenotypic bodys coding simple programs
         // 
-        std::vector<int> molecular_body_1 { 
+        std::vector<int> phenotypic_body_1 { 
             instruction::CPYIN, 1, 1, 0, 0, 0, 0,
             instruction::CPYIN, 1, 1, 0, 1, 1, 0,
             instruction::CPYIN, 1, 1, 0, 2, 2, 0,
@@ -57,8 +57,8 @@ namespace ut_ea
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
 
-        std::vector<std::vector<int>> molecular_bodies {
-            molecular_body_1
+        std::vector<std::vector<int>> phenotypic_bodies {
+            phenotypic_body_1
         };
 
         //---------- INPUTS
@@ -76,7 +76,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_1_1 { 1 };
 
         std::vector<std::vector<int>> expected_outs_1 {
@@ -93,8 +93,8 @@ namespace ut_ea
 
         for(int i=0; i<expected_outs.size(); i++)
         {
-            // set molecular body and execute
-            algo->set_molecular_body(molecular_bodies[i]);
+            // set phenotypic body and execute
+            algo->set_phenotypic_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -114,7 +114,7 @@ namespace ut_ea
 
                 if(verbose_unit_tests_1)
                 {
-                    std::cout << "Evo algos - evox - molecular body - regen - simple "
+                    std::cout << "Evo algos - evox - phenotypic body - regen - simple "
                               << i << " - " << j << ": ";
                     passed_print(is_passed_i_j);
                 } 
@@ -122,14 +122,14 @@ namespace ut_ea
 
             if(verbose_unit_tests_1)
             {
-                std::cout << "Evo algos - evox - molecular body - regen - simple " << i << " : ";
+                std::cout << "Evo algos - evox - phenotypic body - regen - simple " << i << " : ";
                 passed_print(is_passed_i);
             } 
        }
 
         if(verbose_unit_tests)
         {
-            std::cout << "Evo algos - evox - molecular body - regen - simple " << " : ";
+            std::cout << "Evo algos - evox - phenotypic body - regen - simple " << " : ";
             passed_print(is_passed);
         } 
 

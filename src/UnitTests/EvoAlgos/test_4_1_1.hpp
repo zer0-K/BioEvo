@@ -73,7 +73,7 @@ namespace ut_ea
         std::vector<int> vals { 12, 13, 14 };
 
         algo->reset_code(code); 
-        free_molecules->set_molecular_body(vals);
+        free_molecules->set_phenotypic_body(vals);
 
         //---------- UNIVERSE
 
@@ -141,7 +141,7 @@ namespace ut_ea
         std::vector<int> vals { 12, 13, 14 };
 
         algo->reset_code(code); 
-        free_molecules->set_molecular_body(vals);
+        free_molecules->set_phenotypic_body(vals);
 
         //---------- UNIVERSE
 
@@ -336,7 +336,7 @@ namespace ut_ea
         //---------- EXPECTED OUTPUTS
 
         std::vector<int> expected_out { 1, 11, 12 };
-        std::vector<int> expected_molecular_body { 10, 11, 12 };
+        std::vector<int> expected_phenotypic_body { 10, 11, 12 };
         
         //---------- EXECUTE
 
@@ -353,7 +353,7 @@ namespace ut_ea
         {
             // if second place contains free molecules, we check that they are what we expect
             sp_free_molecules written_molecules = std::dynamic_pointer_cast<FreeMolecules>(second_entity);
-            is_passed &= x86_comp_output(written_molecules->get_molecular_body(), expected_molecular_body);
+            is_passed &= x86_comp_output(written_molecules->get_phenotypic_body(), expected_phenotypic_body);
 
             // also compare algo out
             auto res = algo->get_output();
@@ -500,7 +500,7 @@ namespace ut_ea
         {
             // we check value of free molecules at fourth place
             sp_free_molecules written_molecules = std::dynamic_pointer_cast<FreeMolecules>(fourth_entity);
-            is_passed &= x86_comp_output(written_molecules->get_molecular_body(), expected_free_molecules);
+            is_passed &= x86_comp_output(written_molecules->get_phenotypic_body(), expected_free_molecules);
 
             // compare algos out
             for(int i=0;i<algos.size();i++)

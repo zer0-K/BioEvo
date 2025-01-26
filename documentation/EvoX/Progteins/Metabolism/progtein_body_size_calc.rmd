@@ -11,28 +11,28 @@ output:
 Goal : computes the size of the body
 
 Input : nothing
-Output : nothing, writes the size in molecular_body[2]
+Output : nothing, writes the size in phenotypic_body[2]
 
 
 
 ## Description
 
-Loops through the molecular body and stop at end to compute size
+Loops through the phenotypic body and stop at end to compute size
 
 ### First part : loop through body
 
-Iterate through body places, and stops at molecular markers :
+Iterate through body places, and stops at phenotypic markers :
 If the place after the marker is -1 the progtein break out of the loop (end of body signal)
  
 ### Second part 
 
-After having reached the end of the body, adds 7 to the size and writes it in molecular_body[2].
+After having reached the end of the body, adds 7 to the size and writes it in phenotypic_body[2].
 
 # Variables
 
 var 1 : loop conditions
 var 2 : loop var
-var 3 : molecular place values
+var 3 : phenotypic place values
 
 
 # Pseudo-code
@@ -40,17 +40,17 @@ var 3 : molecular place values
 ```{pseudo class.source='foldable'}
 While condition (var1):
   increase loop var by 7
-  condition <- molecular value at loop var == MARKER
+  condition <- phenotypic value at loop var == MARKER
 
   if condition:
     increase loop var by 1
-    condition <- molecular value at loop var == -1
+    condition <- phenotypic value at loop var == -1
     decrease loop var by 1
 
   Inverse condition
 
 Increase loop var by 7
-Write loop var at molecular_body[2]
+Write loop var at phenotypic_body[2]
 
 ```
 
@@ -96,7 +96,7 @@ id_tRNA_IF0, 1                  // while var1
 id_tRNA_SWJ
 
 id_tRNA_OPELVcst, 0, 2, 7       // var2 += 7
-id_tRNA_GScstLV, 2, 2           // molecular_body[2] <- var2
+id_tRNA_GScstLV, 2, 2           // phenotypic_body[2] <- var2
 ```
 
 

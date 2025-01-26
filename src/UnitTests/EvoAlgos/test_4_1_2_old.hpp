@@ -64,7 +64,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, input_0[2]+1, 0 };
 
         std::vector<std::vector<int>> expected_outs {
@@ -76,7 +76,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 

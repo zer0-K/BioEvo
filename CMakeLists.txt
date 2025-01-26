@@ -344,8 +344,8 @@ set(EXPERIMENTS_EVO_ALGOS
     src/Experiment/BioEvo/Trait/EvoAlgos/EvoX/EvoXDriveTrait.cpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.hpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/PhenotypicFunctionAcquisition.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/PhenotypicFunctionAcquisition.cpp
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp 
 )
@@ -394,8 +394,8 @@ target_link_libraries(finance ${LIBS})
 set(EXPERIMENT_RUNNERS_CLASSICAL_INFO_FUNC_EXEC src/Experiment/ClassicalInfo/FunctionExecution/ExperimentRunnerFunctionExecution.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
     src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.hpp
-    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/MolecularFunctionAcquisition.cpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/PhenotypicFunctionAcquisition.hpp
+    src/Experiment/ClassicalInfo/FunctionExecution/EvoX/PhenotypicFunctionAcquisition.cpp
 )
 add_executable(classical-info-func-exec src/Experiment/ClassicalInfo/FunctionExecution/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
@@ -536,7 +536,7 @@ target_link_libraries(unit_tests_bio_evo ${LIBS})
 
 set(HEADERS_UNIT_TESTS_CLASSICAL_ALGOS 
     src/UnitTests/ClassicalAlgos/test_1_empty.hpp
-    src/UnitTests/ClassicalAlgos/test_2_molecular_body.hpp
+    src/UnitTests/ClassicalAlgos/test_2_phenotypic_body.hpp
             src/UnitTests/ClassicalAlgos/test_2_1.hpp)
 
 add_executable(unit_tests_classical_algos src/UnitTests/ClassicalAlgos/main.cpp 

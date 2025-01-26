@@ -40,7 +40,7 @@ order 2 generation:
 */
 
 FreeMoleculesCreationEvoX::FreeMoleculesCreationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_molecular_body_evox_fgc)
+    :Experiment::Experiment(name_exp_bioevo_phenotypic_body_evox_fgc)
 {
     init();
 }
@@ -91,9 +91,9 @@ sp_evox FreeMoleculesCreationEvoX::get_base_algo(std::string name)
     sp_evox algo = std::make_shared<EvoX>(name);
     algo->init();
 
-    // get molecular body from csv
-    std::vector<int> molecular_body = get_molecular_body_from_csv("molecular_body_base.csv");
-    algo->set_molecular_body(molecular_body);
+    // get phenotypic body from csv
+    std::vector<int> phenotypic_body = get_phenotypic_body_from_csv("phenotypic_body_base.csv");
+    algo->set_phenotypic_body(phenotypic_body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -524,7 +524,7 @@ void FreeMoleculesCreationEvoX::provide_experiment_functions(sp_univ_evo_algos u
         // create free_molecules with the generator's code
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules " + generator_name);
         free_molecules->init();
-        free_molecules->set_molecular_body(generator_code);
+        free_molecules->set_phenotypic_body(generator_code);
 
         universe->get_places()[2]->set_entity(free_molecules);
 
@@ -538,7 +538,7 @@ void FreeMoleculesCreationEvoX::provide_experiment_functions(sp_univ_evo_algos u
 
     universe->exec();
 
-    //write_molecular_body_to_csv(algo->get_molecular_body(), "debug.csv");
+    //write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "debug.csv");
 }
 
 void FreeMoleculesCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo)

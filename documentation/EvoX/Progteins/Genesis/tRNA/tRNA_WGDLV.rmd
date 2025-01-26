@@ -8,7 +8,7 @@ output:
 
 # General info
 
-Goal : This tRNA transcribes the RNA that writes code between two variables in molecular body.
+Goal : This tRNA transcribes the RNA that writes code between two variables in phenotypic body.
 
 
 Arg : nothing

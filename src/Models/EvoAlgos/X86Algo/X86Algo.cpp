@@ -49,7 +49,7 @@ std::vector<sp_entity> X86Algo::exec(std::vector<sp_entity> entries)
     //if(entries.size() == 1 && std::dynamic_pointer_cast<FreeMolecules>(entries[0]) != NULL)
     //{
     //    sp_free_molecules free_molecules = std::dynamic_pointer_cast<FreeMolecules>(entries[0]);
-    //    set_input(free_molecules->get_molecular_body());
+    //    set_input(free_molecules->get_phenotypic_body());
     //}
 
     // execution starts at pos 0

@@ -22,7 +22,7 @@ void GenerateBaseEvoX1::init()
 void GenerateBaseEvoX1::launch()
 {
     sp_evox algo = this->get_base_evox();
-    auto molecular_body_parts = this->get_molecular_body_parts();
+    auto phenotypic_body_parts = this->get_phenotypic_body_parts();
     auto universe = this->get_evox_universe(algo);
 
     trigger_synthesis(algo, universe);
@@ -36,25 +36,25 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
-    //---------- MOLECULAR BODY
+    //---------- PHENOTYPIC BODY
 
-    // base molecular_body for an autonomical genesis
+    // base phenotypic_body for an autonomical genesis
     // teleonomical IDs:
     //      - -100- : genetic data
-    //      - -1 : molecular body end
+    //      - -1 : phenotypic body end
     //      - 0-99 : core functions (meta-exec func, main, core switcher, teleonomical list builder,...)
     //      - 100-199 : general genesis funcs (autopoiesis, find free molecules, quine, genetic decompression,...) 
-    //      - 200-299 : internal utility funcs (molecular body size, copy input as func, func pos,...)
+    //      - 200-299 : internal utility funcs (phenotypic body size, copy input as func, func pos,...)
     //      - 300-399 : external utility funcs (pick free molecules, find empty place, write func as free molecules,...)
     //      - 400-499 : machine learning funcs (learning switcher, train, test, error correction,...)
     //      - 1000+ : evaluation functions and other
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
     //----- metadata
         // "-1" = not set
 
         //--- genetic metadata
         // position of meta-exec func
-        // molecular body size
+        // phenotypic body size
         // position of data stack
         instruction::XXX, 3, -1, 150, -1, 0, 0,
 
@@ -118,7 +118,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         instruction::JRE, 0, 1, 0, 2, 98, 1,    // skip phase 1 if first phase was done before
         instruction::CALL, 0, 0, 0, 0, 101, 0,
         instruction::CALL, 0, 0, 0, 0, 102, 0,
-        // compute molecular body size
+        // compute phenotypic body size
         instruction::CALL, 0, 0, 0, 0, 200, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -130,7 +130,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
 
         // temporary use an autopoeisis phase at 98
         // data stack stuff
-        instruction::GR, 1, 1, 0, 100, 3, 0,    // stack pos is at 3rd pos in molecular body
+        instruction::GR, 1, 1, 0, 100, 3, 0,    // stack pos is at 3rd pos in phenotypic body
         instruction::CPY, 1, 1, 0, 99, 100, 0,  // set data stack pos
         instruction::GDELW, 0, 0, 0, 27*SIZE_INSTR, 0, 0,
         // build list of funcs to add at top of data stack
@@ -158,7 +158,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         instruction::CPY, 2, 0, 0, 99, 2, 0,      // core switcher
         // update autopoiesis phase
         instruction::CPY, 1, 0, 0, 98, 1, 0,
-        // recalc molecular body size
+        // recalc phenotypic body size
         instruction::CALL, 0, 0, 0, 0, 200, 0,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -168,7 +168,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         // this phase consists in finding the needed parts
         instruction::MARKER, 0, 102, 0, 0, 0, 0,
 
-        // find molecular body for top of list
+        // find phenotypic body for top of list
         instruction::GR, 1, 1, 0, 100, 3, 0,
         instruction::JRE, 0, 1, 1, 3, 99, 100,
         instruction::CALL, 0, 0, 0, 0, 103, 0,
@@ -185,7 +185,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         // find free molecules with given teleonomical ID (in param at pos 1)
         instruction::CALL, 0, 0, 0, 0, 300, 0,
 
-        // copy if molecular body found
+        // copy if phenotypic body found
         instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -195,7 +195,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 103, 0, 0, 0, 0,
 
-    //----- calc molecular body size (in nb of molecular body)
+    //----- calc phenotypic body size (in nb of phenotypic body)
         instruction::MARKER, 0, 200, 0, 0, 0, 0,
     
         instruction::CPY, 1, 0, 0, 100, -7, 0,
@@ -208,7 +208,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of phenotypic body
 
         instruction::GSET, 1, 1, 0, 2, 100, 0, 
 
@@ -218,7 +218,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
     //----- copy input (free molecules) into code as new func
         instruction::MARKER, 0, 201, 0, 0, 0, 0,
 
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -232,9 +232,9 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         // get id in input
         instruction::CPYIN, 1, 1, 0, 101, 1, 0,
         // copy input into data
-        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
+        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of phenotypic body to copy in input
         instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
+        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data phenotypic body
         instruction::CPYIS, 1, 0, 0, 105, 0, 0,
             // marker (begin)
             instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0,
@@ -252,7 +252,7 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
             instruction::ADD, 1, 1, 0, 104, 104, 2,
             instruction::CPY, 2, 1, 0, 104, 101, 0,
             instruction::ADD, 1, 1, 0, 104, 104, 4,
-        // copy data into molecular body before ending marker
+        // copy data into phenotypic body before ending marker
         instruction::GCPY, 2, 2, 2, 100, 103, 104,
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -285,25 +285,25 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         instruction::INC, 1, 0, 0, 99, 0, 0, 
         instruction::JRS, 0, 0, 0, 5, 0, 0,
         // appropriate free molecules found
-        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
+        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy phenotypic body)
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 300, 0, 0, 0, 0,
 
 
-    //----- end of molecular body
+    //----- end of phenotypic body
         instruction::MARKER, -1, 0, 0, 0, 0, 0
     };
 
-    algo->set_molecular_body(molecular_body);
+    algo->set_phenotypic_body(phenotypic_body);
 
     return algo;
 }
 
-std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_parts()
+std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_phenotypic_body_parts()
 {
 
-    std::vector<int> molecular_body_core_switcher {
+    std::vector<int> phenotypic_body_core_switcher {
     //----- core switcher
         //instruction::MARKER, 0, 2, 0, 0, 0, 0,
         3, 2,
@@ -366,7 +366,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 2, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_ID_list {
+    std::vector<int> phenotypic_body_ID_list {
     //----- func ID list building
         // create the list of current teleonomical IDs
         //instruction::MARKER, 0, 4, 0, 0, 0, 0,
@@ -408,11 +408,11 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         instruction::DEC, 1, 0, 0, 103, 0, 0,
         instruction::CPY, 1, 1, 0, 100, 103, 0, // reset top of local data stack
 
-        // save at end of molecular body (i is the nb of funcs)
+        // save at end of phenotypic body (i is the nb of funcs)
         instruction::GR, 1, 1, 0, 103, 2, 0,
         instruction::GCPY, 2, 2, 2, 103, 101, 100,
         instruction::GSET, 1, 1, 0, 10, 103, 0,   // set teleo list pos
-        instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc molecular body size
+        instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc phenotypic body size
         instruction::GSET, 1, 1, 0, 2, 103, 0, 
 
 
@@ -420,18 +420,18 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 4, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_quine_function {
-    //----- quine replication func : output = molecular body
+    std::vector<int> phenotypic_body_quine_function {
+    //----- quine replication func : output = phenotypic body
         //instruction::MARKER, 0, 104, 0, 0, 0, 0,
         3, 104,
 
-        // mutate molecular body
+        // mutate phenotypic body
         instruction::CALL, 0, 0, 0, 0, 105, 0,
-        // get end of molecular body
+        // get end of phenotypic body
         instruction::CALL, 0, 0, 0, 0, 200, 0,
-        instruction::GR, 1, 1, 0, 100, 2, 0,    // end of molecular body
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
-        // copy molecular body
+        instruction::GR, 1, 1, 0, 100, 2, 0,    // end of phenotypic body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = phenotypic body size
+        // copy phenotypic body
         instruction::CPY, 1, 0, 0, 102, -1, 0,
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::JRE, 0, 1, 1, 4, 102, 100,
@@ -449,12 +449,12 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 104, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_mutate_before_replication {
+    std::vector<int> phenotypic_body_mutate_before_replication {
     //----- mutate before replicating func
         //instruction::MARKER, 0, 105, 0, 0, 0, 0,
         3, 105,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,
         instruction::GSET, 1, 1, 0, 5, 101, 0,    // randomly change a number
 
@@ -462,8 +462,8 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 105, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_func_pos {
-    //----- get function begining and end in molecular body
+    std::vector<int> phenotypic_body_func_pos {
+    //----- get function begining and end in phenotypic body
         // arg1 : func ID
         //instruction::MARKER, 0, 202, 0, 0, 0, 0,
         3, 202,
@@ -504,7 +504,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 202, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_find_empty_place {
+    std::vector<int> phenotypic_body_find_empty_place {
     //----- find an empty place
         //instruction::MARKER, 0, 301, 0, 0, 0, 0,
         3, 301,
@@ -523,7 +523,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 301, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_export_func {
+    std::vector<int> phenotypic_body_export_func {
     //----- write function as free molecules
         //instruction::MARKER, 0, 302, 0, 0, 0, 0,
         3, 302,
@@ -547,8 +547,8 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         // stop if func not found or invalid (beg = end)
         instruction::JRG, 0, 1, 1, 2, 103, 102, 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
-        // copy molecular body
-        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 molecular body left for metadata
+        // copy phenotypic body
+        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 phenotypic body left for metadata
         instruction::SUB, 1, 1, 1, 104, 103, 102,
         instruction::SETOS, 1, 0, 0, 104, 0, 0,
         instruction::CPY, 1, 1, 0, 110, 102, 0,     // cpy beg-2 (-3 actually) in index var 
@@ -579,7 +579,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 302, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_learning_switcher {
+    std::vector<int> phenotypic_body_learning_switcher {
     //----- learning switcher
         //instruction::MARKER, 0, 400, 0, 0, 0, 0,
         3, 400,
@@ -588,7 +588,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 400, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_train_phase {
+    std::vector<int> phenotypic_body_train_phase {
     //----- train phase evaluation func
         // exec func with given teleonomical ID
         //instruction::MARKER, 0, 401, 0, 0, 0, 0,
@@ -604,7 +604,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         instruction::CALL, 0, 1, 0, 0, 100, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update molecular body
+        // if error flag is 1, update phenotypic body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 2, 0, 0,     // does not evaluate if error flag is 1
@@ -614,7 +614,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 401, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_test_phase {
+    std::vector<int> phenotypic_body_test_phase {
     //----- test phase evaluation func
         //instruction::MARKER, 0, 402, 0, 0, 0, 0,
         3, 402,
@@ -626,12 +626,12 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 402, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_evalution_function {
+    std::vector<int> phenotypic_body_evalution_function {
     //----- evaluation func
         //instruction::MARKER, 0, 403, 0, 0, 0, 0,
         3, 403,
 
-        // for the moment : just output a constant from molecular body
+        // for the moment : just output a constant from phenotypic body
         instruction::CPY, 1, 0, 0, 100, -1, 0,
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -640,12 +640,12 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
         //instruction::MARKER, 0, 403, 0, 0, 0, 0
     };
 
-    std::vector<int> molecular_body_update_on_error {
+    std::vector<int> phenotypic_body_update_on_error {
     //----- update after error func
         //instruction::MARKER, 0, 404, 0, 0, 0, 0,
         3, 404,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 315*SIZE_INSTR+5, 0,
@@ -661,18 +661,18 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX1::get_molecular_body_pa
     };
 
     std::map<std::string, std::vector<int>> all_parts {
-        { "core switcher", molecular_body_core_switcher },
-        //{ "teleonomical list", molecular_body_ID_list },
-        { "quine function", molecular_body_quine_function },
-        { "mutate before replication", molecular_body_mutate_before_replication },
-        { "function position", molecular_body_func_pos },
-        { "find empty place", molecular_body_find_empty_place },
-        { "export func", molecular_body_export_func },
-        { "learning switcher", molecular_body_learning_switcher },
-        { "train phase", molecular_body_train_phase },
-        { "test phase", molecular_body_test_phase },
-        { "evaluation", molecular_body_evalution_function },
-        { "update on error", molecular_body_update_on_error }
+        { "core switcher", phenotypic_body_core_switcher },
+        //{ "teleonomical list", phenotypic_body_ID_list },
+        { "quine function", phenotypic_body_quine_function },
+        { "mutate before replication", phenotypic_body_mutate_before_replication },
+        { "function position", phenotypic_body_func_pos },
+        { "find empty place", phenotypic_body_find_empty_place },
+        { "export func", phenotypic_body_export_func },
+        { "learning switcher", phenotypic_body_learning_switcher },
+        { "train phase", phenotypic_body_train_phase },
+        { "test phase", phenotypic_body_test_phase },
+        { "evaluation", phenotypic_body_evalution_function },
+        { "update on error", phenotypic_body_update_on_error }
     };
 
     return all_parts;
@@ -708,7 +708,7 @@ sp_univ_evo_algos GenerateBaseEvoX1::get_evox_universe(sp_evox algo)
 void GenerateBaseEvoX1::trigger_synthesis(sp_evox algo, sp_univ_evo_algos universe)
 {
     // get functions for autopoiesis
-    auto molecular_body_parts = this->get_molecular_body_parts();
+    auto phenotypic_body_parts = this->get_phenotypic_body_parts();
 
     //----- trigger autopoiesis
 
@@ -729,11 +729,11 @@ void GenerateBaseEvoX1::trigger_synthesis(sp_evox algo, sp_univ_evo_algos univer
     for(int i=0;i<iteration_order.size();i++)
     {
         std::string step_name = iteration_order[i];
-        std::vector<int> molecular_body_part = molecular_body_parts[step_name];
+        std::vector<int> phenotypic_body_part = phenotypic_body_parts[step_name];
 
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
         free_molecules->init();
-        free_molecules->set_molecular_body(molecular_body_part);
+        free_molecules->set_phenotypic_body(phenotypic_body_part);
 
         universe->get_places()[2]->set_entity(free_molecules);
 
@@ -742,5 +742,5 @@ void GenerateBaseEvoX1::trigger_synthesis(sp_evox algo, sp_univ_evo_algos univer
 
     universe->exec();
 
-    write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_base_algo_1.csv");
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_base_algo_1.csv");
 }

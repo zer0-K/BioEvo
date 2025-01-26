@@ -34,11 +34,11 @@ void ReplicationEvoXQuine::simple_quine(sp_evox algo)
 {
     std::cout << "Simple quine experiment running" << std::endl << std::endl;
 
-    //---------- MOLECULAR BODY
+    //---------- PHENOTYPIC BODY
 
-    // molecular body for a simple quine
+    // phenotypic body for a simple quine
     // 
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
         instruction::SUB, 1, 1, 0, 10, 10, 7,
         instruction::ADD, 1, 1, 0, 10, 10, 7,
         instruction::GR, 1, 2, 0, 0, 10, 0,
@@ -66,8 +66,8 @@ void ReplicationEvoXQuine::simple_quine(sp_evox algo)
 
     algo->reset_data();
 
-    // set molecular body and execute
-    algo->set_molecular_body(molecular_body);
+    // set phenotypic body and execute
+    algo->set_phenotypic_body(phenotypic_body);
 
     algo->set_input(input);
     algo->exec(std::vector<sp_entity>(0));
@@ -80,7 +80,7 @@ void ReplicationEvoXQuine::simple_quine(sp_evox algo)
         std::cout << out_res[i] << " ";
     std::cout << std::endl;
 
-    std::cout << std::endl << "Output == molecular body : " << x86_comp_output(out_res, molecular_body)
+    std::cout << std::endl << "Output == phenotypic body : " << x86_comp_output(out_res, phenotypic_body)
         << std::endl
         << "Simple quine experiment done" 
         << std::endl << std::endl;
@@ -92,11 +92,11 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
     std::cout << "Quine replication trigger experiment running"
         << std::endl << std::endl;
 
-    //---------- MOLECULAR BODY
+    //---------- PHENOTYPIC BODY
 
-    // molecular body for a simple quine
+    // phenotypic body for a simple quine
     // 
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -178,10 +178,10 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
  
 
-    //----- replication func : output = molecular body
+    //----- replication func : output = phenotypic body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::XXX, 0, 0, 0, 0, 0, 0,
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
@@ -193,9 +193,9 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
-        // copy molecular body
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of phenotypic body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = phenotypic body size
+        // copy phenotypic body
         instruction::CPY, 1, 0, 0, 102, -1, 0, 
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -206,7 +206,7 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        instruction::MARKER, -1, 0, 0, 0, 0, 0  // ENDING OF MOLECULAR BODY (for quine)
+        instruction::MARKER, -1, 0, 0, 0, 0, 0  // ENDING OF PHENOTYPIC BODY (for quine)
     };
 
     //---------- INPUTS
@@ -229,8 +229,8 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
 
     algo->reset_data();
 
-    // set molecular body and execute
-    algo->set_molecular_body(molecular_body);
+    // set phenotypic body and execute
+    algo->set_phenotypic_body(phenotypic_body);
 
     for(int i=0; i<inputs.size();i++)
     {
@@ -244,7 +244,7 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
         bool is_replication_phase = inputs[i][0] == 2 && inputs[i].size()>1;
         if(is_replication_phase)
         {
-            is_valid =x86_comp_output(out_res, molecular_body); 
+            is_valid =x86_comp_output(out_res, phenotypic_body); 
             std::cout << "Replication phase, output is ";
         }
         else
@@ -263,17 +263,17 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
 
             if(is_replication_phase)
             {
-                int diff_index = first_diff_index(molecular_body, out_res);
+                int diff_index = first_diff_index(phenotypic_body, out_res);
 
                 if(diff_index == -1)
                 {
                     std::cout << "\tOutput size = " << out_res.size()
-                        << " (expected : " << molecular_body.size() << ")" << std::endl;
+                        << " (expected : " << phenotypic_body.size() << ")" << std::endl;
                 }
                 else
                 {
                     std::cout << "\tFirst diff is at " << diff_index
-                        << "(molecular_body = " << molecular_body[i] << ", out = " << out_res[i]
+                        << "(phenotypic_body = " << phenotypic_body[i] << ", out = " << out_res[i]
                         << ")" << std::endl;
                 }
             }
@@ -292,10 +292,10 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
 
     //---------- ALGOS
 
-    // molecular body for an ranom gene mutation
+    // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -401,17 +401,17 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = molecular body
+    //----- replication func : output = phenotypic body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate molecular body
+        // mutate phenotypic body
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.69
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -422,9 +422,9 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
-        // copy molecular body
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of phenotypic body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = phenotypic body size
+        // copy phenotypic body
         instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- 87 
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -463,7 +463,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update molecular body
+        // if error flag is 1, update phenotypic body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -495,7 +495,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from molecular body
+        // for the moment : just output a constant from phenotypic body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.136
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -506,7 +506,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.142
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 136*7+5, 0,
@@ -522,7 +522,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     //----- mutate before replciating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.153
         instruction::GSET, 1, 1, 0, 136*7+5, 101, 0,    // randomly change the output number
 
@@ -545,11 +545,11 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 9, 0, 0, 0, 0,
 
-    //----- end of molecular body
+    //----- end of phenotypic body
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- 169
     };
 
-    algo->set_molecular_body(molecular_body);
+    algo->set_phenotypic_body(phenotypic_body);
 
     sp_entity_void entity_void = std::make_shared<EntityVoid>("entity void");
     entity_void->init();
@@ -602,21 +602,21 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
                 << ", in=(0,1," << error << ")"
                 << std::endl;
             
-            std::vector<int>::const_iterator beg = algo->get_molecular_body().begin()+129*7;
-            std::vector<int>::const_iterator end = algo->get_molecular_body().begin()+130*7;
+            std::vector<int>::const_iterator beg = algo->get_phenotypic_body().begin()+129*7;
+            std::vector<int>::const_iterator end = algo->get_phenotypic_body().begin()+130*7;
 
-            std::vector<int> molecular_body(beg, end);
+            std::vector<int> phenotypic_body(beg, end);
 
-            std::cout << "Old molecular body : " << to_str(molecular_body) << std::endl;
+            std::cout << "Old phenotypic body : " << to_str(phenotypic_body) << std::endl;
             algo->set_input({0,1,error});
             algo->exec(std::vector<sp_entity>(0));
 
-            beg = algo->get_molecular_body().begin()+136*7;
-            end = algo->get_molecular_body().begin()+137*7;
+            beg = algo->get_phenotypic_body().begin()+136*7;
+            end = algo->get_phenotypic_body().begin()+137*7;
 
-            std::vector<int> new_molecular_body(beg, end);
+            std::vector<int> new_phenotypic_body(beg, end);
 
-            std::cout << "New molecular body : " << to_str(new_molecular_body) << std::endl; 
+            std::cout << "New phenotypic body : " << to_str(new_phenotypic_body) << std::endl; 
         }
     }
 
@@ -639,7 +639,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     else
     {
         std::cout << "Genes copied";
-        if(!x86_comp_output(std::dynamic_pointer_cast<FreeMolecules>(entity3)->get_molecular_body(),algo->get_molecular_body()))
+        if(!x86_comp_output(std::dynamic_pointer_cast<FreeMolecules>(entity3)->get_phenotypic_body(),algo->get_phenotypic_body()))
         {
             std::cout << " not";
         }

@@ -21,7 +21,7 @@ This progtein finds the wanted gene in DNA and writes it in data as mRNA.
 
 ### First part : DNA start
 
-Loop in molecular body, and stop when current pos is a molecular marker.
+Loop in phenotypic body, and stop when current pos is a phenotypic marker.
 If the ID two places after the marker is -1, exit loop : DNA has been found.
  
 ### Second part : gene start
@@ -54,14 +54,14 @@ var 6 : GSTART_ID & GSTOP_ID
 ```{pseudo class.source='foldable'}
 
 *Find DNA in body*
-while val in body is DNA start (-1 after molecular marker)
+while val in body is DNA start (-1 after phenotypic marker)
   increase loop var by 7
   get val in body at loop var
   if this val is a marker:
     look at val in body 2 places after current pos
     update condition : this val is != -1
 
-*DNA found, loop var is now looping through DNA and not molecular body*
+*DNA found, loop var is now looping through DNA and not phenotypic body*
 
 *Find gene coding func (loop till GSTART_ID)*
 Get func ID from stack

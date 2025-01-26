@@ -26,18 +26,18 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     sp_evox algo = std::make_shared<EvoX>(name);
     algo->init();
 
-    //---------- MOLECULAR BODY
+    //---------- PHENOTYPIC BODY
 
-    // molecular body for an ranom gene mutation
+    // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
     //----- metadata
         // "-1" = not set
 
         //--- genetic metadata
         // position of meta-exec func
-        // molecular body size
+        // phenotypic body size
         // instr pos of main func (entry point)
         instruction::XXX, 4, -1, -1, 0, 0, 0,
 
@@ -159,16 +159,16 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = molecular body
+    //----- replication func : output = phenotypic body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate molecular body
+        // mutate phenotypic body
         instruction::CALL, 0, 0, 0, 0, 8, 0,    //----- l.66
-        // get end of molecular body
+        // get end of phenotypic body
         instruction::CALL, 0, 0, 0, 0, 17, 0,
-        instruction::GR, 1, 1, 0, 100, 2, 0,    // end of molecular body
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
-        // copy molecular body
+        instruction::GR, 1, 1, 0, 100, 2, 0,    // end of phenotypic body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = phenotypic body size
+        // copy phenotypic body
         instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- l.70
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -197,7 +197,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::CALL, 0, 0, 0, 0, 6, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update molecular body
+        // if error flag is 1, update phenotypic body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -218,7 +218,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from molecular body
+        // for the moment : just output a constant from phenotypic body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.100
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -229,7 +229,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.106
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 136*7+5, 0,
@@ -245,7 +245,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     //----- mutate before replicating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.117
         instruction::GSET, 1, 1, 0, 136*7+5, 101, 0,    // randomly change the output number
 
@@ -296,7 +296,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::JRS, 0, 0, 0, 5, 0, 0,
         // appropriate free molecules found
         instruction::DEC, 1, 0, 0, 99, 0, 0,    // remove loop index from stack
-        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
+        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy phenotypic body)
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
@@ -304,7 +304,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     //----- copy input (free molecules) into code as new func
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,      //----- l.160
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -321,9 +321,9 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::INC, 1, 0, 0, 101, 0, 0,   // new func id
         instruction::ADD, 1, 1, 0, 100, 100, 4, // reajust pos for last func
         // copy input into data
-        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
+        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of phenotypic body to copy in input
         instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
+        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data phenotypic body
         instruction::CPYIS, 1, 0, 0, 105, 0, 0,
             // marker (begin)
             instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0, //----- l.178
@@ -341,7 +341,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
             instruction::ADD, 1, 1, 0, 104, 104, 2,
             instruction::CPY, 2, 1, 0, 104, 101, 0,
             instruction::ADD, 1, 1, 0, 104, 104, 4,
-        // copy data into molecular body before ending marker
+        // copy data into phenotypic body before ending marker
         instruction::GCPY, 2, 2, 2, 100, 103, 104,
         // REGEN ?
         // instruction::REGEN, 0, 0, 0, 0, 0, 0,
@@ -357,7 +357,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::CPY, 2, 0, 0, 99, 1, 0,
         instruction::CALL, 0, 0, 0, 0, 10, 0,
 
-        // copy if molecular body found
+        // copy if phenotypic body found
         instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -368,7 +368,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-    //----- get function begining and end in molecular body
+    //----- get function begining and end in phenotypic body
         // arg1 : func ID
         instruction::MARKER, 0, 13, 0, 0, 0, 0,
 
@@ -426,8 +426,8 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         // stop if func not found or invalid (beg = end)
         instruction::JRG, 0, 1, 1, 2, 103, 102, 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
-        // copy molecular body
-        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 molecular body left for metadata
+        // copy phenotypic body
+        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 phenotypic body left for metadata
         instruction::SUB, 1, 1, 1, 104, 103, 102,
         instruction::SETOS, 1, 0, 0, 104, 0, 0,
         instruction::CPY, 1, 1, 0, 110, 102, 0,     // cpy beg-2 (-3 actually) in index var 
@@ -456,7 +456,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     //----- autopoiesis
         instruction::MARKER, 0, 15, 0, 0, 0, 0,
  
-        // compute molecular body size
+        // compute phenotypic body size
         instruction::CALL, 0, 0, 0, 0, 17, 0,       //----- l.266
         // call func that maps func ID and teleo IDs
         instruction::CALL, 0, 0, 0, 0, 16, 0,
@@ -504,18 +504,18 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::DEC, 1, 0, 0, 103, 0, 0,
         instruction::CPY, 1, 1, 0, 100, 103, 0, // reset top of local data stack
 
-        // save at end of molecular body (i is the nb of funcs)
+        // save at end of phenotypic body (i is the nb of funcs)
         instruction::GR, 1, 1, 0, 103, 2, 0,
         instruction::GCPY, 2, 2, 2, 103, 101, 100,    //----- l.300
         instruction::GSET, 1, 1, 0, 10, 103, 0,   // set teleo list pos
-        instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc molecular body size
+        instruction::ADD, 1, 1, 1, 103, 103, 102,   // recalc phenotypic body size
         instruction::GSET, 1, 1, 0, 2, 103, 0, 
 
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 16, 0, 0, 0, 0,
 
-    //----- calc molecular body size (in nb of molecular body)
+    //----- calc phenotypic body size (in nb of phenotypic body)
         instruction::MARKER, 0, 17, 0, 0, 0, 0,
     
         instruction::CPY, 1, 0, 0, 100, -7, 0,  //----- 307
@@ -528,7 +528,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of phenotypic body
 
         instruction::GSET, 1, 1, 0, 2, 100, 0, 
 
@@ -536,11 +536,11 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::MARKER, 0, 17, 0, 0, 0, 0,
 
 
-    //----- end of molecular body
+    //----- end of phenotypic body
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.340 
     };
 
-    algo->set_molecular_body(molecular_body);
+    algo->set_phenotypic_body(phenotypic_body);
 
     return algo;
 }
@@ -556,27 +556,27 @@ void EvoXTeleonomicalDesign::test_setup()
     };
 
 
-    // set molecular body and execute
+    // set phenotypic body and execute
     algo->set_output_size(1);
     algo->reset_data();
 
     for(int i=0;i<inputs.size();i++)
     {
-        std::vector<int>::const_iterator beg = algo->get_molecular_body().end()-30;
-        std::vector<int>::const_iterator end = algo->get_molecular_body().end()-1;
+        std::vector<int>::const_iterator beg = algo->get_phenotypic_body().end()-30;
+        std::vector<int>::const_iterator end = algo->get_phenotypic_body().end()-1;
 
-        std::vector<int> molecular_body(beg, end);
+        std::vector<int> phenotypic_body(beg, end);
 
-        std::cout << "Old molecular body : " << to_str(molecular_body) << std::endl;
+        std::cout << "Old phenotypic body : " << to_str(phenotypic_body) << std::endl;
         algo->set_input(inputs[i]);
         algo->exec(std::vector<sp_entity>(0));
 
-        beg = algo->get_molecular_body().end()-30;
-        end = algo->get_molecular_body().end()-1;
+        beg = algo->get_phenotypic_body().end()-30;
+        end = algo->get_phenotypic_body().end()-1;
 
-        std::vector<int> new_molecular_body(beg, end);
+        std::vector<int> new_phenotypic_body(beg, end);
 
-        std::cout << "New molecular body : " << to_str(new_molecular_body) << std::endl; 
+        std::cout << "New phenotypic body : " << to_str(new_phenotypic_body) << std::endl; 
     }
 
 }

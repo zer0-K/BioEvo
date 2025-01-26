@@ -26,7 +26,7 @@ MARKER, -1,...
  
 ### Second part 
 
-Copy function in body, adding the molecular markers around the function.
+Copy function in body, adding the phenotypic markers around the function.
 
 # Variables
 
@@ -51,9 +51,9 @@ Else, continue looping
 
 Then, get input size and new func ID from input
 Create new stack
-Write molecular marker in new stack
+Write phenotypic marker in new stack
 Copy func from input to new stack
-Write molecular marker in new stack
+Write phenotypic marker in new stack
 
 Copy new stack in body
 ```
@@ -120,7 +120,7 @@ id_tRNA_IF0, 8
 | id_tRNA_OPELVcst, 0, 6, 7       // var6+=7
 id_tRNA_SWJ
 
-*copy input in data, and add molecular markers*
+*copy input in data, and add phenotypic markers*
 id_tRNA_GILV, 1, 1                // var1 <- input[1] (new func ID)
 id_tRNA_SLVcst, 2, 1              // var2 <- 1
 id_tRNA_SLVcst, 3, 2000           // var3 <- 2000 (temp stack)

@@ -1,4 +1,4 @@
-//-------------------- EVOLUTIONARY ALGOS - EVO X - MOLECULAR BODY
+//-------------------- EVOLUTIONARY ALGOS - EVO X - PHENOTYPIC BODY
 
 #pragma once
 
@@ -11,19 +11,19 @@
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_molecular_body()
+    bool launch_tests_evo_algos_evox_phenotypic_body()
     {
         bool is_passed = true;
 
-        std::cout << "Evo algos - evox - molecular body :" << std::endl;
+        std::cout << "Evo algos - evox - phenotypic body :" << std::endl;
 
-        is_passed &= launch_tests_evo_algos_evox_molecular_body_basic();
-        is_passed &= launch_tests_evo_algos_evox_molecular_body_mutations();
-        //is_passed &= launch_tests_evo_algos_evox_molecular_body_markers();
-        is_passed &= launch_tests_evo_algos_evox_molecular_body_exec();
-        is_passed &= launch_tests_evo_algos_evox_molecular_body_regen();
+        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_basic();
+        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_mutations();
+        //is_passed &= launch_tests_evo_algos_evox_phenotypic_body_markers();
+        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_exec();
+        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_regen();
 
-        std::cout << "Evo algos - evox - molecular body : ";
+        std::cout << "Evo algos - evox - phenotypic body : ";
         passed_print(is_passed);
 
         return is_passed;

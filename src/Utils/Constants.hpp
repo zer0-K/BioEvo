@@ -138,10 +138,10 @@ const std::string name_exp_bioevo_traits_evox = "EvoX driving traits";
 
 // ---------- GENE
 
-const std::string name_exp_bioevo_molecular_body = "experiments on genes";
-const std::string name_exp_bioevo_molecular_body_evox_fgc = "Evox free gene creation";
-const std::string name_exp_bioevo_molecular_body_evox_gtp = "Evox gene to progtein";
-const std::string name_exp_bioevo_molecular_body_evox_selfc = "Evox gene self-compilation";
+const std::string name_exp_bioevo_phenotypic_body = "experiments on genes";
+const std::string name_exp_bioevo_phenotypic_body_evox_fgc = "Evox free gene creation";
+const std::string name_exp_bioevo_phenotypic_body_evox_gtp = "Evox gene to progtein";
+const std::string name_exp_bioevo_phenotypic_body_evox_selfc = "Evox gene self-compilation";
 
 // tRNAs
 const int id_tRNA_RET = 9999;

@@ -59,7 +59,7 @@ public:
      * @brief get free molecules at given pos in the neighborhood
      *
      * @param[in] pos position
-     * @return molecular body (empty if no free molecules at given pos)
+     * @return phenotypic body (empty if no free molecules at given pos)
      */
     std::vector<int> get_free_molecules_at(int pos) override;
 

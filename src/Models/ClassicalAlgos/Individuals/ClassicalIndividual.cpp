@@ -19,8 +19,8 @@ std::vector<sp_entity> ClassicalIndividual::exec(std::vector<sp_entity> entries)
 
 void ClassicalIndividual::update_coeffs()
 {
-    for(int i=0;i<molecular_body.size();i++)
+    for(int i=0;i<phenotypic_body.size();i++)
     {
-        molecular_body[i]->drive();
+        phenotypic_body[i]->drive();
     }
 }

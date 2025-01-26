@@ -18,15 +18,15 @@ To build the ID list, it first finds the DNA and then loops through it to find I
 
 ### First step : find DNA
 
-To find the DNA, the progtein loops through the molecular body, 
-stops at each molecular marker and check if molecular ID is '-1' the ID corresponding to DNA.
+To find the DNA, the progtein loops through the phenotypic body, 
+stops at each phenotypic marker and check if phenotypic ID is '-1' the ID corresponding to DNA.
 
 ### Second step : find and store IDs
 
 When DNA is found, the progtein loops through DNA as molecules, and
 stops when a GSTART marker is found. 
 When found, it reaches for the ID next to it and writes it on top of stack, increasing size of ID list.
-If it finds a molecular marker with molecular ID '-1' it stops : end of DNA is reached.
+If it finds a phenotypic marker with phenotypic ID '-1' it stops : end of DNA is reached.
 
 ### Third step : outro
 
@@ -38,7 +38,7 @@ the meta-sequential transcriber.
 var 1 : index var - to loop on body and find DNA begin and end
 var 2 : genetic value at var 1
 var 3 : condition to check if pointed place is the DNA marker
-var 4 : condition to check if pointed place is a molecular marker
+var 4 : condition to check if pointed place is a phenotypic marker
 var 5 : stack ptr
 var 6 : begin and end pos for transcription
 
@@ -47,7 +47,7 @@ var 6 : begin and end pos for transcription
 ```{pseudo class.source='foldable'}
 While !var3:
     Go 7 steps forward in body
-    If body part is a molecular marker:
+    If body part is a phenotypic marker:
         Go 2 steps forward in body
         var3 <- body part is DNA marker
         Go 2 steps backward in body
@@ -56,7 +56,7 @@ Leave room for transcriptions pointers and get stack ptr in var5
 
 While !var3:
     Go 7 steps forward in body
-    If body part is a molecular marker:
+    If body part is a phenotypic marker:
        Go 2 steps forward 
        var3 <- body part is DNA marker
        Go 2 steps backward in body

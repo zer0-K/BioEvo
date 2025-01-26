@@ -8,7 +8,7 @@ This page summarizes both of them.
 # General summary
 
 -100- : genetic data
--1 : molecular body end
+-1 : phenotypic body end
 0-99 : core functions
 100-199 : general genesis functions
 200-299 : metabolic functions : internal utility functions

@@ -1,4 +1,4 @@
-#include "MolecularFunctionAcquisition.hpp"
+#include "PhenotypicFunctionAcquisition.hpp"
 
 #include "../../../../Entities/EntityVoid.hpp"
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
@@ -7,18 +7,18 @@
 #include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
 #include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
 
-MolecularFunctionAcquisition::MolecularFunctionAcquisition()
+PhenotypicFunctionAcquisition::PhenotypicFunctionAcquisition()
     :Experiment::Experiment(name_exp_classical_info_func_acqu_evox)
 {
     init();
 }
 
-void MolecularFunctionAcquisition::init()
+void PhenotypicFunctionAcquisition::init()
 {
 
 }
 
-void MolecularFunctionAcquisition::launch()
+void PhenotypicFunctionAcquisition::launch()
 {
     //FreeMoleculesFunctionRead();
     FreeMoleculesFunctionWrite();
@@ -26,16 +26,16 @@ void MolecularFunctionAcquisition::launch()
 
 //-------------------- READ experiment
 
-sp_evox MolecularFunctionAcquisition::get_algo_read()
+sp_evox PhenotypicFunctionAcquisition::get_algo_read()
 {
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
 
-    // molecular body for an ranom gene mutation
+    // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -153,17 +153,17 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = molecular body
+    //----- replication func : output = phenotypic body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate molecular body
+        // mutate phenotypic body
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.77
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -174,9 +174,9 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
-        // copy molecular body
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of phenotypic body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = phenotypic body size
+        // copy phenotypic body
         instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- l.95
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -215,7 +215,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update molecular body
+        // if error flag is 1, update phenotypic body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -247,7 +247,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from molecular body
+        // for the moment : just output a constant from phenotypic body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.145
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -258,7 +258,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.151
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 136*7+5, 0,
@@ -274,7 +274,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
     //----- mutate before replicating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.162
         instruction::GSET, 1, 1, 0, 136*7+5, 101, 0,    // randomly change the output number
 
@@ -325,7 +325,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::JRS, 0, 0, 0, 5, 0, 0,
         // appropriate free molecules found
         instruction::DEC, 1, 0, 0, 99, 0, 0,    // remove loop index from stack
-        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
+        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy phenotypic body)
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
@@ -333,7 +333,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
     //----- copy input (free molecules) into code as new func
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,      //----- l.205
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -350,9 +350,9 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::INC, 1, 0, 0, 101, 0, 0,   // new func id
         instruction::ADD, 1, 1, 0, 100, 100, 4, // reajust pos for last func
         // copy input into data
-        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
+        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of phenotypic body to copy in input
         instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
+        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data phenotypic body
         instruction::CPYIS, 1, 0, 0, 105, 0, 0,
             // marker (begin)
             instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0, //----- l.223
@@ -370,7 +370,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
             instruction::ADD, 1, 1, 0, 104, 104, 2,
             instruction::CPY, 2, 1, 0, 104, 101, 0,
             instruction::ADD, 1, 1, 0, 104, 104, 4,
-        // copy data into molecular body before ending marker
+        // copy data into phenotypic body before ending marker
         instruction::GCPY, 2, 2, 2, 100, 103, 104,
         // REGEN ?
         // instruction::REGEN, 0, 0, 0, 0, 0, 0,
@@ -391,7 +391,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
 
-        // copy if molecular body found
+        // copy if phenotypic body found
         instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -405,26 +405,26 @@ sp_evox MolecularFunctionAcquisition::get_algo_read()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-    //----- end of molecular body
+    //----- end of phenotypic body
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.258
     };
 
-    algo->set_molecular_body(molecular_body);
+    algo->set_phenotypic_body(phenotypic_body);
 
     return algo;
 }
 
-std::vector<int> MolecularFunctionAcquisition::get_molecular_body_function_write()
+std::vector<int> PhenotypicFunctionAcquisition::get_phenotypic_body_function_write()
 {
     return {
-        // phase flag = 3, func teleonomical ID = 1 (ID in molecular body can be != teleonomical ID)
+        // phase flag = 3, func teleonomical ID = 1 (ID in phenotypic body can be != teleonomical ID)
         3, 1,
         // (for the moment, only increment arg on stack)
         instruction::INC, 2, 0, 0, 99, 0, 0,
     };
 }
 
-void MolecularFunctionAcquisition::FreeMoleculesFunctionRead()
+void PhenotypicFunctionAcquisition::FreeMoleculesFunctionRead()
 {
     std::cout << "Acquire free molecules as function (begin)" << std::endl << std::endl;
 
@@ -435,9 +435,9 @@ void MolecularFunctionAcquisition::FreeMoleculesFunctionRead()
     sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
     free_molecules->init();
 
-    // get the molecular body for the free molecules 
-    std::vector<int> molecular_body = get_molecular_body_function_write();
-    free_molecules->set_molecular_body(molecular_body);
+    // get the phenotypic body for the free molecules 
+    std::vector<int> phenotypic_body = get_phenotypic_body_function_write();
+    free_molecules->set_phenotypic_body(phenotypic_body);
 
     std::vector<sp_place> places {
         std::make_shared<Place>(algo, 0),
@@ -452,25 +452,25 @@ void MolecularFunctionAcquisition::FreeMoleculesFunctionRead()
 
     //---------- EXEC
 
-    std::vector<int>::const_iterator beg = algo->get_molecular_body().begin()+256*7;
-    std::vector<int>::const_iterator end = algo->get_molecular_body().end()-1;
+    std::vector<int>::const_iterator beg = algo->get_phenotypic_body().begin()+256*7;
+    std::vector<int>::const_iterator end = algo->get_phenotypic_body().end()-1;
 
-    std::vector<int> end_of_molecular_body_before(beg, end);
+    std::vector<int> end_of_phenotypic_body_before(beg, end);
 
-    std::cout << "End of molecular body before execution : " << std::endl
-        << to_str(end_of_molecular_body_before) << std::endl << std::endl;
+    std::cout << "End of phenotypic body before execution : " << std::endl
+        << to_str(end_of_phenotypic_body_before) << std::endl << std::endl;
 
 
     algo->set_input({3,1});
     algo->exec(std::vector<sp_entity>(0));
 
-    beg = algo->get_molecular_body().begin()+256*7;
-    end = algo->get_molecular_body().end()-1;
+    beg = algo->get_phenotypic_body().begin()+256*7;
+    end = algo->get_phenotypic_body().end()-1;
 
-    std::vector<int> end_of_molecular_body_after(beg, end);
+    std::vector<int> end_of_phenotypic_body_after(beg, end);
 
-    std::cout << "End of molecular body after execution : " << std::endl
-        << to_str(end_of_molecular_body_after) << std::endl << std::endl;
+    std::cout << "End of phenotypic body after execution : " << std::endl
+        << to_str(end_of_phenotypic_body_after) << std::endl << std::endl;
 
     std::cout << "Acquire free molecules as function (end)" << std::endl << std::endl;
 }
@@ -478,16 +478,16 @@ void MolecularFunctionAcquisition::FreeMoleculesFunctionRead()
 //-------------------- WRITE experiment
 
 
-sp_evox MolecularFunctionAcquisition::get_algo_write()
+sp_evox PhenotypicFunctionAcquisition::get_algo_write()
 {
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
 
 
-    // molecular body for an ranom gene mutation
+    // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> molecular_body { 
+    std::vector<int> phenotypic_body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -621,17 +621,17 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 2, 0, 0, 0, 0,
 
-    //----- replication func : output = molecular body
+    //----- replication func : output = phenotypic body
         instruction::MARKER, 0, 3, 0, 0, 0, 0,
 
-        // mutate molecular body
+        // mutate phenotypic body
         instruction::INC, 1, 0, 0, 99, 0, 0,      //----- l.89
         instruction::CPY, 2, 0, 0, 99, 8, 0,    // store the func to exec at top of data stack
         instruction::INC, 1, 0, 0, 0, 0, 0,     // prepare exec of func
         instruction::GPTR, 2, 0, 0, 0, 0, 0,
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -642,9 +642,9 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::DEC, 1, 0, 0, 100, 0, 0,
         instruction::JRE, 0, 0, 1, 2, -1, 101,  // check that marker ID is -1
         instruction::JRS, 0, 0, 0, 8, 0, 0,
-        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of molecular body
-        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = molecular body size
-        // copy molecular body
+        instruction::ADD, 1, 1, 0, 100, 100, 7, // end of phenotypic body
+        instruction::SETOS, 1, 0, 0, 100, 0, 0, // output size = phenotypic body size
+        // copy phenotypic body
         instruction::CPY, 1, 0, 0, 102, -1, 0,      //----- l.107
         instruction::INC, 1, 0, 0, 102, 0, 0,
         instruction::GR, 1, 2, 0, 103, 102, 0,
@@ -683,7 +683,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
         instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-        // if error flag is 1, update molecular body
+        // if error flag is 1, update phenotypic body
         instruction::CPYIN, 1, 1, 0, 100, 1, 0,
         instruction::JRE, 0, 1, 0, 2, 100, 1,
         instruction::JRA, 0, 0, 0, 8, 0, 0,     // does not evaluate if error flag is 1
@@ -715,7 +715,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
     //----- evaluation func
         instruction::MARKER, 0, 6, 0, 0, 0, 0,
 
-        // for the moment : just output a constant from molecular body
+        // for the moment : just output a constant from phenotypic body
         instruction::CPY, 1, 0, 0, 100, 6, 0,      //----- l.157
         instruction::SETOS, 0, 0, 0, 1, 0, 0,
         instruction::CPYOUT, 1, 1, 0, 0, 100, 0,
@@ -726,7 +726,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
     //----- update after error func
         instruction::MARKER, 0, 7, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::CPY, 1, 0, 0, 101, 1000, 0,      //----- l.163
         instruction::CPYIN, 1, 1, 0, 101, 2, 0,
         instruction::GR, 1, 1, 0, 102, 136*7+5, 0,
@@ -742,7 +742,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
     //----- mutate before replicating func
         instruction::MARKER, 0, 8, 0, 0, 0, 0,
 
-        // for the moment : randomly change molecular body
+        // for the moment : randomly change phenotypic body
         instruction::RUI, 1, 0, 0, 101, -1000, 1000,      //----- l.174
         instruction::GSET, 1, 1, 0, 136*7+5, 101, 0,    // randomly change the output number
 
@@ -793,7 +793,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::JRS, 0, 0, 0, 5, 0, 0,
         // appropriate free molecules found
         instruction::DEC, 1, 0, 0, 99, 0, 0,    // remove loop index from stack
-        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy molecular body)
+        instruction::CPY, 2, 0, 0, 99, 1, 0,    // return arg : true (1, i.e. we copy phenotypic body)
 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 10, 0, 0, 0, 0,
@@ -801,7 +801,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
     //----- copy input (free molecules) into code as new func
         instruction::MARKER, 0, 11, 0, 0, 0, 0,
 
-        // find end of molecular body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 100, -7, 0,      //----- l.217
         instruction::ADD, 1, 1, 0, 100, 100, 7,
         instruction::GR, 1, 2, 0, 101, 100, 0,
@@ -818,9 +818,9 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::INC, 1, 0, 0, 101, 0, 0,   // new func id
         instruction::ADD, 1, 1, 0, 100, 100, 4, // reajust pos for last func
         // copy input into data
-        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of molecular body to copy in input
+        instruction::CPY, 1, 0, 0, 102, 1, 0,       // beginning of phenotypic body to copy in input
         instruction::CPY, 1, 0, 0, 103, 1000, 0,    // pos of copying in data
-        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data molecular body
+        instruction::CPY, 1, 1, 0, 104, 103, 0,     // index to iterate through data phenotypic body
         instruction::CPYIS, 1, 0, 0, 105, 0, 0,
             // marker (begin)
             instruction::CPY, 2, 0, 0, 104, instruction::MARKER, 0, //----- l.235
@@ -838,7 +838,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
             instruction::ADD, 1, 1, 0, 104, 104, 2,
             instruction::CPY, 2, 1, 0, 104, 101, 0,
             instruction::ADD, 1, 1, 0, 104, 104, 4,
-        // copy data into molecular body before ending marker
+        // copy data into phenotypic body before ending marker
         instruction::GCPY, 2, 2, 2, 100, 103, 104,
         // REGEN ?
         // instruction::REGEN, 0, 0, 0, 0, 0, 0,
@@ -859,7 +859,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::ADD, 2, 2, 0, 0, 0, 3,
         instruction::JMP, 0, 0, 0, 1, 0, 0,     // exec func
 
-        // copy if molecular body found
+        // copy if phenotypic body found
         instruction::JRE, 0, 2, 0, 3, 99, 1,    // if free molecules not found, skip
         instruction::DEC, 1, 0, 0, 99, 0, 0,
         instruction::JMP, 2, 0, 0, 0, 0, 0,
@@ -873,7 +873,7 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 12, 0, 0, 0, 0,
 
-    //----- get function begining and end in molecular body
+    //----- get function begining and end in phenotypic body
         // arg1 : func ID
         instruction::MARKER, 0, 13, 0, 0, 0, 0,
 
@@ -935,8 +935,8 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         // stop if func not found or invalid (beg = end)
         instruction::JRG, 0, 1, 1, 2, 103, 102, 
         instruction::JMP, 2, 0, 0, 0, 0, 0,
-        // copy molecular body
-        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 molecular body left for metadata
+        // copy phenotypic body
+        instruction::SUB, 1, 1, 0, 102, 102, 3,     // let 2 phenotypic body left for metadata
         instruction::SUB, 1, 1, 1, 104, 103, 102,
         instruction::SETOS, 1, 0, 0, 104, 0, 0,
         instruction::CPY, 1, 1, 0, 110, 102, 0,     // cpy beg-2 (-3 actually) in index var 
@@ -966,16 +966,16 @@ sp_evox MolecularFunctionAcquisition::get_algo_write()
         instruction::JMP, 2, 0, 0, 0, 0, 0,
         instruction::MARKER, 0, 14, 0, 0, 0, 0,
 
-    //----- end of molecular body
+    //----- end of phenotypic body
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.340
     };
 
-    algo->set_molecular_body(molecular_body);
+    algo->set_phenotypic_body(phenotypic_body);
 
     return algo;
 }
 
-void MolecularFunctionAcquisition::FreeMoleculesFunctionWrite()
+void PhenotypicFunctionAcquisition::FreeMoleculesFunctionWrite()
 {
     std::cout << "Write function as free molecules (begin)" << std::endl << std::endl;
 
@@ -1016,9 +1016,9 @@ void MolecularFunctionAcquisition::FreeMoleculesFunctionWrite()
     if(entity->is_type(FREEGENES))
     {
         sp_free_molecules free_molecules = std::dynamic_pointer_cast<FreeMolecules>(entity);
-        std::vector<int> molecular_body = free_molecules->get_molecular_body();
+        std::vector<int> phenotypic_body = free_molecules->get_phenotypic_body();
 
-        bool is_valid = x86_comp_output(expected_free_molecules, molecular_body);
+        bool is_valid = x86_comp_output(expected_free_molecules, phenotypic_body);
 
         if(is_valid)
         {
@@ -1027,7 +1027,7 @@ void MolecularFunctionAcquisition::FreeMoleculesFunctionWrite()
         }
         else
         {
-            int diff_index = first_diff_index(molecular_body, expected_free_molecules);
+            int diff_index = first_diff_index(phenotypic_body, expected_free_molecules);
 
             if(diff_index==-1)
             {
@@ -1038,7 +1038,7 @@ void MolecularFunctionAcquisition::FreeMoleculesFunctionWrite()
             std::cout << "Expected free molecules : " << std::endl
                 << to_str(expected_free_molecules) << std::endl
                 << "Actual free molecules : " << std::endl
-                << to_str(molecular_body) << std::endl << std::endl;
+                << to_str(phenotypic_body) << std::endl << std::endl;
         }
     }
     else

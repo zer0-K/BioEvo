@@ -46,18 +46,18 @@ enum instruction {
     RN,     // 37   random normal : mu=0, sigma=1
     RG,     // 38   random geometric : p=a/b
     // ******* instructions EvoX
-    GR,     // 39   read molecular locus
+    GR,     // 39   read phenotypic locus
     GINS,   // 40   atomic insertion
     GDEL,   // 41   atomic deletion
     GDELW,  // 42   delete a whole molecule
     GSET,   // 43   set atomic value
-    GADD,   // 44   add value to molecular locus
-    GCPY,   // 45   copy data into molecular body (insertion)
-    MARKER, // 46   molecular marker
-    GCPYM,  // 47   copy input into molecular body at first molecular marker
+    GADD,   // 44   add value to phenotypic locus
+    GCPY,   // 45   copy data into phenotypic body (insertion)
+    MARKER, // 46   phenotypic marker
+    GCPYM,  // 47   copy input into phenotypic body at first phenotypic marker
     EXEC,   // 48   execute molecules specified in args
     CALL,   // 49   call function (AD HOC)
-    REGEN,  // 50   regenerate code from molecular body
+    REGEN,  // 50   regenerate code from phenotypic body
     size
 };
 

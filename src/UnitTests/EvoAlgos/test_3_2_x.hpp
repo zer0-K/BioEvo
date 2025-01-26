@@ -45,20 +45,20 @@ namespace ut_ea
         }
         else
         {
-            // check if free molecules correspond to algo's molecular body
-            std::vector<int> molecular_body = algo->get_molecular_body();
-            std::vector<int> copied_molecular_body = std::dynamic_pointer_cast<FreeMolecules>(entity_where_free_molecules)->get_molecular_body();
+            // check if free molecules correspond to algo's phenotypic body
+            std::vector<int> phenotypic_body = algo->get_phenotypic_body();
+            std::vector<int> copied_phenotypic_body = std::dynamic_pointer_cast<FreeMolecules>(entity_where_free_molecules)->get_phenotypic_body();
 
-            // copied molecular molecules  don't have the teleonomical IDs at the end
+            // copied phenotypic molecules  don't have the teleonomical IDs at the end
             //for(int i=0;i<18;i++)
             //{
-            //    copied_molecular_body.push_back(i);
+            //    copied_phenotypic_body.push_back(i);
             //}
-            //molecular body.insert(molecular_body.begin(), molecular_body.size());
-            //molecular body.insert(molecular_body.begin(), 3);
-            //molecular body.insert(molecular_body.begin(), 0);
+            //phenotypic body.insert(phenotypic_body.begin(), phenotypic_body.size());
+            //phenotypic body.insert(phenotypic_body.begin(), 3);
+            //phenotypic body.insert(phenotypic_body.begin(), 0);
 
-            is_passed &= x86_comp_output(molecular_body, copied_molecular_body);
+            is_passed &= x86_comp_output(phenotypic_body, copied_phenotypic_body);
         }
 
         if(verbose_unit_tests)
@@ -79,7 +79,7 @@ namespace ut_ea
         bool is_passed = true;
 
         // input that should trigger the train phase 
-        // (error is rubbish, it's just to check that molecular body was indeed updated)
+        // (error is rubbish, it's just to check that phenotypic body was indeed updated)
 
         std::vector<int> train_in { 0, 0, 403 };
         std::vector<int> train_error { 0, 1, 4 };
@@ -149,7 +149,7 @@ namespace ut_ea
     }
 
     /**
-     * @brief acquire some free molecules and putting them into molecular body
+     * @brief acquire some free molecules and putting them into phenotypic body
     */
     inline bool test_evo_algos_evox_evolution_preliminaries_behavior_simple_acquire(
         std::string test_name, sp_evox algo, sp_univ_evo_algos univ)
@@ -163,13 +163,13 @@ namespace ut_ea
 
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
         free_molecules->init();
-        std::vector<int> molecular_body { 3, 1000,
+        std::vector<int> phenotypic_body { 3, 1000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, -12, 0,
 
             instruction::JMP, 2, 0, 0, 0, 0, 0
         };
-        free_molecules->set_molecular_body(molecular_body);
+        free_molecules->set_phenotypic_body(phenotypic_body);
 
 
         //---------- EVALUATION PHASE
@@ -211,7 +211,7 @@ namespace ut_ea
         entity_void->init();
 
         //----- expected free molecules
-        std::vector<int> expected_molecular_body { 3, 1000,
+        std::vector<int> expected_phenotypic_body { 3, 1000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, -12, 0,
 
@@ -235,9 +235,9 @@ namespace ut_ea
         }
         else
         {
-            std::vector<int> copied_molecular_body = std::dynamic_pointer_cast<FreeMolecules>(entity_where_free_molecules)->get_molecular_body();
+            std::vector<int> copied_phenotypic_body = std::dynamic_pointer_cast<FreeMolecules>(entity_where_free_molecules)->get_phenotypic_body();
 
-            is_passed &= x86_comp_output(copied_molecular_body, expected_molecular_body);
+            is_passed &= x86_comp_output(copied_phenotypic_body, expected_phenotypic_body);
         }
 
 

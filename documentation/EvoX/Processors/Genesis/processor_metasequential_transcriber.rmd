@@ -64,17 +64,17 @@ If list size!=0:
     set stack ptr to end of list val
     CALL RNAP 
     CALL ribosome
-    get back func ID for molecular marker
+    get back func ID for phenotypic marker
     decrease stack ptr to get old stack ptr
-    increase stack ptr several times to get end of transcribed molecular body
+    increase stack ptr several times to get end of transcribed phenotypic body
     set stack ptr to old stack ptr
     decrease val at TOPS (i.e. list size)
     set x = pos after end of list
-    write molecular marker (begin of func)
+    write phenotypic marker (begin of func)
     set y = x + v where v is such that y is the first transcribed codon
-    While y != end of transcribed molecular body
+    While y != end of transcribed phenotypic body
         data at x = data at y
-    write molecular marker (end of func)
+    write phenotypic marker (end of func)
     update begin and end of transcribed code (under TOPS)
 Else
     set output size to transcribed code size
@@ -206,7 +206,7 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_INCcst, 1, 99             // stack ptr-- (pos of first transcribed codon)
 | id_tRNA_INCS, 1                   // update pos of first transcribed codon (1 func ID less)
 | id_tRNA_GTSLV, 1                  // var 1 <- ptr to shift transcribed molecules
-| id_tRNA_SDLVcst, 1, instruction::MARKER // molecular marker (begin)
+| id_tRNA_SDLVcst, 1, instruction::MARKER // phenotypic marker (begin)
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
@@ -219,7 +219,7 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
-| id_tRNA_INCLV, 0, 1               // molecular marker (begin)
+| id_tRNA_INCLV, 0, 1               // phenotypic marker (begin)
 | id_tRNA_SLVLV, 5, 1               
 | id_tRNA_OPELVcst, 0, 5, 5         // transcribed genes are shifted of 5 pos toward 0
 | id_tRNA_CMPLVLV, 0, 5, 2, 6 
@@ -232,7 +232,7 @@ id_tRNA_IF0, 3                      // if var 3
 | | id_tRNA_INCLV, 1, 6
 | id_tRNA_SWJ
 |
-| id_tRNA_SDLVcst, 1, instruction::MARKER // molecular marker (end)
+| id_tRNA_SDLVcst, 1, instruction::MARKER // phenotypic marker (end)
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
@@ -247,7 +247,7 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_SDLVcst, 1, 0
 | id_tRNA_INCLV, 0, 1
 | id_tRNA_SDLVcst, 1, 0             // add one more for overwriting
-| id_tRNA_INCLV, 0, 1               // molecular marker (end)
+| id_tRNA_INCLV, 0, 1               // phenotypic marker (end)
 | id_tRNA_PLVSWI, 1                 // put end of transcribed code
 | id_tRNA_OPEcstcst, 1, 99, 3       // stack ptr -= 3 (set prog ptr to val at begin)
 |

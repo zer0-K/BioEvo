@@ -21,7 +21,7 @@ public:
 
     sp_evox get_base_evox();
 
-    std::map<std::string, std::vector<int>> get_molecular_body_parts();
+    std::map<std::string, std::vector<int>> get_phenotypic_body_parts();
     sp_univ_evo_algos get_evox_universe(sp_evox algo);
     void trigger_synthesis(sp_evox algo, sp_univ_evo_algos universe);
 };

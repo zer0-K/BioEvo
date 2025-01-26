@@ -8,7 +8,7 @@ LinearSimple::LinearSimple(std::string name, int dim)
     :ClassicalIndividual::ClassicalIndividual(name)
 {
     coeffs = std::vector<sp_abstracttrait>(dim);    
-    molecular_body = std::vector<sp_gene>(dim);
+    phenotypic_body = std::vector<sp_gene>(dim);
 
     for(int d=0;d<dim;d++)
     {
@@ -23,7 +23,7 @@ LinearSimple::LinearSimple(std::string name, std::vector<double> coeffs)
     :ClassicalIndividual::ClassicalIndividual(name)
 {
     this->coeffs = std::vector<sp_abstracttrait>(coeffs.size());    
-    molecular_body = std::vector<sp_gene>(coeffs.size());
+    phenotypic_body = std::vector<sp_gene>(coeffs.size());
 
     for(int d=0;d<coeffs.size();d++)
     {
@@ -39,7 +39,7 @@ LinearSimple::LinearSimple(std::string name, std::vector<double> coeffs,
     :ClassicalIndividual::ClassicalIndividual(name)
 {
     this->coeffs = std::vector<sp_abstracttrait>(coeffs.size());    
-    molecular_body = std::vector<sp_gene>(coeffs.size());
+    phenotypic_body = std::vector<sp_gene>(coeffs.size());
 
     for(int d=0;d<coeffs.size();d++)
     {

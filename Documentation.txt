@@ -12,7 +12,7 @@ A function has an ID, and we want to be able to call a function by providing its
 The algo also has a stack, on which we can provide the arguments of the function and the returned value of the function.
 
 The name of this arch is JMP01 because the meta-execution function (the function for which the purpose is to execute the function
-with the given ID) is located at the position 1 in the molecular body. For example, if the second gene value is 34, then the meta-execution 
+with the given ID) is located at the position 1 in the phenotypic body. For example, if the second gene value is 34, then the meta-execution 
 function begins at position 34*7 (program pointer at line 34).
 To execute a function, we just need to jump to the line specified at gene 01.
 
@@ -24,7 +24,7 @@ X) Free molecules and algorithms
 
 In the EvoAlgo/X86Algo's project, there are two types of entities :
 
-    - algorithms, that can be executed. They have an input, a code (and molecular body) and an output 
+    - algorithms, that can be executed. They have an input, a code (and phenotypic body) and an output 
 
     - free molecules, that cannot be executed per se. They corresponds to buoyant entities encoding info that algos can eat
 
@@ -87,7 +87,7 @@ For that purpose, we will add some meta data at the beginning of the algos and t
             - if 0 : corresponds to training data
             - if 1 : corresponds to test data
             - if 2 : corresponds to replication data
-            - if 3 : an algo can integrate it as new func in molecular body
+            - if 3 : an algo can integrate it as new func in phenotypic body
             - if 4 : requesting for an algo to output a func solving/defining a goal
         - meta-teleonomical field:
             - if 0 : the data corresponds to a problem definition
@@ -101,7 +101,7 @@ Note : we can now see how "viruses" (entities with wrong teleonomical ID) can br
 (i) --> an algo contains the list of the problems it tackles : this is, in a way, the functional evolutionary description of the algorithm
         We will use this list of IDs for evolutionary analyses, and we redefine the following words :
             - species : all algorithms that solve/define the same problems
-            - subspecies : within a species, there might be some clusters of significatively different individuals (molecular_body clustering) ;
+            - subspecies : within a species, there might be some clusters of significatively different individuals (phenotypic body clustering) ;
                 each identifiable cluster is a "subspecies", and outliers are "explorat" 
                 Since the number of cluster depends on the method used (KNN, SVM,...), we need to keep in mind that the notion of 
                 subspecies is conventional (but not arbitrary) (note that a subspecies can be divised into several clusters, and so on)
@@ -146,12 +146,12 @@ X) Teleonomical design (micro)
 
 The two hypotheses above (teleonomical design and tendency to specialization) are the cornerstones of our engineering, so much as we would 
 translate them into genetical properties locally :
-    THE MOLECULAR BODY CAN BE SPLIT INTO A LOT OF SUBPARTS FUNCTIONNALY SPECIALIZED
+    THE PHENOTYPIC BODY CAN BE SPLIT INTO A LOT OF SUBPARTS FUNCTIONNALY SPECIALIZED
 
 
 There are three important remarks :
     - the two hypotheses do not describe the degree of causality : some genes may have a proximal utility, while others may have a distal 
-        (ultimate) utility. For example redundancy of the molecular body can be mistakenly seen as not teleonomical nor specialized (in term of
+        (ultimate) utility. For example redundancy of the phenotypic body can be mistakenly seen as not teleonomical nor specialized (in term of
         improving chances of survival), but it is because it garantees robustness against mutation (which is a proxy for fitness)
     - these assumptions are not strongly universal : they are the "H_0 hypothesis", not everything is subject to it, some things can 
         be useless and we don't want to ignore them (such as spandrels, genetic drift). However, the hypotheses suggest that a "useless" trait 
@@ -160,12 +160,12 @@ There are three important remarks :
         solves a problem that was unsolved yet, or may unlock a new behavior/function improving fitness/survival.
 
 
-The specialization hypothesis, as it has been described in the corresponding section, also means that a subpart of the molecular body can be part 
-of bigger specialized part of the molecular body, and can also be split into specialized subparts.
+The specialization hypothesis, as it has been described in the corresponding section, also means that a subpart of the phenotypic body can be part 
+of bigger specialized part of the phenotypic body, and can also be split into specialized subparts.
 
 
 Programmatically, we will translate everything as follows :
-The molecular body is a list of integers, split into different parts P1, P2,..., Pn. Since we are working with integers, there are some 
+The phenotypic body is a list of integers, split into different parts P1, P2,..., Pn. Since we are working with integers, there are some 
 parts that are fundamental, i.e. such that they cannot be split into smaller specialized parts. These parts are called instructions coding, 
 and in this project they correspond to a group of 7 nucleotides.
 All the other parts of the code (P1,...,Pn) will use these fundamental rocks.
@@ -175,11 +175,11 @@ All the other parts of the code (P1,...,Pn) will use these fundamental rocks.
 X) Autopoiesis/autonomical (morpho)genesis
 
 In philosophy of Evolution, the capacity of an entity to generate itself by itself is called autopoiesis, or autonomical morphogenesis.
-To compare with biology, the molecular body is the set of integers, and the phenotype is the set of instructions. 
+To compare with biology, the phenotypic body is the set of integers, and the phenotype is the set of instructions. 
 An instruction for our algos corresponds to a phenotypical trait of a biological organism, the bedrock for playing with adaptations.
 
 Talking of self-generation of an algorithm, we want :
-- self-genesis : the genesis comes from the molecular body of the individual
+- self-genesis : the genesis comes from the phenotypic body of the individual
 - morphogenesis : the genesis creates the code of the algo (its instructions)
 
 Evolution is blind but patient, however we don't have much time but we are not as blind as Evolution, so we allow ourselves to cheat a bit by 

@@ -34,7 +34,7 @@ will build the amino acid at the progtein ptr.
 ### Thrid part : progtein shift
 
 The ribosome plays with some variables and copies the progtein where the mRNA was standing.
-It copies the progteins at a place so that there is place for the transcriber to put the molecular marker at the beginning.
+It copies the progteins at a place so that there is place for the transcriber to put the phenotypic marker at the beginning.
 
 # Variables
 
@@ -78,7 +78,7 @@ Increment stack ptr to set new pos for begining of progtein
 Get end of progtein
 Get size of progtein
 TOPS <- ribosome ptr + size of progtein
-Init dest shift ptr (7 places after stack ptr : to leave room for molecular marker for the transcriber)
+Init dest shift ptr (7 places after stack ptr : to leave room for phenotypic marker for the transcriber)
 
 *Progtein shift*
 while end of progtein is not reached:

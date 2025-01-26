@@ -4,13 +4,13 @@
 
 #include "../../../../Models/EvoAlgos/X86Algo/EvoX.hpp"
 
-class MolecularFunctionAcquisition : public Experiment
+class PhenotypicFunctionAcquisition : public Experiment
 {
 protected:
 
 
 public:
-    MolecularFunctionAcquisition();
+    PhenotypicFunctionAcquisition();
 
     void init() override;
 
@@ -22,15 +22,15 @@ public:
     sp_evox get_algo_write();
 
     /**
-     * @brief get the molecular body for the free molecules
+     * @brief get the phenotypic body for the free molecules
      *
      * The free molecules represent the function that writes 
      * another function on a certain place
      */
-    std::vector<int> get_molecular_body_function_write();
+    std::vector<int> get_phenotypic_body_function_write();
 
     void FreeMoleculesFunctionRead();
     void FreeMoleculesFunctionWrite();
 };
 
-typedef std::shared_ptr<MolecularFunctionAcquisition> sp_experiment_func_acquisition;
+typedef std::shared_ptr<PhenotypicFunctionAcquisition> sp_experiment_func_acquisition;

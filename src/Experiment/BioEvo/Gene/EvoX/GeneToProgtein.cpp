@@ -19,7 +19,7 @@
 
 
 GeneToProgtein::GeneToProgtein()
-    :Experiment::Experiment(name_exp_bioevo_molecular_body_evox_gtp)
+    :Experiment::Experiment(name_exp_bioevo_phenotypic_body_evox_gtp)
 {
     init();
 }
@@ -72,9 +72,9 @@ sp_evox GeneToProgtein::get_base_algo()
     sp_evox algo = std::make_shared<EvoX>("evox algo");
     algo->init();
     algo->set_max_nb_instr_exec(80000);
-    // get molecular body from csv
-    std::vector<int> molecular_body = get_molecular_body_from_csv("molecular_body_base_algo_1.csv");
-    algo->set_molecular_body(molecular_body);
+    // get phenotypic body from csv
+    std::vector<int> phenotypic_body = get_phenotypic_body_from_csv("phenotypic_body_base_algo_1.csv");
+    algo->set_phenotypic_body(phenotypic_body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -118,7 +118,7 @@ void GeneToProgtein::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
 
     sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
     free_molecules->init();
-    free_molecules->set_molecular_body(heaviside);
+    free_molecules->set_phenotypic_body(heaviside);
     universe->get_places()[1]->set_entity(free_molecules);
 
     algo->set_input({3, 1000});
@@ -4086,7 +4086,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
         { "tRNA : add fct ptr specil tRNA", tRNA_SP_FCTADD },
         { "tRNA : get fct ptr in var", tRNA_SP_GFPTRLV },
         { "tRNA : get stack pos in var", tRNA_SP_GSPLV },
-        { "tRNA : copy molecular body between vars", tRNA_SP_GCPY },
+        { "tRNA : copy phenotypic body between vars", tRNA_SP_GCPY },
         // meta tRNAs
         { "tRNA : meta P-site", tRNA_MP },
         { "tRNA : meta E-site", tRNA_ME },
@@ -4110,7 +4110,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_tRNAs_1()
 void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 {
     // get functions
-    auto molecular_body_parts = this->get_tRNAs_1();
+    auto phenotypic_body_parts = this->get_tRNAs_1();
 
     std::vector<std::string> iteration_order {
         "tRNA : create vars",
@@ -4171,7 +4171,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
         "tRNA : add fct ptr specil tRNA",
         "tRNA : get fct ptr in var",
         "tRNA : get stack pos in var",
-        "tRNA : copy molecular body between vars", 
+        "tRNA : copy phenotypic body between vars", 
         // meta tRNAs
         "tRNA : meta P-site",
         "tRNA : meta E-site",
@@ -4192,14 +4192,14 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     for(int i=0;i<iteration_order.size();i++)
     {
         std::string step_name = iteration_order[i];
-        std::vector<int> molecular_body_part = molecular_body_parts[step_name];
+        std::vector<int> phenotypic_body_part = phenotypic_body_parts[step_name];
 
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
         free_molecules->init();
-        free_molecules->set_molecular_body(molecular_body_part);
+        free_molecules->set_phenotypic_body(phenotypic_body_part);
 
         // tell the algo to get the code
-        std::vector<int> input{ 3, molecular_body_part[1] };
+        std::vector<int> input{ 3, phenotypic_body_part[1] };
         algo->set_input(input);
 
         universe->get_places()[2]->set_entity(free_molecules);
@@ -4209,7 +4209,7 @@ void GeneToProgtein::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 
     universe->exec();
 
-    write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_with_tRNAs.csv");
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_tRNAs.csv");
 }
 
 //-------------------- step 3
@@ -4280,7 +4280,7 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
 
     sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
     free_molecules->init();
-    free_molecules->set_molecular_body(ribosome);
+    free_molecules->set_phenotypic_body(ribosome);
     universe->get_places()[1]->set_entity(free_molecules);
 
     algo->set_input({3, 206});
@@ -4342,7 +4342,7 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     sp_free_molecules free_molecules_heaviside_built = std::make_shared<FreeMolecules>("Heaviside built progtein");
     free_molecules_heaviside_built->init();
 
-    free_molecules_heaviside_built->set_molecular_body(built_progtein);
+    free_molecules_heaviside_built->set_phenotypic_body(built_progtein);
     universe->get_places()[1]->set_entity(free_molecules_heaviside_built);
 
     algo->set_input({3, 667});
@@ -4381,7 +4381,7 @@ void GeneToProgtein::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
         std::cout << "Not passed..." << std::endl;
     }
 
-    write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_with_ribosome_and_built_heaviside.csv");
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_ribosome_and_built_heaviside.csv");
 }
 
 //-------------------- step 4
@@ -4520,8 +4520,8 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
         instruction::INC, 1, 0, 0, 100, 0, 0,
         instruction::CPY, 2, 0, 0, 100, 0, 0,
 
-        // copy into molecular body
-        // find end of molecular body
+        // copy into phenotypic body
+        // find end of phenotypic body
         instruction::CPY, 1, 0, 0, 103, -7, 0,
         instruction::ADD, 1, 1, 0, 103, 103, 7,
         instruction::GR, 1, 2, 0, 102, 103, 0,
@@ -4552,7 +4552,7 @@ std::map<std::string, std::vector<int>> GeneToProgtein::get_DNA_and_RNAP()
 void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
 {
     // get functions
-    auto molecular_body_parts = this->get_DNA_and_RNAP();
+    auto phenotypic_body_parts = this->get_DNA_and_RNAP();
 
     std::vector<std::string> iteration_order {
         "Heaviside DNA",
@@ -4563,14 +4563,14 @@ void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
     for(int i=0;i<iteration_order.size();i++)
     {
         std::string step_name = iteration_order[i];
-        std::vector<int> molecular_body_part = molecular_body_parts[step_name];
+        std::vector<int> phenotypic_body_part = phenotypic_body_parts[step_name];
 
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
         free_molecules->init();
-        free_molecules->set_molecular_body(molecular_body_part);
+        free_molecules->set_phenotypic_body(phenotypic_body_part);
 
         // tell the algo to get the code
-        std::vector<int> input{ 3, molecular_body_part[1] };
+        std::vector<int> input{ 3, phenotypic_body_part[1] };
         algo->set_input(input);
 
         universe->get_places()[2]->set_entity(free_molecules);
@@ -4583,5 +4583,5 @@ void GeneToProgtein::exec_step_4(sp_univ_evo_algos universe, sp_evox algo)
     universe->exec();
 
  
-    write_molecular_body_to_csv(algo->get_molecular_body(), "molecular_body_base_self_transcription.csv");
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_base_self_transcription.csv");
 }

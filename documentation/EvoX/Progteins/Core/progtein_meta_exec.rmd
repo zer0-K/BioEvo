@@ -12,15 +12,15 @@ Goal : finding the progtein/processor to execute, calling it and going back to t
 Input : ID of the progtein/processor to execute
 Output : nothing, this processor changes the function stack
 
-The meta-execution progtein loops through the molecular body to find the appropriate processor, 
+The meta-execution progtein loops through the phenotypic body to find the appropriate processor, 
 then put the processor position onto the function stack and changes the program pointer.
 
 ## Description
 
-### First step : find processor in molecular body
+### First step : find processor in phenotypic body
 
-To find the progtein/processor ID, the progtein loops through the molecular body, 
-stops at each molecular marker and check if molecular ID corresponds to the one provided in arguments.
+To find the progtein/processor ID, the progtein loops through the phenotypic body, 
+stops at each phenotypic marker and check if phenotypic ID corresponds to the one provided in arguments.
 
 ### Second step : update function stack and jump to process
 
@@ -35,7 +35,7 @@ and will go back to the function that has called the meta-executor.
 
 var 1 : func ID from TOPS
 var 2 : loop var
-var 3 : condition var : molecular ID == marker and func ID ?
+var 3 : condition var : phenotypic ID == marker and func ID ?
 
 # Pseudo-code
 
@@ -44,10 +44,10 @@ Get func ID from top of stack
 
 While var3!=0
     loop var += 7
-    var3 = molecular value at loop var == MARKER ?
+    var3 = phenotypic value at loop var == MARKER ?
     if var3:
         loop var += 2
-        var3 = molecular value at loop var == func ID ?
+        var3 = phenotypic value at loop var == func ID ?
         var3 -= 1
         loop var -= 2
     else:
@@ -96,11 +96,11 @@ id_tRNA_SLVcst, 2, 0                // var2 <- 0
 id_tRNA_SLVcst, 3, 1                // var3 <- 1
 id_tRNA_IF0, 3
 | id_tRNA_OPELVcst, 0, 2, 7         // var2 += 7
-| id_tRNA_RGLVLV, 4, 2              // var4 <- molecular value at var 2
+| id_tRNA_RGLVLV, 4, 2              // var4 <- phenotypic value at var 2
 | id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3    // var3 <- var4==MARKER ?
 | id_tRNA_IF0, 3
 | | id_tRNA_OPELVcst, 0, 2, 2       // var2 += 2
-| | id_tRNA_RGLVLV, 4, 2            // var4 <- molecular value at var 2
+| | id_tRNA_RGLVLV, 4, 2            // var4 <- phenotypic value at var 2
 | | id_tRNA_CMPLVLV, 0, 4, 1, 3     // var3 <- var4==var1 ?
 | | id_tRNA_OPELVcst, 1, 3, 1       // var 3 -= var1
 | | id_tRNA_OPELVcst, 1, 2, 2

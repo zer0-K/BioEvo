@@ -67,7 +67,7 @@ protected:
      * @brief get free molecules at given pos
      *
      * @param int position
-     * @return molecular body (empty if no free molecules at given pos)
+     * @return phenotypic body (empty if no free molecules at given pos)
      */
     std::function<std::vector<int>(int)> get_free_molecules_at;
 

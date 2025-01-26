@@ -14,7 +14,7 @@ void EvoX::init()
 std::vector<sp_entity> EvoX::exec(std::vector<sp_entity> entries)
 {
     ///< 
-    ///<    creates the code from the molecular body
+    ///<    creates the code from the phenotypic body
     ///<    execute the code
     ///< 
 
@@ -23,14 +23,14 @@ std::vector<sp_entity> EvoX::exec(std::vector<sp_entity> entries)
         bool test = true;
     }
 
-    create_code_from_molecular_body();
+    create_code_from_phenotypic_body();
 
     return X86Algo::exec(entries);
 }
 
-void EvoX::create_code_from_molecular_body()
+void EvoX::create_code_from_phenotypic_body()
 {
-    int nb_instructions = (int) (molecular_body.size()/SIZE_INSTR);
+    int nb_instructions = (int) (phenotypic_body.size()/SIZE_INSTR);
 
     if(nb_instructions == 0)
     {
@@ -46,13 +46,13 @@ void EvoX::create_code_from_molecular_body()
         for(int i=0;i<nb_instructions;i++)
         {
             this->code[i] = std::array<int,SIZE_INSTR>({
-                this->molecular_body[i*SIZE_INSTR], 
-                this->molecular_body[i*SIZE_INSTR+1], 
-                this->molecular_body[i*SIZE_INSTR+2], 
-                this->molecular_body[i*SIZE_INSTR+3], 
-                this->molecular_body[i*SIZE_INSTR+4], 
-                this->molecular_body[i*SIZE_INSTR+5], 
-                this->molecular_body[i*SIZE_INSTR+6]
+                this->phenotypic_body[i*SIZE_INSTR], 
+                this->phenotypic_body[i*SIZE_INSTR+1], 
+                this->phenotypic_body[i*SIZE_INSTR+2], 
+                this->phenotypic_body[i*SIZE_INSTR+3], 
+                this->phenotypic_body[i*SIZE_INSTR+4], 
+                this->phenotypic_body[i*SIZE_INSTR+5], 
+                this->phenotypic_body[i*SIZE_INSTR+6]
             });
         }
         // note that code above can end without HALT instruction (exec loop will end)
@@ -78,7 +78,7 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
     int destination = arg1_;
     int source = arg2_;
 
-    int nb_molecular_body = molecular_body.size();
+    int nb_phenotypic_body = phenotypic_body.size();
 
     switch(instr)
     { 
@@ -91,9 +91,9 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
                 {
                     data[arg1_] = arg2_;
                 }
-                else if(arg2_>=0 && arg2_<molecular_body.size())
+                else if(arg2_>=0 && arg2_<phenotypic_body.size())
                 {
-                    data[arg1_] = molecular_body[arg2_];
+                    data[arg1_] = phenotypic_body[arg2_];
                 }
             }
  
@@ -102,29 +102,29 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
         case instruction::GINS:
             // insert gene at arg1 with value of code at arg2
 
-            if(addr1_order>0 && arg1_>=0 && arg1_<molecular_body.size())
+            if(addr1_order>0 && arg1_>=0 && arg1_<phenotypic_body.size())
             {
                 if(addr2_order==0)
                 {
-                    nb_molecular_body++;
-                    molecular_body.push_back(0);
+                    nb_phenotypic_body++;
+                    phenotypic_body.push_back(0);
 
-                    for(int i=0;i<molecular_body.size()-arg1_-1;i++)
+                    for(int i=0;i<phenotypic_body.size()-arg1_-1;i++)
                     {
-                        molecular_body[nb_molecular_body-i-1] = molecular_body[nb_molecular_body-i-2];
+                        phenotypic_body[nb_phenotypic_body-i-1] = phenotypic_body[nb_phenotypic_body-i-2];
                     }
-                    molecular_body[arg1_] = arg2_;
+                    phenotypic_body[arg1_] = arg2_;
                 }
                 else if(arg2_>=0 && arg2<data.size())
                 {
-                    nb_molecular_body++;
-                    molecular_body.push_back(0);
+                    nb_phenotypic_body++;
+                    phenotypic_body.push_back(0);
 
-                    for(int i=0;i<molecular_body.size()-arg1_-1;i++)
+                    for(int i=0;i<phenotypic_body.size()-arg1_-1;i++)
                     {
-                        molecular_body[nb_molecular_body-i-1] = molecular_body[nb_molecular_body-i-2];
+                        phenotypic_body[nb_phenotypic_body-i-1] = phenotypic_body[nb_phenotypic_body-i-2];
                     }
-                    molecular_body[arg1_] = data[arg2_];
+                    phenotypic_body[arg1_] = data[arg2_];
                 }
             }
 
@@ -135,28 +135,28 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
 
             if(addr1_order == 0)
             {
-                if(arg1_>=0 && arg1_<molecular_body.size())
+                if(arg1_>=0 && arg1_<phenotypic_body.size())
                 {
-                    for(int i=arg1_;i<nb_molecular_body-1;i++)
+                    for(int i=arg1_;i<nb_phenotypic_body-1;i++)
                     {
-                        molecular_body[i] = molecular_body[i+1];
+                        phenotypic_body[i] = phenotypic_body[i+1];
                     }
 
-                    nb_molecular_body--;
-                    molecular_body.pop_back();
+                    nb_phenotypic_body--;
+                    phenotypic_body.pop_back();
                 }
             } 
             else if(arg1_>=0 && arg1_<data.size())
             {
-                if(data[arg1_]>=0 && data[arg1_]<molecular_body.size())
+                if(data[arg1_]>=0 && data[arg1_]<phenotypic_body.size())
                 {
-                    for(int i=data[arg1_];i<nb_molecular_body-1;i++)
+                    for(int i=data[arg1_];i<nb_phenotypic_body-1;i++)
                     {
-                        molecular_body[i] = molecular_body[i+1];
+                        phenotypic_body[i] = phenotypic_body[i+1];
                     }
 
-                    nb_molecular_body--;
-                    molecular_body.pop_back();
+                    nb_phenotypic_body--;
+                    phenotypic_body.pop_back();
                 }
             }
             
@@ -180,49 +180,49 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
                 }
             }
 
-            if(valid_args && arg1_>=0 && arg1_<molecular_body.size()
+            if(valid_args && arg1_>=0 && arg1_<phenotypic_body.size()
                 && arg1_%SIZE_INSTR==0)
             {
 
-                // first case : deleting gene at the end of the molecular body
+                // first case : deleting gene at the end of the phenotypic body
                 // ( incomplete gene )
-                if(arg1_+SIZE_INSTR>molecular_body.size())
+                if(arg1_+SIZE_INSTR>phenotypic_body.size())
                 {
-                    while(nb_molecular_body%SIZE_INSTR!=0)
+                    while(nb_phenotypic_body%SIZE_INSTR!=0)
                     {
-                        molecular_body.pop_back();
-                        nb_molecular_body--;
+                        phenotypic_body.pop_back();
+                        nb_phenotypic_body--;
                     }
                 }
                 else
                 {
-                    int nb_instructions = (int) ( molecular_body.size() / SIZE_INSTR ) ;
+                    int nb_instructions = (int) ( phenotypic_body.size() / SIZE_INSTR ) ;
                     int instr_to_del = (int) ( arg1_ / SIZE_INSTR );
 
-                    // shift all molecular body
+                    // shift all phenotypic body
 
                     for(int i=instr_to_del;i<nb_instructions-1;i++)
                     {
                         for(int j=0;j<SIZE_INSTR;j++)
                         {
-                            molecular_body[i*SIZE_INSTR + j] = molecular_body[SIZE_INSTR*(i+1) + j];
+                            phenotypic_body[i*SIZE_INSTR + j] = phenotypic_body[SIZE_INSTR*(i+1) + j];
                         }
                     }
 
-                    // if there are incomplete molecular moleculesat the end
-                    if(molecular_body.size()%SIZE_INSTR!=0)
+                    // if there are incomplete phenotypic moleculesat the end
+                    if(phenotypic_body.size()%SIZE_INSTR!=0)
                     {
-                        for(int j=0;j<molecular_body.size()%SIZE_INSTR;j++)
+                        for(int j=0;j<phenotypic_body.size()%SIZE_INSTR;j++)
                         {
-                            molecular_body[(nb_instructions-1)*SIZE_INSTR+j] = molecular_body[nb_instructions*SIZE_INSTR+j];
+                            phenotypic_body[(nb_instructions-1)*SIZE_INSTR+j] = phenotypic_body[nb_instructions*SIZE_INSTR+j];
                         }
                     }
 
                     // remove the last gene
                     for(int j=0;j<SIZE_INSTR;j++)
                     {
-                        molecular_body.pop_back();
-                        nb_molecular_body--;
+                        phenotypic_body.pop_back();
+                        nb_phenotypic_body--;
                     }
                }
             }
@@ -232,15 +232,15 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
         case instruction::GSET:
             // set gene at arg1 with data at arg2
 
-            if(addr1_order>0 && arg1_>=0 && arg1_<molecular_body.size())
+            if(addr1_order>0 && arg1_>=0 && arg1_<phenotypic_body.size())
             {
                 if(addr2_order==0)
                 {
-                    molecular_body[arg1_] = arg2_;
+                    phenotypic_body[arg1_] = arg2_;
                 }
                 else if(arg2_>=0 && arg2_<data.size())
                 {
-                    molecular_body[arg1_] = data[arg2_];
+                    phenotypic_body[arg1_] = data[arg2_];
                 }
             }
 
@@ -249,15 +249,15 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
         case instruction::GADD:
             // add to gene at arg1 with data at arg2
 
-            if(addr1_order>0 && arg1_>=0 && arg1_<molecular_body.size())
+            if(addr1_order>0 && arg1_>=0 && arg1_<phenotypic_body.size())
             {
                 if(addr2_order==0)
                 {
-                    molecular_body[arg1_] += arg2_;
+                    phenotypic_body[arg1_] += arg2_;
                 }
                 else if(arg2_>=0 && arg2_<data.size())
                 {
-                    molecular_body[arg1_] += data[arg2_];
+                    phenotypic_body[arg1_] += data[arg2_];
                 }
             }
 
@@ -268,32 +268,32 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
             // copy at destination data between arg2 and arg3 (included)
 
             if(addr1_order>0 && addr2_order>0 && addr3_order>0
-                && destination>=0 && destination<molecular_body.size()+1
+                && destination>=0 && destination<phenotypic_body.size()+1
                 && arg2_>=0 && arg2_<data.size()
                 && arg3_>=0 && arg3_<data.size())
             {
                 int input_cpy_begin = arg2_;
                 int input_cpy_end = arg3_;
 
-                int nb_new_molecular_body = input_cpy_end-input_cpy_begin+1;
-                int nb_old_molecular_body = molecular_body.size();
+                int nb_new_phenotypic_body = input_cpy_end-input_cpy_begin+1;
+                int nb_old_phenotypic_body = phenotypic_body.size();
 
                 // add 0 at the end
-                for(int i=0;i<nb_new_molecular_body;i++)
+                for(int i=0;i<nb_new_phenotypic_body;i++)
                 {
-                    molecular_body.push_back(0);
+                    phenotypic_body.push_back(0);
                 }
                 
                 // shift everything
-                for(int i=0;i<nb_old_molecular_body-destination;i++)
+                for(int i=0;i<nb_old_phenotypic_body-destination;i++)
                 {
-                    molecular_body[nb_old_molecular_body+nb_new_molecular_body - i - 1] = molecular_body[nb_old_molecular_body-i-1];
+                    phenotypic_body[nb_old_phenotypic_body+nb_new_phenotypic_body - i - 1] = phenotypic_body[nb_old_phenotypic_body-i-1];
                 }
 
-                // fill the molecular body with data
-                for(int i=0;i<nb_new_molecular_body;i++)
+                // fill the phenotypic body with data
+                for(int i=0;i<nb_new_phenotypic_body;i++)
                 {
-                    molecular_body[destination+i] = data[input_cpy_begin+i];
+                    phenotypic_body[destination+i] = data[input_cpy_begin+i];
                 }
             }
 
@@ -303,22 +303,22 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
             // do nothing
 
             /*
-                molecular_body[maker_pos] : position (in the molecular body) of the molecular marker
-                molecular_body[maker_pos+1] : type of the marker (for later)
-                molecular_body[maker_pos+2] : id 1 (func ID)
-                molecular_body[maker_pos+3] : id 2 (teleonomical ID)
-                molecular_body[maker_pos+4] : id 3 or genetic storage
-                molecular_body[maker_pos+5] : id 4 or genetic storage
-                molecular_body[maker_pos+6] : id 5 or genetic storage
+                phenotypic_body[maker_pos] : position (in the phenotypic body) of the phenotypic marker
+                phenotypic_body[maker_pos+1] : type of the marker (for later)
+                phenotypic_body[maker_pos+2] : id 1 (func ID)
+                phenotypic_body[maker_pos+3] : id 2 (teleonomical ID)
+                phenotypic_body[maker_pos+4] : id 3 or genetic storage
+                phenotypic_body[maker_pos+5] : id 4 or genetic storage
+                phenotypic_body[maker_pos+6] : id 5 or genetic storage
             */
 
             break;
 
         case instruction::GCPYM:
         {
-            // copy data between arg2 and arg3 at first molecular marker
+            // copy data between arg2 and arg3 at first phenotypic marker
 
-            // find first molecular marker with given id (arg1_)
+            // find first phenotypic marker with given id (arg1_)
 
             bool valid_args = true;
             if(addr1_order>0)
@@ -340,10 +340,10 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
 
                 int marker_pos = 0;
                 bool found = false;
-                while(!found && marker_pos<molecular_body.size() )
+                while(!found && marker_pos<phenotypic_body.size() )
                 {
-                    if(molecular_body[marker_pos] == instruction::MARKER
-                        && molecular_body[marker_pos+1] == arg1_)
+                    if(phenotypic_body[marker_pos] == instruction::MARKER
+                        && phenotypic_body[marker_pos+1] == arg1_)
                     {
                         found = true;
                     }
@@ -353,7 +353,7 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
                     }
                 }
 
-                // then, copy after the molecular marker
+                // then, copy after the phenotypic marker
                 //data.push_back(marker_pos);
                 //marker_pos +=7 ;
                 exec_instruction_molecule(instruction::GCPY, 1, addr2_order, addr3_order, marker_pos, arg2_, arg3_);
@@ -366,14 +366,14 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
         }
         case instruction::EXEC:
         {
-            // execute molecular body at given pos
-            // arg1 : pos in molecular body (multiple of 7)
-            // arg2 : nb of instructions to execute (1 = 7 molecular body)
+            // execute phenotypic body at given pos
+            // arg1 : pos in phenotypic body (multiple of 7)
+            // arg2 : nb of instructions to execute (1 = 7 phenotypic body)
 
             //
-            // !! executing once n molecular molecules at pos p is different than !!
+            // !! executing once n phenotypic molecules at pos p is different than !!
             // !! executing n times a single gene from p to p+n-1 !!
-            // !! -> indeed, some molecular molecules might have been added by the code executed !!
+            // !! -> indeed, some phenotypic molecules might have been added by the code executed !!
             //
             // avoid executing more than one line, because of jumps
 
@@ -404,23 +404,23 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
             }
 
             if(is_valid && arg1_>=0 && arg2>=1
-                && (arg1_ + arg2_)*SIZE_INSTR<molecular_body.size())
+                && (arg1_ + arg2_)*SIZE_INSTR<phenotypic_body.size())
             {
                 auto code_exec = std::vector<std::array<int,SIZE_INSTR>>(arg2_);
         
-                // save all the molecular body at once
-                // garantee that code will be executed even if molecular molecules have been added in the meantime
+                // save all the phenotypic body at once
+                // garantee that code will be executed even if phenotypic molecules have been added in the meantime
                 for(int i=0;i<arg2_;i++)
                 {
-                    auto i_molecular_body = (i+arg1_)*SIZE_INSTR;
+                    auto i_phenotypic_body = (i+arg1_)*SIZE_INSTR;
                     code_exec[i] = std::array<int,SIZE_INSTR>({
-                        this->molecular_body[i_molecular_body], 
-                        this->molecular_body[i_molecular_body+1], 
-                        this->molecular_body[i_molecular_body+2], 
-                        this->molecular_body[i_molecular_body+3], 
-                        this->molecular_body[i_molecular_body+4], 
-                        this->molecular_body[i_molecular_body+5], 
-                        this->molecular_body[i_molecular_body+6]
+                        this->phenotypic_body[i_phenotypic_body], 
+                        this->phenotypic_body[i_phenotypic_body+1], 
+                        this->phenotypic_body[i_phenotypic_body+2], 
+                        this->phenotypic_body[i_phenotypic_body+3], 
+                        this->phenotypic_body[i_phenotypic_body+4], 
+                        this->phenotypic_body[i_phenotypic_body+5], 
+                        this->phenotypic_body[i_phenotypic_body+6]
                     });
                 }
 
@@ -476,14 +476,14 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
             }
 
             // to ensure we can check if algo has JMP01 arch
-            if(molecular_body.size()<30 || molecular_body[1]<1)
+            if(phenotypic_body.size()<30 || phenotypic_body[1]<1)
             {
                 is_valid = false;
             }
 
             if(is_valid)
             {
-                int meta_exec_func_pos = molecular_body[1];
+                int meta_exec_func_pos = phenotypic_body[1];
 
                 if(arg1_==0)
                 {
@@ -513,9 +513,9 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
             break;
         }
         case instruction::REGEN:
-            // regenerate code from molecular body
+            // regenerate code from phenotypic body
 
-            create_code_from_molecular_body();
+            create_code_from_phenotypic_body();
 
             // ! prog ptr will be incremented at end of instr exec (so '-1' ) !
             //program_counter -= 1;
@@ -529,7 +529,7 @@ void EvoX::exec_instruction_molecule(int instr, int addr1_order, int addr2_order
 
 void EvoX::post_process_marker(int marker_pos)
 {
-    int marker_type = molecular_body[marker_pos+1];
+    int marker_type = phenotypic_body[marker_pos+1];
 
     if(marker_type == 0)
     {
@@ -544,29 +544,29 @@ void EvoX::post_process_marker(int marker_pos)
 
 // setters
 
-void EvoX::set_molecular_body(std::vector<int> molecular_body)
+void EvoX::set_phenotypic_body(std::vector<int> phenotypic_body)
 {
-    this->molecular_body = molecular_body;
+    this->phenotypic_body = phenotypic_body;
 }
 
 // getters
 
-std::vector<int> EvoX::get_molecular_body()
+std::vector<int> EvoX::get_phenotypic_body()
 {
-    return molecular_body;
+    return phenotypic_body;
 }
 
 // utils
 
-void EvoX::print_molecular_body()
+void EvoX::print_phenotypic_body()
 {
-    int nb_instructions = (int) (molecular_body.size()/3);
+    int nb_instructions = (int) (phenotypic_body.size()/3);
 
     for(int i=0; i<nb_instructions; i++)
     {
-        int instr = molecular_body[i*3];
-        int addr1 = molecular_body[i*3+1];
-        int addr2 = molecular_body[i*3+2];
+        int instr = phenotypic_body[i*3];
+        int addr1 = phenotypic_body[i*3+1];
+        int addr2 = phenotypic_body[i*3+2];
 
         std::string instr_str = (instr>=0 || instr<instruction::size)
             ? instruction_str[static_cast<instruction>(instr)]
@@ -574,11 +574,11 @@ void EvoX::print_molecular_body()
         std::cout << instr_str << "\t | " << addr1 << "\t | " << addr2 << std::endl;
     }
 
-    // if there are some incomplete molecular molecules at the end
-    if(molecular_body.size() > nb_instructions*3)
+    // if there are some incomplete phenotypic molecules at the end
+    if(phenotypic_body.size() > nb_instructions*3)
     {
         int last_instr_pos = nb_instructions*3; 
-        int instr = molecular_body[last_instr_pos];
+        int instr = phenotypic_body[last_instr_pos];
 
         std::string instr_str = (instr>=0 || instr<instruction::size)
             ? instruction_str[static_cast<instruction>(instr)]
@@ -586,9 +586,9 @@ void EvoX::print_molecular_body()
 
         std::cout << instr_str;
 
-        if(molecular_body.size() > last_instr_pos+1)    
+        if(phenotypic_body.size() > last_instr_pos+1)    
         {
-            std::cout << "\t | " << molecular_body[last_instr_pos+1];
+            std::cout << "\t | " << phenotypic_body[last_instr_pos+1];
         }
 
         std::cout << std::endl;

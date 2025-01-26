@@ -20,7 +20,7 @@ Output : transcribed func in body
 This processor calls the RNAP to get appropriate gene as RNA.
 Calls the ribosome to translate this RNA into a progtein/processor.
 
-Writes the molecular markers before and after the transcribed code.
+Writes the phenotypic markers before and after the transcribed code.
 Copy the transcribed code at end of body
 
 # Variables
@@ -42,11 +42,11 @@ Put func ID on stack (with increment)
 Call RNAP
 Call ribosome
 
-Get stack ptr and adjust pos before writing molecular markers.
-Write molecular marker before func transcribed code (ribosome left some spaces on purpose)
+Get stack ptr and adjust pos before writing phenotypic markers.
+Write phenotypic marker before func transcribed code (ribosome left some spaces on purpose)
 
-Get stack ptr and adjust pos after writing molecular markers.
-Write molecular marker after func transcribed code
+Get stack ptr and adjust pos after writing phenotypic markers.
+Write phenotypic marker after func transcribed code
 
 Find end of body.
 

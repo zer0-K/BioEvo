@@ -95,8 +95,8 @@ namespace ut_ea
 
         int x_algo = 8;
         int y_algo = 3;
-        int x_molecular_body = 7;
-        int y_molecular_body = 2;
+        int x_phenotypic_body = 7;
+        int y_phenotypic_body = 2;
 
         //---------- ENTITIES
 
@@ -109,14 +109,14 @@ namespace ut_ea
 
         //---------- free molecules code
 
-        std::vector<int> molecular_body { 
+        std::vector<int> phenotypic_body { 
             3, 2000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, val, 0
         };
 
-        algo->set_molecular_body(get_molecular_body_from_csv("molecular_body_base.csv")); 
-        free_molecules->set_molecular_body(molecular_body);
+        algo->set_phenotypic_body(get_phenotypic_body_from_csv("phenotypic_body_base.csv")); 
+        free_molecules->set_phenotypic_body(phenotypic_body);
         // set data stack at 150
         algo->set_data_at(99, 150);
 
@@ -126,7 +126,7 @@ namespace ut_ea
         sp_univ_evo_algos_custom universe = std::make_shared<UniverseEvoXCustomNeighborhood>(nb_rows, nb_cols, "universe");
         std::vector<sp_place> places = universe->get_places();
         places[y_algo*nb_cols+x_algo]->set_entity(algo);
-        places[y_molecular_body*nb_cols+x_molecular_body]->set_entity(free_molecules);
+        places[y_phenotypic_body*nb_cols+x_phenotypic_body]->set_entity(free_molecules);
 
         universe->link_universe_functions_to_individuals(neighborhoodType::VON_NEUMANN, new int{ 2 });
 
@@ -174,8 +174,8 @@ namespace ut_ea
 
         int x_algo = 8;
         int y_algo = 3;
-        int x_molecular_body = 7;
-        int y_molecular_body = 2;
+        int x_phenotypic_body = 7;
+        int y_phenotypic_body = 2;
 
         //---------- ENTITIES
 
@@ -188,14 +188,14 @@ namespace ut_ea
 
         //---------- free molecules code
 
-        std::vector<int> molecular_body { 
+        std::vector<int> phenotypic_body { 
             3, 2000,
             instruction::SETOS, 0, 0, 0, 1, 0, 0,
             instruction::CPYOUT, 1, 0, 0, 0, val, 0
         };
 
-        algo->set_molecular_body(get_molecular_body_from_csv("molecular_body_base.csv")); 
-        free_molecules->set_molecular_body(molecular_body);
+        algo->set_phenotypic_body(get_phenotypic_body_from_csv("phenotypic_body_base.csv")); 
+        free_molecules->set_phenotypic_body(phenotypic_body);
         // set data stack at 150
         algo->set_data_at(99, 150);
 
@@ -205,7 +205,7 @@ namespace ut_ea
         sp_univ_evo_algos_custom universe = std::make_shared<UniverseEvoXCustomNeighborhood>(nb_rows, nb_cols, "universe");
         std::vector<sp_place> places = universe->get_places();
         places[y_algo*nb_cols+x_algo]->set_entity(algo);
-        places[y_molecular_body*nb_cols+x_molecular_body]->set_entity(free_molecules);
+        places[y_phenotypic_body*nb_cols+x_phenotypic_body]->set_entity(free_molecules);
 
         universe->link_universe_functions_to_individuals(neighborhoodType::VON_NEUMANN, new int{ 2 });
 
@@ -231,7 +231,7 @@ namespace ut_ea
         {
             sp_free_molecules f = std::dynamic_pointer_cast<FreeMolecules>(entity);
 
-            is_passed &= x86_comp_output(f->get_molecular_body(), molecular_body);
+            is_passed &= x86_comp_output(f->get_phenotypic_body(), phenotypic_body);
         }
         else
         {

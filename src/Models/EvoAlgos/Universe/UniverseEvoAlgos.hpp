@@ -37,7 +37,7 @@ public:
      * @brief get free molecules at given pos
      *
      * @param[in] pos position
-     * @return molecular body (empty if no free molecules at given pos)
+     * @return phenotypic body (empty if no free molecules at given pos)
      */
     virtual std::vector<int> get_free_molecules_at(int pos);
 

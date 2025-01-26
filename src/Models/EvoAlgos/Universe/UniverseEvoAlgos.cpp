@@ -51,7 +51,7 @@ bool UniverseEvoAlgos::is_empty(int pos)
 
 std::vector<int> UniverseEvoAlgos::get_free_molecules_at(int pos)
 {
-    // get the molecular body at given place, and replace with void
+    // get the phenotypic body at given place, and replace with void
     if(pos>=0 && pos<places.size())
     {
         sp_entity entity = places[pos]->get_entity();
@@ -65,7 +65,7 @@ std::vector<int> UniverseEvoAlgos::get_free_molecules_at(int pos)
             entity_void->init();
             places[pos]->set_entity(entity_void);
 
-            return free_molecules->get_molecular_body();
+            return free_molecules->get_phenotypic_body();
         }
     }
 
@@ -84,9 +84,9 @@ bool UniverseEvoAlgos::write_free_molecules_at(int pos, std::vector<int> vals)
             sp_evox algo = std::make_shared<EvoX>("transcribed evox algo");
             algo->init();
 
-            std::vector<int> molecular_body(vals.begin()+1, vals.end()-1);
+            std::vector<int> phenotypic_body(vals.begin()+1, vals.end()-1);
 
-            algo->set_molecular_body(molecular_body);
+            algo->set_phenotypic_body(phenotypic_body);
 
             // set data stack at 150
             algo->set_data_at(99, 150);
@@ -98,7 +98,7 @@ bool UniverseEvoAlgos::write_free_molecules_at(int pos, std::vector<int> vals)
             sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
             free_molecules->init();
 
-            free_molecules->set_molecular_body(vals);
+            free_molecules->set_phenotypic_body(vals);
             new_entity = free_molecules;
         }
 

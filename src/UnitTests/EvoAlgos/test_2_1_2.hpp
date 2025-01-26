@@ -75,7 +75,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, input_0[2]+1, 0 };
 
         std::vector<std::vector<int>> expected_outs {
@@ -87,7 +87,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -150,7 +150,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, input_0[2]-1, 0 };
 
         std::vector<std::vector<int>> expected_outs {
@@ -162,7 +162,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -232,7 +232,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, -input_0[2], 0 };
         std::vector<int> expected_out_1 { 0, 0, 0, -input_1[2], 0 };
 
@@ -245,7 +245,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -330,7 +330,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, 31+71, 0 };
         std::vector<int> expected_out_1 { 0, 0, 0, input_1[2]+71, 0 };
         std::vector<int> expected_out_2 { 0, 0, 0, 31+input_2[3], 0 };
@@ -345,7 +345,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -429,7 +429,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, 31-71, 0 };
         std::vector<int> expected_out_1 { 0, 0, 0, 71-input_1[2], 0 };
         std::vector<int> expected_out_2 { 0, 0, 0, input_2[3]-31, 0 };
@@ -444,7 +444,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -528,7 +528,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, 31*71, 0 };
         std::vector<int> expected_out_1 { 0, 0, 0, input_1[2]*71, 0 };
         std::vector<int> expected_out_2 { 0, 0, 0, 31*input_2[3], 0 };
@@ -545,7 +545,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
@@ -629,7 +629,7 @@ namespace ut_ea
 
         //---------- EXPECTED OUTPUTS
 
-        // the expected outputs of the code the molecular bodys should create
+        // the expected outputs of the code the phenotypic bodys should create
         std::vector<int> expected_out_0 { 0, 0, 0, 12/4, 0 };
         std::vector<int> expected_out_1 { 0, 0, 0, 12/input_1[2], 0 };
         std::vector<int> expected_out_2 { 0, 0, 0, input_2[3]/4, 0 };
@@ -644,7 +644,7 @@ namespace ut_ea
 
         for(int i=0; i<codes.size(); i++)
         {
-            // set molecular body and execute
+            // set phenotypic body and execute
             algo->reset_data();
             algo->reset_code(codes[i]);
 
