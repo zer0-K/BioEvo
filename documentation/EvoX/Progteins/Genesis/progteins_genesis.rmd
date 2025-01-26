@@ -11,7 +11,9 @@ This folder documents the progteins necessary for the genesis of an individual.
 
 ## Summary
 
-* 100X1 : self-compilation func ID list
+### Genesis progteins
+
+* 104 : self-compilation func ID list
 
 ### tRNAs
 
@@ -91,5 +93,4 @@ This folder documents the progteins necessary for the genesis of an individual.
 * 15002 : tRNA_SP_GFPTRLV
 * 15003 : tRNA_SP_GSPLV
 * 15004 : tRNA_SP_GCPY
-
 

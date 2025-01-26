@@ -22,7 +22,7 @@ such as executing other progteins or organs, depending on the 'sensorial' input.
 The 'Genesis' folder documents the progteins necessary for the genesis of individuals.
 This paragraph summarises them.
 
-* 100X1 : self-compilation func ID List
+* 104 : self-compilation func ID list
 
 ### tRNA progteins
 

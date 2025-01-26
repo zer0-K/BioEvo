@@ -11,5 +11,6 @@ Genesis processors are the processors necessary for the creation of a new indivi
 
 ## Summary
 
-* 100X2 : meta-sequential transcriber
 * 103 : free molecules picker wrapper
+* 105 : meta-sequential transcriber
+* 106 : mRNA meta-mutator

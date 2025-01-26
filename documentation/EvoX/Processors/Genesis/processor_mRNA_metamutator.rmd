@@ -1,0 +1,75 @@
+---
+title: Documentation of the mRNA meta-mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : translate mRNA with metagenetic data into transcribable mRNA
+
+Input : mRNA on the stack with metagenetic data
+Output : mRNA on the stack without metagenetic data
+
+
+## Description
+
+The mRNA meta-mutator reads sequentially the mRNA on the stack, detects metagenetic data if there is some, 
+in which case it calls the corresponding mutator to build the latter codon.
+
+# Variables
+
+var 1 : 
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 106, id_tRNA_CVARS, LV_place, X, id_tRNA_IVARS, , 
+id_tRNA_RET, GSTOP_ID, 0, 0,
+```
+
+
+### Commented code
+
+```{pseudoDNA class.source='foldable'}
+
+
+id_tRNA_RET
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 106, 0, 0, 0, 0,
+
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 106, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 106, 0, 0, 0, 0,
+
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 106, 0, 0, 0, 0,
+```

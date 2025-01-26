@@ -88,7 +88,7 @@ Else
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, 100X2, id_tRNA_CVARS, LV_place, 10, id_tRNA_IVARS, id_tRNA_OPEcstcst, 
+GSTART_ID, 105, id_tRNA_CVARS, LV_place, 10, id_tRNA_IVARS, id_tRNA_OPEcstcst, 
 0, 99, 2, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 0, 
 99, id_tRNA_GTSLV, 2, id_tRNA_INCcst, 0, 99, id_tRNA_GTSLV, 
 3, id_tRNA_IF0, 3, id_tRNA_SLVaddr, 4, 99, id_tRNA_OPELVLV, 
@@ -411,7 +411,7 @@ id_tRNA_RET
 ### XASM code
 
 ```{XASM class.source='foldable'}
-instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
+instruction::MARKER, 0, 105, 0, 0, 0, 0,
 
 
 instruction::ADD, 1, 1, 0, 99, 99, 2,
@@ -536,13 +536,13 @@ instruction::JRS, 0, 0, 0, 10, 0, 0,
 
 instruction::JMP, 2, 0, 0, 0, 0, 0,
 
-instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
+instruction::MARKER, 0, 105, 0, 0, 0, 0,
 ```
 
 ### Raw code
 
 ```{Raw class.source='foldable'}
-46, 0, 210, 0, 0, 0, 0,
+46, 0, 105, 0, 0, 0, 0,
 7, 1, 1, 0, 99, 99, 2,
 2, 1, 2, 0, 100, 99, 0,
 5, 1, 0, 0, 99, 0, 0,
@@ -651,5 +651,5 @@ instruction::MARKER, 0, 100X2, 0, 0, 0, 0,
 6, 1, 0, 0, 106, 0, 0,
 21, 0, 0, 0, 10, 0, 0,
 19, 2, 0, 0, 0, 0, 0,
-46, 0, 210, 0, 0, 0, 0,
+46, 0, 105, 0, 0, 0, 0,
 ```

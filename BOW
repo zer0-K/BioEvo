@@ -2,9 +2,9 @@ Book of work:
 
 1) EvoX
 
-16 - create mutable DNA (see X1)
-        a - theory
-        b - ... next steps depend on 16-a
+17 - create mutable DNA (see X1)
+        b - metagenetic data (for mutations)
+        c - create dummy mutator
 18 - select on DNA mutation (see X2)
 19 - plotting progtein creation
 20 - share useful DNA/progteins
@@ -43,7 +43,9 @@ What has been done :
    - 26/04/2024 -     e - tRNA for WHILE loops
    - 03/10/2024 -     f - bootstrap !
    - 12/10/2024 -     g - clean self replication
-17 - 15/08/2024 - rename genes as body (DNA is between -1's) and document
+16 - 15/08/2024 - rename genes as body (DNA is between -1's) and document
+17 - create mutable DNA
+   - 26/01/2025 -     a - theory
 
 
 2) Code eaters

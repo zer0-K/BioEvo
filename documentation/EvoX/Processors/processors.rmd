@@ -20,10 +20,11 @@ These correspond to the teleonomical IDs between 0 and 99.
 
 These correspond to the teleonomical IDs between 100 and 199.
 
-* 100X2 : meta-sequential transcriber
 * 103 : free molecules picker wrapper
+* 105 : meta-sequential transcriber
+* 106 : mRNA meta-mutator
 
 ## Metabolic processors
 
-* 206 ribosome
+* 206 : ribosome
 * 208 : transcriber

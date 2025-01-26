@@ -27,9 +27,10 @@ Progteins are denoted with (p)
 
 ## Genesis units
 
-* 100X1 : self-compilation func ID list (p)
-* 100X2 : meta-sequential transcriber
 * 103 : free molecules picker wrapper
+* 104 : self-compilation func ID list (p)
+* 105 : meta-sequential transcriber
+* 106 : mRNA meta-mutator
 
 ### tRNAs
 

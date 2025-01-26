@@ -77,7 +77,7 @@ Set transcription pointers to this pos
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, 209, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_INCcst, 
+GSTART_ID, 104, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_INCcst, 
 0, 99, id_tRNA_SLVcst,1, -7, id_tRNA_SLVcst, 3, 
 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 1, 7, 
 id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 
@@ -186,7 +186,7 @@ id_tRNA_RET
 ### XASM code
 
 ```{XASM class.source='foldable'}
-instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
+instruction::MARKER, 0, 104, 0, 0, 0, 0,
 
 instruction::INC, 1, 0, 0, 99, 0, 0
 instruction::CPY, 1, 0, 0, 100, -7, 0,
@@ -260,14 +260,14 @@ instruction::CPY, 2, 1, 0, 99, 105, 0,
 instruction::SUB, 1, 1, 0, 99, 99, 2,
 
 instruction::JMP, 2, 0, 0, 0, 0, 0,
-instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
+instruction::MARKER, 0, 104, 0, 0, 0, 0,
 ```
 
 ### Raw code
 
 
 ```{RAW class.source='foldable'}
-46, 0, 209, 0, 0, 0, 0,
+46, 0, 104, 0, 0, 0, 0,
 5, 1, 0, 0, 99, 0, 0,
 2, 1, 0, 0, 100, -7, 0,
 2, 1, 0, 0, 102, 1, 0,
@@ -335,6 +335,6 @@ instruction::MARKER, 0, 100X1, 0, 0, 0, 0,
 2, 2, 1, 0, 99, 105, 0,
 8, 1, 1, 0, 99, 99, 2,
 19, 2, 0, 0, 0, 0, 0,
-46, 0, 209, 0, 0, 0, 0,
+46, 0, 104, 0, 0, 0, 0,
 ```
 
