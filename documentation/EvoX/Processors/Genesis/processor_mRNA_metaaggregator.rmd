@@ -1,0 +1,207 @@
+---
+title: Documentation of the mRNA meta-aggregator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : translate mRNA with metagenetic data into transcribable mRNA
+
+Input : mRNA on the stack with metagenetic data
+Output : mRNA on the stack without metagenetic data
+
+
+## Description
+
+The mRNA meta-aggregator reads sequentially the mRNA on the stack, detects metagenetic data if there is some, 
+in which case it calls the corresponding aggregator to build the latter codon.
+
+### Step 0 : initialisation
+
+First, the meta-aggregator will initialize the mRNA pointers :
+TOPS contains the mRNA pos (-2), say p. 
+p+1 and p+2 are followed by zeros, it's free place for later use in the transcription.
+The meta-aggregator will use p+1 as a pointer to go through the mRNA and p+2 as a pointer for the new end of the mRNA.
+
+### Step 1 : detecting aggregator
+
+The meta-aggregator goes through the mRNA, and stops if it sees a value between 30,000 and 40,000.
+When it calls the aggregator, which will aggregate the new mRNA at the new end.
+
+### Step 2 : end of mRNA adjustment
+
+Then, the meta-aggregator continues it way up to the next aggregator or the end of the mRNA.
+
+### Step 3 : outro
+
+After it has gone through all the mRNA, the meta-aggregator adjusts the end of the mRNA at p, 
+and reset p+1 and p+2 to 0.
+
+# Variables
+
+var 1 : p (end of mRNA)
+var 2 : p+1 (current mRNA ptr)
+var 3 : p+2 (new mRNA end)
+var 4 : val at current ptr
+var 5 : while condition
+var 6 : if condition
+var 7 : if condition (bis)
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+var 1 <- stack ptr + 2  (p)
+var 2 <- var 1 + 1 (p+1)
+var 3 <- var 2 + 1 (p+2)
+*var 2 <- var 3 + 1
+*var 3 <- var 3 + 1
+
+while var 2 <= var 1:
+  var 4 <- *var 2
+  if aggregator_ids <= var 4 < mutator_ids :
+    call aggregator represented by var 4
+    call var 4
+    var 1 <- stack ptr + 2  (p)
+    var 2 <- var 1 + 1 (p+1)
+    var 3 <- var 2 + 1 (p+2)
+  else if mutator_ids <= var 4 < mutator_ids + 10000:
+    skip mutator params
+    var 2++
+    var 4 <- *var 2
+    var 2 += var 4
+  else:
+    increase ptrs and append at new end
+    var 2++
+    var 3++
+    *var 3 <- *var 2
+
+*var 1 <- *var 3
+*var 2 <- 0
+*var 3 <- 0
+
+end
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 106, id_tRNA_CVARS, LV_place, 7, id_tRNA_IVARS, id_tRNA_GTSLV, 
+1, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 3, id_tRNA_OPELVcst, 0, 
+1, 2, id_tRNA_OPELVcst, 0, 2, 3, id_tRNA_OPELVcst, 
+0, 3, 4, id_tRNA_SDLVLV, 2, 3, id_tRNA_SDLVLV, 
+3, 3, id_tRNA_INCDLV, 0, 2, id_tRNA_INCDLV, 0, 
+3, id_tRNA_CMPLVLV, 3, 2, 1, 5, id_tRNA_IF0, 
+5, id_tRNA_SLVDLV, 4, 2, id_tRNA_CMPLVcst, 4, 4, 
+id_begin_aggregators, 6, id_tRNA_CMPLVcst, 2, 4, id_begin_mutators, 7, 
+id_tRNA_OPELVLV, 2, 6, 7, id_tRNA_IF0, 6, id_tRNA_CALLLV, 
+4, id_tRNA_GTSLV, 1, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 3, 
+id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_OPELVcst, 0, 2, 
+3, id_tRNA_OPELVcst, 0, 3, 4, id_tRNA_SIJ, id_tRNA_OPELVcst, 
+1, 4, id_begin_mutators, id_tRNA_CMPLVcst, 4, 4, 0, 
+6, id_tRNA_CMPLVcst, 2, 4, 10000, 7, id_tRNA_OPELVLV, 
+2, 6, 7, id_tRNA_IF0, 6, id_tRNA_INCLV, 2, 
+id_tRNA_SLVDLV, 4, 2, id_tRNA_OPELVLV, 0, 2, 4, 
+id_tRNA_SIJ, id_tRNA_INCLV, 2, id_tRNA_INCLV, 3, id_tRNA_SDLVDLV, 3, 
+2, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SDLVDLV, 1, 3, 
+id_tRNA_SDLVcst, 2, 0, id_tRNA_SDLVcst, 3, 0, id_tRNA_RET, 
+GSTOP_ID, 0, 0, 0, 0, 0, 0
+```
+
+
+### Commented code
+
+```{pseudoDNA class.source='foldable'}
+*Initialize the pointers*
+id_tRNA_GTSLV, 1                    // var1 <- TOPS  (p-2)
+id_tRNA_GTSLV, 2                    // var2 <- TOPS  (p-2)
+id_tRNA_GTSLV, 3                    // var3 <- TOPS  (p-2)
+id_tRNA_OPELVcst, 0, 1, 2           // var1 <- mRNA end ptr (p)
+id_tRNA_OPELVcst, 0, 2, 3           // var2 <- current ptr (p+1)
+id_tRNA_OPELVcst, 0, 3, 4           // var3 <- mRNA new end ptr (p+2)
+id_tRNA_SDLVLV, 2, 3                // *var2 <- var 3
+id_tRNA_SDLVLV, 3, 3                // *var3 <- var 3
+id_tRNA_INCDLV, 0, 2                // *var2++
+id_tRNA_INCDLV, 0, 3                // *var3++
+
+id_tRNA_CMPLVLV, 3, 2, 1, 5         // var5 <- var2 <= var 1 ?
+id_tRNA_IF0, 5
+| id_tRNA_SLVDLV, 4, 2                              // var 4 <- *var 2
+| id_tRNA_CMPLVcst, 4, 4, id_begin_aggregators, 6   // var6 <- var 4 >= aggregator_ids ?
+| id_tRNA_CMPLVcst, 2, 4, id_begin_mutators, 7      // var7 <- var 4 < mutator_ids ?
+| id_tRNA_OPELVLV, 2, 6, 7                          // var6 *= var7 (1 if agg <= var4 < mut)
+| id_tRNA_IF0, 6
+| |
+| | *call aggregator*
+| | id_tRNA_CALLLV, 4                   // call aggregator
+| | id_tRNA_GTSLV, 1                    // var1 <- TOPS  (p-2)
+| | id_tRNA_GTSLV, 2                    // var2 <- TOPS  (p-2)
+| | id_tRNA_GTSLV, 3                    // var3 <- TOPS  (p-2)
+| | id_tRNA_OPELVcst, 0, 1, 2           // var1 <- mRNA end ptr (p)
+| | id_tRNA_OPELVcst, 0, 2, 3           // var2 <- current ptr (p+1)
+| | id_tRNA_OPELVcst, 0, 3, 4           // var3 <- mRNA new end ptr (p+2)
+| |  
+| id_tRNA_SIJ
+| |
+| | id_tRNA_OPELVcst, 1, 4, id_begin_mutators     // var4 -= mutator_ids
+| | id_tRNA_CMPLVcst, 4, 4, 0, 6                  // var6 <- var 4 >= 0 ?
+| | id_tRNA_CMPLVcst, 2, 4, 10000, 7              // var7 <- var 4 < 10000 ?
+| | id_tRNA_OPELVLV, 2, 6, 7                      // var6 *= var7 (1 if mut <= var4 < mut+10k)
+| | id_tRNA_IF0, 6
+| | | 
+| | | *skip mutator params*
+| | | id_tRNA_INCLV, 2                // var 2++
+| | | id_tRNA_SLVDLV, 4, 2            // var 4 <- *var 2
+| | | id_tRNA_OPELVLV, 0, 2, 4        // var 2 += var 4
+| | |
+| | id_tRNA_SIJ
+| | | 
+| | | *increase ptrs and append at new end*
+| | | id_tRNA_INCLV, 2                // var 2++
+| | | id_tRNA_INCLV, 3                // var 3++
+| | | id_tRNA_SDLVDLV, 3, 2           // *var 3 <- *var 2
+| | |
+| | id_tRNA_SEJ
+| | 
+| id_tRNA_SEJ
+|
+id_tRNA_SWJ
+
+*Outro : set new mRNA end*
+id_tRNA_SDLVDLV, 1, 3               // *var1 <- *var3 (end = new end)
+id_tRNA_SDLVcst, 2, 0               // $var2 <- 0
+id_tRNA_SDLVcst, 3, 0               // $var3 <- 0
+
+id_tRNA_RET
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 106, 0, 0, 0, 0,
+
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 106, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 106, 0, 0, 0, 0,
+
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 106, 0, 0, 0, 0,
+```

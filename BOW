@@ -3,8 +3,10 @@ Book of work:
 1) EvoX
 
 17 - create mutable DNA (see X1)
-        b - metagenetic data (for mutations)
-        c - create dummy mutator
+        b - metagenetic data (for aggregators)
+        c - create dummy aggregator
+        d - metagenetic data (for mutators)
+        e - create dummy mutator
 18 - select on DNA mutation (see X2)
 19 - plotting progtein creation
 20 - share useful DNA/progteins

@@ -234,6 +234,10 @@ const int id_tRNA_SP_GSPLV = 15003; // var nb
 const int id_tRNA_SP_GCPY = 15004; // var nb, var nb, var nb
 
 
+const int id_begin_aggregators = 30000;
+const int id_begin_mutators = 40000;
+
+
 // ---------- GENESIS
 
 const std::string name_exp_bioevo_genesis = "generation of base evoX";
