@@ -71,9 +71,9 @@ sp_evox SelfCompilationEvoX::get_base_algo(int step)
     // get phenotypic body from csv
     std::string file_algo = "phenotypic_body_base_self_transcription.csv";
     if(step == 2)
-        file_algo = "phenotypic_body_with_bootstrap_DNA_xxx.csv";
+        file_algo = "phenotypic_body_with_bootstrap_DNA.csv";
     else if(step == 3)
-        file_algo = "phenotypic_body_transcribed_xxx.csv";
+        file_algo = "phenotypic_body_transcribed.csv";
     std::vector<int> phenotypic_body = get_phenotypic_body_from_csv(file_algo);
     algo->set_phenotypic_body(phenotypic_body);
 
@@ -101,26 +101,30 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // 106 - mRNA meta-aggregator
 
-        GSTART_ID, 116, id_tRNA_CVARS, LV_place, 7, id_tRNA_IVARS, id_tRNA_GTSLV, 
-        1, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 3, id_tRNA_OPELVcst, 0, 
+        GSTART_ID, 116, id_tRNA_CVARS, LV_place, 9, id_tRNA_IVARS, id_tRNA_SP_GSPLV, 
+        1, id_tRNA_SP_GSPLV, 2, id_tRNA_SP_GSPLV, 3, id_tRNA_OPELVcst, 0, 
         1, 2, id_tRNA_OPELVcst, 0, 2, 3, id_tRNA_OPELVcst, 
         0, 3, 4, id_tRNA_SDLVLV, 2, 3, id_tRNA_SDLVLV, 
         3, 3, id_tRNA_INCDLV, 0, 2, id_tRNA_INCDLV, 0, 
-        3, id_tRNA_CMPLVLV, 3, 2, 1, 5, id_tRNA_IF0, 
-        5, id_tRNA_SLVDLV, 4, 2, id_tRNA_CMPLVcst, 4, 4, 
-        id_begin_aggregators, 6, id_tRNA_CMPLVcst, 2, 4, id_begin_mutators, 7, 
-        id_tRNA_OPELVLV, 2, 6, 7, id_tRNA_IF0, 6, id_tRNA_CALLLV, 
-        4, id_tRNA_GTSLV, 1, id_tRNA_GTSLV, 2, id_tRNA_GTSLV, 3, 
-        id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_OPELVcst, 0, 2, 
-        3, id_tRNA_OPELVcst, 0, 3, 4, id_tRNA_SIJ, id_tRNA_OPELVcst, 
-        1, 4, id_begin_mutators, id_tRNA_CMPLVcst, 4, 4, 0, 
-        6, id_tRNA_CMPLVcst, 2, 4, 10000, 7, id_tRNA_OPELVLV, 
-        2, 6, 7, id_tRNA_IF0, 6, id_tRNA_INCLV, 2, 
-        id_tRNA_SLVDLV, 4, 2, id_tRNA_OPELVLV, 0, 2, 4, 
-        id_tRNA_SIJ, id_tRNA_INCLV, 2, id_tRNA_INCLV, 3, id_tRNA_SDLVDLV, 3, 
-        2, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SDLVDLV, 1, 3, 
-        id_tRNA_SDLVcst, 2, 0, id_tRNA_SDLVcst, 3, 0, id_tRNA_RET, 
-        GSTOP_ID, 0, 0, 0, 0, 0, 0,
+        3, id_tRNA_SLVDLV, 8, 1, id_tRNA_SLVDLV, 9, 2, 
+        id_tRNA_CMPLVLV, 1, 9, 8, 5, id_tRNA_IF0, 5, 
+        id_tRNA_SLVDLV, 4, 2, id_tRNA_SLVDLV, 4, 4, id_tRNA_CMPLVcst, 
+        4, 4, id_begin_aggregators, 6, id_tRNA_CMPLVcst, 2, 4, 
+        id_begin_mutators, 7, id_tRNA_OPELVLV, 2, 6, 7, id_tRNA_IF0, 
+        6, id_tRNA_CALLLV, 4, id_tRNA_SP_GSPLV, 1, id_tRNA_SP_GSPLV, 2, 
+        id_tRNA_GTSLV, 3, id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_OPELVcst, 
+        0, 2, 3, id_tRNA_OPELVcst, 0, 3, 4, 
+        id_tRNA_SIJ, id_tRNA_OPELVcst, 1, 4, id_begin_mutators, id_tRNA_CMPLVcst, 4, 
+        4, 0, 6, id_tRNA_CMPLVcst, 2, 4, 10000, 
+        7, id_tRNA_OPELVLV, 2, 6, 7, id_tRNA_IF0, 6, 
+        id_tRNA_INCDLV, 0, 2, id_tRNA_SLVDLV, 4, 2, id_tRNA_SLVDLV, 
+        4, 4, id_tRNA_OPELVLV, 0, 2, 4, id_tRNA_SIJ, 
+        id_tRNA_SLVDLV, 8, 2, id_tRNA_SLVDLV, 9, 3, id_tRNA_SDLVDLV, 
+        9, 8, id_tRNA_INCDLV, 0, 2, id_tRNA_INCDLV, 0, 
+        3, id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SLVDLV, 8, 1, id_tRNA_SLVDLV, 
+        9, 2, id_tRNA_CMPLVLV, 1, 9, 8, 5, 
+        id_tRNA_SWJ, id_tRNA_SDLVDLV, 1, 3, id_tRNA_SDLVcst, 2, 0, 
+        id_tRNA_SDLVcst, 3, 0, id_tRNA_RET, GSTOP_ID, 0, 0,
 
 
         // 200 - calc phenotypic body size
@@ -1000,7 +1004,7 @@ void SelfCompilationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({3, -1});
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_xxx.csv");
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA.csv");
 }
 
 void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo, std::string file_name)
@@ -1064,7 +1068,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 208, 116});
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_full_xxx.csv");
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_full.csv");
     // apply the self compilation functions
     algo->set_input({-1, 114});
     universe->exec();
@@ -1087,7 +1091,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     {
         std::cout << "Algo transcribed !" << std::endl;
         std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
-        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed_xxx.csv");
+        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed.csv");
     }
     else
     {
@@ -1122,7 +1126,7 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     {
         std::cout << "Algo transcribed !" << std::endl;
         std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
-        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed_iterated_xxx.csv");
+        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed_iterated.csv");
     }
     else
     {

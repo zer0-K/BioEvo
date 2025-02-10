@@ -3,7 +3,6 @@ Book of work:
 1) EvoX
 
 17 - create mutable DNA (see X1)
-        b - metagenetic data (for aggregators)
         c - create dummy aggregator
         d - metagenetic data (for mutators)
         e - create dummy mutator
@@ -36,7 +35,7 @@ What has been done :
 12 - 03/01/2024 - autopoiesis and refactoring
 13 - 02/02/2024 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
 14 - 13/02/2024 - acquire amino acids (+ neighborhood change)
-        - neighborhood change
+   - neighborhood change
 15 - evolve code
    - 13/04/2024 -     a - find simple examples : progteins
    - 20/04/2024 -     b - create tRNAs
@@ -45,9 +44,10 @@ What has been done :
    - 26/04/2024 -     e - tRNA for WHILE loops
    - 03/10/2024 -     f - bootstrap !
    - 12/10/2024 -     g - clean self replication
-16 - 15/08/2024 - rename genes as body (DNA is between -1's) and document
+16 - 15/08/2024 - rename genes as body (DNA is between -1) and document
 17 - create mutable DNA
    - 26/01/2025 -     a - theory
+   - 10/02/2025 -     b - metagenetic data (for aggregators)
 
 
 2) Code eaters
