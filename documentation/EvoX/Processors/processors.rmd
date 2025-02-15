@@ -22,7 +22,7 @@ These correspond to the teleonomical IDs between 100 and 199.
 
 * 103 : free molecules picker wrapper
 * 105 : meta-sequential transcriber
-* 106 : mRNA meta-mutator
+* 106 : mRNA meta-aggregator
 
 ## Metabolic processors
 

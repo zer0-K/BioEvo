@@ -30,7 +30,7 @@ Progteins are denoted with (p)
 * 103 : free molecules picker wrapper
 * 104 : self-compilation func ID list (p)
 * 105 : meta-sequential transcriber
-* 106 : mRNA meta-mutator
+* 106 : mRNA meta-aggregator
 
 ### tRNAs
 
