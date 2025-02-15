@@ -1,0 +1,98 @@
+---
+title: Documentation of the DNA meta-mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : mutates a certain gene
+
+Input : teleonomical ID of the progtein to mutate
+Output : nothing, only mutated DNA
+
+
+The meta-mutator calls individual mutators which can mutate:
+- a single codon
+- a aggregated codon sequence (whole sequence that will be aggregated into a single codon)
+- an aggregator
+- another mutator
+- create a new gene
+
+## mutators
+
+Before describing how the meta-mutator works, we document here what are the different kinds of mutators.
+
+
+## Description
+
+The DNA meta-mutator first finds the gene corresonding to the progtein whose ID was given in input.
+Then it reads sequentially the DNA, detects metagenetic data if there is some, 
+in which case it calls the corresponding mutator to mutate the code.
+
+
+### Step 0 : initialisation
+
+
+### Step 1 : detecting mutator
+
+
+### Step 2 : end of DNA adjustment
+
+
+### Step 3 : outro
+
+
+# Variables
+
+var 1 : 
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 107, id_tRNA_CVARS, LV_place, 1, id_tRNA_IVARS, id_tRNA_RET, 
+GSTOP_ID, 0, 0, 0, 0, 0, 0,
+```
+
+
+### Commented code
+
+```{pseudoDNA class.source='foldable'}
+
+id_tRNA_RET
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 107, 0, 0, 0, 0,
+
+*coded genetically only*
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 107, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 107, 0, 0, 0, 0,
+19, 2, 0, 0, 0, 0, 0,
+46, 0, 107, 0, 0, 0, 0,
+```
