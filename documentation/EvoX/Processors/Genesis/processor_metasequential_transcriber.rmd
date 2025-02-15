@@ -11,7 +11,7 @@ output:
 Goal : transcribe to progtein and processors all funcs of the list built by the self-compilation func ID list builder
 
 Input : nothing
-Output : builds a list of teleonomical code when executed several times ; executed once it will transcribe 
+Output : builds a list of teleonomical code when executed several tmes ; executed once it will transcribe 
     the code of the last progtein or processor ID on ID list
 
 This function transcribes the RNAs one by one : 
