@@ -333,7 +333,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         3, id_tRNA_IF0, 3, id_tRNA_SLVaddr, 4, 99, id_tRNA_OPELVLV, 
         0, 3, 4, id_tRNA_SLVDLV, 5, 3, id_tRNA_INCLV, 
         0, 3, id_tRNA_SDLVLV, 2, 4, id_tRNA_ScstLV, 99, 
-        2, id_tRNA_PLVSI, 5, id_tRNA_PLVSI, 5, id_tRNA_CALLcst, 107, 
+        2, id_tRNA_PLVSI, 5, id_tRNA_PLVSI, 5, id_tRNA_CALLcst, 117, 
         id_tRNA_CALLcst, 207, id_tRNA_CALLcst, 116, id_tRNA_CALLcst, 206, id_tRNA_GTSLV, 
         3, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 4, id_tRNA_OPEcstcst, 
         0, 99, 3, id_tRNA_GTSLV, 2, id_tRNA_INCLV, 0, 
@@ -481,6 +481,12 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         GSTART_ID, id_tRNA_RGLVLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
         id_tRNA_ME, id_tRNA_MInstr, instruction::GR, id_tRNA_M1, id_tRNA_M2, id_tRNA_M0, id_tRNA_MLV, 
         id_tRNA_MLV, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+
+        // tRNA_GADD
+
+        GSTART_ID, id_tRNA_GADD, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+        id_tRNA_ME, id_tRNA_MInstr, instruction::GADD, id_tRNA_M1, id_tRNA_M0, id_tRNA_M0, id_tRNA_MLV, 
+        id_tRNA_Marg, id_tRNA_M0, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 
         // tRNA_WGDLV
 
@@ -1065,12 +1071,19 @@ void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo, std::st
 
 void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 {
-    // transcribe self compilation functions
+    // transcribe DNA only functions
+    // self compilation functions
     algo->set_input({-1, 208, 114});
     universe->exec();
     algo->set_input({-1, 208, 115});
     universe->exec();
+    // some remaining tRNAs
+    algo->set_input({-1, 208, id_tRNA_GADD});
+    universe->exec();
+    // aggregators and mutators
     algo->set_input({-1, 208, 116});
+    universe->exec();
+    algo->set_input({-1, 208, 117});
     universe->exec();
 
     write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_full_xxx.csv");
@@ -1078,7 +1091,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 114});
     universe->exec();
 
-    for(int i=0;i<87;i++)
+    for(int i=0;i<88;i++)
     {
         algo->set_input({-1, 115});
         universe->exec();
@@ -1113,7 +1126,7 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 114});
     universe->exec();
 
-    for(int i=0;i<87;i++)
+    for(int i=0;i<88;i++)
     {
         algo->set_input({-1, 115});
         universe->exec();

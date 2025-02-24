@@ -202,6 +202,8 @@ const int id_tRNA_GScstLV = 12001; // cst, var
 const int id_tRNA_GSLVcst = 12002; // var, cst
 const int id_tRNA_GSLVLV = 12003; // var, var
 
+const int id_tRNA_GADD = 12500; // var cst
+
 const int id_tRNA_USLV = 13000; // var nb
 const int id_tRNA_RULV = 13001; // var nb
 const int id_tRNA_EMPTY = 13100; // var nb

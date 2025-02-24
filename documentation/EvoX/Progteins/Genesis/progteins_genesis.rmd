@@ -67,6 +67,7 @@ This folder documents the progteins necessary for the genesis of an individual.
 * 12001 : tRNA_GScstLV
 * 12002 : tRNA_GSLVcst
 * 12003 : tRNA_GLVLV
+* 12500 : tRNA_GADD
 * 13000 : tRNA_USLV
 * 13001 : tRNA_RULV
 * 13100 : tRNA_EMPTY
