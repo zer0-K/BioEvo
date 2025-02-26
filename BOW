@@ -3,8 +3,7 @@ Book of work:
 1) EvoX
 
 17 - create mutable DNA (see X1)
-        c - create dummy aggregator
-        d - metagenetic data (for mutators)
+        d - create dummy aggregator
         e - create dummy mutator
 18 - select on DNA mutation (see X2)
 19 - plotting progtein creation
@@ -48,6 +47,7 @@ What has been done :
 17 - create mutable DNA
    - 26/01/2025 -     a - theory
    - 10/02/2025 -     b - metagenetic data (for aggregators)
+   - 26/02/2025 -     c - metagenetic data (for mutators)
 
 
 2) Code eaters

@@ -129,8 +129,34 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // 107 - DNA meta-mutator
 
-        GSTART_ID, 117, id_tRNA_CVARS, LV_place, 1, id_tRNA_IVARS, id_tRNA_RET, 
-        GSTOP_ID, 0, 0, 0, 0, 0, 0,
+        GSTART_ID, 117, id_tRNA_CVARS, LV_place, 7, id_tRNA_IVARS, id_tRNA_SLVcst, 
+        5, GSTART_ID-1, id_tRNA_INCLV, 0, 5, id_tRNA_SP_GSPLV, 6, 
+        id_tRNA_INCLV, 0, 6, id_tRNA_SLVDLV, 6, 6, id_tRNA_SLVcst, 
+        1, -7, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, 
+        id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 1, 
+        id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 4, 
+        id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_RGLVLV, 2, 1, 
+        id_tRNA_CMPLVcst, 0, 2, -1, 3, id_tRNA_INCLV, 1, 
+        3, id_tRNA_OPELVcst, 1, 1, 2, id_tRNA_SIJ, id_tRNA_SEJ, 
+        id_tRNA_SWJ, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 
+        0, 1, 7, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVLV, 
+        0, 2, 5, 4, id_tRNA_IF0, 4, id_tRNA_INCLV, 
+        0, 1, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVLV, 0, 
+        2, 6, 3, id_tRNA_INCLV, 1, 3, id_tRNA_INCLV, 
+        1, 1, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_INCLV, 0, 
+        1, id_tRNA_SLVcst, 7, 0, id_tRNA_SLVcst, 3, 1, 
+        id_tRNA_IF0, 3, id_tRNA_RGLVLV, 2, 1, id_tRNA_OPELVcst, 1, 
+        2, id_begin_mutators, id_tRNA_CMPLVcst, 2, 2, 0, 3, 
+        id_tRNA_CMPLVcst, 2, 2, 10000, 4, id_tRNA_OPELVLV, 2, 
+        3, 4, id_tRNA_IF0, 3, id_tRNA_ScstLV, 99, 1, 
+        id_tRNA_INCcst, 1, 99, id_tRNA_ScstLV, 99, 7, id_tRNA_CALLLV, 
+        2, id_tRNA_SP_GSPLV, 1, id_tRNA_SP_GSPLV, 7, id_tRNA_INCLV, 1, 
+        7, id_tRNA_SLVDLV, 1, 1, id_tRNA_SLVDLV, 7, 7, 
+        id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_INCLV, 0, 1, id_tRNA_RGLVLV, 2, 
+        1, id_tRNA_CMPLVLV, 0, 2, 5, 3, id_tRNA_INCLV, 
+        1, 3, id_tRNA_SWJ, id_tRNA_IF0, 7, id_tRNA_INCLV, 1, 
+        7, id_tRNA_GADD, 1, 0, id_tRNA_INCLV, 0, 1, 
+        id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
 
         // 200 - calc phenotypic body size
 
