@@ -29,10 +29,10 @@ std::map<instruction, std::string> instruction_str = {
     { instruction::JLE, "JLE" },        // 25
     { instruction::JGE, "JGE" },        // 26
     { instruction::JRE, "JRE" },        // 27
-    { instruction::JRL, "JL" },         // 28
-    { instruction::JRG, "JG" },         // 29
-    { instruction::JRLE, "JLE" },       // 30
-    { instruction::JRGE, "JGE" },       // 31
+    { instruction::JRL, "JRL" },        // 28
+    { instruction::JRG, "JRG" },        // 29
+    { instruction::JRLE, "JRLE" },      // 30
+    { instruction::JRGE, "JRGE" },      // 31
     { instruction::GPTR, "GPTR" },      // 32
     { instruction::BEG, "BEG" },        // 33
     { instruction::HALT, "HALT" },      // 34
