@@ -88,13 +88,11 @@ set(SOURCES_EXPERIMENTS src/Experiment/Experiment.cpp
 
 set(HEADERS_MODEL_CLASSICAL_INFO 
     src/Models/ClassicalInfo/Universe/UniverseClassicalInfo.hpp
-# experiments
-    src/Models/ClassicalInfo/Experiment/ConsoleApp.hpp)
+)
 
 set(SOURCES_MODEL_CLASSICAL_INFO 
     src/Models/ClassicalInfo/Universe/UniverseClassicalInfo.cpp
-# experiments
-    src/Models/ClassicalInfo/Experiment/ConsoleApp.cpp)
+)
 
 
 # ********************************* Theoretical computer science *********************************
@@ -309,34 +307,6 @@ set(SOURCES_FRAMEWORK ${SOURCES_GENERAL} ${SOURCES_ENTITIES} ${SOURCES_INSTR} ${
 
 # ********************************* By model
 
-set(EXPERIMENTS_CLASSICAL_INFO )
-add_executable(classical_info src/Models/ClassicalInfo/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_INFO} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_INFO}
-    ${EXPERIMENTS_CLASSICAL_INFO})
-target_link_libraries(classical_info ${LIBS})
-
-set(EXPERIMENTS_TH_INFO )
-add_executable(th_info src/Models/TheoreticalInfo/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_TH_INFO} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_TH_INFO}
-    ${EXPERIMENTS_TH_INFO})
-target_link_libraries(th_info ${LIBS})
-
-set(EXPERIMENTS_MATHS )
-add_executable(maths src/Models/Maths/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_MATHS} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_MATHS}
-    ${EXPERIMENTS_MATHS})
-target_link_libraries(maths ${LIBS})
-
-set(EXPERIMENTS_CLASSICAL_ALGOS )
-add_executable(classical_algos src/Models/ClassicalAlgos/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CLASSICAL_ALGOS} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CLASSICAL_ALGOS}
-    ${EXPERIMENTS_CLASSICAL_ALGOS})
-target_link_libraries(classical_algos ${LIBS})
-
 set(EXPERIMENTS_EVO_ALGOS 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp
@@ -349,41 +319,6 @@ set(EXPERIMENTS_EVO_ALGOS
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp 
     src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp 
 )
-add_executable(evo_algos src/Models/EvoAlgos/Experiment/main.cpp 
-    src/Models/EvoAlgos/Experiment/ExperimentRunnerEvoAlgos.hpp
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_EVO_ALGOS} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_EVO_ALGOS}
-    ${EXPERIMENTS_EVO_ALGOS})
-target_link_libraries(evo_algos ${LIBS})
-
-set(EXPERIMENTS_BIO_EVO )
-add_executable(bioevo src/Models/BioEvo/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_BIO_EVO} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_BIO_EVO}
-    ${EXPERIMENTS_BIO_EVO})
-target_link_libraries(bioevo ${LIBS})
-
-set(EXPERIMENTS_CODE_EATERS )
-add_executable(code_eaters src/Models/CodeEaters/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_CODE_EATERS} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_CODE_EATERS}
-    ${EXPERIMENTS_CODE_EATERS})
-target_link_libraries(code_eaters ${LIBS})
-
-set(EXPERIMENTS_ECONOMY )
-add_executable(economy src/Models/Economy/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_ECONOMY} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_ECONOMY}
-    ${EXPERIMENTS_ECONOMY})
-target_link_libraries(economy ${LIBS})
-
-set(EXPERIMENTS_FINANCE )
-add_executable(finance src/Models/Finance/Experiment/main.cpp 
-    ${HEADERS_FRAMEWORK} ${HEADERS_MODEL_FINANCE} 
-    ${SOURCES_FRAMEWORK} ${SOURCES_MODEL_FINANCE}
-    ${EXPERIMENTS_FINANCE})
-target_link_libraries(finance ${LIBS})
-
 
 # ************************************************ By function
 

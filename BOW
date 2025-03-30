@@ -2,13 +2,23 @@ Book of work:
 
 1) EvoX
 
-17 - create mutable DNA (see X1)
-        d - create dummy aggregator
-        e - create dummy mutator
+17 - create mutable DNA
+   d - theory again 
+   e - create appropriates aggregators and mutators
 18 - select on DNA mutation (see X2)
 19 - plotting progtein creation
 20 - share useful DNA/progteins
 21 - select on DNA acquisition (DNA sharing) (see X3)
+22 - create evolvable code for mathematics
+   a - theory
+   b - create evolvable types (HoTT)
+   c - evolvable pi-types
+   d - evolvable sigma-types
+   e - evolvable coproducts
+   f - evolvable empty type
+   g - evolvable unit type
+   h - evolvable natural numbers
+   i - evolvable identity types
 
 For later :
 X1 - mutate specific regions in the code
@@ -35,7 +45,7 @@ What has been done :
 13 - 02/02/2024 - generate "random" elementary (teleonomically speaking) functions (~amino acids ?)
 14 - 13/02/2024 - acquire amino acids (+ neighborhood change)
    - neighborhood change
-15 - evolve code
+15 - bases for evolvable code
    - 13/04/2024 -     a - find simple examples : progteins
    - 20/04/2024 -     b - create tRNAs
    - 23/04/2024 -     c - create ribosome
