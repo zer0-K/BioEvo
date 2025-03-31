@@ -99,8 +99,8 @@ id_tRNA_IF0, 4, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0,
 id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SP_GSPLV, 6, id_tRNA_GTSLV, 5, id_tRNA_OPELVLV, 
 0, 6, 5, id_tRNA_INCLV, 0, 6, id_tRNA_INCcst, 
 1, 99, id_tRNA_PLVSWI, 6, id_tRNA_INCcst, 1, 99, 
-id_tRNA_PLVSWI, 6, id_tRNA_OPEcstcst, 1, 99, 2, id_tRNA_RET, 
-GSTOP_ID, 0, 0, 0, 0, 0, 0,
+id_tRNA_PLVSWI, 6, id_tRNA_OPEcstcst, 1, 99, 2, id_tRNA_ScstLV, 
+97, 5, id_tRNA_INCcst, 0, 97, id_tRNA_RET, GSTOP_ID
 ```
 
 
@@ -176,6 +176,9 @@ id_tRNA_PLVSWI, 6                                   // TOPS <- var 6
 id_tRNA_INCcst, 1, 99                               // stack ptr--
 id_tRNA_PLVSWI, 6                                   // TOPS <- var 6
 id_tRNA_OPEcstcst, 1, 99, 2                         // stack ptr-=2
+
+id_tRNA_ScstLV, 97, 5                               // data[97] = list size + 1
+id_tRNA_INCcst, 0, 97
 
 id_tRNA_RET
 ```

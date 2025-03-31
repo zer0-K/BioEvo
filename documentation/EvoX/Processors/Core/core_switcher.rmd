@@ -43,15 +43,18 @@ Otherwise : call func of ID from input[1]
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, 2, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_GISLV,
-1, id_tRNA_CMPLVcst, 1, 1, 2, 2, id_tRNA_IF0, 
-2, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3, 0, 
-id_tRNA_CMPLVcst, 0, 3, 3, 2, id_tRNA_IF0, 2, 
-id_tRNA_GILV, 4, 1, id_tRNA_CALLcst, 103, id_tRNA_RET, id_tRNA_SIJ, 
-id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 4, 2, id_tRNA_IF0, 
-2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_CALLcst,
-302, id_tRNA_INCcst, 1, 99, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ,
-id_tRNA_GILV, 4, 1, id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID,
+GSTART_ID, 2, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_SLVaddr, 
+1, 97, id_tRNA_CMPLVcst, 2, 1, 0, 2, 
+id_tRNA_IF0, 2, id_tRNA_CALLcst, 115, id_tRNA_RET,id_tRNA_SIJ, id_tRNA_SEJ, 
+id_tRNA_GISLV, 1, id_tRNA_CMPLVcst, 1, 1, 2, 2, 
+id_tRNA_IF0, 2, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3, 
+0, id_tRNA_CMPLVcst, 0, 3, 3, 2, id_tRNA_IF0, 
+2, id_tRNA_GILV, 4, 1, id_tRNA_CALLcst, 103, id_tRNA_RET, 
+id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 4, 2, 
+id_tRNA_IF0, 2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, 
+id_tRNA_CALLcst, 302, id_tRNA_INCcst, 1, 99, id_tRNA_RET, id_tRNA_SIJ, 
+id_tRNA_SEJ, id_tRNA_GILV, 4, 1, id_tRNA_CALLLV, 4, id_tRNA_RET, 
+GSTOP_ID, 0, 0, 0, 0, 0, 0
 ```
 
 
@@ -60,6 +63,15 @@ id_tRNA_GILV, 4, 1, id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID,
 
 
 ```{pseudoDNA class.source='foldable'}
+*check for autopoiesis*
+id_tRNA_SLVaddr, 1, 97,
+id_tRNA_CMPLVcst, 2, 1, 0, 2    // var2 <- var1>0 ?
+id_tRNA_IF0, 2
+| id_tRNA_CALLcst, 115          // if genesis counter > 0 : continue genesis
+| id_tRNA_RET
+id_tRNA_SIJ
+id_tRNA_SEJ
+
 id_tRNA_GISLV, 1                // var1 <- input size
 id_tRNA_CMPLVcst, 1, 1, 2, 2    // var2 <- var1<2 ?
 id_tRNA_IF0, 2

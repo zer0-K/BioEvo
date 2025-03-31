@@ -105,6 +105,10 @@ const std::string FREEGENES = "free code";
 inline bool EVOX_LOGGING = false;
 const std::string LOG_FILE_DEFAULT = "/home/adrien/Disque/Programmation/Projets/BioEvo/log/autopoiesis_1.csv";
 
+// stack ptr is at 99 and stack is usually at 150
+// 98 contains a ptr to init var for tRNAs
+// 97 contains the number of genes to transcribe for genesis
+
 // ---------- Genetic constants
 
 const int GSTART_ID = -51451;
