@@ -4,6 +4,7 @@
 
 #include "EvoX/FreeMoleculesCreationEvoX.hpp" 
 #include "EvoX/GeneToProgtein.hpp" 
+//#include "EvoX/GeneCreationEvoX.hpp"
 
 #include <iostream>
 
@@ -23,7 +24,8 @@ void ExperimentRunnerGenes::init()
 {
     experiments = {
         std::make_shared<FreeMoleculesCreationEvoX>(),
-        std::make_shared<GeneToProgtein>()
+        std::make_shared<GeneToProgtein>(),
+        //std::make_shared<GeneCreationEvoX>()
     };
 
     for(int i=0;i<experiments.size();i++)

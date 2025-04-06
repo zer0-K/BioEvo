@@ -13,4 +13,5 @@ This folder documents the progteins necessary for the inner working of an indivi
 
 * 200 : body size calc
 * 201 : new func writer
+* 205 : get DNA pos
 * 207 : RNAP

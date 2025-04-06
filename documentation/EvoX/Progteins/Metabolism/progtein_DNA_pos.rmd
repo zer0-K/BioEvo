@@ -1,0 +1,98 @@
+---
+title: Documentation of the func ID list checker progtein
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : 
+
+Input : 1/2 args : 
+* 1 - mode : 0 - build list, 1 - add ID, 2 - check if in list, 3 - exec
+* 2 - func ID (not needed for mode 1)
+Output : 0 if function is not in list
+
+
+
+## Description
+
+Loops through the phenotypic body and stop at DNA : 46, 0, -1, 0, 0, 0, 0
+
+# Variables
+
+var 1 : loop var
+var 2 : val in body at loop var, then RNA loop var
+var 3 : condition var
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 205, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_SLVcst, 
+1, 0, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, 
+id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 1, 
+id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 4, 
+id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_RGLVLV, 2, 1, 
+id_tRNA_CMPLVcst, 0, 2, -1, 3, id_tRNA_INCLV, 1, 
+3, id_tRNA_OPELVcst, 1, 1, 2, id_tRNA_SIJ, id_tRNA_SEJ, 
+id_tRNA_SWJ, id_tRNA_PLVSI, 1, id_tRNA_RET, GSTOP_ID, 0, 0,
+```
+
+
+### Commented code
+
+```{pseudoDNA class.source='foldable'}
+id_tRNA_SLVcst, 1, 0              // var1 <- 0
+id_tRNA_SLVcst, 3, 1              // var3 <- 1
+id_tRNA_IF0, 3
+| id_tRNA_OPELVcst, 0, 1, 7       // var1+=7
+| id_tRNA_RGLVLV, 2, 1            // var2 <- body val at var1
+| id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4    // var4 <- var2==MARKER
+| id_tRNA_IF0, 4
+| | id_tRNA_OPELVcst, 0, 1, 2       // var1+=2
+| | id_tRNA_RGLVLV, 2, 1            // var2 <- body val at var1
+| | id_tRNA_CMPLVcst, 0, 2, -1, 3   // var3 <- var2==-1
+| | id_tRNA_INCLV, 1, 3             // var3--
+| | id_tRNA_OPELVcst, 1, 1, 2       // var1-=2
+| id_tRNA_SIJ
+| id_tRNA_SEJ
+id_tRNA_SWJ
+
+id_tRNA_PLVSI, 1                  // stack ptr++, TOPS <- var1 (DNA pos)
+
+id_tRNA_RET
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 205, 0, 0, 0, 0,
+
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 205, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 205, 0, 0, 0, 0,
+
+46, 0, 205, 0, 0, 0, 0,
+```

@@ -115,6 +115,10 @@ Progteins are denoted with (p)
 
 * 200 : body size calc (p)
 * 201 : new func writer (p)
+* 202 : func list manager (not done)
+* 203 : func list builder (not done)
+* 204 : func DNA check
+* 205 : get DNA pos (p)
 * 206 : ribosome
 * 207 : RNAP (p)
 * 208 : transcriber

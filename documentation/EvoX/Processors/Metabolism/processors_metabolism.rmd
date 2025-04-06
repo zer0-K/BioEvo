@@ -11,5 +11,8 @@ This folder documents the processors used for the inner working of the individua
 
 ## Summary
 
+* 202 : func list manager (not done)
+* 203 : func list builder (not done)
+* 204 : func DNA check
 * 206 : ribosome
 * 208 : transcriber

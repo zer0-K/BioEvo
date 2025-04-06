@@ -1,0 +1,213 @@
+---
+title: Documentation of the progtein that builds the func ID list
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : self-manages the IDs of the function IDs
+
+Input : no args
+Output : no output
+
+
+
+## Description
+
+Build the list of the functions available in the body and genome, and their positions in the body.
+
+### First part : init the list builder pos
+
+First, get the position of the func list in the body.
+
+### Second part : functions in DNA
+
+Then, get the functions coded in DNA.
+
+ 
+### Third part : actualize positions
+
+Re-loop through the body to get the real positions (positions may have changed after a func to the list).
+
+### Fourth part : get positions in DNA
+
+Loop through DNA and sets positions of the funcs.
+
+# Variables
+
+var 1 : loop var
+var 2 : phenotypic place values
+var 3 : loop condition
+var 4 : func list pos
+var 5 : TOPS
+var 6 : local stack ptr
+var 7 : current func ID
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 203, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, 
+
+
+
+id_tRNA_RET,
+GSTOP_ID, 0, 0, 0, 0, 0, 0,
+```
+
+
+### Commented code
+
+```{pseudoDNA class.source='foldable'}
+
+*First part - func list pos*
+
+id_tRNA_SLVcst, 1, 0                // var1 <- 0
+id_tRNA_SLVcst, 2, 0                // var2 <- 0
+id_tRNA_SLVcst, 3, 1                // var3 <- 1
+id_tRNA_IF0, 3
+| id_tRNA_OPELVcst, 0, 1, 7         // var1 += 7
+| id_tRNA_RGLVLV, 2, 1              // var2 <- phenotypic value at var 1
+| id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 3    // var3 <- var2==MARKER ?
+| id_tRNA_IF0, 3
+| | id_tRNA_OPELVcst, 0, 1, 2       // var1 += 2
+| | id_tRNA_RGLVLV, 2, 1            // var2 <- phenotypic value at var 1
+| | id_tRNA_CMPLVLV, 0, 2, -2, 3    // var3 <- var2==-2 ?  (-2 for func list ID)
+| | id_tRNA_INCLV, 1, 3             // var 3--
+| id_tRNA_SIJ
+| | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| id_tRNA_SEJ
+id_tRNA_SWJ
+
+id_tRNA_OPELVcst, 0, 1, 7         // var1 += 7
+id_tRNA_SLVLV, 4, 1               // var4 <- func list pos
+id_tRNA_GScstLV, 4, 1             // body[4] <- func list pos
+
+
+*Second part - func IDs*
+
+id_tRNA_SLVcst, 1, 0                // var1 <- 0
+id_tRNA_SLVcst, 2, 0                // var2 <- 0
+id_tRNA_SLVcst, 3, 1                // var3 <- 1
+id_tRNA_SP_GSPLV, 5                 // var5 <- stack ptr
+id_tRNA_SLVLV, 6, 5                 // var6 <- stack ptr
+id_tRNA_SLVcst, 7, -6789            // var7 <- -6789 ('random value')
+id_tRNA_IF0, 3
+| id_tRNA_OPELVcst, 0, 1, 7         // var1 += 7
+| id_tRNA_RGLVLV, 2, 1              // var2 <- phenotypic value at var 1
+| id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 3    // var3 <- var2==MARKER ?
+| 
+| id_tRNA_IF0, 3
+| | id_tRNA_OPELVcst, 0, 1, 2       // var1 += 2
+| | id_tRNA_RGLVLV, 2, 1            // var2 <- phenotypic value at var 1
+| | id_tRNA_CMPLVcst, 2, 2, -2, 3   // var3 <- var2>-1 ?  (negative values are for metadata)
+| | 
+| | id_tRNA_IF0, 3
+| | | *we are in a func code*
+| | | id_tRNA_CMPLVLV, 0, 2, 7, 3       // var3 <- var2 == var7 ?
+| | | 
+| | | id_tRNA_IF0, 3
+| | | | *we have already found *
+| | | | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| | | id_tRNA_SIJ
+| | | | **
+| | | | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| | | id_tRNA_SEJ 
+| | id_tRNA_SIJ
+| | | | id_tRNA_CMPLVcst, 0, 2, -1, 3   // var3 <- var2==-1 ?  (end of body)
+| | | | id_tRNA_INCLV, 1, 3             // var3--
+| | id_tRNA_SEJ
+| id_tRNA_SIJ
+| | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| id_tRNA_SEJ
+id_tRNA_SWJ
+
+*Third part - func positions in body*
+
+*Fourth part - func positions in DNA*
+
+id_tRNA_GTSLV, 1                    // var1 <- func ID in TOPS
+id_tRNA_SLVcst, 2, 0                // var2 <- 0
+id_tRNA_SLVcst, 3, 1                // var3 <- 1
+id_tRNA_IF0, 3
+| id_tRNA_OPELVcst, 0, 2, 7         // var2 += 7
+| id_tRNA_RGLVLV, 4, 2              // var4 <- phenotypic value at var 2
+| id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 3    // var3 <- var4==MARKER ?
+| id_tRNA_IF0, 3
+| | id_tRNA_OPELVcst, 0, 2, 2       // var2 += 2
+| | id_tRNA_RGLVLV, 4, 2            // var4 <- phenotypic value at var 2
+| | id_tRNA_CMPLVLV, 0, 4, 1, 3     // var3 <- var4==var1 ?
+| | id_tRNA_OPELVcst, 1, 3, 1       // var 3 -= var1
+| | id_tRNA_OPELVcst, 1, 2, 2
+| id_tRNA_SIJ
+| | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| id_tRNA_SEJ
+id_tRNA_SWJ
+
+
+id_tRNA_INCcst, 1, 99           // decrement stack ptr (args of func to exec are before func ID)
+id_tRNA_OPELVcst, 3, 2, 7       // var 2 /= 7
+id_tRNA_INCcst, 0, 0            // func stack ptr++
+id_tRNA_SP_GPTR                 // update func stack (to return to meta exec func after exec)
+id_tRNA_SP_FCTADD               // idem
+id_tRNA_JLV, 2                  // exec func
+
+
+
+id_tRNA_RET
+
+*Part 5 - func ID list*
+*46, 0, -2, 0, 0, 0, 0*
+id_tRNA_MInstr, instruction::MARKER
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, -2 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_MInstr, instruction::MARKER
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, -2 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+id_tRNA_Mcst, 0 
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 203, 0, 0, 0, 0,
+
+
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 203, 0, 0, 0, 0,
+```
+
+### Raw code
+
+```{Raw class.source='foldable'}
+46, 0, 203, 0, 0, 0, 0,
+
+46, 0, 203, 0, 0, 0, 0,
+```

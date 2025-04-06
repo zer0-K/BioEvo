@@ -56,6 +56,8 @@ sp_evox GenerateBaseEvoX1::get_base_evox()
         // position of meta-exec func
         // phenotypic body size
         // position of data stack
+        // position of func ID list
+        // activate func ID list use
         instruction::XXX, 3, -1, 150, -1, 0, 0,
 
         // go to main
