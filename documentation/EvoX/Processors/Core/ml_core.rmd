@@ -1,0 +1,95 @@
+---
+title: Documentation of the ML core
+output: 
+  html_document:
+    code_folding: hide
+---
+
+# General info
+
+Goal : manages what to do when the individual is pressured for selection
+
+Input : metaselection var and func id (the rest is in the output)
+Output : depends on the processors it called
+
+
+## Description
+
+Go to the core switcher documentation
+
+# Variables
+
+var 1 : bool var (if func is in DNA)
+var 2 : func ID
+var 3 : 
+var 4 : 
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Checks that input size is > 1
+Get phase flag from input[0]
+
+If phase flag is 3 : get func ID from input[1] and call DNA getter
+If phase flag is 4 : get func ID from input[1] and call DNA writer
+Otherwise : call func of ID from input[1]
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, 3, id_tRNA_CVARS, LV_place, 4, id_tRNA_IVARS, id_tRNA_CALLcst, 
+204, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 
+2, id_tRNA_IF0, 1, id_tRNA_CALLLV, 2, id_tRNA_SIJ, id_tRNA_CALLcst, 
+303, id_tRNA_SEJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*check if function is in DNA*
+id_tRNA_CALLcst, 204                // call func ID DNA checker
+id_tRNA_GTSLV, 1                    // var1 <- result
+id_tRNA_INCcst, 1, 99               // stack ptr--
+id_tRNA_GTSLV, 2                    // var2 <- func ID
+
+
+id_tRNA_IF0, 1
+| *function is in DNA*
+| id_tRNA_CALLLV, 2                 // call func
+id_tRNA_SIJ
+| id_tRNA_CALLcst, 303              // call new gene func
+id_tRNA_SEJ
+
+id_tRNA_RET
+```
+
+
+## Teleonomical code
+
+### XASM code
+
+```{XASM class.source='foldable'}
+instruction::MARKER, 0, 3, 0, 0, 0, 0,
+
+instruction::JMP, 2, 0, 0, 0, 0, 0,
+
+instruction::MARKER, 0, 3, 0, 0, 0, 0,
+```
+
+### Raw code
+
+
+```{RAW class.source='foldable'}
+46, 0, 3, 0, 0, 0, 0,
+
+19, 3, 0, 0, 0, 0, 0,
+46, 0, 2, 0, 0, 0, 0,
+```

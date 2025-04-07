@@ -15,6 +15,7 @@ These correspond to the teleonomical IDs between 0 and 99.
 
 * 1 : main function
 * 2 : core switcher
+* 3 : ml core
 
 ## Genesis processors
 
@@ -31,3 +32,7 @@ These correspond to the teleonomical IDs between 100 and 199.
 * 204 : func DNA check
 * 206 : ribosome
 * 208 : transcriber
+
+## Evolutionary processors
+
+* 303 : new gene processor

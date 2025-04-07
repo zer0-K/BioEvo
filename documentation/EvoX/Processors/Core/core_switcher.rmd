@@ -7,16 +7,15 @@ output:
 
 # General info
 
-Goal : basically a wrapper of the core switcher
+Goal : calls different kind of functions depending on the input
 
 Input : nothing
 Output : depends on the processors it called
 
-The main function basically resets output and calls the core switcher.
 
 ## Description
 
-Go to the core switcher documentation
+Read individual's input and call a function accordingly.
 
 # Variables
 
@@ -53,8 +52,12 @@ id_tRNA_IF0, 2, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 3,
 id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 4, 2, 
 id_tRNA_IF0, 2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, 
 id_tRNA_CALLcst, 302, id_tRNA_INCcst, 1, 99, id_tRNA_RET, id_tRNA_SIJ, 
-id_tRNA_SEJ, id_tRNA_GILV, 4, 1, id_tRNA_CALLLV, 4, id_tRNA_RET, 
-GSTOP_ID, 0, 0, 0, 0, 0, 0
+id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 5, 2, id_tRNA_IF0, 
+2, id_tRNA_CMPLVcst, 2, 1, 2, 2, id_tRNA_IF0, 
+2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_GILV, 
+4, 2, id_tRNA_PLVSI, 4, id_tRNA_CALLcst, 3, id_tRNA_SIJ, 
+id_tRNA_SEJ, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 4, 1, 
+id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
 ```
 
 
@@ -89,11 +92,26 @@ id_tRNA_SIJ
 id_tRNA_SEJ
 
 id_tRNA_CMPLVcst, 0, 3, 4, 2    // var2 <- var3 == 4 
-id_tRNA_IF0, 4
+id_tRNA_IF0, 2
 | id_tRNA_GILV, 4, 1            // var4 <- input[1]
 | id_tRNA_PLVSI, 4              // stack ptr++, TOPS <- var4
 | id_tRNA_CALLcst, 302          // call DNA writer
 | id_tRNA_INCcst, 1, 99         // stack ptr--
+| id_tRNA_RET
+id_tRNA_SIJ
+id_tRNA_SEJ
+
+id_tRNA_CMPLVcst, 0, 3, 5, 2    // var2 <- var3 == 5 
+id_tRNA_IF0, 2
+| id_tRNA_CMPLVcst, 2, 1, 2, 2  // var2 <- var1>2 ? 
+| id_tRNA_IF0, 2
+| | id_tRNA_GILV, 4, 1            // var4 <- input[1]
+| | id_tRNA_PLVSI, 4              // stack ptr++, TOPS <- var4
+| | id_tRNA_GILV, 4, 2            // var4 <- input[2]
+| | id_tRNA_PLVSI, 4              // stack ptr++, TOPS <- var4
+| | id_tRNA_CALLcst, 3            // call ML core
+| id_tRNA_SIJ
+| id_tRNA_SEJ 
 | id_tRNA_RET
 id_tRNA_SIJ
 id_tRNA_SEJ

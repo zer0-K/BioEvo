@@ -24,6 +24,7 @@ Progteins are denoted with (p)
 * 0 : meta-exec progtein (p)
 * 1 : main function
 * 2 : core switcher
+* 3 : ml core
 
 ## Genesis units
 
@@ -123,7 +124,8 @@ Progteins are denoted with (p)
 * 207 : RNAP (p)
 * 208 : transcriber
 
-## Behavioral functions
+## Behavioral and evolutionary functions
 
 * 300 : free molecules picker (p)
 * 301 : find empty place
+* 303 : new gene processor
