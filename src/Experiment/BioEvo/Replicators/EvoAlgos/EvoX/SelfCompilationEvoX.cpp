@@ -508,8 +508,8 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         id_tRNA_SDLVcst, 7, id_tRNA_IVARS, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 
         7, id_tRNA_RET, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 
         GSTOP_ID-1, id_tRNA_INCDLV, 0, 7, id_tRNA_INCLV, 0, 7, 
-        id_tRNA_GCPY, 1, 6, 7, id_tRNA_CALLcst, 114, id_tRNA_RET, 
-        GSTOP_ID, 0, 0, 0, 0, 0, 0
+        id_tRNA_SP_GCPY, 1, 6, 7, id_tRNA_CALLcst, 114, id_tRNA_RET, 
+        GSTOP_ID, 0, 0, 0, 0, 0, 0,
 
 
         //---------- tRNAs
@@ -1200,7 +1200,7 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 114});
     universe->exec();
 
-    for(int i=0;i<90;i++)
+    for(int i=0;i<92;i++)
     {
         algo->set_input({-1, 115});
         universe->exec();
@@ -1235,7 +1235,7 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, 114});
     universe->exec();
 
-    for(int i=0;i<90;i++)
+    for(int i=0;i<92;i++)
     {
         algo->set_input({});
         universe->exec();
