@@ -64,7 +64,7 @@ id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, id_tRNA_CVARS, id_tRNA_INCLV,
 id_tRNA_SDLVcst, 7, id_tRNA_IVARS, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 
 7, id_tRNA_RET, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 
 GSTOP_ID-1, id_tRNA_INCDLV, 0, 7, id_tRNA_INCLV, 0, 7, 
-id_tRNA_GCPY, 1, 6, 7, id_tRNA_CALLcst, 114, id_tRNA_RET, 
+id_tRNA_SP_GCPY, 1, 6, 7, id_tRNA_CALLcst, 114, id_tRNA_RET, 
 GSTOP_ID, 0, 0, 0, 0, 0, 0
 ```
 
@@ -130,7 +130,7 @@ id_tRNA_SDLVcst, 7, GSTOP_ID-1      // *ptr <- GSTOP
 id_tRNA_INCDLV, 0, 7
 id_tRNA_INCLV, 0, 7                 // ptr++
 *copy at end of genome*
-id_tRNA_GCPY, 1, 6, 7               // copies stack into genes
+id_tRNA_SP_GCPY, 1, 6, 7               // copies stack into genes
 
 *start replication*
 id_tRNA_CALLcst, 114                // call the IDNA list builder

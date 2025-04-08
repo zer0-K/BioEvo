@@ -27,6 +27,7 @@ var 2 : phenotypic value at loop var
 var 3 : condition
 var 4 : func ID to check
 var 5 : GSTART_ID
+var 6 : condition var
 
 
 # Pseudo-code
@@ -54,17 +55,25 @@ return 0
 ### Raw code
 
 ```{DNA class.source='foldable'}
-GSTART_ID, 204, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_CALLcst, 
+GSTART_ID, 204, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_CALLcst, 
 205, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 
 4, id_tRNA_SLVcst, 5, GSTART_ID-1, id_tRNA_INCLV, 0, 5, 
 id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 
 1, 7, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVLV, 0, 
 2, 5, 3, id_tRNA_IF0, 3, id_tRNA_INCLV, 0, 
 1, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVLV, 0, 2, 
-4, 3, id_tRNA_IF0, 3, id_tRNA_INCLV, 1, 1, 
+4, 3, id_tRNA_INCLV, 1, 1, id_tRNA_IF0, 3, 
 id_tRNA_PLVSI, 1, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1, 
-id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1, id_tRNA_SEJ, id_tRNA_SWJ, 
-id_tRNA_SLVcst, 1, 0, id_tRNA_PLVSI, 1, id_tRNA_RET, GSTOP_ID, 
+id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1, id_tRNA_CMPLVcst, 0, 
+2, instruction::MARKER, 3, id_tRNA_IF0, 3, id_tRNA_INCLV, 0, 
+1, id_tRNA_RGLVLV, 2, 1, id_tRNA_CMPLVcst, 0, 2, 
+0, 3, id_tRNA_INCLV, 1, 1, id_tRNA_IF0, 3, 
+id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_RGLVLV, 2, 1, 
+id_tRNA_CMPLVcst, 0, 2, -1, 3, id_tRNA_INCLV, 1, 
+3, id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_SIJ, id_tRNA_SLVcst, 
+3, 1, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SLVcst, 3, 1, 
+id_tRNA_SEJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SLVcst, 1, 0, id_tRNA_PLVSI, 
+1, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 ```
 
 
@@ -86,19 +95,49 @@ id_tRNA_IF0, 3
 | id_tRNA_CMPLVLV, 0, 2, 5, 3       // var3 <- var2==GSTART_ID ?
 | 
 | id_tRNA_IF0, 3
+| | 
+| | *begin of gene*
 | | id_tRNA_INCLV, 0, 1             // var1++
 | | id_tRNA_RGLVLV, 2, 1            // var2 <- phenotypic value at var 1
 | | id_tRNA_CMPLVLV, 0, 2, 4, 3     // var3 <- var2==var4 ?  (func ID)
+| | id_tRNA_INCLV, 1, 1             // var1--
 | | 
 | | id_tRNA_IF0, 3
-| | | id_tRNA_INCLV, 1, 1           // var1--
 | | | id_tRNA_PLVSI, 1              // stack ptr++, TOPS <- var1
 | | | id_tRNA_RET
 | | id_tRNA_SIJ
 | | | id_tRNA_SLVcst, 3, 1          // var3 <- 1
 | | id_tRNA_SEJ
 | id_tRNA_SIJ
-| | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| | 
+| | *end of DNA*
+| | id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 3     // var3 <- var2==46 ?
+| | id_tRNA_IF0, 3
+| | |
+| | | *begin of marker (!may be a random '46' in genome, must check the rest!)*
+| | | id_tRNA_INCLV, 0, 1             // var1++
+| | | id_tRNA_RGLVLV, 2, 1            // var2 <- phenotypic value at var 1
+| | | id_tRNA_CMPLVcst, 0, 2, 0, 3    // var3 <- var2==0 ?
+| | | id_tRNA_INCLV, 1, 1             // var1--
+| | | 
+| | | id_tRNA_IF0, 3
+| | | | 
+| | | | *sequence '46, 0' found*
+| | | | id_tRNA_OPELVcst, 0, 1, 2         // var1 += 2
+| | | | id_tRNA_RGLVLV, 2, 1              // var2 <- phenotypic value at var 1
+| | | | id_tRNA_CMPLVcst, 0, 2, -1, 3     // var3 <- var2==-1 ?
+| | | | id_tRNA_INCLV, 1, 3               // var3-- (var2==-1->var3=1->decrease to stop loop)
+| | | | id_tRNA_OPELVcst, 0, 1, 2         // var1 -= 2
+| | | id_tRNA_SIJ
+| | | | 
+| | | | *not end of DNA*
+| | | | id_tRNA_SLVcst, 3, 1          // var3 <- 1
+| | | id_tRNA_SEJ
+| | id_tRNA_SIJ
+| | | 
+| | | *not end of DNA*
+| | | id_tRNA_SLVcst, 3, 1            // var3 <- 1
+| | id_tRNA_SEJ
 | id_tRNA_SEJ
 id_tRNA_SWJ
 

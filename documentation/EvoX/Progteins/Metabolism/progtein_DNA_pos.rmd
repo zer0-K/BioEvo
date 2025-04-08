@@ -69,7 +69,7 @@ id_tRNA_IF0, 3
 | id_tRNA_SEJ
 id_tRNA_SWJ
 
-id_tRNA_PLVSI, 1                  // stack ptr++, TOPS <- var1 (DNA pos)
+id_tRNA_PLVSWI, 1                  // stack ptr++, TOPS <- var1 (DNA pos)
 
 id_tRNA_RET
 ```

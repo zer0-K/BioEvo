@@ -370,7 +370,9 @@ set(EXPERIMENT_RUNNERS_BIO_EVO_GENE src/Experiment/BioEvo/Gene/ExperimentRunnerG
     src/Experiment/BioEvo/Gene/EvoX/FreeMoleculesCreationEvoX.hpp
     src/Experiment/BioEvo/Gene/EvoX/FreeMoleculesCreationEvoX.cpp
     src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.hpp
-    src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.cpp)
+    src/Experiment/BioEvo/Gene/EvoX/GeneToProgtein.cpp
+    src/Experiment/BioEvo/Gene/EvoX/GeneCreationEvoX.hpp
+    src/Experiment/BioEvo/Gene/EvoX/GeneCreationEvoX.cpp)
 add_executable(bio-evo-gene src/Experiment/BioEvo/Gene/main.cpp 
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS} 
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}

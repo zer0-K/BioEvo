@@ -332,7 +332,7 @@ id_tRNA_SIJ
 |
 | *output size = transcribed code + DNA + some metadata*
 | *init metadata at beginning of new individual*
-| id_tRNA_OPELVcst, 0, 7, 21        // var7+=21 : 3 molecules + ID
+| id_tRNA_OPELVcst, 0, 7, 28        // var7+=28 : 3 molecules + ID + end of indiv
 | id_tRNA_OPELVLV, 0, 7, 8          // var7+=var8 : DNA size
 | id_tRNA_SOSLV, 7                  // output size = var 7
 |
@@ -360,7 +360,7 @@ id_tRNA_SIJ
 | id_tRNA_OPELVcst, 0, 6, 3         // var6+=3
 |
 | id_tRNA_OPELVLV, 1, 7, 8          // var7-=var8 : DNA size
-| id_tRNA_OPELVcst, 1, 7, 21        // var7-=21
+| id_tRNA_OPELVcst, 1, 7, 28        // var7-=28
 |
 | *var6 is pos to cpy in output*
 |

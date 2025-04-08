@@ -60,7 +60,7 @@ sp_evox GeneCreationEvoX::get_base_algo(int step)
     algo->set_max_nb_instr_exec(max_nb_instr_exec);
 
     // get phenotypic body from csv
-    std::string file_algo = "phenotypic_body_with_bootstrap_DNA.csv";
+    std::string file_algo = "phenotypic_body_transcribed_iterated.csv";
     std::vector<int> phenotypic_body = get_phenotypic_body_from_csv(file_algo);
     algo->set_phenotypic_body(phenotypic_body);
 
@@ -72,128 +72,16 @@ sp_evox GeneCreationEvoX::get_base_algo(int step)
 
 //-------------------- step 1
 
-std::vector<int> GeneCreationEvoX::get_DNA_step_1()
-{
-    std::vector<int> DNA {
-
-    };
-
-    return DNA;
-} 
-
 void GeneCreationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
 {
-    //----- get DNA as free molecules
-
-    std::vector<int> DNA = get_DNA_step_1();
-
-    sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
-    free_molecules->init();
-    free_molecules->set_phenotypic_body(DNA);
-    universe->get_places()[1]->set_entity(free_molecules);
-
-    algo->set_input({3, -1});
+    algo->set_input({5, 0, 1001});
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_xxx.csv");
-
-    // transcribe DNA only functions
-    // self compilation functions
-    algo->set_input({-1, 208, 114});
-    universe->exec();
-    algo->set_input({-1, 208, 115});
-    universe->exec();
-    // some remaining tRNAs
-    algo->set_input({-1, 208, id_tRNA_GADD});
-    universe->exec();
-    // aggregators and mutators
-    algo->set_input({-1, 208, 116});
-    universe->exec();
-    algo->set_input({-1, 208, 117});
-    universe->exec();
-
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_full_xxx.csv");
-    // apply the self compilation functions
-    algo->set_input({-1, 114});
-    universe->exec();
-
-    for(int i=0;i<88;i++)
+    for(int i=0;i<94;i++)
     {
-        algo->set_input({-1, 115});
+        algo->set_input({});
         universe->exec();
     }
 
-    algo->set_input({-1, 115});
-    universe->exec();
-
-    // algo must have replicated at place 1
-    int expected_place = 1;
-    sp_entity entity = universe->get_places()[expected_place]->get_entity();
-    sp_evox transcribed_algo = std::dynamic_pointer_cast<EvoX>(entity);
-
-    if(transcribed_algo != nullptr)
-    {
-        std::cout << "Algo transcribed !" << std::endl;
-        std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
-        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed_xxx.csv");
-    }
-    else
-    {
-        std::cout << "Failed ! place " << expected_place
-                  <<" doesn't contain an EvoX algo..." 
-                  << std::endl;
-
-    }
-
-}
-
-void GeneCreationEvoX::build_new_algo_artificially(sp_evox base_algo, std::string file_name)
-{
-    std::vector<int> phenotypic_body = std::vector<int>{
-        0, 3, 2331, 150, -1, 0, 0,
-        19, 0, 0, 0, 26, 0, 0
-    };
-
-    // add transcribed body
-    auto transcribed_body = base_algo->get_output();
-
-    phenotypic_body.insert(
-        phenotypic_body.end(), 
-        transcribed_body.begin(), 
-        transcribed_body.end()-1
-    );
-
-    // add DNA marker
-    phenotypic_body.push_back(46);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(-1);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-
-    // add DNA
-    auto DNA = get_DNA_step_1();
-
-    phenotypic_body.insert(
-        phenotypic_body.end(), 
-        DNA.begin()+2, 
-        DNA.end()
-    );
-
-    // add DNA marker
-    phenotypic_body.push_back(46);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(-1);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-
-    // jmp to main -> main func is at 36
-    // --> to be changed in poiesis func
-    phenotypic_body[11] = 36;
-
-
-    write_phenotypic_body_to_csv(phenotypic_body, file_name);
+    std::cout << std::endl;
 }
