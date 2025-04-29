@@ -49,23 +49,28 @@ var 7 : end of new gene in data
 
 ```{DNA class.source='foldable'}
 GSTART_ID, 303, id_tRNA_CVARS, LV_place, 8, id_tRNA_IVARS, id_tRNA_CALLcst, 
-205, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 1, 99, id_tRNA_SLVcst, 
-3, 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 0, 1, 
-7, id_tRNA_RGLVLV, 4, 1, id_tRNA_CMPLVcst, 0, 2, 
-instruction::MARKER, 5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 0, 1, 
-2, id_tRNA_RGLVLV, 4, 1, id_tRNA_CMPLVcst, 0, 2, 
--1, 3, id_tRNA_INCLV, 1, 3, id_tRNA_OPELVcst, 1, 
-1, 2, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_SP_GSPLV, 6, 
-id_tRNA_SP_GSPLV, 7, id_tRNA_SDLVcst, 7, GSTART_ID-1, id_tRNA_INCDLV, 0, 
-7, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVLV, 7, 2, 
-id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, id_tRNA_CVARS, id_tRNA_INCLV, 
-0, 7, id_tRNA_SDLVcst, 7, LV_place, id_tRNA_INCLV, 0, 
-7, id_tRNA_SDLVcst, 7, 1, id_tRNA_INCLV, 0, 7, 
-id_tRNA_SDLVcst, 7, id_tRNA_IVARS, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 
-7, id_tRNA_RET, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 
-GSTOP_ID-1, id_tRNA_INCDLV, 0, 7, id_tRNA_INCLV, 0, 7, 
+205, id_tRNA_GTSLV, 1, id_tRNA_INCcst, 1, 99, id_tRNA_GTSLV, 
+2, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, id_tRNA_OPELVcst, 
+0, 1, 7, id_tRNA_RGLVLV, 4, 1, id_tRNA_CMPLVcst, 
+0, 4, instruction::MARKER, 5, id_tRNA_IF0, 5, id_tRNA_OPELVcst, 
+0, 1, 2, id_tRNA_RGLVLV, 4, 1, id_tRNA_CMPLVcst, 
+0, 4, -1, 3, id_tRNA_INCLV, 1, 3, 
+id_tRNA_OPELVcst, 1, 1, 2, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, 
+id_tRNA_SP_GSPLV, 6, id_tRNA_SP_GSPLV, 7, id_tRNA_SDLVcst, 7, GSTART_ID-1, 
+id_tRNA_INCDLV, 0, 7, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVLV, 
+7, 2, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 
+id_tRNA_CVARS, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, LV_place, 
+id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 1, id_tRNA_INCLV, 
+0, 7, id_tRNA_SDLVcst, 7, id_tRNA_IVARS, id_tRNA_INCLV, 0, 
+7, id_tRNA_SDLVcst, 7, id_tRNA_RET, id_tRNA_INCLV, 0, 7, 
+id_tRNA_SDLVcst, 7, GSTOP_ID-1, id_tRNA_INCDLV, 0, 7, id_tRNA_INCLV, 
+0, 7, id_tRNA_SDLVcst, 7, 0, id_tRNA_INCLV, 0, 
+7, id_tRNA_SDLVcst, 7, 0, id_tRNA_INCLV, 0, 7, 
+id_tRNA_SDLVcst, 7, 0, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 
+7, 0, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 
+0, id_tRNA_INCLV, 0, 7, id_tRNA_SDLVcst, 7, 0, 
 id_tRNA_SP_GCPY, 1, 6, 7, id_tRNA_CALLcst, 114, id_tRNA_RET, 
-GSTOP_ID, 0, 0, 0, 0, 0, 0
+GSTOP_ID, 0, 0, 0, 0, 0, 0,
 ```
 
 
@@ -78,17 +83,18 @@ GSTOP_ID, 0, 0, 0, 0, 0, 0
 id_tRNA_CALLcst, 205            // find DNA pos
 id_tRNA_GTSLV, 1                // var1 <- DNA pos
 id_tRNA_INCcst, 1, 99           // stack ptr--
+id_tRNA_GTSLV, 2                // var2 <- func ID
 
 *find end of DNA*
 id_tRNA_SLVcst, 3, 1              // var3 <- 1
 id_tRNA_IF0, 3
 | id_tRNA_OPELVcst, 0, 1, 7       // var1+=7
 | id_tRNA_RGLVLV, 4, 1            // var4 <- body val at var1
-| id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 5    // var5 <- var2==MARKER
+| id_tRNA_CMPLVcst, 0, 4, instruction::MARKER, 5    // var5 <- var2==MARKER
 | id_tRNA_IF0, 5
 | | id_tRNA_OPELVcst, 0, 1, 2       // var1+=2
 | | id_tRNA_RGLVLV, 4, 1            // var4 <- body val at var1
-| | id_tRNA_CMPLVcst, 0, 2, -1, 3   // var3 <- var2==-1
+| | id_tRNA_CMPLVcst, 0, 4, -1, 3   // var3 <- var2==-1
 | | id_tRNA_INCLV, 1, 3             // var3--
 | | id_tRNA_OPELVcst, 1, 1, 2       // var1-=2
 | id_tRNA_SIJ
@@ -129,8 +135,21 @@ id_tRNA_INCLV, 0, 7                 // ptr++
 id_tRNA_SDLVcst, 7, GSTOP_ID-1      // *ptr <- GSTOP
 id_tRNA_INCDLV, 0, 7
 id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 0               // *ptr <- 0
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 0               // *ptr <- 0
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 0               // *ptr <- 0
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 0               // *ptr <- 0
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 0               // *ptr <- 0
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 0               // *ptr <- 0
+
+
 *copy at end of genome*
-id_tRNA_SP_GCPY, 1, 6, 7               // copies stack into genes
+id_tRNA_SP_GCPY, 1, 6, 7            // copies stack into genes
 
 *start replication*
 id_tRNA_CALLcst, 114                // call the IDNA list builder

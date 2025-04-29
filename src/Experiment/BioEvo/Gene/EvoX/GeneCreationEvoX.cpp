@@ -11,7 +11,7 @@
 
 
 GeneCreationEvoX::GeneCreationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_phenotypic_body_evox_selfc)
+    :Experiment::Experiment(name_exp_bioevo_evox_gene_creation)
 {
     init();
 }
@@ -77,11 +77,29 @@ void GeneCreationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({5, 0, 1001});
     universe->exec();
 
+    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "individual_new_gene_before.csv");
+
     for(int i=0;i<94;i++)
     {
         algo->set_input({});
         universe->exec();
     }
 
-    std::cout << std::endl;
+    // algo must have replicated at place 2
+    int expected_place = 2;
+    sp_entity entity = universe->get_places()[expected_place]->get_entity();
+    sp_evox transcribed_algo = std::dynamic_pointer_cast<EvoX>(entity);
+
+    if(transcribed_algo != nullptr)
+    {
+        std::cout << "Algo transcribed !" << std::endl;
+        std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
+        write_phenotypic_body_to_csv(phenotypic_body, "individual_new_gene_after.csv");
+    }
+    else
+    {
+        std::cout << "Failed ! place " << expected_place
+                  <<" doesn't contain an EvoX algo..." 
+                  << std::endl;
+    }
 }
