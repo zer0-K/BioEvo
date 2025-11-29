@@ -1,0 +1,55 @@
+---
+title: Documentation of the gene mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+!coded in a mutator!
+Goal : project the mutator bundle into a single codon
+
+
+Arg : nothing
+Output : nothing
+
+# Variables
+
+var 1 : 
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_CALLcst, id_tRNA_CVARS, LV_place, 3, id_mut_G,
+
+
+id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+
+```
+
+
+## Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 300001, 0, 0, 0, 0,
+
+46, 0, 300001, 0, 0, 0, 0,
+```

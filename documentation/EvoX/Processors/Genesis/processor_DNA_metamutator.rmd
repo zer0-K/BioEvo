@@ -94,7 +94,7 @@ end
 ```{DNA class.source='foldable'}
 GSTART_ID, 107, id_tRNA_CVARS, LV_place, 7, id_tRNA_IVARS, id_tRNA_SLVcst, 
 5, GSTART_ID-1, id_tRNA_INCLV, 0, 5, id_tRNA_SP_GSPLV, 6, 
-id_tRNA_INCLV, 0, 6, id_tRNA_SLVDLV, 6, 6, id_tRNA_SLVcst, 
+id_tRNA_INCLV, 0, 1, id_tRNA_SLVDLV, 6, 6, id_tRNA_SLVcst, 
 1, -7, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, 
 id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 1, 
 id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 4, 
@@ -115,11 +115,12 @@ id_tRNA_CMPLVcst, 2, 2, 10000, 4, id_tRNA_OPELVLV, 2,
 id_tRNA_INCcst, 1, 99, id_tRNA_ScstLV, 99, 7, id_tRNA_CALLLV, 
 2, id_tRNA_SP_GSPLV, 1, id_tRNA_SP_GSPLV, 7, id_tRNA_INCLV, 1, 
 7, id_tRNA_SLVDLV, 1, 1, id_tRNA_SLVDLV, 7, 7, 
-id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_INCLV, 0, 1, id_tRNA_RGLVLV, 2, 
-1, id_tRNA_CMPLVLV, 0, 2, 5, 3, id_tRNA_INCLV, 
-1, 3, id_tRNA_SWJ, id_tRNA_IF0, 7, id_tRNA_INCLV, 1, 
-7, id_tRNA_GADD, 1, 0, id_tRNA_INCLV, 0, 1, 
-id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 
+id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SLVcst, 5, GSTOP_ID-1, id_tRNA_INCLV, 0, 
+5, id_tRNA_INCLV, 0, 1, id_tRNA_RGLVLV, 2, 1, 
+id_tRNA_CMPLVLV, 0, 2, 5, 3, id_tRNA_INCLV, 1, 
+3, id_tRNA_SWJ, id_tRNA_IF0, 7, id_tRNA_INCLV, 1, 7, 
+id_tRNA_GADD, 1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SWJ, 
+id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0, 
 ```
 
 
@@ -130,7 +131,6 @@ id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 id_tRNA_SLVcst, 5, GSTART_ID-1
 id_tRNA_INCLV, 0, 5               // var5 <- GSTART_ID
 id_tRNA_SP_GSPLV, 6
-id_tRNA_INCLV, 0, 6
 id_tRNA_SLVDLV, 6, 6              // var6 <- func ID (1 after TOPS)
 
 
@@ -175,11 +175,11 @@ id_tRNA_SLVcst, 7, 0                // var7 <- 0
 *mutate code*
 id_tRNA_SLVcst, 3, 1                // var3 <- 1
 id_tRNA_IF0, 3
-| id_tRNA_RGLVLV, 2, 1                            // var2 <- body val at var1
-| | id_tRNA_OPELVcst, 1, 2, id_begin_mutators     // var2 -= mutator_ids
-| | id_tRNA_CMPLVcst, 2, 2, 0, 3                  // var3 <- var 2 >= 0 ?
-| | id_tRNA_CMPLVcst, 2, 2, 10000, 4              // var4 <- var 2 < 10000 ?
-| | id_tRNA_OPELVLV, 2, 3, 4                      // var3 *= var4 (1 if mut <= var4 < mut+10k)
+| id_tRNA_RGLVLV, 2, 1                          // var2 <- body val at var1
+| id_tRNA_OPELVcst, 1, 2, id_begin_mutators     // var2 -= mutator_ids
+| id_tRNA_CMPLVcst, 2, 2, 0, 3                  // var3 <- var 2 >= 0 ?
+| id_tRNA_CMPLVcst, 2, 2, 10000, 4              // var4 <- var 2 < 10000 ?
+| id_tRNA_OPELVLV, 2, 3, 4                      // var3 *= var4 (1 if mut <= var4 < mut+10k)
 | id_tRNA_IF0, 3
 | |
 | | *put DNA ptr and shift onto the stack*
@@ -200,9 +200,11 @@ id_tRNA_IF0, 3
 | id_tRNA_SIJ
 | id_tRNA_SEJ
 |
+| id_tRNA_SLVcst, 5, GSTOP_ID-1
+| id_tRNA_INCLV, 0, 5             // var5 <- GSTOP_ID
 | id_tRNA_INCLV, 0, 1             // var1++
 | id_tRNA_RGLVLV, 2, 1            // var2 <- body val at var1
-| id_tRNA_CMPLVLV, 0, 2, 5, 3     // var3 <- var2==GSTART_ID (var5)
+| id_tRNA_CMPLVLV, 0, 2, 5, 3     // var3 <- var2==GSTOP_ID (var5)
 | id_tRNA_INCLV, 1, 3             // var3--
 id_tRNA_SWJ
 

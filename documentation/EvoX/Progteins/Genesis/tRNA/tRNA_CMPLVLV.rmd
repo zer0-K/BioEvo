@@ -88,7 +88,7 @@ id_tRNA_SIJ
 | id_tRNA_IF0, 4, 
 | | id_tRNA_SLVcst, 3, instruction::JRL         // var 3 <- JRL
 | id_tRNA_SIJ
-| | id_tRNA_CMPLVcst, 0, 3, 2, 4                // var3 == 2 : <
+| | id_tRNA_CMPLVcst, 0, 3, 2, 4                // var3 == 2 : >
 | | id_tRNA_IF0, 4
 | | | id_tRNA_SLVcst, 3, instruction::JRG       // var3 <- JRG
 | | id_tRNA_SIJ

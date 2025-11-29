@@ -1,0 +1,96 @@
+---
+title: Documentation of the recursive meta-mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : handles nested mutators 
+
+Arg : probability to add a new level to the current nest
+Output : nothing
+
+# Variables
+
+var 1 : DNA ptr
+var 2 : DNA at var 1
+var 3 : cmp var
+var 7 : shift
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+if RMM not initialized (-2):
+- init params
+else:
+- mutate itself
+
+Then:
+Call nested mutators
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_mut_FIB, id_tRNA_CVARS, LV_place, 3, id_mut_FIB,
+
+
+id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*get DNA ptr and shift from stack*
+id_tRNA_SP_GSPLV, 1                 // var1 <- TOPS  (p)
+id_tRNA_SP_GSPLV, 7                 // var7 <- TOPS  (p)
+id_tRNA_INCLV, 1, 7                 // var7-- (p-1)
+id_tRNA_SLVDLV, 1, 1                // var1 <- DNA ptr
+id_tRNA_SLVDLV, 7, 7                // var7 <- DNA shift
+
+id_tRNA_INCLV, 0, 1                 // var1++
+id_tRNA_RGLVLV, 2, 1                // var2 <- body val at var1 (depth)
+id_tRNA_CMPLVcst, 0, 2, -2, 3       // var3 <- var2==-2 ?
+id_tRNA_IF0, 3
+|
+| *init mutator*
+| // before : 40001, -2, ID
+| id_tRNA_GScstLV, -1, 1            // replace -2 by -1
+| id_tRNA_INCLV, 0, 1               // var1++
+| id_tRNA_INCLV, 0, 1               // var1++ (skip ID of mutator) 
+| id_tRNA_GADD, -2, 1               // write -2
+| id_tRNA_INCLV, 0, 7               // var7++
+| id_tRNA_INCLV, 1, 1               // var1--
+| // after : 40001, -1, ID, -2
+|
+id_tRNA_SIJ
+| *mutate*
+id_tRNA_SEJ
+
+
+id_tRNA_RGLVLV, 2, 1                // var2 <- body val at var1 (skip )
+id_tRNA_OPELVLV, 0, 1, 2            // var1+=var2    (skip params)
+
+*put DNA ptr and shift onto the stack*
+id_tRNA_ScstLV, 99, 1               // put var1 at p
+id_tRNA_INCcst, 1, 99
+id_tRNA_ScstLV, 99, 7               // put var7 at p-1
+```
+
+
+## Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 40001, 0, 0, 0, 0,
+
+46, 0, 40001, 0, 0, 0, 0,
+```

@@ -116,7 +116,6 @@ id_tRNA_INCLV, 0, 7                 // ptr++
 
 
 *init code*
-*TODO : metamutator*
 id_tRNA_SDLVLV, 7, 2                // *ptr <- func ID
 id_tRNA_INCLV, 0, 7                 // ptr++
 id_tRNA_SDLVcst, 7, id_tRNA_CVARS   // *ptr <- tRNA CVARS
@@ -127,6 +126,22 @@ id_tRNA_SDLVcst, 7, 1               // *ptr <- 1
 id_tRNA_INCLV, 0, 7                 // ptr++
 id_tRNA_SDLVcst, 7, id_tRNA_IVARS   // *ptr <- tRNA IVARS
 id_tRNA_INCLV, 0, 7                 // ptr++
+*TODO : metamutator*
+id_tRNA_SDLVcst, 7, id_mut_FIB      // *ptr <- mut FIB
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, 6               // *ptr <- size of mutator
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, id_tRNA_RET     // *ptr <- tRNA RET
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, id_tRNA_RET     // *ptr <- tRNA RET
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, id_tRNA_RET     // *ptr <- tRNA RET
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, id_tRNA_RET     // *ptr <- tRNA RET
+id_tRNA_INCLV, 0, 7                 // ptr++
+id_tRNA_SDLVcst, 7, MSTOP_ID        // *ptr <- MSTOP_ID
+id_tRNA_INCLV, 0, 7                 // ptr++
+
 id_tRNA_SDLVcst, 7, id_tRNA_RET     // *ptr <- tRNA RET
 id_tRNA_INCLV, 0, 7                 // ptr++
 

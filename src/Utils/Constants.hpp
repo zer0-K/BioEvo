@@ -95,7 +95,7 @@ const std::string TYPE_LINEAR = "linear";
 const std::string X86_ALGO = "x86 algo";
 const int DEFAULT_X86_DATA_SIZE = 100000;
 const int DEFAULT_X86_CODE_SIZE = 100;
-const int MAX_OUTPUT_SIZE_X86 = 30000;
+const int MAX_OUTPUT_SIZE_X86 = 50000;
 const int SIZE_INSTR = 7;
 const int MAX_NB_INSTR_EXEC = 40000;
 
@@ -113,6 +113,7 @@ const std::string LOG_FILE_DEFAULT = "/home/adrien/Disque/Programmation/Projets/
 
 const int GSTART_ID = -51451;
 const int GSTOP_ID = -77142;
+const int MSTOP_ID = -299792;
 const int GGENESIS_ID = -130662;
 
 
@@ -147,6 +148,30 @@ const std::string name_exp_bioevo_phenotypic_body_evox_fgc = "Evox free gene cre
 const std::string name_exp_bioevo_phenotypic_body_evox_gtp = "Evox gene to progtein";
 const std::string name_exp_bioevo_phenotypic_body_evox_selfc = "Evox gene self-compilation";
 const std::string name_exp_bioevo_evox_gene_creation = "EvoX gene creation";
+
+// funcs
+const int id_core_switcher = 2;
+const int id_ml_core = 3;
+
+const int id_search_and_pick = 103;
+const int id_self_compil_func_ID_list = 114;
+const int id_self_compil_transcription = 115;
+const int id_mRNA_meta_aggregator = 116;
+const int id_DNA_metamutator = 117;
+
+const int id_phenotypic_size = 200;
+const int id_cpy_mol_as_new_func = 201;
+const int id_DNA_checker = 204;
+const int id_DNA_pos = 205;
+const int id_ribosome = 206;
+const int id_RNAP = 207;
+const int id_transcriber = 208;
+
+const int id_get_mol_in_input = 300;
+const int id_find_empty_place = 301;
+const int id_export_func_as_mol = 302;
+const int id_new_gene_processor = 303;
+
 
 // tRNAs
 const int id_tRNA_RET = 9999;
@@ -202,6 +227,11 @@ const int id_tRNA_INCS = 11453; // inc/dec flag
 const int id_tRNA_CALLcst = 11500; // cst
 const int id_tRNA_CALLLV = 11501; // var nb
 
+const int id_tRNA_RUIcstcst = 11600; // var, cst, cst
+const int id_tRNA_RUIcstLV = 11601; // var, cst, cst
+const int id_tRNA_RUILVcst = 11602; // var, cst, cst
+const int id_tRNA_RUILVLV = 11603; // var, cst, cst
+
 const int id_tRNA_GScstcst = 12000; // cst, cst
 const int id_tRNA_GScstLV = 12001; // cst, var
 const int id_tRNA_GSLVcst = 12002; // var, cst
@@ -241,8 +271,24 @@ const int id_tRNA_SP_GSPLV = 15003; // var nb
 const int id_tRNA_SP_GCPY = 15004; // var nb, var nb, var nb
 
 
+// aggregators
 const int id_begin_aggregators = 30000;
+
+const int id_agg_pi = 30001;
+
+
+// mutators
 const int id_begin_mutators = 40000;
+
+const int id_mut_G = 40001;
+
+const int id_mut_FIB = 41000;
+
+const int id_mut_AC = 42000;
+
+const int id_mut_AM = 42500;
+
+const int id_mut_RUI = 45000;
 
 
 // ---------- GENESIS

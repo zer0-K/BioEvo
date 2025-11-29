@@ -1,0 +1,32 @@
+---
+title: mutators documentation
+---
+
+This folder contains the documentation of the mutators.
+
+
+# General info
+
+In general, one can assume that mutators have the following design:
+mutator ID, depth, number of params, params, underlying asset
+
+At creation, a mutator won't have params, it will look like :
+mutator ID, -2
+A mutator must init itself if it finds a -2 at first pos.
+
+
+## Summary
+
+
+* 40001 : mut_RMM
+* 40100 : mut_FIB
+* 41000 : mut_G
+* 42000 : mut_AC
+* 42500 : mut_AM
+
+
+
+# Details
+
+You can find the IDs of the mutators in the Constants.hpp file.
+Mutator IDs go from 40000 to 49999.

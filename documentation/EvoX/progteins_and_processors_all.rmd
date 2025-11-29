@@ -112,6 +112,16 @@ Progteins are denoted with (p)
 * 15003 : tRNA_SP_GSPLV
 * 15004 : tRNA_SP_GCPY
 
+### aggregators
+
+### mutators
+
+* 40001 : mut_G
+* 40100 : mut_RMM
+* 41000 : mut_FIB
+* 42000 : mut_AC
+* 42500 : mut_AM
+
 ## Metabolic functions
 
 * 200 : body size calc (p)

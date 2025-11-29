@@ -1,0 +1,54 @@
+---
+title: Documentation of the gene mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : handles some mutations ad the whole gene level
+
+
+Arg : nothing
+Output : nothing
+
+# Variables
+
+var 1 : 
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_CALLcst, id_tRNA_CVARS, LV_place, 3, id_mut_G,
+
+
+id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+
+```
+
+
+## Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 41000, 0, 0, 0, 0,
+
+46, 0, 41000, 0, 0, 0, 0,
+```

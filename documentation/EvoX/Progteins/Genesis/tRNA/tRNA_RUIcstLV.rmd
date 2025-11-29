@@ -1,0 +1,65 @@
+---
+title: Documentation of the uniform random tRNA (cst-var)
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : This tRNA transcribes the RNA that generates a random int between a constant and a variable bounds.
+
+
+Arg : nothing
+Output : code of the 'RUIcstLV' amino acid
+
+# Variables
+
+var 1 : ribosome ptr
+var 2 : exit ptr
+var 3 : tmp var
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+Init P site
+Init E site
+
+Writes the instruction
+* RUI, 1, 0, 1, var, cst, var
+at the E site
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_tRNA_RUIcstLV, id_tRNA_CVARS, LV_place, 3, id_tRNA_IVARS, id_tRNA_MP, 
+id_tRNA_ME, id_tRNA_MInstr, instruction::RUI, id_tRNA_M1, id_tRNA_M0, id_tRNA_M1, id_tRNA_MLV, 
+id_tRNA_Marg, id_tRNA_MLV, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*init P site and E site*
+id_tRNA_MP
+id_tRNA_ME 
+
+*write amino acid RUI, 1, 0, 1, var, cst, var*
+id_tRNA_MInstr, instruction::RUI
+id_tRNA_M1
+id_tRNA_M0
+id_tRNA_M0
+id_tRNA_MLV
+id_tRNA_Marg
+id_tRNA_MLV
+
+id_tRNA_RET
+```

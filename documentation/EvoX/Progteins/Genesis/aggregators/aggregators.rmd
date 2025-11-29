@@ -1,0 +1,23 @@
+---
+title: aggregators documentation
+---
+
+This folder contains the documentation of the aggregators.
+
+
+# General info
+
+
+
+## Summary
+
+
+* 30001 : agg_PI
+
+
+
+
+# Details
+
+You can find the IDs of the aggregators in the Constants.hpp file.
+aggregator IDs go from 30000 to 39999.

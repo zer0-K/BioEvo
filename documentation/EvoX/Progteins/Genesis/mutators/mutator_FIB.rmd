@@ -1,0 +1,66 @@
+---
+title: Documentation of the gene mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : handle a fiber of mutators
+
+Arg : probability to add a new mutator to the fiber
+Output : nothing
+
+# Variables
+
+var 1 : DNA ptr
+var 7 : shift
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_mut_FIB, id_tRNA_CVARS, LV_place, 3, id_mut_FIB,
+
+
+id_tRNA_RET, GSTOP_ID, 0, 0, 0, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*get DNA ptr and shift from stack*
+id_tRNA_SP_GSPLV, 1                 // var1 <- TOPS  (p)
+id_tRNA_SP_GSPLV, 7                 // var7 <- TOPS  (p)
+id_tRNA_INCLV, 1, 7                 // var7-- (p-1)
+id_tRNA_SLVDLV, 1, 1                // var1 <- DNA ptr
+id_tRNA_SLVDLV, 7, 7                // var7 <- DNA shift
+
+
+*put DNA ptr and shift onto the stack*
+id_tRNA_ScstLV, 99, 1               // put var1 at p
+id_tRNA_INCcst, 1, 99
+id_tRNA_ScstLV, 99, 7               // put var7 at p-1
+```
+
+
+## Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 40100, 0, 0, 0, 0,
+
+46, 0, 40100, 0, 0, 0, 0,
+```

@@ -79,7 +79,7 @@ void GeneCreationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
 
     write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "individual_new_gene_before.csv");
 
-    for(int i=0;i<94;i++)
+    for(int i=0;i<98;i++)
     {
         algo->set_input({});
         universe->exec();

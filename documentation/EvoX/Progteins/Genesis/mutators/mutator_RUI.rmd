@@ -1,0 +1,172 @@
+---
+title: Documentation of the RUI mutator
+output: 
+  html_document:
+    code_folding: hide
+---
+
+
+# General info
+
+Goal : generate n numbers in given intervals and add them to params
+
+
+Arg : number of numbers to generate
+Output : nothing
+
+# Variables
+
+var 1 : DNA ptr
+var 2 : DNA at var 1 (nb of params)
+var 3 : cmp var
+var 4 : counter var
+var 5 : tmp var (min)
+var 6 : tmp var (max)
+var 7 : shift
+var 8 : cmp var
+
+
+# Pseudo-code
+
+```{pseudo class.source='foldable'}
+```
+
+# Code
+
+## DNA code
+
+### Raw code
+
+```{DNA class.source='foldable'}
+GSTART_ID, id_mut_RUI, id_tRNA_CVARS, LV_place, 8, id_tRNA_IVARS, id_tRNA_SP_GSPLV, 
+1, id_tRNA_SP_GSPLV, 7, id_tRNA_INCLV, 1, 7, id_tRNA_SLVDLV, 
+1, 1, id_tRNA_SLVDLV, 7, 7, id_tRNA_SLVcst, 4, 
+0, id_tRNA_INCLV, 0, 1, id_tRNA_RGLVLV, 2, 1, 
+id_tRNA_CMPLVcst, 0, 2, -2, 3, id_tRNA_IF0, 3, 
+id_tRNA_GScstLV, 0, 1, id_tRNA_INCLV, 0, 1, id_tRNA_RGLVLV, 
+2, 1, id_tRNA_OPELVcst, 2, 2, 2, id_tRNA_GSLVLV, 
+2, 1, id_tRNA_OPELVLV, 0, 7, 2, id_tRNA_OPELVcst, 
+2, 2, 3, id_tRNA_SLVLV, 5, 1, id_tRNA_INCLV, 
+0, 5, id_tRNA_CMPLVLV, 1, 2, 4, 3, 
+id_tRNA_IF0, 3, id_tRNA_INCLV, 0, 1, id_tRNA_GADD, -1
+, 1, id_tRNA_INCLV, 0, 1, id_tRNA_GADD, 1, 1, 
+id_tRNA_INCLV, 0, 4, id_tRNA_CMPLVLV, 1, 4, 2, 
+3, id_tRNA_SWJ, id_tRNA_SLVLV, 3, 5, id_tRNA_SIJ, id_tRNA_INCLV, 
+0, 1, id_tRNA_RGLVLV, 2, 1, id_tRNA_SLVLV, 5, 
+1, id_tRNA_INCLV, 0, 5, id_tRNA_CMPLVLV, 1, 2, 
+4, 3, id_tRNA_IF0, 3, id_tRNA_INCLV, 0, 1, 
+id_tRNA_INCLV, 0, 4, id_tRNA_CMPLVLV, 1, 4, 2, 
+3, id_tRNA_SWJ, id_tRNA_SLVLV, 3, 5, id_tRNA_SEJ, id_tRNA_SLVcst, 
+8, 1, id_tRNA_IF0, 8, id_tRNA_RGLVLV, 5, 3, 
+id_tRNA_INCLV, 0, 3, id_tRNA_RGLVLV, 6, 3, id_tRNA_INCLV, 
+0, 3, id_tRNA_INCLV, 1, 2, id_tRNA_RUILVLV, 4, 
+5, 6, id_tRNA_RGLVLV, 5, 1, id_tRNA_OPELVLV, 0, 
+5, 4, id_tRNA_GSLVLV, 5, 1, id_tRNA_INCLV, 0, 
+1, id_tRNA_CMPLVcst, 2, 2, 0, 8, id_tRNA_SWJ, 
+id_tRNA_SLVLV, 1, 3, id_tRNA_ScstLV, 99, 1, id_tRNA_INCcst, 
+1, 99, id_tRNA_ScstLV, 99, 7, id_tRNA_RET, GSTOP_ID, 
+```
+
+
+### Commented code
+
+
+```{pseudoDNA class.source='foldable'}
+*get DNA ptr and shift from stack*
+id_tRNA_SP_GSPLV, 1                 // var1 <- TOPS  (p)
+id_tRNA_SP_GSPLV, 7                 // var7 <- TOPS  (p)
+id_tRNA_INCLV, 1, 7                 // var7-- (p-1)
+id_tRNA_SLVDLV, 1, 1                // var1 <- DNA ptr
+id_tRNA_SLVDLV, 7, 7                // var7 <- DNA shift
+id_tRNA_SLVcst, 4, 0                // var4 <- 0
+
+id_tRNA_INCLV, 0, 1                 // var1++
+id_tRNA_RGLVLV, 2, 1                // var2 <- body val at var1 (depth)
+id_tRNA_CMPLVcst, 0, 2, -2, 3       // var3 <- var2==-2 ?
+id_tRNA_IF0, 3
+|
+| *init mutator*
+| // before : 45000, -2, n
+| id_tRNA_GScstLV, 0, 1             // replace -2 by 0 (depth 0)
+| id_tRNA_INCLV, 0, 1               // var1++
+| id_tRNA_RGLVLV, 2, 1              // var2 <- nb of params
+| id_tRNA_OPELVcst, 2, 2, 2         // var2*=2 (nb mut param = 2*nb of nb to generate)
+| id_tRNA_GSLVLV, 2, 1              // write var2
+| id_tRNA_OPELVLV, 0, 7, 2          // var7 += nb (*2)
+| id_tRNA_OPELVcst, 2, 2, 3         // var2/=2
+| id_tRNA_SLVLV, 5, 1               // var5 <- var1
+| id_tRNA_INCLV, 0, 5               // var5++ (start of bounds)
+| id_tRNA_CMPLVLV, 1, 2, 4, 3       // if var4 > nb of params
+| id_tRNA_IF0, 3
+| |
+| | id_tRNA_INCLV, 0, 1             // var1++
+| | id_tRNA_GADD, -1, 1             // write -1
+| | id_tRNA_INCLV, 0, 1             // var1++
+| | id_tRNA_GADD, 1, 1              // write 1
+| | id_tRNA_INCLV, 0, 4             // var4++
+| | id_tRNA_CMPLVLV, 1, 4, 2, 3     // if var4 > nb of params
+| |
+| id_tRNA_SWJ
+| // after : 45000, -1, 2n, -1, 1, ..., -1, 1
+| id_tRNA_SLVLV, 3, 5               // var3 <- var5 (start of bounds)
+|
+id_tRNA_SIJ
+| id_tRNA_INCLV, 0, 1               // var1++
+| id_tRNA_RGLVLV, 2, 1              // var2 <- nb of params
+| id_tRNA_SLVLV, 5, 1               // var5 <- var1
+| id_tRNA_INCLV, 0, 5               // var5++ (start of bounds)
+| id_tRNA_CMPLVLV, 1, 2, 4, 3       // if var4 > nb of params
+| id_tRNA_IF0, 3
+| |
+| | id_tRNA_INCLV, 0, 1             // var1++
+| | id_tRNA_INCLV, 0, 4             // var4++
+| | id_tRNA_CMPLVLV, 1, 4, 2, 3     // if var4 > nb of params
+| |
+| id_tRNA_SWJ
+| 
+| id_tRNA_SLVLV, 3, 5               // var3 <- var5 (start of bounds)
+|id_tRNA_SEJ
+
+// var1 should be after RUI bounds
+// var3 should be at begin of RUI bounds
+
+*mutate*
+id_tRNA_SLVcst, 8, 1                // var8 <- 1
+id_tRNA_IF0, 8
+|
+| id_tRNA_RGLVLV, 5, 3              // var5 <- body val at var3 (min)
+| id_tRNA_INCLV, 0, 3               // var3++
+| id_tRNA_RGLVLV, 6, 3              // var6 <- body val at var3 (max)
+| id_tRNA_INCLV, 0, 3               // var3++
+| id_tRNA_INCLV, 1, 2               // var2--
+|
+| id_tRNA_RUILVLV, 4, 5, 6          // var4 <- RUI(var5, var6)
+| id_tRNA_RGLVLV, 5, 1              // var5 <- body at var1 (param)
+| id_tRNA_OPELVLV, 0, 5, 4          // var5+=var4
+| id_tRNA_GSLVLV, 5, 1              // write var5
+|
+| id_tRNA_INCLV, 0, 1               // var1++
+| 
+| id_tRNA_CMPLVcst, 2, 2, 0, 8      // if var2 > 0
+id_tRNA_SWJ
+
+// var1 should be just after the mutated params
+// set var1 to begin of mutated params
+id_tRNA_SLVLV, 1, 3                 // var1 <- var3 (begin of mutated params)
+
+*put DNA ptr and shift onto the stack*
+id_tRNA_ScstLV, 99, 1               // put var1 at p
+id_tRNA_INCcst, 1, 99
+id_tRNA_ScstLV, 99, 7               // put var7 at p-1
+
+id_tRNA_RET
+```
+
+
+## Raw code
+
+```{RAW class.source='foldable'}
+46, 0, 45000, 0, 0, 0, 0,
+
+46, 0, 45000, 0, 0, 0, 0,
+```

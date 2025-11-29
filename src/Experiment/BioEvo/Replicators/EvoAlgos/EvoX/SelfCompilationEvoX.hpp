@@ -12,6 +12,7 @@ class SelfCompilationEvoX : public Experiment
 {
 protected:
     int max_nb_instr_exec;
+    int nb_genes;
 
 public:
     SelfCompilationEvoX();
