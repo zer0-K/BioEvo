@@ -19,7 +19,7 @@ SelfCompilationEvoX::SelfCompilationEvoX()
 void SelfCompilationEvoX::init()
 {
     max_nb_instr_exec = 2<<22;
-    nb_genes = 97;
+    nb_genes = 98;
 }
 
 void SelfCompilationEvoX::launch()
@@ -75,6 +75,9 @@ sp_evox SelfCompilationEvoX::get_base_algo(int step)
         file_algo = "phenotypic_body_with_bootstrap_DNA.csv";
     else if(step == 3)
         file_algo = "phenotypic_body_transcribed.csv";
+    else if(step == -1) // custom
+        file_algo = "phenotypic_body_with_bootstrap_DNA_full.csv";
+
     std::vector<int> phenotypic_body = get_phenotypic_body_from_csv(file_algo);
     algo->set_phenotypic_body(phenotypic_body);
 
@@ -146,19 +149,18 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         2, 6, 3, id_tRNA_INCLV, 1, 3, id_tRNA_INCLV, 
         1, 1, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_INCLV, 0, 
         1, id_tRNA_SLVcst, 7, 0, id_tRNA_SLVcst, 3, 1, 
-        id_tRNA_IF0, 3, id_tRNA_RGLVLV, 2, 1, id_tRNA_OPELVcst, 1, 
-        2, id_begin_mutators, id_tRNA_CMPLVcst, 2, 2, 0, 3, 
-        id_tRNA_CMPLVcst, 2, 2, 10000, 4, id_tRNA_OPELVLV, 2, 
-        3, 4, id_tRNA_IF0, 3, id_tRNA_ScstLV, 99, 1, 
-        id_tRNA_INCcst, 1, 99, id_tRNA_ScstLV, 99, 7, id_tRNA_CALLLV, 
-        2, id_tRNA_SP_GSPLV, 1, id_tRNA_SP_GSPLV, 7, id_tRNA_INCLV, 1, 
-        7, id_tRNA_SLVDLV, 1, 1, id_tRNA_SLVDLV, 7, 7, 
+        id_tRNA_INCLV, 0, 1, id_tRNA_IF0, 3, id_tRNA_RGLVLV, 2, 
+        1, id_tRNA_OPELVcst, 1, 2, id_begin_mutators, id_tRNA_CMPLVcst, 2, 
+        2, 0, 3, id_tRNA_CMPLVcst, 1, 2, 10000, 
+        4, id_tRNA_OPELVLV, 2, 3, 4, id_tRNA_OPELVcst, 0, 
+        2, id_begin_mutators, id_tRNA_IF0, 3, id_tRNA_PLVSI, 7, id_tRNA_PLVSI, 
+        1, id_tRNA_CALLLV, 2, id_tRNA_GTSLVD, 1, id_tRNA_GTSLVD, 7, 
         id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_SLVcst, 5, GSTOP_ID-1, id_tRNA_INCLV, 0, 
         5, id_tRNA_INCLV, 0, 1, id_tRNA_RGLVLV, 2, 1, 
         id_tRNA_CMPLVLV, 0, 2, 5, 3, id_tRNA_INCLV, 1, 
         3, id_tRNA_SWJ, id_tRNA_IF0, 7, id_tRNA_INCLV, 1, 7, 
         id_tRNA_GADD, 1, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SWJ, 
-        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0, 
+        id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0, 0,
 
         // 200 - calc phenotypic body size
 
@@ -250,7 +252,8 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_GILV, 
         4, 2, id_tRNA_PLVSI, 4, id_tRNA_CALLcst, id_ml_core, id_tRNA_SIJ, 
         id_tRNA_SEJ, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 4, 1, 
-        id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+        id_tRNA_GScstLV, 5, 4, id_tRNA_CALLLV, 4, id_tRNA_RET, id_mut_G, 
+        1, GSTOP_ID, 0, 0, 0, 0, 0,
 
 
         // 3 - ML core
@@ -338,7 +341,7 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
 
         // 207 RNAP
 
-        GSTART_ID, id_RNAP, id_tRNA_CVARS, LV_place, 6, id_tRNA_IVARS, id_tRNA_SLVcst,
+        GSTART_ID, id_RNAP, id_tRNA_CVARS, LV_place, 10, id_tRNA_IVARS, id_tRNA_SLVcst,
         1, -7, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 3, 
         id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 1, 
         id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 4, 
@@ -357,11 +360,17 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         2, 0, id_tRNA_INCLV, 0, 1, id_tRNA_SLVcst, 6, 
         GSTOP_ID-1, id_tRNA_INCLV, 0, 6, id_tRNA_SLVcst, 3, 1, 
         id_tRNA_IF0, 3, id_tRNA_INCLV, 0, 1, id_tRNA_INCLV, 0, 
-        2, id_tRNA_RGLVLV, 5, 1, id_tRNA_SDLVLV, 2, 5, 
-        id_tRNA_SLVDLV, 3, 2, id_tRNA_CMPLVLV, 0, 3, 6, 
-        3, id_tRNA_INCLV, 1, 3, id_tRNA_SWJ, id_tRNA_INCLV, 1, 
-        2, id_tRNA_PLVSWI, 2, id_tRNA_INCcst, 1, 99, id_tRNA_INCcst, 
-        1, 99, id_tRNA_PLVSWI, 4, id_tRNA_RET, GSTOP_ID, 0, 
+        2, id_tRNA_RGLVLV, 5, 1, id_tRNA_SLVLV, 7, 5, 
+        id_tRNA_OPELVcst, 1, 7, id_begin_mutators, id_tRNA_CMPLVcst, 2, 7, 
+        0, 8, id_tRNA_CMPLVcst, 1, 7, 10000, 9, 
+        id_tRNA_OPELVLV, 2, 8, 9, id_tRNA_IF0, 8, id_tRNA_INCLV, 
+        0, 1, id_tRNA_RGLVLV, 5, 1, id_tRNA_OPELVLV, 0, 
+        1, 5, id_tRNA_INCLV, 1, 1, id_tRNA_INCLV, 1, 
+        2, id_tRNA_SIJ, id_tRNA_SDLVLV, 2, 5, id_tRNA_SLVDLV, 3, 
+        2, id_tRNA_CMPLVLV, 0, 3, 6, 3, id_tRNA_INCLV, 
+        1, 3, id_tRNA_SEJ, id_tRNA_SWJ, id_tRNA_INCLV, 1, 2, 
+        id_tRNA_PLVSWI, 2, id_tRNA_INCcst, 1, 99, id_tRNA_INCcst, 1, 
+        99, id_tRNA_PLVSWI, 4, id_tRNA_RET, GSTOP_ID, 0, 0,
 
 
 
@@ -559,6 +568,22 @@ std::vector<int> SelfCompilationEvoX::get_DNA_step_1()
         1, id_tRNA_CMPLVcst, 2, 2, 0, 8, id_tRNA_SWJ, 
         id_tRNA_SLVLV, 1, 3, id_tRNA_ScstLV, 99, 1, id_tRNA_INCcst, 
         1, 99, id_tRNA_ScstLV, 99, 7, id_tRNA_RET, GSTOP_ID, 
+
+        // MUT_G
+
+        GSTART_ID, id_mut_G, id_tRNA_CVARS, LV_place, 8, id_tRNA_SLVcst, 6, 
+        5, id_tRNA_RGLVLV, 5, 6, id_tRNA_SLVcst, 6, 0, 
+        id_tRNA_SLVcst, 1, 0, id_tRNA_SLVcst, 3, 1, id_tRNA_IF0, 
+        3, id_tRNA_OPELVcst, 0, 1, 7, id_tRNA_RGLVLV, 2, 
+        1, id_tRNA_CMPLVcst, 0, 2, instruction::MARKER, 4, id_tRNA_IF0, 
+        4, id_tRNA_OPELVcst, 0, 1, 2, id_tRNA_RGLVLV, 2, 
+        1, id_tRNA_CMPLVLV, 0, 2, 5, 4, id_tRNA_IF0, 
+        4, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_CMPLVcst, 0, 2, -1, 
+        4, id_tRNA_IF0, 4, id_tRNA_SLVLV, 6, 1, id_tRNA_SIJ, 
+        id_tRNA_SEJ, id_tRNA_INCLV, 1, 1, id_tRNA_RGLVLV, 2, 1, 
+        id_tRNA_INCLV, 1, 1, id_tRNA_CMPLVcst, 0, 2, -1, 
+        3, id_tRNA_INCLV, 1, 3, id_tRNA_SEJ, id_tRNA_SIJ, id_tRNA_SEJ, 
+        id_tRNA_SWJ, id_tRNA_RET, GSTOP_ID, 0, 0, 0, 0,
 
 
         //---------- tRNAs
@@ -1255,6 +1280,12 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
 {
     // transcribe DNA only functions
     // self compilation functions
+
+    // You might need to transcribe RNAP here for metamutators:
+    // previous version of RNAP doesn't skip mutators for bootstrapped DNA
+    // --> transcribe it here (uncomment next lines) and change RNAP code in body
+    //algo->set_input({-1, id_transcriber, id_RNAP});
+    //universe->exec();
     algo->set_input({-1, id_transcriber, id_self_compil_func_ID_list});
     universe->exec();
     algo->set_input({-1, id_transcriber, id_self_compil_transcription});
@@ -1266,6 +1297,8 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, id_transcriber, id_mRNA_meta_aggregator});
     universe->exec();
     algo->set_input({-1, id_transcriber, id_DNA_metamutator});
+    universe->exec();
+    algo->set_input({-1, id_transcriber, id_mut_G});
     universe->exec();
     // other functions
     algo->set_input({-1, id_transcriber, id_DNA_checker}); // func in DNA check

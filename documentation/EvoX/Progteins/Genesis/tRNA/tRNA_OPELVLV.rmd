@@ -89,13 +89,13 @@ id_tRNA_SIJ
 id_tRNA_SEJ
 d_tRNA_SEJ
 
-*write amino acid OPXXX, 1, 1, 0, v1, v1, cst*
+*write amino acid OPXXX, 1, 1, 1, v1, v1, v2*
 id_tRNA_INCDLV, 0, 2
 id_tRNA_SLVDLV, 4, 2
 id_tRNA_SDLVLV, 4, 3
 id_tRNA_M1
 id_tRNA_M1
-id_tRNA_M0
+id_tRNA_M1
 id_tRNA_MLV
 id_tRNA_MLVW
 id_tRNA_MLV

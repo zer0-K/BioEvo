@@ -191,8 +191,8 @@ id_tRNA_IF0, 3                      // if var 3
 | id_tRNA_INCLV, 0, 3               // var 3++
 | id_tRNA_SDLVLV, 2, 4              // *var 2 <- var 4 (end of transcribed code = stack ptr)
 | id_tRNA_ScstLV, 99, 2             // stack ptr <- var 2
-| id_tRNA_PLVS, 5,                  // arg for RNAP
-| id_tRNA_PLVS, 5,                  // arg for RNAP (same as prev line)
+| id_tRNA_PLVSI, 5,                  // arg for RNAP
+| id_tRNA_PLVSI, 5,                  // arg for RNAP (same as prev line)
 |
 | id_tRNA_CALLcst, 107              // CALL meta-mutator
 | id_tRNA_CALLcst, 207              // CALL RNAP

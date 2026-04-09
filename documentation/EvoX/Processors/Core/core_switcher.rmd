@@ -57,7 +57,8 @@ id_tRNA_SEJ, id_tRNA_CMPLVcst, 0, 3, 5, 2, id_tRNA_IF0,
 2, id_tRNA_GILV, 4, 1, id_tRNA_PLVSI, 4, id_tRNA_GILV, 
 4, 2, id_tRNA_PLVSI, 4, id_tRNA_CALLcst, 3, id_tRNA_SIJ, 
 id_tRNA_SEJ, id_tRNA_RET, id_tRNA_SIJ, id_tRNA_SEJ, id_tRNA_GILV, 4, 1, 
-id_tRNA_CALLLV, 4, id_tRNA_RET, GSTOP_ID, 0, 0, 0,
+id_tRNA_GScstLV, 5, 4, id_tRNA_CALLLV, 4, id_tRNA_RET, id_mut_G, 
+1, GSTOP_ID, 0, 0, 0, 0, 0
 ```
 
 
@@ -117,7 +118,12 @@ id_tRNA_SIJ
 id_tRNA_SEJ
 
 id_tRNA_GILV, 4, 1              // var4 <- input[1]
+id_tRNA_GScstLV, 5, 4
 id_tRNA_CALLLV, 4               // call func at var4
+
+id_tRNA_RET
+
+id_mut_G
 ```
 
 
