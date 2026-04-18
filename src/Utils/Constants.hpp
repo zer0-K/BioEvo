@@ -92,7 +92,7 @@ const std::string TYPE_LINEAR = "linear";
 
 // -------------------- EVO ALGOS
 
-const std::string X86_ALGO = "x86 algo";
+const std::string XASM_ALGO = "x86 algo";
 const int DEFAULT_X86_DATA_SIZE = 100000;
 const int DEFAULT_X86_CODE_SIZE = 100;
 const int MAX_OUTPUT_SIZE_X86 = 50000;
@@ -143,10 +143,10 @@ const std::string name_exp_bioevo_traits_evox = "EvoX driving traits";
 
 // ---------- GENE
 
-const std::string name_exp_bioevo_phenotypic_body = "experiments on genes";
-const std::string name_exp_bioevo_phenotypic_body_evox_fgc = "Evox free gene creation";
-const std::string name_exp_bioevo_phenotypic_body_evox_gtp = "Evox gene to progtein";
-const std::string name_exp_bioevo_phenotypic_body_evox_selfc = "Evox gene self-compilation";
+const std::string name_exp_bioevo_body = "experiments on genes";
+const std::string name_exp_bioevo_body_evox_fgc = "Evox free gene creation";
+const std::string name_exp_bioevo_body_evox_gtp = "Evox gene to progtein";
+const std::string name_exp_bioevo_body_evox_selfc = "Evox gene self-compilation";
 const std::string name_exp_bioevo_evox_gene_creation = "EvoX gene creation";
 
 // funcs

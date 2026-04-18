@@ -6,12 +6,12 @@
 #include "EvoX.hpp"
 #include "InstructionMapping.hpp"
 
-inline bool evox_comp_phenotypic_body(std::vector<int> phenotypic_body_1, std::vector<int> phenotypic_body_2)
+inline bool evox_comp_body(std::vector<int> body_1, std::vector<int> body_2)
 {
     bool comp_vectors(std::vector<int>, std::vector<int>);
 
     // for the moment, phenotypic bodys are only int vectors
-    return comp_vectors(phenotypic_body_1, phenotypic_body_2);
+    return comp_vectors(body_1, body_2);
 }
 
 inline bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<std::array<int,SIZE_INSTR>> code_2)
@@ -90,17 +90,17 @@ inline bool comp_flows(std::vector<std::array<int,2>> f1, std::vector<std::array
     return true;
 }
 
-inline std::vector<int> get_func_IDs_in_phenotypic_body(std::vector<int> phenotypic_body)
+inline std::vector<int> get_func_IDs_in_body(std::vector<int> body)
 {
     std::vector<int> func_IDs(0);
 
     // find funcs in phenotypic body
-    for(int i=0;i<phenotypic_body.size()/SIZE_INSTR;i++)
+    for(int i=0;i<body.size()/SIZE_INSTR;i++)
     {
-        if(phenotypic_body[7*i] == instruction::MARKER && phenotypic_body[7*i+1] != -1)
+        if(body[7*i] == instruction::MARKER && body[7*i+1] != -1)
         {
             // get func ID
-            func_IDs.push_back(phenotypic_body[7*i+2]);
+            func_IDs.push_back(body[7*i+2]);
         }
     }
 
@@ -127,7 +127,7 @@ inline std::vector<int> get_func_IDs_in_phenotypic_body(std::vector<int> phenoty
     return funcs_no_duplicates;
 }
 
-inline void write_phenotypic_body_to_csv(std::vector<int> phenotypic_body, std::string file_name_relative)
+inline void write_body_to_csv(std::vector<int> body, std::string file_name_relative)
 {
     std::string file_name_absolute = project_folder + "data/" + file_name_relative;
     std::ofstream mfile;
@@ -135,13 +135,13 @@ inline void write_phenotypic_body_to_csv(std::vector<int> phenotypic_body, std::
     mfile.open(file_name_absolute, std::ios::out | std::ios::app);
 
     // iterate line by line
-    for(int i=0;i<phenotypic_body.size()/SIZE_INSTR;i++)
+    for(int i=0;i<body.size()/SIZE_INSTR;i++)
     {
-        mfile << phenotypic_body[SIZE_INSTR*i] << ",";
+        mfile << body[SIZE_INSTR*i] << ",";
 
         for(int j=1;j<SIZE_INSTR; j++)
         {
-            mfile << " " << phenotypic_body[SIZE_INSTR*i + j] << ",";
+            mfile << " " << body[SIZE_INSTR*i + j] << ",";
         }
         mfile << std::endl;
     }
@@ -154,7 +154,7 @@ inline void write_phenotypic_body_to_csv(std::vector<int> phenotypic_body, std::
  *
  * @param file_name_relative file name in data/ folder
  */
-inline std::vector<int> get_phenotypic_body_from_csv(std::string file_name_relative)
+inline std::vector<int> get_body_from_csv(std::string file_name_relative)
 {
     // io file stream related variables
     std::string file_name_absolute = project_folder + "data/" + file_name_relative;
@@ -162,7 +162,7 @@ inline std::vector<int> get_phenotypic_body_from_csv(std::string file_name_relat
     std::string line;
 
     // phenotypic body to get
-    std::vector<int> phenotypic_body(0);
+    std::vector<int> body(0);
 
     if(mfile.is_open())
     {
@@ -173,7 +173,7 @@ inline std::vector<int> get_phenotypic_body_from_csv(std::string file_name_relat
             // parse line into numbers
             while (getline (s, val, ','))
                 if(val != " ")
-                    phenotypic_body.push_back(std::stoi(val));
+                    body.push_back(std::stoi(val));
 
         }
         mfile.close();
@@ -184,5 +184,5 @@ inline std::vector<int> get_phenotypic_body_from_csv(std::string file_name_relat
                 << std::endl;
     }
 
-    return phenotypic_body;
+    return body;
 }

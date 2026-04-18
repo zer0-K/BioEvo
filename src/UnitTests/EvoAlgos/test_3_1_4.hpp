@@ -5,25 +5,25 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_phenotypic_body_exec()
+    bool launch_tests_evo_algos_evox_body_exec()
     {
-        bool test_evo_algos_evox_phenotypic_body_exec_simple(void);
-        bool test_evo_algos_evox_phenotypic_body_exec_JMP01call(void);
+        bool test_evo_algos_evox_body_exec_simple(void);
+        bool test_evo_algos_evox_body_exec_JMP01call(void);
 
         bool is_passed = true;
 
         std::cout << "Evo algos - evox - phenotypic body - exec :" << std::endl;
  
-        is_passed &= test_evo_algos_evox_phenotypic_body_exec_simple();
-        is_passed &= test_evo_algos_evox_phenotypic_body_exec_JMP01call();
+        is_passed &= test_evo_algos_evox_body_exec_simple();
+        is_passed &= test_evo_algos_evox_body_exec_JMP01call();
 
         std::cout << "Evo algos - evox - phenotypic body - exec : ";
         passed_print(is_passed);
@@ -34,7 +34,7 @@ namespace ut_ea
     /**
      * @brief exec phenotypic body dynamically
     */
-    bool test_evo_algos_evox_phenotypic_body_exec_simple()
+    bool test_evo_algos_evox_body_exec_simple()
     {
         bool is_passed = true;
 
@@ -45,13 +45,13 @@ namespace ut_ea
 
         // phenotypic bodys coding simple programs
         // 
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::INC, 1, 0, 0, 5, 0, 0,
             instruction::EXEC, 0, 0, 0, 0, 1, 0,
             instruction::CPYOUT, 1, 1, 0, 0, 5, 0,
             instruction::HALT, 0, 0, 0, 0, 0, 0
         };
-        std::vector<int> phenotypic_body_2 {
+        std::vector<int> body_2 {
             instruction::XXX, 0, 0, 0, 0, 0, 0,
             instruction::INC, 1, 0, 0, 5, 0, 0,
             instruction::INC, 1, 0, 0, 5, 0, 0,
@@ -61,7 +61,7 @@ namespace ut_ea
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2
+            body_1, body_2
         };
 
         //---------- INPUTS
@@ -110,7 +110,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -155,7 +155,7 @@ namespace ut_ea
     /**
      * @brief perform a function call on JMP01 architecture
     */
-    bool test_evo_algos_evox_phenotypic_body_exec_JMP01call()
+    bool test_evo_algos_evox_body_exec_JMP01call()
     {
         bool is_passed = true;
 
@@ -167,7 +167,7 @@ namespace ut_ea
         // phenotypic bodys coding simple programs
 
         // with automatic data stack increment
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::XXX, 3, 0, 0, 0, 0, 0,
             instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
@@ -243,7 +243,7 @@ namespace ut_ea
        };
 
         // without automatic data stack increment
-        std::vector<int> phenotypic_body_2 { 
+        std::vector<int> body_2 { 
             instruction::XXX, 3, 0, 0, 0, 0, 0,
             instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
@@ -320,7 +320,7 @@ namespace ut_ea
        };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2
+            body_1, body_2
         };
 
         //---------- INPUTS
@@ -361,7 +361,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass

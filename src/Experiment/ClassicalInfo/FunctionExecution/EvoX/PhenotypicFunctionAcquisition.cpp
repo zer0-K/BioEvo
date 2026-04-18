@@ -3,9 +3,9 @@
 #include "../../../../Entities/EntityVoid.hpp"
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../Utils/Functions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 PhenotypicFunctionAcquisition::PhenotypicFunctionAcquisition()
     :Experiment::Experiment(name_exp_classical_info_func_acqu_evox)
@@ -35,7 +35,7 @@ sp_evox PhenotypicFunctionAcquisition::get_algo_read()
     // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -409,12 +409,12 @@ sp_evox PhenotypicFunctionAcquisition::get_algo_read()
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.258
     };
 
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     return algo;
 }
 
-std::vector<int> PhenotypicFunctionAcquisition::get_phenotypic_body_function_write()
+std::vector<int> PhenotypicFunctionAcquisition::get_body_function_write()
 {
     return {
         // phase flag = 3, func teleonomical ID = 1 (ID in phenotypic body can be != teleonomical ID)
@@ -436,8 +436,8 @@ void PhenotypicFunctionAcquisition::FreeMoleculesFunctionRead()
     free_molecules->init();
 
     // get the phenotypic body for the free molecules 
-    std::vector<int> phenotypic_body = get_phenotypic_body_function_write();
-    free_molecules->set_phenotypic_body(phenotypic_body);
+    std::vector<int> body = get_body_function_write();
+    free_molecules->set_body(body);
 
     std::vector<sp_place> places {
         std::make_shared<Place>(algo, 0),
@@ -452,25 +452,25 @@ void PhenotypicFunctionAcquisition::FreeMoleculesFunctionRead()
 
     //---------- EXEC
 
-    std::vector<int>::const_iterator beg = algo->get_phenotypic_body().begin()+256*7;
-    std::vector<int>::const_iterator end = algo->get_phenotypic_body().end()-1;
+    std::vector<int>::const_iterator beg = algo->get_body().begin()+256*7;
+    std::vector<int>::const_iterator end = algo->get_body().end()-1;
 
-    std::vector<int> end_of_phenotypic_body_before(beg, end);
+    std::vector<int> end_of_body_before(beg, end);
 
     std::cout << "End of phenotypic body before execution : " << std::endl
-        << to_str(end_of_phenotypic_body_before) << std::endl << std::endl;
+        << to_str(end_of_body_before) << std::endl << std::endl;
 
 
     algo->set_input({3,1});
     algo->exec(std::vector<sp_entity>(0));
 
-    beg = algo->get_phenotypic_body().begin()+256*7;
-    end = algo->get_phenotypic_body().end()-1;
+    beg = algo->get_body().begin()+256*7;
+    end = algo->get_body().end()-1;
 
-    std::vector<int> end_of_phenotypic_body_after(beg, end);
+    std::vector<int> end_of_body_after(beg, end);
 
     std::cout << "End of phenotypic body after execution : " << std::endl
-        << to_str(end_of_phenotypic_body_after) << std::endl << std::endl;
+        << to_str(end_of_body_after) << std::endl << std::endl;
 
     std::cout << "Acquire free molecules as function (end)" << std::endl << std::endl;
 }
@@ -487,7 +487,7 @@ sp_evox PhenotypicFunctionAcquisition::get_algo_write()
     // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -970,7 +970,7 @@ sp_evox PhenotypicFunctionAcquisition::get_algo_write()
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.340
     };
 
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     return algo;
 }
@@ -1016,9 +1016,9 @@ void PhenotypicFunctionAcquisition::FreeMoleculesFunctionWrite()
     if(entity->is_type(FREEGENES))
     {
         sp_free_molecules free_molecules = std::dynamic_pointer_cast<FreeMolecules>(entity);
-        std::vector<int> phenotypic_body = free_molecules->get_phenotypic_body();
+        std::vector<int> body = free_molecules->get_body();
 
-        bool is_valid = x86_comp_output(expected_free_molecules, phenotypic_body);
+        bool is_valid = x86_comp_output(expected_free_molecules, body);
 
         if(is_valid)
         {
@@ -1027,7 +1027,7 @@ void PhenotypicFunctionAcquisition::FreeMoleculesFunctionWrite()
         }
         else
         {
-            int diff_index = first_diff_index(phenotypic_body, expected_free_molecules);
+            int diff_index = first_diff_index(body, expected_free_molecules);
 
             if(diff_index==-1)
             {
@@ -1038,7 +1038,7 @@ void PhenotypicFunctionAcquisition::FreeMoleculesFunctionWrite()
             std::cout << "Expected free molecules : " << std::endl
                 << to_str(expected_free_molecules) << std::endl
                 << "Actual free molecules : " << std::endl
-                << to_str(phenotypic_body) << std::endl << std::endl;
+                << to_str(body) << std::endl << std::endl;
         }
     }
     else

@@ -5,23 +5,23 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_phenotypic_body_markers()
+    bool launch_tests_evo_algos_evox_body_markers()
     {
-        bool test_evo_algos_evox_phenotypic_body_marker_simple(void);
+        bool test_evo_algos_evox_body_marker_simple(void);
 
         bool is_passed = true;
 
         std::cout << "Evo algos - evox - phenotypic body - markers :" << std::endl;
  
-        is_passed &= test_evo_algos_evox_phenotypic_body_marker_simple();
+        is_passed &= test_evo_algos_evox_body_marker_simple();
 
         std::cout << "Evo algos - evox - phenotypic body - markers : ";
         passed_print(is_passed);
@@ -32,7 +32,7 @@ namespace ut_ea
     /**
      * @brief simple phenotypic marker
     */
-    bool test_evo_algos_evox_phenotypic_body_marker_simple()
+    bool test_evo_algos_evox_body_marker_simple()
     {
         bool is_passed = true;
 
@@ -44,12 +44,12 @@ namespace ut_ea
         // phenotypic bodys coding simple programs
         // 
         // insert args as phenotypic body
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1
+            body_1
         };
 
         //---------- INPUTS
@@ -93,7 +93,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass

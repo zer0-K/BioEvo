@@ -66,9 +66,9 @@ void UniverseEvoXCustomNeighborhood::exec()
         current_exec_pos = i;
         current_entity = places[i]->get_entity();
 
-        if(current_entity->is_type(X86_ALGO))
+        if(current_entity->is_type(XASM_ALGO))
         {
-            sp_x86algo algo = std::dynamic_pointer_cast<X86Algo>(current_entity);
+            sp_xasmalgo algo = std::dynamic_pointer_cast<XASMAlgo>(current_entity);
             neighborhood_size = algo->get_neighborhood_size();
         }
 
@@ -155,9 +155,9 @@ void UniverseEvoXCustomNeighborhood::link_universe_functions_to_individuals(neig
     {
         sp_entity entity = places[i]->get_entity();
 
-        if(entity->is_type(X86_ALGO))
+        if(entity->is_type(XASM_ALGO))
         {
-            sp_x86algo algo = std::dynamic_pointer_cast<X86Algo>(entity);
+            sp_xasmalgo algo = std::dynamic_pointer_cast<XASMAlgo>(entity);
             algo->set_neighborhood_size(neighborhood_size);
 
             // we force universe size to be the nb of cells in the neighborhood
@@ -173,7 +173,7 @@ void UniverseEvoXCustomNeighborhood::link_universe_functions_to_individuals(neig
             // write at place
             std::function<bool(int, std::vector<int>)> f4 = std::bind(&UniverseEvoAlgos::write_free_molecules_at, this, _1, _2);
 
-            sp_x86algo x86algo = std::dynamic_pointer_cast<X86Algo>(entity);
+            sp_xasmalgo x86algo = std::dynamic_pointer_cast<XASMAlgo>(entity);
             x86algo->init_external_functions(f1, f2, f3, f4);
         }
     }

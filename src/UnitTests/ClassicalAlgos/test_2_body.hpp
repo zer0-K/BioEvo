@@ -6,14 +6,14 @@
 
 namespace ut_ca 
 {
-    bool launch_tests_classical_algos_phenotypic_body()
+    bool launch_tests_classical_algos_body()
     {
 
         bool is_passed = true;
 
         std::cout << "Classical algos - phenotypic body : " << std::endl;
 
-        is_passed &= launch_tests_classical_algos_phenotypic_body_single();
+        is_passed &= launch_tests_classical_algos_body_single();
 
         std::cout << "Classical algos - phenotypic body : ";
         passed_print(is_passed);

@@ -2,8 +2,8 @@
 
 #include "../../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../../Utils/Functions.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
 
 EvoXDriveTrait::EvoXDriveTrait()
     :Experiment::Experiment(name_exp_bioevo_traits_evox)
@@ -31,7 +31,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
     // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -259,7 +259,7 @@ sp_evox EvoXDriveTrait::get_algo(std::string name)
         instruction::MARKER, -1, 0, 0, 0, 0, 0
     };
 
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     return algo;
 }
@@ -305,21 +305,21 @@ void EvoXDriveTrait::test_setup()
                 << ", in=(0,1," << error << ")"
                 << std::endl;
             
-            std::vector<int>::const_iterator beg = algo->get_phenotypic_body().begin()+129*7;
-            std::vector<int>::const_iterator end = algo->get_phenotypic_body().begin()+130*7;
+            std::vector<int>::const_iterator beg = algo->get_body().begin()+129*7;
+            std::vector<int>::const_iterator end = algo->get_body().begin()+130*7;
 
-            std::vector<int> phenotypic_body(beg, end);
+            std::vector<int> body(beg, end);
 
-            std::cout << "Old phenotypic body : " << to_str(phenotypic_body) << std::endl;
+            std::cout << "Old phenotypic body : " << to_str(body) << std::endl;
             algo->set_input({0,1,error});
             algo->exec(std::vector<sp_entity>(0));
 
-            beg = algo->get_phenotypic_body().begin()+128*7;
-            end = algo->get_phenotypic_body().begin()+129*7;
+            beg = algo->get_body().begin()+128*7;
+            end = algo->get_body().begin()+129*7;
 
-            std::vector<int> new_phenotypic_body(beg, end);
+            std::vector<int> new_body(beg, end);
 
-            std::cout << "New phenotypic body : " << to_str(new_phenotypic_body) << std::endl; 
+            std::cout << "New phenotypic body : " << to_str(new_body) << std::endl; 
         }
     }
 
@@ -329,7 +329,7 @@ void EvoXDriveTrait::test_setup()
     algo->exec(std::vector<sp_entity>(0));
 
     std::vector<int> copied_out = algo->get_output();
-    if(x86_comp_output(copied_out, algo->get_phenotypic_body()))
+    if(x86_comp_output(copied_out, algo->get_body()))
     {
         std::cout << "Genes copied successfully" << std::endl;
     }

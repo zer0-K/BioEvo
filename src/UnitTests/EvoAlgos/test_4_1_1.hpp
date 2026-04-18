@@ -5,13 +5,13 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
 #include "../../Entities/EntityVoid.hpp"
-#include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/XASMAlgo.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 namespace ut_ea
 {
@@ -51,7 +51,7 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("algo x86");
         algo->init();
 
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
@@ -73,7 +73,7 @@ namespace ut_ea
         std::vector<int> vals { 12, 13, 14 };
 
         algo->reset_code(code); 
-        free_molecules->set_phenotypic_body(vals);
+        free_molecules->set_body(vals);
 
         //---------- UNIVERSE
 
@@ -124,7 +124,7 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("algo x86");
         algo->init();
 
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
@@ -141,7 +141,7 @@ namespace ut_ea
         std::vector<int> vals { 12, 13, 14 };
 
         algo->reset_code(code); 
-        free_molecules->set_phenotypic_body(vals);
+        free_molecules->set_body(vals);
 
         //---------- UNIVERSE
 
@@ -193,15 +193,15 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first algo");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second algo");
+        sp_xasmalgo algo_0 = std::make_shared<XASMAlgo>("first algo");
+        sp_xasmalgo algo_1 = std::make_shared<XASMAlgo>("second algo");
 
-        std::vector<sp_x86algo> algos {
+        std::vector<sp_xasmalgo> algos {
             algo_0, algo_1
         };
 
         // init the algos
-        for(sp_x86algo algo : algos)
+        for(sp_xasmalgo algo : algos)
         {
             algo->init();
         }
@@ -266,8 +266,8 @@ namespace ut_ea
         sp_entity first_entity = places_after_exec[0]->get_entity();
         sp_entity second_entity = places_after_exec[1]->get_entity();
 
-        is_passed &= first_entity->is_type(X86_ALGO) 
-            && second_entity->is_type(X86_ALGO);
+        is_passed &= first_entity->is_type(XASM_ALGO) 
+            && second_entity->is_type(XASM_ALGO);
             
         if(is_passed)
         {
@@ -297,7 +297,7 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo = std::make_shared<X86Algo>("algo x86");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("algo x86");
         algo->init();
 
         //---------- CODE
@@ -336,7 +336,7 @@ namespace ut_ea
         //---------- EXPECTED OUTPUTS
 
         std::vector<int> expected_out { 1, 11, 12 };
-        std::vector<int> expected_phenotypic_body { 10, 11, 12 };
+        std::vector<int> expected_body { 10, 11, 12 };
         
         //---------- EXECUTE
 
@@ -347,13 +347,13 @@ namespace ut_ea
         sp_entity first_entity = places_after_exec[0]->get_entity();
         sp_entity second_entity = places_after_exec[1]->get_entity();
 
-        is_passed &= first_entity->is_type(X86_ALGO) && second_entity->is_type(FREEGENES);
+        is_passed &= first_entity->is_type(XASM_ALGO) && second_entity->is_type(FREEGENES);
             
         if(is_passed)
         {
             // if second place contains free molecules, we check that they are what we expect
             sp_free_molecules written_molecules = std::dynamic_pointer_cast<FreeMolecules>(second_entity);
-            is_passed &= x86_comp_output(written_molecules->get_phenotypic_body(), expected_phenotypic_body);
+            is_passed &= x86_comp_output(written_molecules->get_body(), expected_body);
 
             // also compare algo out
             auto res = algo->get_output();
@@ -385,16 +385,16 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first algo");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second algo");
-        sp_x86algo algo_2 = std::make_shared<X86Algo>("second algo");
+        sp_xasmalgo algo_0 = std::make_shared<XASMAlgo>("first algo");
+        sp_xasmalgo algo_1 = std::make_shared<XASMAlgo>("second algo");
+        sp_xasmalgo algo_2 = std::make_shared<XASMAlgo>("second algo");
 
-        std::vector<sp_x86algo> algos {
+        std::vector<sp_xasmalgo> algos {
             algo_0, algo_1, algo_2
         };
 
         // init the algos
-        for(sp_x86algo algo : algos)
+        for(sp_xasmalgo algo : algos)
         {
             algo->init();
         }
@@ -491,16 +491,16 @@ namespace ut_ea
         sp_entity third_entity = places_after_exec[2]->get_entity();
         sp_entity fourth_entity = places_after_exec[3]->get_entity();
 
-        is_passed &= first_entity->is_type(X86_ALGO) 
-            && second_entity->is_type(X86_ALGO)
-            && third_entity->is_type(X86_ALGO)
+        is_passed &= first_entity->is_type(XASM_ALGO) 
+            && second_entity->is_type(XASM_ALGO)
+            && third_entity->is_type(XASM_ALGO)
             && fourth_entity->is_type(FREEGENES);
             
         if(is_passed)
         {
             // we check value of free molecules at fourth place
             sp_free_molecules written_molecules = std::dynamic_pointer_cast<FreeMolecules>(fourth_entity);
-            is_passed &= x86_comp_output(written_molecules->get_phenotypic_body(), expected_free_molecules);
+            is_passed &= x86_comp_output(written_molecules->get_body(), expected_free_molecules);
 
             // compare algos out
             for(int i=0;i<algos.size();i++)

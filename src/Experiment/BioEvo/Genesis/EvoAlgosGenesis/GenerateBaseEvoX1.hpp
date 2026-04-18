@@ -5,7 +5,7 @@
 #include "../../../Experiment.hpp"
 
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 class GenerateBaseEvoX1 : public Experiment
 {
@@ -21,7 +21,7 @@ public:
 
     sp_evox get_base_evox();
 
-    std::map<std::string, std::vector<int>> get_phenotypic_body_parts();
+    std::map<std::string, std::vector<int>> get_body_parts();
     sp_univ_evo_algos get_evox_universe(sp_evox algo);
     void trigger_synthesis(sp_evox algo, sp_univ_evo_algos universe);
 };

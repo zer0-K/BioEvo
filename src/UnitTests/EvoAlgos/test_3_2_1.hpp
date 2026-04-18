@@ -45,7 +45,7 @@ namespace ut_ea
         //---------- PHENOTYPIC BODY
 
         // code template comes from FunctionExecutionEvoX
-        std::vector<int> phenotypic_body { 
+        std::vector<int> body { 
         //----- metadata
             // "-1" = not set
 
@@ -564,7 +564,7 @@ namespace ut_ea
             instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.328
         };
 
-        algo->set_phenotypic_body(phenotypic_body);
+        algo->set_body(body);
 
         return algo;
     }

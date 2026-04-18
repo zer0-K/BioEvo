@@ -2,7 +2,7 @@
 
 #include "../../../../Experiment.hpp"
 
-#include "../../../../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 class EvoXDriveTrait : public Experiment
 {

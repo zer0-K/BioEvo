@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../../Universe/Universe.hpp"
-#include "../X86Algo/X86Algo.hpp"
-#include "../X86Algo/EvoX.hpp"
+#include "../XASMAlgo/XASMAlgo.hpp"
+#include "../XASMAlgo/EvoX.hpp"
 
 class UniverseEvoAlgos : public Universe
 {
@@ -16,7 +16,7 @@ public:
     using Universe::Universe;
 
     /// @brief constructor
-    UniverseEvoAlgos(std::vector<sp_x86algo> algos, std::string name);
+    UniverseEvoAlgos(std::vector<sp_xasmalgo> algos, std::string name);
     /// @brief constructor
     UniverseEvoAlgos(std::vector<sp_evox> algos, std::string name);
 

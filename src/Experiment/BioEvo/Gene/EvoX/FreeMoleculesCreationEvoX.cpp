@@ -3,9 +3,9 @@
 #include <fstream>
 
 #include "../../../../Utils/Functions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 /*
 Teleonomical IDs of high orders:
@@ -40,7 +40,7 @@ order 2 generation:
 */
 
 FreeMoleculesCreationEvoX::FreeMoleculesCreationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_phenotypic_body_evox_fgc)
+    :Experiment::Experiment(name_exp_bioevo_body_evox_fgc)
 {
     init();
 }
@@ -92,8 +92,8 @@ sp_evox FreeMoleculesCreationEvoX::get_base_algo(std::string name)
     algo->init();
 
     // get phenotypic body from csv
-    std::vector<int> phenotypic_body = get_phenotypic_body_from_csv("phenotypic_body_base.csv");
-    algo->set_phenotypic_body(phenotypic_body);
+    std::vector<int> body = get_body_from_csv("body_base.csv");
+    algo->set_body(body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -524,7 +524,7 @@ void FreeMoleculesCreationEvoX::provide_experiment_functions(sp_univ_evo_algos u
         // create free_molecules with the generator's code
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules " + generator_name);
         free_molecules->init();
-        free_molecules->set_phenotypic_body(generator_code);
+        free_molecules->set_body(generator_code);
 
         universe->get_places()[2]->set_entity(free_molecules);
 
@@ -538,7 +538,7 @@ void FreeMoleculesCreationEvoX::provide_experiment_functions(sp_univ_evo_algos u
 
     universe->exec();
 
-    //write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "debug.csv");
+    //write_body_to_csv(algo->get_body(), "debug.csv");
 }
 
 void FreeMoleculesCreationEvoX::exec_order_0(sp_univ_evo_algos universe, sp_evox algo)

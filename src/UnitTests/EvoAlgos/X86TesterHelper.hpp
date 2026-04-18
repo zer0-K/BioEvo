@@ -3,12 +3,12 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/XASMAlgo.hpp"
 
 class X86TesterHelper
 {
 private:
-    sp_x86algo algo;
+    sp_xasmalgo algo;
 
     std::string unit_test_name;
 
@@ -19,7 +19,7 @@ private:
 
     X86TesterHelper(std::string unit_test_name)
     {
-        algo = std::make_shared<X86Algo>("algo");
+        algo = std::make_shared<XASMAlgo>("algo");
 
         test_names = std::vector<std::string>(0);
         test_codes = std::vector<std::vector<std::array<int,SIZE_INSTR>>>(0);

@@ -166,13 +166,13 @@ set(SOURCES_MODEL_CLASSICAL_ALGOS
 # ********************************* Evolutionary algorithms *********************************
 
 set(HEADERS_MODEL_EVO_ALGOS
-    src/Models/EvoAlgos/X86Algo/UtilityFunctions.hpp
+    src/Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp src/Models/EvoAlgos/Universe/UniverseEvoXCustomNeighborhood.hpp
     src/Models/EvoAlgos/Universe/CustomNeighborhoods.hpp
 # x86 evo algos
-    src/Models/EvoAlgos/X86Algo/InstructionMapping.hpp
-    src/Models/EvoAlgos/X86Algo/X86Algo.hpp src/Models/EvoAlgos/X86Algo/EvoX.hpp
-    src/Models/EvoAlgos/X86Algo/FreeMolecules.hpp
+    src/Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp
+    src/Models/EvoAlgos/XASMAlgo/XASMAlgo.hpp src/Models/EvoAlgos/XASMAlgo/EvoX.hpp
+    src/Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
@@ -185,9 +185,9 @@ set(HEADERS_MODEL_EVO_ALGOS
 set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp src/Models/EvoAlgos/Universe/UniverseEvoXCustomNeighborhood.cpp
 # x86 evo algos
-    src/Models/EvoAlgos/X86Algo/InstructionMapping.cpp
-    src/Models/EvoAlgos/X86Algo/X86Algo.cpp src/Models/EvoAlgos/X86Algo/EvoX.cpp
-    src/Models/EvoAlgos/X86Algo/FreeMolecules.cpp
+    src/Models/EvoAlgos/XASMAlgo/InstructionMapping.cpp
+    src/Models/EvoAlgos/XASMAlgo/XASMAlgo.cpp src/Models/EvoAlgos/XASMAlgo/EvoX.cpp
+    src/Models/EvoAlgos/XASMAlgo/FreeMolecules.cpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
@@ -473,7 +473,7 @@ target_link_libraries(unit_tests_bio_evo ${LIBS})
 
 set(HEADERS_UNIT_TESTS_CLASSICAL_ALGOS 
     src/UnitTests/ClassicalAlgos/test_1_empty.hpp
-    src/UnitTests/ClassicalAlgos/test_2_phenotypic_body.hpp
+    src/UnitTests/ClassicalAlgos/test_2_body.hpp
             src/UnitTests/ClassicalAlgos/test_2_1.hpp)
 
 add_executable(unit_tests_classical_algos src/UnitTests/ClassicalAlgos/main.cpp 

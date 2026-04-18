@@ -4,9 +4,9 @@
 
 #include "../../../../Utils/Functions.hpp"
 #include "../../../../Utils/Maths/RandomGen.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 
 
@@ -60,9 +60,9 @@ sp_evox GeneCreationEvoX::get_base_algo(int step)
     algo->set_max_nb_instr_exec(max_nb_instr_exec);
 
     // get phenotypic body from csv
-    std::string file_algo = "phenotypic_body_transcribed_iterated.csv";
-    std::vector<int> phenotypic_body = get_phenotypic_body_from_csv(file_algo);
-    algo->set_phenotypic_body(phenotypic_body);
+    std::string file_algo = "body_transcribed_iterated.csv";
+    std::vector<int> body = get_body_from_csv(file_algo);
+    algo->set_body(body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -77,7 +77,7 @@ void GeneCreationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({5, 0, 1001});
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "individual_new_gene_before.csv");
+    write_body_to_csv(algo->get_body(), "individual_new_gene_before.csv");
 
     for(int i=0;i<98;i++)
     {
@@ -93,8 +93,8 @@ void GeneCreationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
     if(transcribed_algo != nullptr)
     {
         std::cout << "Algo transcribed !" << std::endl;
-        std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
-        write_phenotypic_body_to_csv(phenotypic_body, "individual_new_gene_after.csv");
+        std::vector<int> body = transcribed_algo->get_body();
+        write_body_to_csv(body, "individual_new_gene_after.csv");
     }
     else
     {

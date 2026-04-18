@@ -101,7 +101,7 @@ namespace ut_ea
         //      - 300-399 : external utility funcs (pick free molecules, find empty place, write func as free molecules,...)
         //      - 400-499 : machine learning funcs (learning switcher, train, test, error correction,...)
         //      - 1000+ : evaluation functions and other
-        std::vector<int> phenotypic_body { 
+        std::vector<int> body { 
         //----- metadata
             // "-1" = not set
 
@@ -348,15 +348,15 @@ namespace ut_ea
             instruction::MARKER, -1, 0, 0, 0, 0, 0
         };
 
-        algo->set_phenotypic_body(phenotypic_body);
+        algo->set_body(body);
 
         return algo;
     }
 
-    std::map<std::string, std::vector<int>> get_phenotypic_body_parts()
+    std::map<std::string, std::vector<int>> get_body_parts()
     {
 
-        std::vector<int> phenotypic_body_core_switcher {
+        std::vector<int> body_core_switcher {
         //----- core switcher
             //instruction::MARKER, 0, 2, 0, 0, 0, 0,
             3, 2,
@@ -419,7 +419,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 2, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_ID_list {
+        std::vector<int> body_ID_list {
         //----- func ID list building
             // create the list of current teleonomical IDs
             //instruction::MARKER, 0, 4, 0, 0, 0, 0,
@@ -473,7 +473,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 4, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_quine_function {
+        std::vector<int> body_quine_function {
         //----- quine replication func : output = phenotypic body
             //instruction::MARKER, 0, 104, 0, 0, 0, 0,
             3, 104,
@@ -502,7 +502,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 104, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_mutate_before_replication {
+        std::vector<int> body_mutate_before_replication {
         //----- mutate before replicating func
             //instruction::MARKER, 0, 105, 0, 0, 0, 0,
             3, 105,
@@ -515,7 +515,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 105, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_func_pos {
+        std::vector<int> body_func_pos {
         //----- get function begining and end in phenotypic body
             // arg1 : func ID
             //instruction::MARKER, 0, 202, 0, 0, 0, 0,
@@ -557,7 +557,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 202, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_find_empty_place {
+        std::vector<int> body_find_empty_place {
         //----- find an empty place
             //instruction::MARKER, 0, 301, 0, 0, 0, 0,
             3, 301,
@@ -576,7 +576,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 301, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_export_func {
+        std::vector<int> body_export_func {
         //----- write function as free molecules
             //instruction::MARKER, 0, 302, 0, 0, 0, 0,
             3, 302,
@@ -632,7 +632,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 302, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_learning_switcher {
+        std::vector<int> body_learning_switcher {
         //----- learning switcher
             //instruction::MARKER, 0, 400, 0, 0, 0, 0,
             3, 400,
@@ -641,7 +641,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 400, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_train_phase {
+        std::vector<int> body_train_phase {
         //----- train phase evaluation func
             // exec func with given teleonomical ID
             //instruction::MARKER, 0, 401, 0, 0, 0, 0,
@@ -667,7 +667,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 401, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_test_phase {
+        std::vector<int> body_test_phase {
         //----- test phase evaluation func
             //instruction::MARKER, 0, 402, 0, 0, 0, 0,
             3, 402,
@@ -679,7 +679,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 402, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_evalution_function {
+        std::vector<int> body_evalution_function {
         //----- evaluation func
             //instruction::MARKER, 0, 403, 0, 0, 0, 0,
             3, 403,
@@ -693,7 +693,7 @@ namespace ut_ea
             //instruction::MARKER, 0, 403, 0, 0, 0, 0
         };
 
-        std::vector<int> phenotypic_body_update_on_error {
+        std::vector<int> body_update_on_error {
         //----- update after error func
             //instruction::MARKER, 0, 404, 0, 0, 0, 0,
             3, 404,
@@ -714,18 +714,18 @@ namespace ut_ea
         };
 
         std::map<std::string, std::vector<int>> all_parts {
-            { "core switcher", phenotypic_body_core_switcher },
-            //{ "teleonomical list", phenotypic_body_ID_list },
-            { "quine function", phenotypic_body_quine_function },
-            { "mutate before replication", phenotypic_body_mutate_before_replication },
-            { "function position", phenotypic_body_func_pos },
-            { "find empty place", phenotypic_body_find_empty_place },
-            { "export func", phenotypic_body_export_func },
-            { "learning switcher", phenotypic_body_learning_switcher },
-            { "train phase", phenotypic_body_train_phase },
-            { "test phase", phenotypic_body_test_phase },
-            { "evaluation", phenotypic_body_evalution_function },
-            { "update on error", phenotypic_body_update_on_error }
+            { "core switcher", body_core_switcher },
+            //{ "teleonomical list", body_ID_list },
+            { "quine function", body_quine_function },
+            { "mutate before replication", body_mutate_before_replication },
+            { "function position", body_func_pos },
+            { "find empty place", body_find_empty_place },
+            { "export func", body_export_func },
+            { "learning switcher", body_learning_switcher },
+            { "train phase", body_train_phase },
+            { "test phase", body_test_phase },
+            { "evaluation", body_evalution_function },
+            { "update on error", body_update_on_error }
         };
 
         return all_parts;
@@ -760,10 +760,10 @@ namespace ut_ea
 
     void trigger_evox_autopoiesis_evolution_preliminaries_autopoiesis(sp_evox algo, sp_univ_evo_algos universe)
     {
-        std::map<std::string, std::vector<int>> get_phenotypic_body_parts(void);
+        std::map<std::string, std::vector<int>> get_body_parts(void);
 
         // get functions for autopoiesis
-        auto phenotypic_body_parts = get_phenotypic_body_parts();
+        auto body_parts = get_body_parts();
 
         //----- trigger autopoiesis
 
@@ -784,11 +784,11 @@ namespace ut_ea
         for(int i=0;i<iteration_order.size();i++)
         {
             std::string step_name = iteration_order[i];
-            std::vector<int> phenotypic_body_part = phenotypic_body_parts[step_name];
+            std::vector<int> body_part = body_parts[step_name];
 
             sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
             free_molecules->init();
-            free_molecules->set_phenotypic_body(phenotypic_body_part);
+            free_molecules->set_body(body_part);
 
             universe->get_places()[2]->set_entity(free_molecules);
     

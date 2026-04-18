@@ -2,10 +2,10 @@
 
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../Utils/Functions.hpp"
-//#include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
+//#include "../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
 
-#include "../../../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 FunctionExecutionEvoX::FunctionExecutionEvoX()
     :Experiment::Experiment(name_exp_classical_info_func_exec_evox)
@@ -44,7 +44,7 @@ void FunctionExecutionEvoX::launch()
      *  5 - push the return addr to the data stack
      *  6 - reset the prog ptr to last one in prog ptr stack
      */
-    std::vector<int> phenotypic_body_simple {
+    std::vector<int> body_simple {
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -109,7 +109,7 @@ void FunctionExecutionEvoX::launch()
     /**
      * multi-level exec : function call inside function call
      */
-    std::vector<int> phenotypic_body_multilevel {
+    std::vector<int> body_multilevel {
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -229,7 +229,7 @@ void FunctionExecutionEvoX::launch()
     /**
      * memory exec : uses the memory across different executions
      */
-    std::vector<int> phenotypic_body_memory {
+    std::vector<int> body_memory {
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -360,7 +360,7 @@ void FunctionExecutionEvoX::launch()
     /**
      * Multi level short call function : uses the 'CALL' instruction
      */
-    std::vector<int> phenotypic_body_multilevel_call {
+    std::vector<int> body_multilevel_call {
         instruction::XXX, 3, 0, 0, 0, 0, 0,
         instruction::JMP, 0, 0, 0, 26, 0, 0,    // skip meta-exec func
 
@@ -459,8 +459,8 @@ void FunctionExecutionEvoX::launch()
     };
 
 
-    std::vector<std::vector<int>> phenotypic_bodys {
-        phenotypic_body_simple, phenotypic_body_multilevel, phenotypic_body_memory, phenotypic_body_multilevel_call
+    std::vector<std::vector<int>> bodys {
+        body_simple, body_multilevel, body_memory, body_multilevel_call
     };
 
 
@@ -497,11 +497,11 @@ void FunctionExecutionEvoX::launch()
        
     //---------- EXECUTE
 
-    for(int i=0;i<phenotypic_bodys.size();i++)
+    for(int i=0;i<bodys.size();i++)
     {
         // set phenotypic body and execute
         algo->set_output_size(1);
-        algo->set_phenotypic_body(phenotypic_bodys[i]);
+        algo->set_body(bodys[i]);
         algo->reset_data();
 
         for(int j=0;j<inputs[i].size();j++)
@@ -512,7 +512,7 @@ void FunctionExecutionEvoX::launch()
             // get result
             auto out_res = algo->get_output();
 
-            std::cout << "Output of function execution (phenotypic_body " 
+            std::cout << "Output of function execution (body " 
                 << i << ", input : " << to_str(inputs[i][j]) << ") : " 
                 << std::endl
                 << to_str(out_res) << std::endl;

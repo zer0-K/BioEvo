@@ -8,11 +8,11 @@
 #include "../../../Entities/Entity.hpp"
 
 /**
- * @brief x86-like base algorithm
- * 
- * Small computer close to x86 architecture
+ * @brief XASM virtual machine — base individual
+ *
+ * Integer-addressed memory, custom assembly language (XASM), program counter loop.
 */
-class X86Algo : public Entity
+class XASMAlgo : public Entity
 {
 protected:
     /**
@@ -93,6 +93,7 @@ protected:
 
 public:
     bool debug;
+    bool debug_ribosome;
     int data_debug_window;
 
     using Entity::Entity;
@@ -111,40 +112,40 @@ public:
      * @brief Execute an assembly instruction
      * 
      * @param[in] instr instruction to execute
-     * @param[in] addr1_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
-     * @param[in] addr2_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
-     * @param[in] addr3_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] arg1_depth 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] arg2_depth 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] arg3_depth 0 if absolute arg, 1 if arg is value at addr given in arg,...
      * @param[in] arg1 value/address of the first argument of the instruction
      * @param[in] arg2 value/address of the second argument of the instruction
      * @param[in] arg3 value/address of the third argument of the instruction
     */
-    void exec_instruction(int instr, int addr1_order, int addr2_order, int addr3_order, 
+    void exec_instruction(int instr, int arg1_depth, int arg2_depth, int arg3_depth, 
         int arg1, int arg2, int arg3);
 
     /// @brief Basic instructions @see exec_instruction
-    void exec_instruction_basic(int instr, int addr1_order, int addr2_order, int addr3_order, 
+    void exec_instruction_basic(int instr, int arg1_depth, int arg2_depth, int arg3_depth, 
         int arg1, int arg2, int arg3);
 
     /// @brief Genetic instructions @see exec_instruction
-    virtual void exec_instruction_molecule(int instr, int addr1_order, int addr2_order, int addr3_order, 
+    virtual void exec_instruction_molecule(int instr, int arg1_depth, int arg2_depth, int arg3_depth, 
         int arg1, int arg2, int arg3) {};
 
     /**
      * @brief Get the addresses at given args
      * 
-     * For example, if addr1_order is 0, arg1 will refer to its own value, 
-     * if addr1_order is 1, arg1 will refer to data at arg1, if addr1_order is
+     * For example, if arg1_depth is 0, arg1 will refer to its own value, 
+     * if arg1_depth is 1, arg1 will refer to data at arg1, if arg1_depth is
      * 2, arg1 will refer to data at data at arg1,...
      * 
      * @param[out] is_valid true if the given address are valid
-     * @param[in] addr1_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
-     * @param[in] addr2_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
-     * @param[in] addr3_order 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] arg1_depth 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] arg2_depth 0 if absolute arg, 1 if arg is value at addr given in arg,...
+     * @param[in] arg3_depth 0 if absolute arg, 1 if arg is value at addr given in arg,...
      * @param[in] arg1 value/address of the first argument of the instruction
      * @param[in] arg2 value/address of the second argument of the instruction
      * @param[in] arg3 value/address of the third argument of the instruction
     */
-    std::array<int,SIZE_INSTR> get_addrs(bool &is_valid, int addr1_order, int addr2_order, int addr3_order, 
+    std::array<int,SIZE_INSTR> get_addrs(bool &is_valid, int arg1_depth, int arg2_depth, int arg3_depth, 
         int arg1, int arg2, int arg3);
 
     // setters
@@ -174,4 +175,4 @@ public:
     void print_data_debug();
 };
 
-typedef std::shared_ptr<X86Algo> sp_x86algo;
+typedef std::shared_ptr<XASMAlgo> sp_xasmalgo;

@@ -2,8 +2,8 @@
 
 #include "../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../Utils/Functions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
 
 EvoXTeleonomicalDesign::EvoXTeleonomicalDesign()
     :Experiment::Experiment(name_exp_bioevo_teleonomy_design_evox)
@@ -31,7 +31,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
     // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
     //----- metadata
         // "-1" = not set
 
@@ -540,7 +540,7 @@ sp_evox EvoXTeleonomicalDesign::get_algo(std::string name)
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- l.340 
     };
 
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     return algo;
 }
@@ -562,21 +562,21 @@ void EvoXTeleonomicalDesign::test_setup()
 
     for(int i=0;i<inputs.size();i++)
     {
-        std::vector<int>::const_iterator beg = algo->get_phenotypic_body().end()-30;
-        std::vector<int>::const_iterator end = algo->get_phenotypic_body().end()-1;
+        std::vector<int>::const_iterator beg = algo->get_body().end()-30;
+        std::vector<int>::const_iterator end = algo->get_body().end()-1;
 
-        std::vector<int> phenotypic_body(beg, end);
+        std::vector<int> body(beg, end);
 
-        std::cout << "Old phenotypic body : " << to_str(phenotypic_body) << std::endl;
+        std::cout << "Old phenotypic body : " << to_str(body) << std::endl;
         algo->set_input(inputs[i]);
         algo->exec(std::vector<sp_entity>(0));
 
-        beg = algo->get_phenotypic_body().end()-30;
-        end = algo->get_phenotypic_body().end()-1;
+        beg = algo->get_body().end()-30;
+        end = algo->get_body().end()-1;
 
-        std::vector<int> new_phenotypic_body(beg, end);
+        std::vector<int> new_body(beg, end);
 
-        std::cout << "New phenotypic body : " << to_str(new_phenotypic_body) << std::endl; 
+        std::cout << "New phenotypic body : " << to_str(new_body) << std::endl; 
     }
 
 }

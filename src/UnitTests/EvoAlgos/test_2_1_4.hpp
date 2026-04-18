@@ -6,9 +6,9 @@
 #include <memory>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
 
-#include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/XASMAlgo.hpp"
 
 namespace ut_ea
 {
@@ -42,7 +42,7 @@ namespace ut_ea
     {
         bool is_passed = true;
 
-        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("x86 algo");
         algo->init();
 
 
@@ -129,7 +129,7 @@ namespace ut_ea
     {
         bool is_passed = true;
 
-        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("x86 algo");
         algo->init();
 
 
@@ -214,7 +214,7 @@ namespace ut_ea
     {
         bool is_passed = true;
 
-        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("x86 algo");
         algo->init();
 
 
@@ -303,7 +303,7 @@ namespace ut_ea
     {
         bool is_passed = true;
 
-        sp_x86algo algo = std::make_shared<X86Algo>("x86 algo");
+        sp_xasmalgo algo = std::make_shared<XASMAlgo>("x86 algo");
         algo->init();
 
 

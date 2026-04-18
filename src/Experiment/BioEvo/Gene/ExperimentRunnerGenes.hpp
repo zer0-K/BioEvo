@@ -17,7 +17,7 @@ public:
 };
 
 ExperimentRunnerGenes::ExperimentRunnerGenes()
-    : ExperimentRunner(name_exp_bioevo_phenotypic_body)
+    : ExperimentRunner(name_exp_bioevo_body)
 {}
 
 void ExperimentRunnerGenes::init()
@@ -34,4 +34,4 @@ void ExperimentRunnerGenes::init()
     }
 }
 
-typedef std::shared_ptr<ExperimentRunnerGenes> sp_experiment_runner_phenotypic_body;
+typedef std::shared_ptr<ExperimentRunnerGenes> sp_experiment_runner_body;

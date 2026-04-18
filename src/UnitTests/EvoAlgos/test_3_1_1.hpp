@@ -5,29 +5,29 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_phenotypic_body_basic()
+    bool launch_tests_evo_algos_evox_body_basic()
     {
-        bool test_evox_phenotypic_body_basic_empty(void);
-        bool test_evox_phenotypic_body_basic_incomplete(void);
-        bool test_evox_phenotypic_body_basic_simple(void);
-        bool test_evox_phenotypic_body_basic_read(void);
+        bool test_evox_body_basic_empty(void);
+        bool test_evox_body_basic_incomplete(void);
+        bool test_evox_body_basic_simple(void);
+        bool test_evox_body_basic_read(void);
 
         bool is_passed = true;
 
         std::cout << "Evo algos - evox - phenotypic body - basic :" << std::endl;
 
-        is_passed &= test_evox_phenotypic_body_basic_empty();
-        is_passed &= test_evox_phenotypic_body_basic_incomplete();
-        is_passed &= test_evox_phenotypic_body_basic_simple();
-        is_passed &= test_evox_phenotypic_body_basic_read();
+        is_passed &= test_evox_body_basic_empty();
+        is_passed &= test_evox_body_basic_incomplete();
+        is_passed &= test_evox_body_basic_simple();
+        is_passed &= test_evox_body_basic_read();
 
         std::cout << "Evo algos - evox - phenotypic body - basic : ";
         passed_print(is_passed);
@@ -38,7 +38,7 @@ namespace ut_ea
     /**
      * Test phenotypic bodys with empty instructions
     */
-    bool test_evox_phenotypic_body_basic_empty()
+    bool test_evox_body_basic_empty()
     {
         bool is_passed = true;
 
@@ -48,29 +48,29 @@ namespace ut_ea
         //---------- PHENOTYPIC BODYS
 
         // several phenotypic bodies coding empty programs
-        std::vector<int> phenotypic_body_1 {};
-        std::vector<int> phenotypic_body_2 { 
+        std::vector<int> body_1 {};
+        std::vector<int> body_2 { 
             instruction::XXX, 0, 0, 0, 1, 0, 0
         };
-        std::vector<int> phenotypic_body_3 {
+        std::vector<int> body_3 {
             instruction::HALT, 0, 0, 0, 2, 0, 0
         };
-        std::vector<int> phenotypic_body_4 {
+        std::vector<int> body_4 {
             instruction::BEG, 0, 0, 0, 2, 0, 0
         };
-        std::vector<int> phenotypic_body_5 {
+        std::vector<int> body_5 {
             instruction::BEG, 0, 0, 0, 2, 0, 0,
             instruction::HALT, 0, 0, 0, 2, 0, 0,
         };
-        std::vector<int> phenotypic_body_6 {
+        std::vector<int> body_6 {
             instruction::XXX, 0, 0, 0, 3, 0, 0,
             instruction::XXX, 0, 0, 0, 4, 0, 0,
             instruction::HALT, 0, 0, 0, 5, 0, 0
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2, phenotypic_body_3, phenotypic_body_4, phenotypic_body_5, 
-            phenotypic_body_6
+            body_1, body_2, body_3, body_4, body_5, 
+            body_6
         };
 
         //---------- EXPECTED CODES
@@ -120,7 +120,7 @@ namespace ut_ea
         for(int i=0; i<expected_codes.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->exec(std::vector<sp_entity>(0));
 
             // check result
@@ -147,7 +147,7 @@ namespace ut_ea
     /**
      * Test phenotypic bodys encoding incomplete instructions (at the end)
     */
-    bool test_evox_phenotypic_body_basic_incomplete()
+    bool test_evox_body_basic_incomplete()
     {
         bool is_passed = true;
 
@@ -157,24 +157,24 @@ namespace ut_ea
         //---------- PHENOTYPIC BODYS
 
         // several phenotypic bodies coding incomplete instructions
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::XXX, 0, 0, 0, 1, 0
         };
-        std::vector<int> phenotypic_body_2 {
+        std::vector<int> body_2 {
             9999
         };
-        std::vector<int> phenotypic_body_3 {
+        std::vector<int> body_3 {
             instruction::XXX, 0, 0, 0, 2, 0, 0,
             instruction::XXX, 0, 0, 0, 3, 0, 0
         };
-        std::vector<int> phenotypic_body_4 {
+        std::vector<int> body_4 {
             instruction::XXX, 0, 0, 0, 2, 0, 0,
             instruction::XXX, 0, 0, 0, 3, 0, 0,
             999
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2, phenotypic_body_3, phenotypic_body_4
+            body_1, body_2, body_3, body_4
         };
 
         //---------- EXPECTED CODES
@@ -217,7 +217,7 @@ namespace ut_ea
         for(int i=0; i<expected_codes.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->exec(std::vector<sp_entity>(0));
 
             // check result
@@ -244,7 +244,7 @@ namespace ut_ea
     /**
      * Simple genetic program
     */
-    bool test_evox_phenotypic_body_basic_simple()
+    bool test_evox_body_basic_simple()
     {
         bool is_passed = true;
 
@@ -255,7 +255,7 @@ namespace ut_ea
 
         // phenotypic bodys coding simple programs
         // 
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::BEG, 0, 0, 0, 0, 0, 0,     // 0
             instruction::CPYIN, 1, 1, 0, 0, 0, 0,   // 1
             instruction::INC, 1, 0, 0, 1, 0, 0,     // 2
@@ -271,7 +271,7 @@ namespace ut_ea
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1
+            body_1
         };
 
         //---------- EXPECTED OUTPUT
@@ -303,7 +303,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->exec(std::vector<sp_entity>(0));
 
             // check result
@@ -330,7 +330,7 @@ namespace ut_ea
     /**
      * Read phenotypic body
     */
-    bool test_evox_phenotypic_body_basic_read()
+    bool test_evox_body_basic_read()
     {
         bool is_passed = true;
 
@@ -341,7 +341,7 @@ namespace ut_ea
 
         // phenotypic bodys coding simple programs
         // 
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::BEG, 0, 0, 0, 0, 0, 0,     // 0
             instruction::GR, 1, 1, 0, 1, 21, 0,     // 1
             instruction::CPYOUT, 1, 1, 0, 0, 1, 0,  // 2
@@ -349,7 +349,7 @@ namespace ut_ea
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1
+            body_1
         };
 
         //---------- EXPECTED OUTPUT
@@ -381,7 +381,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->exec(std::vector<sp_entity>(0));
 
             // check result

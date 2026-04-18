@@ -8,14 +8,14 @@ using std::placeholders::_2;
 
 #include "../../../Utils/Constants.hpp"
 
-#include "../X86Algo/FreeMolecules.hpp"
+#include "../XASMAlgo/FreeMolecules.hpp"
 
 UniverseEvoAlgos::UniverseEvoAlgos(int size, std::string name)
     :Universe::Universe(size, name)
 {
 }
 
-UniverseEvoAlgos::UniverseEvoAlgos(std::vector<sp_x86algo> algos, std::string name)
+UniverseEvoAlgos::UniverseEvoAlgos(std::vector<sp_xasmalgo> algos, std::string name)
     :Universe::Universe(algos.size(), name)
 {
     for(int i=0;i<algos.size();i++)
@@ -65,7 +65,7 @@ std::vector<int> UniverseEvoAlgos::get_free_molecules_at(int pos)
             entity_void->init();
             places[pos]->set_entity(entity_void);
 
-            return free_molecules->get_phenotypic_body();
+            return free_molecules->get_body();
         }
     }
 
@@ -84,9 +84,9 @@ bool UniverseEvoAlgos::write_free_molecules_at(int pos, std::vector<int> vals)
             sp_evox algo = std::make_shared<EvoX>("transcribed evox algo");
             algo->init();
 
-            std::vector<int> phenotypic_body(vals.begin()+1, vals.end()-1);
+            std::vector<int> body(vals.begin()+1, vals.end()-1);
 
-            algo->set_phenotypic_body(phenotypic_body);
+            algo->set_body(body);
 
             // set data stack at 150
             algo->set_data_at(99, 150);
@@ -98,7 +98,7 @@ bool UniverseEvoAlgos::write_free_molecules_at(int pos, std::vector<int> vals)
             sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
             free_molecules->init();
 
-            free_molecules->set_phenotypic_body(vals);
+            free_molecules->set_body(vals);
             new_entity = free_molecules;
         }
 
@@ -117,7 +117,7 @@ void UniverseEvoAlgos::link_universe_functions_to_individuals()
     {
         sp_entity entity = places[i]->get_entity();
 
-        if(entity->is_type(X86_ALGO))
+        if(entity->is_type(XASM_ALGO))
         {
             // universe size
             std::function<int()> f1 = std::bind(&Universe::get_universe_size, this);
@@ -131,7 +131,7 @@ void UniverseEvoAlgos::link_universe_functions_to_individuals()
             // write at place
             std::function<bool(int, std::vector<int>)> f4 = std::bind(&UniverseEvoAlgos::write_free_molecules_at, this, _1, _2);
 
-            sp_x86algo x86algo = std::dynamic_pointer_cast<X86Algo>(entity);
+            sp_xasmalgo x86algo = std::dynamic_pointer_cast<XASMAlgo>(entity);
             x86algo->init_external_functions(f1, f2, f3, f4);
         }
     }

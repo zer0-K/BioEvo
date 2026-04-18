@@ -9,12 +9,12 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
 #include "../../Entities/EntityVoid.hpp"
-#include "../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 #include "../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 
 namespace ut_ea

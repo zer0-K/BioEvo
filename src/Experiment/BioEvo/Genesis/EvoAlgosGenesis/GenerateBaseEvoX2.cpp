@@ -3,9 +3,9 @@
 #include <fstream>
 
 #include "../../../../Utils/Functions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 
 GenerateBaseEvoX2::GenerateBaseEvoX2()
@@ -22,7 +22,7 @@ void GenerateBaseEvoX2::init()
 void GenerateBaseEvoX2::launch()
 {
     sp_evox algo = this->get_base_evox();
-    auto phenotypic_body_parts = this->get_phenotypic_body_parts();
+    auto body_parts = this->get_body_parts();
     auto universe = this->get_evox_universe(algo);
 
     trigger_synthesis(algo, universe);
@@ -35,8 +35,8 @@ sp_evox GenerateBaseEvoX2::get_base_evox()
     algo->init();
 
     // get phenotypic body from csv
-    std::vector<int> phenotypic_body = get_phenotypic_body_from_csv("phenotypic_body_base_algo_1.csv");
-    algo->set_phenotypic_body(phenotypic_body);
+    std::vector<int> body = get_body_from_csv("body_base_algo_1.csv");
+    algo->set_body(body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -425,7 +425,7 @@ std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_generators_order_
     return all_parts;
 }
 
-std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_phenotypic_body_parts()
+std::map<std::string, std::vector<int>> GenerateBaseEvoX2::get_body_parts()
 {
     std::vector<std::map<std::string, std::vector<int>>> generators {
         get_utility_generators(),
@@ -477,14 +477,14 @@ sp_univ_evo_algos GenerateBaseEvoX2::get_evox_universe(sp_evox algo)
 void GenerateBaseEvoX2::trigger_synthesis(sp_evox algo, sp_univ_evo_algos universe)
 {
     // get functions for autopoiesis
-    auto phenotypic_body_parts = this->get_phenotypic_body_parts();
+    auto body_parts = this->get_body_parts();
 
-    for(auto const& [generator_name, generator_code] : phenotypic_body_parts)
+    for(auto const& [generator_name, generator_code] : body_parts)
     {
         // create free molecules with the generator's code
         sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules " + generator_name);
         free_molecules->init();
-        free_molecules->set_phenotypic_body(generator_code);
+        free_molecules->set_body(generator_code);
 
         universe->get_places()[2]->set_entity(free_molecules);
 
@@ -498,6 +498,6 @@ void GenerateBaseEvoX2::trigger_synthesis(sp_evox algo, sp_univ_evo_algos univer
 
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_base_algo_2.csv");
+    write_body_to_csv(algo->get_body(), "body_base_algo_2.csv");
 }
 

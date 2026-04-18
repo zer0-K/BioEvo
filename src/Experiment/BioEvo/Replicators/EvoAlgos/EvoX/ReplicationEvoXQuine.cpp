@@ -2,9 +2,9 @@
 
 #include "../../../../../Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../../../Utils/Functions.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 #include "../../../../../Entities/EntityVoid.hpp"
 #include "../../../../../Entities/EntityInt.hpp"
@@ -38,7 +38,7 @@ void ReplicationEvoXQuine::simple_quine(sp_evox algo)
 
     // phenotypic body for a simple quine
     // 
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
         instruction::SUB, 1, 1, 0, 10, 10, 7,
         instruction::ADD, 1, 1, 0, 10, 10, 7,
         instruction::GR, 1, 2, 0, 0, 10, 0,
@@ -67,7 +67,7 @@ void ReplicationEvoXQuine::simple_quine(sp_evox algo)
     algo->reset_data();
 
     // set phenotypic body and execute
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     algo->set_input(input);
     algo->exec(std::vector<sp_entity>(0));
@@ -80,7 +80,7 @@ void ReplicationEvoXQuine::simple_quine(sp_evox algo)
         std::cout << out_res[i] << " ";
     std::cout << std::endl;
 
-    std::cout << std::endl << "Output == phenotypic body : " << x86_comp_output(out_res, phenotypic_body)
+    std::cout << std::endl << "Output == phenotypic body : " << x86_comp_output(out_res, body)
         << std::endl
         << "Simple quine experiment done" 
         << std::endl << std::endl;
@@ -96,7 +96,7 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
 
     // phenotypic body for a simple quine
     // 
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -230,7 +230,7 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
     algo->reset_data();
 
     // set phenotypic body and execute
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     for(int i=0; i<inputs.size();i++)
     {
@@ -244,7 +244,7 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
         bool is_replication_phase = inputs[i][0] == 2 && inputs[i].size()>1;
         if(is_replication_phase)
         {
-            is_valid =x86_comp_output(out_res, phenotypic_body); 
+            is_valid =x86_comp_output(out_res, body); 
             std::cout << "Replication phase, output is ";
         }
         else
@@ -263,17 +263,17 @@ void ReplicationEvoXQuine::quine_function_trigger(sp_evox algo)
 
             if(is_replication_phase)
             {
-                int diff_index = first_diff_index(phenotypic_body, out_res);
+                int diff_index = first_diff_index(body, out_res);
 
                 if(diff_index == -1)
                 {
                     std::cout << "\tOutput size = " << out_res.size()
-                        << " (expected : " << phenotypic_body.size() << ")" << std::endl;
+                        << " (expected : " << body.size() << ")" << std::endl;
                 }
                 else
                 {
                     std::cout << "\tFirst diff is at " << diff_index
-                        << "(phenotypic_body = " << phenotypic_body[i] << ", out = " << out_res[i]
+                        << "(body = " << body[i] << ", out = " << out_res[i]
                         << ")" << std::endl;
                 }
             }
@@ -295,7 +295,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     // phenotypic body for an ranom gene mutation
     // 
     // code template comes from FunctionExecutionEvoX
-    std::vector<int> phenotypic_body { 
+    std::vector<int> body { 
         instruction::JMP, 0, 0, 0, 25, 0, 0,    // skip meta-exec func
 
     //----- exec fct with given id
@@ -549,7 +549,7 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
         instruction::MARKER, -1, 0, 0, 0, 0, 0          //----- 169
     };
 
-    algo->set_phenotypic_body(phenotypic_body);
+    algo->set_body(body);
 
     sp_entity_void entity_void = std::make_shared<EntityVoid>("entity void");
     entity_void->init();
@@ -602,21 +602,21 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
                 << ", in=(0,1," << error << ")"
                 << std::endl;
             
-            std::vector<int>::const_iterator beg = algo->get_phenotypic_body().begin()+129*7;
-            std::vector<int>::const_iterator end = algo->get_phenotypic_body().begin()+130*7;
+            std::vector<int>::const_iterator beg = algo->get_body().begin()+129*7;
+            std::vector<int>::const_iterator end = algo->get_body().begin()+130*7;
 
-            std::vector<int> phenotypic_body(beg, end);
+            std::vector<int> body(beg, end);
 
-            std::cout << "Old phenotypic body : " << to_str(phenotypic_body) << std::endl;
+            std::cout << "Old phenotypic body : " << to_str(body) << std::endl;
             algo->set_input({0,1,error});
             algo->exec(std::vector<sp_entity>(0));
 
-            beg = algo->get_phenotypic_body().begin()+136*7;
-            end = algo->get_phenotypic_body().begin()+137*7;
+            beg = algo->get_body().begin()+136*7;
+            end = algo->get_body().begin()+137*7;
 
-            std::vector<int> new_phenotypic_body(beg, end);
+            std::vector<int> new_body(beg, end);
 
-            std::cout << "New phenotypic body : " << to_str(new_phenotypic_body) << std::endl; 
+            std::cout << "New phenotypic body : " << to_str(new_body) << std::endl; 
         }
     }
 
@@ -629,17 +629,17 @@ void ReplicationEvoXQuine::finding_empty_place(sp_evox algo)
     sp_entity entity2 = places[1]->get_entity();
     sp_entity entity3 = places[2]->get_entity();
 
-    if( !( entity1->is_type(TYPE_INT) && entity2->is_type(X86_ALGO) && entity3->is_type(FREEGENES) ))
+    if( !( entity1->is_type(TYPE_INT) && entity2->is_type(XASM_ALGO) && entity3->is_type(FREEGENES) ))
     {
         std::cout << "Wrong entity types : entity 1 should be int (" 
             << entity1->is_type(TYPE_INT) << "), entity 2 should be x86 algo ("
-            << entity2->is_type(X86_ALGO) << "), entity 3 should be free molecules ("
+            << entity2->is_type(XASM_ALGO) << "), entity 3 should be free molecules ("
             << entity3->is_type(FREEGENES) << ")." << std::endl;
     }
     else
     {
         std::cout << "Genes copied";
-        if(!x86_comp_output(std::dynamic_pointer_cast<FreeMolecules>(entity3)->get_phenotypic_body(),algo->get_phenotypic_body()))
+        if(!x86_comp_output(std::dynamic_pointer_cast<FreeMolecules>(entity3)->get_body(),algo->get_body()))
         {
             std::cout << " not";
         }

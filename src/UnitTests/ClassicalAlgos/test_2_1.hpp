@@ -14,15 +14,15 @@ namespace ut_ca
     /**
      * @brief test all kinds of phenotypic body
     */
-    bool launch_tests_classical_algos_phenotypic_body_single()
+    bool launch_tests_classical_algos_body_single()
     {
-        bool launch_tests_classical_algos_phenotypic_body_single_gaussian(void);
+        bool launch_tests_classical_algos_body_single_gaussian(void);
 
         bool is_passed = true;
 
         std::cout << "Classical algos - phenotypic body - single : " << std::endl;
 
-        is_passed &= launch_tests_classical_algos_phenotypic_body_single_gaussian();
+        is_passed &= launch_tests_classical_algos_body_single_gaussian();
 
         std::cout << "Classical algos - phenotypic body - single : ";
         passed_print(is_passed);
@@ -30,7 +30,7 @@ namespace ut_ca
         return is_passed;
     }
 
-    bool launch_tests_classical_algos_phenotypic_body_single_gaussian()
+    bool launch_tests_classical_algos_body_single_gaussian()
     {
 
         bool is_passed = true;

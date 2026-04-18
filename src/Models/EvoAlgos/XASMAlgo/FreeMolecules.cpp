@@ -12,12 +12,12 @@ std::vector<sp_entity> FreeMolecules::exec(std::vector<sp_entity> entries)
     return std::vector<sp_entity>(0);
 }
 
-std::vector<int> FreeMolecules::get_phenotypic_body()
+std::vector<int> FreeMolecules::get_body()
 {
-    return phenotypic_body;
+    return body;
 }
 
-void FreeMolecules::set_phenotypic_body(std::vector<int> phenotypic_body)
+void FreeMolecules::set_body(std::vector<int> body)
 {
-    this->phenotypic_body = phenotypic_body;
+    this->body = body;
 }

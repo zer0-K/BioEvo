@@ -5,29 +5,29 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_phenotypic_body_mutations()
+    bool launch_tests_evo_algos_evox_body_mutations()
     {
-        bool test_evo_algos_evox_phenotypic_body_mutations_insertion(void);
-        bool test_evo_algos_evox_phenotypic_body_mutations_deletion(void);
-        bool test_evo_algos_evox_phenotypic_body_mutations_substitution(void);
-        bool test_evo_algos_evox_phenotypic_body_mutations_gcpy(void);
+        bool test_evo_algos_evox_body_mutations_insertion(void);
+        bool test_evo_algos_evox_body_mutations_deletion(void);
+        bool test_evo_algos_evox_body_mutations_substitution(void);
+        bool test_evo_algos_evox_body_mutations_gcpy(void);
 
         bool is_passed = true;
 
         std::cout << "Evo algos - evox - phenotypic body - mutations :" << std::endl;
  
-        is_passed &= test_evo_algos_evox_phenotypic_body_mutations_insertion();
-        is_passed &= test_evo_algos_evox_phenotypic_body_mutations_deletion();
-        is_passed &= test_evo_algos_evox_phenotypic_body_mutations_substitution();
-        is_passed &= test_evo_algos_evox_phenotypic_body_mutations_gcpy();
+        is_passed &= test_evo_algos_evox_body_mutations_insertion();
+        is_passed &= test_evo_algos_evox_body_mutations_deletion();
+        is_passed &= test_evo_algos_evox_body_mutations_substitution();
+        is_passed &= test_evo_algos_evox_body_mutations_gcpy();
 
         std::cout << "Evo algos - evox - phenotypic body - mutations : ";
         passed_print(is_passed);
@@ -38,7 +38,7 @@ namespace ut_ea
     /**
      * @brief gene insertion
     */
-    bool test_evo_algos_evox_phenotypic_body_mutations_insertion()
+    bool test_evo_algos_evox_body_mutations_insertion()
     {
         bool is_passed = true;
 
@@ -50,7 +50,7 @@ namespace ut_ea
         // phenotypic bodys coding simple programs
         // 
         // insert args as phenotypic body
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::CPYIN, 1, 1, 0, 0, 0, 0,   // 0
             instruction::CPYIN, 1, 1, 0, 1, 1, 0,   // 1
             instruction::CPYIN, 1, 1, 0, 2, 2, 0,   // 2
@@ -69,7 +69,7 @@ namespace ut_ea
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1
+            body_1
         };
 
         //---------- INPUTS
@@ -113,7 +113,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -157,7 +157,7 @@ namespace ut_ea
     /**
      * @brief gene deletion
     */
-    bool test_evo_algos_evox_phenotypic_body_mutations_deletion()
+    bool test_evo_algos_evox_body_mutations_deletion()
     {     bool is_passed = true;
 
         sp_evox algo = std::make_shared<EvoX>("evox algo");
@@ -168,7 +168,7 @@ namespace ut_ea
         // phenotypic bodys coding simple programs
         // 
         // insert args as phenotypic body
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 0
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 1
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 2
@@ -184,7 +184,7 @@ namespace ut_ea
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 12
             instruction::CPYOUT, 1, 1, 0, 0, 0, 0   // 13 copy val at 0
         };
-        std::vector<int> phenotypic_body_2 { 
+        std::vector<int> body_2 { 
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 0
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 1
             instruction::INC, 1, 0, 0, 0, 0, 0,     // 2
@@ -196,7 +196,7 @@ namespace ut_ea
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2
+            body_1, body_2
         };
 
         //---------- INPUTS
@@ -266,7 +266,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -313,7 +313,7 @@ namespace ut_ea
     /**
      * @brief gene substitution
     */
-    bool test_evo_algos_evox_phenotypic_body_mutations_substitution()
+    bool test_evo_algos_evox_body_mutations_substitution()
     {
         bool is_passed = true;
 
@@ -325,7 +325,7 @@ namespace ut_ea
         // phenotypic bodys coding simple programs
         // 
         // SET 
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::CPYIN, 1, 1, 0, 0, 0, 0,   // 0
             instruction::CPYIN, 1, 1, 0, 1, 1, 0,   // 1
             instruction::CPYIN, 1, 1, 0, 2, 2, 0,   // 2
@@ -335,7 +335,7 @@ namespace ut_ea
             instruction::CPYOUT, 1, 1, 0, 0, 10, 0  // 6
         };
         // GADD
-        std::vector<int> phenotypic_body_2 { 
+        std::vector<int> body_2 { 
             instruction::CPYIN, 1, 1, 0, 0, 0, 0,   // 0
             instruction::CPYIN, 1, 1, 0, 1, 1, 0,   // 1
             instruction::CPYIN, 1, 1, 0, 2, 2, 0,   // 2
@@ -346,7 +346,7 @@ namespace ut_ea
         };
  
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2
+            body_1, body_2
         };
 
         //---------- INPUTS
@@ -404,7 +404,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass
@@ -451,7 +451,7 @@ namespace ut_ea
     /**
      * @brief copy gene input
     */
-    bool test_evo_algos_evox_phenotypic_body_mutations_gcpy()
+    bool test_evo_algos_evox_body_mutations_gcpy()
     {
         bool is_passed = true;
 
@@ -463,7 +463,7 @@ namespace ut_ea
         // phenotypic bodys coding simple programs
         //
         // copy input
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::INC, 1, 0, 0, 10, 0, 0,
             instruction::GR, 1, 1, 0, 0, 0, 0,
             instruction::GR, 1, 1, 0, 1, 1, 0,
@@ -476,7 +476,7 @@ namespace ut_ea
             instruction::CPYOUT, 1, 1, 0, 0, 10, 0   // 6
         };
         // copy input at marker
-        std::vector<int> phenotypic_body_2 { 
+        std::vector<int> body_2 { 
             instruction::INC, 1, 0, 0, 10, 0, 0,
             instruction::GR, 1, 1, 0, 0, 0, 0,
             instruction::GR, 1, 1, 0, 1, 1, 0,
@@ -491,7 +491,7 @@ namespace ut_ea
         };
 
         std::vector<std::vector<int>> phenotypic_bodies {
-            phenotypic_body_1, phenotypic_body_2
+            body_1, body_2
         };
 
         //---------- INPUTS
@@ -549,7 +549,7 @@ namespace ut_ea
         for(int i=0; i<expected_outs.size(); i++)
         {
             // set phenotypic body and execute
-            algo->set_phenotypic_body(phenotypic_bodies[i]);
+            algo->set_body(phenotypic_bodies[i]);
             algo->reset_data();
 
             // for more accurate debug in case a unit test does not pass

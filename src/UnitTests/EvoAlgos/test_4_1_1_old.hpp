@@ -5,11 +5,11 @@
 #include <iostream>
 
 #include "../../Utils/Functions.hpp"
-#include "../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
 
-#include "../../Models/EvoAlgos/X86Algo/X86Algo.hpp"
-#include "../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/XASMAlgo.hpp"
+#include "../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 namespace ut_ea
 {
@@ -52,15 +52,15 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first flow");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second flow");
+        sp_xasmalgo algo_0 = std::make_shared<XASMAlgo>("first flow");
+        sp_xasmalgo algo_1 = std::make_shared<XASMAlgo>("second flow");
 
-        std::vector<sp_x86algo> algos {
+        std::vector<sp_xasmalgo> algos {
             algo_0, algo_1
         };
 
         // init the algos
-        for(sp_x86algo algo : algos)
+        for(sp_xasmalgo algo : algos)
         {
             algo->init();
         }
@@ -206,15 +206,15 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first flow");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second flow");
+        sp_xasmalgo algo_0 = std::make_shared<XASMAlgo>("first flow");
+        sp_xasmalgo algo_1 = std::make_shared<XASMAlgo>("second flow");
 
-        std::vector<sp_x86algo> algos {
+        std::vector<sp_xasmalgo> algos {
             algo_0, algo_1
         };
 
         // init the algos
-        for(sp_x86algo algo : algos)
+        for(sp_xasmalgo algo : algos)
         {
             algo->init();
         }
@@ -379,15 +379,15 @@ namespace ut_ea
 
         //---------- ALGOS
 
-        sp_x86algo algo_0 = std::make_shared<X86Algo>("first flow");
-        sp_x86algo algo_1 = std::make_shared<X86Algo>("second flow");
+        sp_xasmalgo algo_0 = std::make_shared<XASMAlgo>("first flow");
+        sp_xasmalgo algo_1 = std::make_shared<XASMAlgo>("second flow");
 
-        std::vector<sp_x86algo> algos {
+        std::vector<sp_xasmalgo> algos {
             algo_0, algo_1
         };
 
         // init the algos
-        for(sp_x86algo algo : algos)
+        for(sp_xasmalgo algo : algos)
         {
             algo->init();
         }
@@ -569,7 +569,7 @@ namespace ut_ea
         //---------- GENES
 
         // phenotypic body of algo 0
-        std::vector<int> phenotypic_body_0 { 
+        std::vector<int> body_0 { 
             instruction::AIF, 0, 0, 0, 0, 0, 0,  // to connect in to second algo out
             instruction::AOF, 0, 0, 0, 1, 0, 0,  // to connect out to second algo in
             instruction::CPYIN, 1, 1, 0, 1, 0, 0,
@@ -577,7 +577,7 @@ namespace ut_ea
             instruction::CPYOUT, 1, 1, 0, 0, 0, 0
         };
         // phenotypic body of algo 1
-        std::vector<int> phenotypic_body_1 { 
+        std::vector<int> body_1 { 
             instruction::AIF, 0, 0, 0, 1, 0, 0,  // to connect in to first algo out
             instruction::AOF, 0, 0, 0, 0, 0, 0,  // to connect out to first algo in
             instruction::CPYIN, 1, 1, 0, 1, 0, 0,
@@ -585,14 +585,14 @@ namespace ut_ea
             instruction::CPYOUT, 1, 1, 0, 0, 0, 0
         };
 
-        std::vector<std::vector<int>> phenotypic_body {
-            phenotypic_body_0, phenotypic_body_1
+        std::vector<std::vector<int>> body {
+            body_0, body_1
         };
 
         // set the phenotypic body to the algos
         for(int i=0;i<algos.size();i++)
         {
-           algos[i]->set_phenotypic_body(phenotypic_body[i]); 
+           algos[i]->set_body(body[i]); 
         }
 
         //---------- UNIVERSE

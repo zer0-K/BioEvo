@@ -2,7 +2,7 @@
 
 #include "../../../Experiment.hpp"
 
-#include "../../../../Models/EvoAlgos/X86Algo/EvoX.hpp"
+#include "../../../../Models/EvoAlgos/XASMAlgo/EvoX.hpp"
 
 class PhenotypicFunctionAcquisition : public Experiment
 {
@@ -27,7 +27,7 @@ public:
      * The free molecules represent the function that writes 
      * another function on a certain place
      */
-    std::vector<int> get_phenotypic_body_function_write();
+    std::vector<int> get_body_function_write();
 
     void FreeMoleculesFunctionRead();
     void FreeMoleculesFunctionWrite();

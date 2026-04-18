@@ -11,17 +11,17 @@
 namespace ut_ea
 {
 
-    bool launch_tests_evo_algos_evox_phenotypic_body()
+    bool launch_tests_evo_algos_evox_body()
     {
         bool is_passed = true;
 
         std::cout << "Evo algos - evox - phenotypic body :" << std::endl;
 
-        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_basic();
-        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_mutations();
-        //is_passed &= launch_tests_evo_algos_evox_phenotypic_body_markers();
-        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_exec();
-        is_passed &= launch_tests_evo_algos_evox_phenotypic_body_regen();
+        is_passed &= launch_tests_evo_algos_evox_body_basic();
+        is_passed &= launch_tests_evo_algos_evox_body_mutations();
+        //is_passed &= launch_tests_evo_algos_evox_body_markers();
+        is_passed &= launch_tests_evo_algos_evox_body_exec();
+        is_passed &= launch_tests_evo_algos_evox_body_regen();
 
         std::cout << "Evo algos - evox - phenotypic body : ";
         passed_print(is_passed);

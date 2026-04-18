@@ -4,14 +4,14 @@
 
 #include "../../../../../Utils/Functions.hpp"
 #include "../../../../../Utils/Maths/RandomGen.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/UtilityFunctions.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/InstructionMapping.hpp"
-#include "../../../../../Models/EvoAlgos/X86Algo/FreeMolecules.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/UtilityFunctions.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp"
+#include "../../../../../Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp"
 
 
 
 SelfCompilationEvoX::SelfCompilationEvoX()
-    :Experiment::Experiment(name_exp_bioevo_phenotypic_body_evox_selfc)
+    :Experiment::Experiment(name_exp_bioevo_body_evox_selfc)
 {
     init();
 }
@@ -70,16 +70,16 @@ sp_evox SelfCompilationEvoX::get_base_algo(int step)
     algo->set_max_nb_instr_exec(max_nb_instr_exec);
 
     // get phenotypic body from csv
-    std::string file_algo = "phenotypic_body_base_self_transcription.csv";
+    std::string file_algo = "body_base_self_transcription.csv";
     if(step == 2)
-        file_algo = "phenotypic_body_with_bootstrap_DNA.csv";
+        file_algo = "body_with_bootstrap_DNA.csv";
     else if(step == 3)
-        file_algo = "phenotypic_body_transcribed.csv";
+        file_algo = "body_transcribed.csv";
     else if(step == -1) // custom
-        file_algo = "phenotypic_body_with_bootstrap_DNA_full.csv";
+        file_algo = "body_with_bootstrap_DNA_full.csv";
 
-    std::vector<int> phenotypic_body = get_phenotypic_body_from_csv(file_algo);
-    algo->set_phenotypic_body(phenotypic_body);
+    std::vector<int> body = get_body_from_csv(file_algo);
+    algo->set_body(body);
 
     // set data stack at 150
     algo->set_data_at(99, 150);
@@ -1216,18 +1216,18 @@ void SelfCompilationEvoX::exec_step_1(sp_univ_evo_algos universe, sp_evox algo)
 
     sp_free_molecules free_molecules = std::make_shared<FreeMolecules>("free molecules");
     free_molecules->init();
-    free_molecules->set_phenotypic_body(DNA);
+    free_molecules->set_body(DNA);
     universe->get_places()[1]->set_entity(free_molecules);
 
     algo->set_input({3, -1}); // inject DNA as free molecules with ID -1
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA.csv");
+    //write_body_to_csv(algo->get_body(), "body_with_bootstrap_DNA.csv");
 }
 
 void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo, std::string file_name)
 {
-    std::vector<int> phenotypic_body = std::vector<int>{
+    std::vector<int> body = std::vector<int>{
         0, 3, 2331, 150, -1, 0, 0,
         19, 0, 0, 0, 26, 0, 0
     };
@@ -1235,45 +1235,45 @@ void SelfCompilationEvoX::build_new_algo_artificially(sp_evox base_algo, std::st
     // add transcribed body
     auto transcribed_body = base_algo->get_output();
 
-    phenotypic_body.insert(
-        phenotypic_body.end(), 
+    body.insert(
+        body.end(), 
         transcribed_body.begin(), 
         transcribed_body.end()-1
     );
 
     // add DNA marker
-    phenotypic_body.push_back(46);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(-1);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
+    body.push_back(46);
+    body.push_back(0);
+    body.push_back(-1);
+    body.push_back(0);
+    body.push_back(0);
+    body.push_back(0);
+    body.push_back(0);
 
     // add DNA
     auto DNA = get_DNA_step_1();
 
-    phenotypic_body.insert(
-        phenotypic_body.end(), 
+    body.insert(
+        body.end(), 
         DNA.begin()+2, 
         DNA.end()
     );
 
     // add DNA marker
-    phenotypic_body.push_back(46);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(-1);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
-    phenotypic_body.push_back(0);
+    body.push_back(46);
+    body.push_back(0);
+    body.push_back(-1);
+    body.push_back(0);
+    body.push_back(0);
+    body.push_back(0);
+    body.push_back(0);
 
     // jmp to main -> main func is at 36
     // --> to be changed in poiesis func
-    phenotypic_body[11] = 36;
+    body[11] = 36;
 
 
-    write_phenotypic_body_to_csv(phenotypic_body, file_name);
+    write_body_to_csv(body, file_name);
 }
 
 void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
@@ -1306,8 +1306,10 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     algo->set_input({-1, id_transcriber, id_DNA_pos}); // DNA pos
     universe->exec();
 
-    write_phenotypic_body_to_csv(algo->get_phenotypic_body(), "phenotypic_body_with_bootstrap_DNA_full.csv");
+    //write_body_to_csv(algo->get_body(), "body_with_bootstrap_DNA_full.csv");
     // apply the self compilation functions
+    algo = get_base_algo(-1);
+    universe = get_universe(algo);
     algo->set_input({-1, id_self_compil_func_ID_list});
     universe->exec();
 
@@ -1329,8 +1331,8 @@ void SelfCompilationEvoX::exec_step_2(sp_univ_evo_algos universe, sp_evox algo)
     if(transcribed_algo != nullptr)
     {
         std::cout << "Algo transcribed !" << std::endl;
-        std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
-        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed.csv");
+        std::vector<int> body = transcribed_algo->get_body();
+        write_body_to_csv(body, "body_transcribed.csv");
     }
     else
     {
@@ -1364,8 +1366,8 @@ void SelfCompilationEvoX::exec_step_3(sp_univ_evo_algos universe, sp_evox algo)
     if(transcribed_algo != nullptr)
     {
         std::cout << "Algo transcribed !" << std::endl;
-        std::vector<int> phenotypic_body = transcribed_algo->get_phenotypic_body();
-        write_phenotypic_body_to_csv(phenotypic_body, "phenotypic_body_transcribed_iterated.csv");
+        std::vector<int> body = transcribed_algo->get_body();
+        write_body_to_csv(body, "body_transcribed_iterated.csv");
     }
     else
     {
