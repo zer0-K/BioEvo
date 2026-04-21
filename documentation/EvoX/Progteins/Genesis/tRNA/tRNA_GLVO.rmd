@@ -27,7 +27,7 @@ Init P site
 Init E site
 
 Writes the instructions
-* CPYOUT, 2, 1, 0, var addr, var, 0
+* CPYOUT, 2, 1, 0, addr, var, 0
 at the E site
 ```
 

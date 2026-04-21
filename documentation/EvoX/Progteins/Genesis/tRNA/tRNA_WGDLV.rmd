@@ -27,7 +27,7 @@ Init P site
 Init E site
 
 Writes the instructions
-* GCPY, 1, 1, 0, 100, 99, 0
+* GCPY, 1, 1, 0, var, var, var
 at the E site
 ```
 

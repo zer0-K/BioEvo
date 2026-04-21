@@ -258,7 +258,7 @@ namespace ut_ea
 
         // input (here, same for all tests for simplicity)
         std::vector<int> input_0 { 0, 0, 7, 0, 0 };
-        std::vector<int> input_1 = input_1;
+        std::vector<int> input_1 = input_0;
         std::vector<int> input_2 { 0, 10, 7, 0, 0 };
 
         std::vector<std::vector<int>> inputs {

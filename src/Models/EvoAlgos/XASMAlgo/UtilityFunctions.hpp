@@ -6,12 +6,12 @@
 #include "EvoX.hpp"
 #include "InstructionMapping.hpp"
 
-inline bool evox_comp_body(std::vector<int> body_1, std::vector<int> body_2)
+inline bool evox_comp_body(std::vector<int> body_1, std::vector<int> body_2, bool cut_end_of_body = false)
 {
-    bool comp_vectors(std::vector<int>, std::vector<int>);
+    bool comp_vectors(std::vector<int>, std::vector<int>, bool);
 
     // for the moment, phenotypic bodys are only int vectors
-    return comp_vectors(body_1, body_2);
+    return comp_vectors(body_1, body_2, cut_end_of_body);
 }
 
 inline bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::vector<std::array<int,SIZE_INSTR>> code_2)
@@ -38,20 +38,21 @@ inline bool x86_comp_code(std::vector<std::array<int,SIZE_INSTR>> code_1, std::v
 
 inline bool x86_comp_output(std::vector<int> out_1, std::vector<int> out_2)
 {
-    bool comp_vectors(std::vector<int>, std::vector<int>);
+    bool comp_vectors(std::vector<int>, std::vector<int>, bool);
 
     // for the moment, outputs are just int vectors
-    return comp_vectors(out_1, out_2);
+    return comp_vectors(out_1, out_2, false);
 }
 
-inline bool comp_vectors(std::vector<int> v1, std::vector<int> v2)
+inline bool comp_vectors(std::vector<int> v1, std::vector<int> v2, bool cut_end_of_body = false)
 {
-    if(v1.size() != v2.size())
+    int modulo = cut_end_of_body ? SIZE_INSTR : 1;
+    if(v1.size()/modulo != v2.size()/modulo)
     {
         return false;
     }
 
-    for(int i=0; i<v1.size();i++)
+    for(int i=0; i<v1.size()/modulo;i++)
     {
         if(v1[i] != v2[i])
         {

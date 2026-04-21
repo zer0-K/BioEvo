@@ -173,6 +173,10 @@ set(HEADERS_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/XASMAlgo/InstructionMapping.hpp
     src/Models/EvoAlgos/XASMAlgo/XASMAlgo.hpp src/Models/EvoAlgos/XASMAlgo/EvoX.hpp
     src/Models/EvoAlgos/XASMAlgo/FreeMolecules.hpp
+# Parsing
+    src/Models/EvoAlgos/XASMAlgo/Parsing/tRNATable.hpp
+    src/Models/EvoAlgos/XASMAlgo/Parsing/XASMParser.hpp
+    src/Models/EvoAlgos/XASMAlgo/Parsing/EvoXParser.hpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
@@ -188,6 +192,10 @@ set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/XASMAlgo/InstructionMapping.cpp
     src/Models/EvoAlgos/XASMAlgo/XASMAlgo.cpp src/Models/EvoAlgos/XASMAlgo/EvoX.cpp
     src/Models/EvoAlgos/XASMAlgo/FreeMolecules.cpp
+# Parsing
+    src/Models/EvoAlgos/XASMAlgo/Parsing/tRNATable.cpp
+    src/Models/EvoAlgos/XASMAlgo/Parsing/XASMParser.cpp
+    src/Models/EvoAlgos/XASMAlgo/Parsing/EvoXParser.cpp
 #---------- Experiments
 #----- BioEvo
 # Replicators
