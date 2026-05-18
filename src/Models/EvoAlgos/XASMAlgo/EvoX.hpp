@@ -37,6 +37,7 @@ public:
 
     // utils
     void print_body();
+    std::string body_to_evox_string() const;
 };
 
 typedef std::shared_ptr<EvoX> sp_evox;

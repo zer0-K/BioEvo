@@ -1,7 +1,10 @@
 #include "EvoX.hpp"
 
+#include <sstream>
+
 #include "../../../Utils/Constants.hpp"
 #include "InstructionMapping.hpp"
+#include "Parsing/tRNATable.hpp"
 
 void EvoX::init()
 {
@@ -557,6 +560,141 @@ std::vector<int> EvoX::get_body()
 }
 
 // utils
+
+std::string EvoX::body_to_evox_string() const
+{
+    if (body.empty()) return "";
+
+    int nb_mol = (int)(body.size() / SIZE_INSTR);
+
+    auto mol = [&](int m) {
+        std::array<int, SIZE_INSTR> arr{};
+        for (int j = 0; j < SIZE_INSTR; j++) arr[j] = body[m * SIZE_INSTR + j];
+        return arr;
+    };
+
+    auto is_dna_marker = [&](int m) {
+        auto mv = mol(m);
+        return mv[0] == instruction::MARKER && mv[1] == 0 && mv[2] == -1;
+    };
+
+    // Locate the DNA section (pair of {MARKER, 0, -1, ...})
+    int dna_start = -1, dna_end = -1;
+    for (int m = 0; m < nb_mol; m++) {
+        if (is_dna_marker(m)) {
+            if (dna_start < 0) dna_start = m;
+            else { dna_end = m; break; }
+        }
+    }
+
+    int prog_end    = (dna_start >= 0) ? dna_start : nb_mol;
+    int trail_start = (dna_end   >= 0) ? dna_end + 1 : nb_mol;
+
+    // Instruction name lookup
+    auto instr_name = [&](int code) -> std::string {
+        auto it = instruction_str.find(static_cast<instruction>(code));
+        return (it != instruction_str.end()) ? it->second : std::to_string(code);
+    };
+
+    auto fmt_instr = [&](const std::array<int, SIZE_INSTR>& m) -> std::string {
+        std::ostringstream s;
+        s << instr_name(m[0]);
+        for (int j = 1; j < SIZE_INSTR; j++) s << " " << m[j];
+        return s.str();
+    };
+
+    auto fmt_raw = [&](const std::array<int, SIZE_INSTR>& m) -> std::string {
+        std::ostringstream s;
+        for (int j = 0; j < SIZE_INSTR; j++) s << (j ? " " : "") << m[j];
+        return s.str();
+    };
+
+    std::ostringstream out;
+
+    // ── 1. RAW section ──────────────────────────────────────────────────────
+    int cur = 0;
+    while (cur < prog_end && mol(cur)[0] != instruction::MARKER) cur++;
+
+    if (cur > 0) {
+        out << "RAW\n";
+        for (int m = 0; m < cur; m++)
+            out << "    " << fmt_raw(mol(m)) << "\n";
+        out << "END\n\n";
+    }
+
+    // ── 2. Progteins ────────────────────────────────────────────────────────
+    while (cur < prog_end) {
+        auto hdr = mol(cur);
+        if (hdr[0] != instruction::MARKER) { cur++; continue; }
+
+        int pid = hdr[2];
+
+        // optional tRNA label
+        std::string label;
+        auto trna_it = tRNA_by_id.find(pid);
+        if (trna_it != tRNA_by_id.end()) {
+            const std::string& name = trna_it->second.name;
+            label = " " + (name.size() > 5 ? name.substr(5) : name);
+        }
+        out << "PROGTEIN" << label << " id=" << pid << "\n";
+        cur++;
+
+        while (cur < prog_end) {
+            auto cm = mol(cur++);
+            out << "    " << fmt_instr(cm) << "\n";
+            if (cm[0] == instruction::MARKER && cm[2] == pid) break;
+        }
+        out << "END\n\n";
+    }
+
+    // ── 3. DNA section ──────────────────────────────────────────────────────
+    if (dna_start >= 0 && dna_end >= 0) {
+        out << "DNA\n";
+
+        int flat_start = (dna_start + 1) * SIZE_INSTR;
+        int flat_end   = dna_end * SIZE_INSTR;
+        int j = flat_start;
+
+        while (j < flat_end) {
+            if (body[j] != GSTART_ID) { j++; continue; }
+            j++;
+            if (j >= flat_end) break;
+            int gene_id = body[j++];
+            out << "    GENE id=" << gene_id << "\n";
+
+            while (j < flat_end && body[j] != GSTOP_ID) {
+                int tok = body[j];
+                auto it = tRNA_by_id.find(tok);
+                if (it != tRNA_by_id.end()) {
+                    const std::string& name = it->second.name;
+                    out << "        " << (name.size() > 5 ? name.substr(5) : name);
+                    int arity = it->second.arity;
+                    j++;
+                    for (int a = 0; a < arity && j < flat_end && body[j] != GSTOP_ID; a++)
+                        out << " " << body[j++];
+                    out << "\n";
+                } else {
+                    out << "        " << tok << "\n";
+                    j++;
+                }
+            }
+            if (j < flat_end && body[j] == GSTOP_ID) j++;
+            while (j < flat_end && body[j] == 0) j++;  // skip padding
+            out << "    END\n";
+        }
+        out << "END\n";
+    }
+
+    // ── 4. Trail section ────────────────────────────────────────────────────
+    if (trail_start < nb_mol) {
+        out << "\nTRAIL\n";
+        for (int m = trail_start; m < nb_mol; m++)
+            out << "    " << fmt_raw(mol(m)) << "\n";
+        out << "END\n";
+    }
+
+    return out.str();
+}
 
 void EvoX::print_body()
 {
