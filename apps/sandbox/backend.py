@@ -3,7 +3,9 @@
 Backend of the sandbox app
 """
 
+import json
 import re
+import subprocess
 import difflib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -12,7 +14,9 @@ import streamlit as st
 
 
 class BE:
-    
+
+    # ── constants ────────────────────────────────────────────────────────────
+
     class CST:
 
         SIZE_INSTR = 7
@@ -61,6 +65,8 @@ class BE:
             15002: ("SP_GFPTRLV", 1), 15003: ("SP_GSPLV",   1), 15004: ("SP_GCPY",    3),
         }
 
+    # ── data model ───────────────────────────────────────────────────────────
+
     class MODEL:
 
         @dataclass
@@ -83,14 +89,15 @@ class BE:
             source:     str  = ""
             error:      str  = ""
 
+    # ── parsing ───────────────────────────────────────────────────────────────
+
     class PARSING:
 
         def _strip_comment(line: str) -> str:
             idx = line.find("//")
             return line[:idx] if idx >= 0 else line
 
-        def parse_evox(text: str, source: str = "") -> ParsedBody:
-            """Parse .evox text format."""
+        def parse_evox(text: str, source: str = "") -> "BE.MODEL.ParsedBody":
             b = BE.MODEL.ParsedBody(source=source)
             lines = text.splitlines()
             i = 0
@@ -155,7 +162,7 @@ class BE:
 
             return b
 
-        def _fmt_dna_content(flat: list[int]) -> list[str]:
+        def _fmt_dna_content(flat: list) -> list:
             """Convert flat int list (gene content) to tRNA token strings."""
             lines = []
             j = 0
@@ -173,8 +180,8 @@ class BE:
                     j += 1
             return lines
 
-        def parse_csv(text: str, source: str = "") -> ParsedBody:
-            """Parse flat int CSV format (one molecule per line, 7 comma-separated ints)."""
+        def parse_csv(text: str, source: str = "") -> "BE.MODEL.ParsedBody":
+            """Parse flat int CSV (one molecule per line, 7 comma-separated ints)."""
             molecules = []
             for line in text.splitlines():
                 line = line.strip().rstrip(",")
@@ -194,8 +201,7 @@ class BE:
 
             return BE.PARSING._molecules_to_body(molecules, source)
 
-        def _molecules_to_body(mols: list, source: str) -> ParsedBody:
-            """Convert list of SIZE_INSTR-int molecules to ParsedBody."""
+        def _molecules_to_body(mols: list, source: str) -> "BE.MODEL.ParsedBody":
             b = BE.MODEL.ParsedBody(source=source)
             n = len(mols)
 
@@ -231,7 +237,7 @@ class BE:
                     cur += 1
                     continue
                 pid = m[2]
-                trna_info = BE.MODEL.TRNA.get(pid)
+                trna_info = BE.CST.TRNA.get(pid)
                 p = BE.MODEL.Progtein(id=pid, name=trna_info[0] if trna_info else "")
                 cur += 1
                 while cur < prog_end:
@@ -260,7 +266,8 @@ class BE:
                         j += 1
                     while j < len(flat) and flat[j] == 0:
                         j += 1
-                    b.genes.append(Gene(id=gene_id, tokens=_fmt_dna_content(content)))
+                    b.genes.append(BE.MODEL.Gene(id=gene_id,
+                                                  tokens=BE.PARSING._fmt_dna_content(content)))
 
             # Trail
             for m in mols[trail_start:]:
@@ -268,31 +275,133 @@ class BE:
 
             return b
 
-        def load_file(uploaded) -> ParsedBody:
+        def load_file(uploaded) -> "BE.MODEL.ParsedBody":
             text = uploaded.read().decode("utf-8")
             name = uploaded.name
             if name.endswith(".csv"):
                 return BE.PARSING.parse_csv(text, name)
             return BE.PARSING.parse_evox(text, name)
 
+    # ── experiment runner ────────────────────────────────────────────────────
+
+    class EXPERIMENT:
+
+        @dataclass
+        class Config:
+            nb_steps:           int  = 1
+            max_nb_instr_exec:  int  = 2 << 22   # 8 388 608
+            data_stack_init:    int  = 150
+            cells:              dict = field(default_factory=dict)  # int → str|None
+            name:               str  = ""
+
+        def default_binary() -> str:
+            proj = Path(__file__).parent.parent.parent
+            return str(proj / "build" / "sandbox-runner")
+
+        def save(config: "BE.EXPERIMENT.Config", dir_path: str):
+            p = Path(dir_path)
+            p.mkdir(parents=True, exist_ok=True)
+
+            max_pos = max(config.cells.keys()) if config.cells else -1
+            for i in range(max_pos + 1):
+                body = config.cells.get(i)
+                if body:
+                    (p / f"cell_{i}.evox").write_text(body)
+                else:
+                    (p / f"cell_{i}.void").write_text("")
+
+            (p / "experiment.json").write_text(json.dumps({
+                "nb_steps":          config.nb_steps,
+                "max_nb_instr_exec": config.max_nb_instr_exec,
+                "data_stack_init":   config.data_stack_init,
+                "name":              config.name,
+            }, indent=2))
+
+        def load(dir_path: str) -> "BE.EXPERIMENT.Config":
+            p = Path(dir_path)
+            params_file = p / "experiment.json"
+            params = json.loads(params_file.read_text()) if params_file.exists() else {}
+
+            config = BE.EXPERIMENT.Config(
+                nb_steps          = params.get("nb_steps", 1),
+                max_nb_instr_exec = params.get("max_nb_instr_exec", 2 << 22),
+                data_stack_init   = params.get("data_stack_init", 150),
+                name              = params.get("name", ""),
+            )
+            i = 0
+            while True:
+                evox = p / f"cell_{i}.evox"
+                void = p / f"cell_{i}.void"
+                if evox.exists():
+                    config.cells[i] = evox.read_text()
+                    i += 1
+                elif void.exists():
+                    config.cells[i] = None
+                    i += 1
+                else:
+                    break
+            return config
+
+        def run(config: "BE.EXPERIMENT.Config", experiment_dir: str,
+                binary: str = None) -> subprocess.CompletedProcess:
+            if binary is None:
+                binary = BE.EXPERIMENT.default_binary()
+            BE.EXPERIMENT.save(config, experiment_dir)
+            cmd = [
+                binary, experiment_dir,
+                str(config.nb_steps),
+                str(config.max_nb_instr_exec),
+                str(config.data_stack_init),
+            ]
+            return subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+
+        def read_timeline(experiment_dir: str) -> list:
+            """Returns list of (step_num, dict[int, ParsedBody|None])."""
+            p = Path(experiment_dir)
+            step_dirs = sorted(
+                [d for d in p.iterdir() if d.is_dir() and d.name.startswith("step_")],
+                key=lambda d: int(d.name.split("_")[1])
+            )
+            timeline = []
+            for step_dir in step_dirs:
+                step_num = int(step_dir.name.split("_")[1])
+                cells = {}
+                i = 0
+                while True:
+                    evox_file = step_dir / f"cell_{i}.evox"
+                    void_file = step_dir / f"cell_{i}.void"
+                    if evox_file.exists():
+                        cells[i] = BE.PARSING.parse_evox(
+                            evox_file.read_text(), f"step {step_num} · cell {i}")
+                    elif void_file.exists():
+                        cells[i] = None
+                    else:
+                        break
+                    i += 1
+                timeline.append((step_num, cells))
+            return timeline
+
+    # ── display helpers ───────────────────────────────────────────────────────
+
     class DISP_HELP:
 
-        def _progtein_label(p: Progtein) -> str:
+        def _progtein_label(p) -> str:
             parts = []
             if p.name:
                 parts.append(p.name)
             parts.append(f"id={p.id}")
             return " · ".join(parts) + f"  ({len(p.instructions)} instr)"
 
-        def show_body(body: ParsedBody):
+        def show_body(body):
             if body.error:
                 st.error(body.error)
                 return
 
             c1, c2, c3, c4 = st.columns(4)
-            total_mols = len(body.raw_rows) + sum(1 + len(p.instructions) for p in body.progteins) \
-                        + len(body.trail_rows)
-            c1.metric("Total molecules (approx)", total_mols)
+            total_mols = (len(body.raw_rows)
+                          + sum(1 + len(p.instructions) for p in body.progteins)
+                          + len(body.trail_rows))
+            c1.metric("Molecules (approx)", total_mols)
             c2.metric("Progteins", len(body.progteins))
             c3.metric("Genes", len(body.genes))
             c4.metric("RAW rows", len(body.raw_rows))
@@ -303,7 +412,6 @@ class BE:
                 if not body.progteins:
                     st.info("No progteins found.")
                 else:
-                    # Summary table
                     rows = [{"id": p.id, "name": p.name, "instructions": len(p.instructions)}
                             for p in body.progteins]
                     st.dataframe(pandas.DataFrame(rows), use_container_width=True, hide_index=True)
@@ -327,15 +435,81 @@ class BE:
                 if body.raw_rows:
                     st.subheader("RAW")
                     cols = ["instr", "d1", "d2", "d3", "a1", "a2", "a3"]
-                    raw_df = pandas.DataFrame(body.raw_rows, columns=cols[:len(body.raw_rows[0])])
+                    raw_df = pandas.DataFrame(body.raw_rows,
+                                              columns=cols[:len(body.raw_rows[0])])
                     st.dataframe(raw_df, use_container_width=True, hide_index=True)
                 if body.trail_rows:
                     st.subheader("Trail")
                     trail_df = pandas.DataFrame(body.trail_rows)
                     st.dataframe(trail_df, use_container_width=True, hide_index=True)
 
+        def show_timeline(timeline: list):
+            if not timeline:
+                st.info("No steps recorded.")
+                return
+
+            nb_cells = max(max(cells.keys()) for _, cells in timeline) + 1
+            step_labels = [f"Step {s}" for s, _ in timeline]
+
+            selected = st.select_slider("Step", options=step_labels, value=step_labels[0])
+            idx = step_labels.index(selected)
+            step_num, cells = timeline[idx]
+
+            # ── current cell states ──────────────────────────────────────────
+            st.markdown(f"#### State after step {step_num}")
+            cell_cols = st.columns(nb_cells)
+            for i in range(nb_cells):
+                with cell_cols[i]:
+                    st.markdown(f"**Cell {i}**")
+                    body = cells.get(i)
+                    if body is None:
+                        st.info("void")
+                    else:
+                        BE.DISP_HELP.show_body(body)
+
+            # ── diff vs. previous or initial step ────────────────────────────
+            st.divider()
+            compare_with = st.radio(
+                "Compare with",
+                ["Previous step", "Initial state (step 0)"],
+                horizontal=True,
+                key="timeline_compare",
+            )
+
+            if idx == 0 and compare_with == "Previous step":
+                st.info("This is the first step — no previous step to compare with.")
+                return
+
+            ref_idx = (idx - 1) if compare_with == "Previous step" else 0
+            if ref_idx == idx:
+                st.info("Select a different step to see a diff.")
+                return
+
+            ref_step_num, ref_cells = timeline[ref_idx]
+            st.markdown(f"#### Changes: step {ref_step_num} → step {step_num}")
+
+            for i in range(nb_cells):
+                b1 = ref_cells.get(i)
+                b2 = cells.get(i)
+                # skip pairs that are both void and unchanged
+                if b1 is None and b2 is None:
+                    continue
+
+                with st.expander(f"Cell {i}", expanded=(b1 != b2)):
+                    if b1 is None and b2 is not None:
+                        st.success("Became alive")
+                        BE.DISP_HELP.show_body(b2)
+                    elif b1 is not None and b2 is None:
+                        st.warning("Became void")
+                        BE.DISP_HELP.show_body(b1)
+                    else:
+                        BE.DIFF.show_diff(b1, b2)
+
+    # ── diff ──────────────────────────────────────────────────────────────────
+
     class DIFF:
-        def show_diff(b1: ParsedBody, b2: ParsedBody):
+
+        def show_diff(b1, b2):
             st.subheader("Diff")
 
             def _diff_items(items1, items2, id_key, label_fn, content_fn):
@@ -346,14 +520,11 @@ class BE:
                 rows = []
                 for k in all_ids:
                     if k in map1 and k not in map2:
-                        rows.append(("removed", map1[k], None))
-                        removed += 1
+                        rows.append(("removed", map1[k], None)); removed += 1
                     elif k not in map1 and k in map2:
-                        rows.append(("added", None, map2[k]))
-                        added += 1
+                        rows.append(("added", None, map2[k])); added += 1
                     elif content_fn(map1[k]) != content_fn(map2[k]):
-                        rows.append(("changed", map1[k], map2[k]))
-                        changed += 1
+                        rows.append(("changed", map1[k], map2[k])); changed += 1
                     else:
                         same += 1
                 return rows, added, removed, changed, same
@@ -367,9 +538,9 @@ class BE:
                 content_fn=lambda p: p.instructions,
             )
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Added",   pa, delta=pa  if pa  else None, delta_color="normal")
-            c2.metric("Removed", pr, delta=-pr if pr  else None, delta_color="inverse")
-            c3.metric("Changed", pc)
+            c1.metric("Added",     pa, delta=pa  if pa else None, delta_color="normal")
+            c2.metric("Removed",   pr, delta=-pr if pr else None, delta_color="inverse")
+            c3.metric("Changed",   pc)
             c4.metric("Unchanged", ps)
 
             for status, x1, x2 in prog_rows:
@@ -386,6 +557,7 @@ class BE:
                             fromfile="before", tofile="after", lineterm=""))
                         st.code("\n".join(diff), language="diff")
 
+            # Genes
             st.markdown("#### Genes")
             gene_rows, ga, gr, gc, gs = _diff_items(
                 b1.genes, b2.genes,
@@ -394,9 +566,9 @@ class BE:
                 content_fn=lambda g: g.tokens,
             )
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Added",   ga, delta=ga  if ga  else None, delta_color="normal")
-            c2.metric("Removed", gr, delta=-gr if gr  else None, delta_color="inverse")
-            c3.metric("Changed", gc)
+            c1.metric("Added",     ga, delta=ga  if ga else None, delta_color="normal")
+            c2.metric("Removed",   gr, delta=-gr if gr else None, delta_color="inverse")
+            c3.metric("Changed",   gc)
             c4.metric("Unchanged", gs)
 
             for status, x1, x2 in gene_rows:
@@ -413,9 +585,11 @@ class BE:
                             fromfile="before", tofile="after", lineterm=""))
                         st.code("\n".join(diff), language="diff")
 
+    # ── other ─────────────────────────────────────────────────────────────────
+
     class OTHER:
 
         def show_trna_reference():
-            rows = [{"id": k, "short_name": v[0], "arity": v[1]} for k, v in sorted(BE.CST.TRNA.items())]
+            rows = [{"id": k, "short_name": v[0], "arity": v[1]}
+                    for k, v in sorted(BE.CST.TRNA.items())]
             st.dataframe(pandas.DataFrame(rows), use_container_width=True, hide_index=True)
-

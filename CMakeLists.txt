@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 project(BioEvo)
 
 # Prefix
@@ -13,13 +13,36 @@ endif (CXX)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
+# ─── Output directories ───────────────────────────────────────────────────────
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+ 
 # ********************************* External libraries *********************************
 
 #set(Boost_INCLUDE_DIR "/home/adrien/Disque/Programmation/Packages/cpp/boost_1_81_0")
 #FIND_PACKAGE(Boost COMPONENTS asio beast json)
 #INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+
+# ─── Dear ImGui (vendored) ────────────────────────────────────────────────────
+# Assumes you cloned / copied imgui into third_party/imgui/
+set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/third_party/imgui)
+ 
+set(IMGUI_SOURCES
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+ 
+# ─── SDL2 ─────────────────────────────────────────────────────────────────────
+find_package(SDL2 REQUIRED)
+ 
+# ─── OpenGL ───────────────────────────────────────────────────────────────────
+find_package(OpenGL REQUIRED)
 
 
 # ********************************* Utils *********************************
@@ -617,3 +640,68 @@ target_link_libraries(unit_tests ${LIBS})
 
 add_executable(bioevo_all src/main.cpp ${HEADERS_FRAMEWORK} ${SOURCES_FRAMEWORK})
 target_link_libraries(bioevo_all ${LIBS})
+
+
+# ─── apps ───────────────────────────────────────────────────────
+# *************** Sandbox runner
+
+add_executable(sandbox-runner src/Experiment/Sandbox/sandbox_runner.cpp
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS}
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS})
+target_link_libraries(sandbox-runner ${LIBS})
+
+
+# *************** EvoX
+
+add_executable(EvoXApp
+    apps/EvoX/main.cpp
+    apps/EvoX/init.hpp apps/EvoX/cleanup.hpp
+    # front
+    apps/EvoX/front/main_loop.hpp apps/EvoX/front/ui_helper.hpp
+    apps/EvoX/front/window_main_menu.hpp apps/EvoX/front/window_simulation.hpp
+    # back
+    apps/EvoX/back/app_state.hpp
+    ${IMGUI_SOURCES}
+)
+ target_include_directories(EvoXApp PRIVATE
+    ${IMGUI_DIR}
+    ${IMGUI_DIR}/backends
+    ${SDL2_INCLUDE_DIRS}
+)
+ 
+target_link_libraries(EvoXApp PRIVATE
+    ${SDL2_LIBRARIES}
+    OpenGL::GL
+)
+
+
+# ─── Platform specifics ───────────────────────────────────────────────────────
+if(WIN32)
+    # Hide the console window on Windows in Release builds
+    set_target_properties(EvoXApp PROPERTIES
+        WIN32_EXECUTABLE $<IF:$<CONFIG:Debug>,FALSE,TRUE>
+    )
+    # Link against SDL2main on Windows
+    target_link_libraries(EvoXApp PRIVATE SDL2::SDL2main)
+endif()
+ 
+if(UNIX AND NOT APPLE)
+    target_link_libraries(EvoXApp PRIVATE dl)
+endif()
+
+# ─── Compiler warnings ────────────────────────────────────────────────────────
+if(MSVC)
+    target_compile_options(EvoXApp PRIVATE /W3)
+else()
+    target_compile_options(EvoXApp PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+ 
+# ─── Install / packaging ──────────────────────────────────────────────────────
+install(TARGETS EvoXApp DESTINATION .)
+
+# Uncomment to enable CPack packaging:
+# include(CPack)
+# set(CPACK_GENERATOR "ZIP")
+# set(CPACK_PACKAGE_NAME "CellularAutomataEngine")
+# set(CPACK_PACKAGE_VERSION "0.1.0")
+
