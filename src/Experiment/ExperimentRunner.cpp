@@ -8,11 +8,11 @@ void ExperimentRunner::launch()
 
     std::cout << name << " : " << std::endl << std::endl;
 
-    while(answer >= 0 && answer < experiments.size())
+    while(answer >= 0 && answer < (int)experiments.size())
     {
         std::cout << "Choose an experiment :" << std::endl;
 
-        for(int i=0;i<experiments.size(); i++)
+        for(std::size_t i=0; i<experiments.size(); i++)
         {
             std::cout << "\t" << i << " - " << experiments[i]->get_name() << std::endl;
         }
@@ -20,7 +20,7 @@ void ExperimentRunner::launch()
         std::cout << std::endl;
         std::cin >> answer ;
 
-        if(answer < 0 || answer >= experiments.size())
+        if(answer < 0 || answer >= (int)experiments.size())
         {
             std::cout << "Exiting..." << std::endl;
         }

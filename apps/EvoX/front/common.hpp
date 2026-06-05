@@ -1,7 +1,14 @@
 #pragma once
 
-namespace front
+namespace front::common
 {
+    static void quit()
+    {
+        SDL_Event ev;
+        ev.type = SDL_QUIT;
+        SDL_PushEvent(&ev);
+    }
+
     static void CenterText(const char* text)
     {
         float win_width = ImGui::GetContentRegionAvail().x;
@@ -16,4 +23,5 @@ namespace front
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (win_width - size.x) * 0.5f);
         return ImGui::Button(label, size);
     }
-}
+
+} // namespace front::common

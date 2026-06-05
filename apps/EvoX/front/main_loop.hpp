@@ -1,34 +1,32 @@
 #pragma once
 
 #include "../back/app_state.hpp"
+#include "../back/grid_fbo.hpp"
 #include "window_main_menu.hpp"
+#include "window_choose_exp.hpp"
 #include "window_simulation.hpp"
-#include "ui_helper.hpp"
-
 
 namespace main_loop
 {
-    inline bool process_event(back::app_state::AppState state)
+
+    inline bool process_event(back::app_state::AppState& state)
     {
-        /** Return true if user wants to exit */
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
             ImGui_ImplSDL2_ProcessEvent(&event);
 
             if (event.type == SDL_QUIT)
-            {
                 return true;
-            }
-            
+
             if (event.type == SDL_KEYDOWN &&
                 event.key.keysym.sym == SDLK_ESCAPE &&
                 state.screen == back::app_state::AppScreen::Simulation)
             {
-                state.screen = back::app_state::AppScreen::MainMenu;
+                state.level.running = false;
+                state.screen  = back::app_state::AppScreen::MainMenu;
             }
         }
-
         return false;
     }
 
@@ -54,32 +52,56 @@ namespace main_loop
     void run_main_loop(std::pair<SDL_Window*, SDL_GLContext> p)
     {
         SDL_Window* window = p.first;
-        //SDL_GLContext gl_ctx = p.second;
 
         back::app_state::AppState state;
+        back::grid_fbo::GridFBO   grid_fbo;
+        grid_fbo.init();
+
+        Uint32 last_tick = SDL_GetTicks();
 
         while (true)
         {
-            bool do_exit = process_event(state);
-            if (do_exit)
-                goto exit;
+            if (process_event(state))
+                break;
+
+            // Delta time for auto-stepping
+            Uint32 now = SDL_GetTicks();
+            float  dt  = (now - last_tick) / 1000.0f;
+            last_tick  = now;
+
+            // Auto-step when running
+            if (state.level.running &&
+                state.screen == back::app_state::AppScreen::Simulation)
+            {
+                state.level.step_timer += dt;
+                if (state.level.step_timer >= state.level.step_interval) {
+                    state.level.step_timer = 0.0f;
+                    state.level.universe.step();
+                    // Refresh editor display if not dirty
+                    if (state.level.selected_cell >= 0 && !state.level.editor_dirty)
+                        state.level.load_editor();
+                }
+            }
 
             start_frame();
 
-            // draw active screen (cannot be put in a function)
             switch (state.screen)
             {
                 case back::app_state::AppScreen::MainMenu:
                     front::main_menu::DrawMainMenu(state);
                     break;
+                case back::app_state::AppScreen::MenuExp:
+                    front::choose_exp::DrawExpMenu(state);
+                    break;
                 case back::app_state::AppScreen::Simulation:
-                    front::simulation::DrawSimulation(state);
+                    front::simulation::DrawSimulation(state, grid_fbo);
                     break;
             }
 
             render(window);
         }
-    exit:
-        ;
+
+        grid_fbo.destroy();
     }
-}
+
+} // namespace main_loop

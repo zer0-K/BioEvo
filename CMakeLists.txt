@@ -643,6 +643,8 @@ target_link_libraries(bioevo_all ${LIBS})
 
 
 # ─── apps ───────────────────────────────────────────────────────
+
+find_package(GLEW REQUIRED)
 # *************** Sandbox runner
 
 add_executable(sandbox-runner src/Experiment/Sandbox/sandbox_runner.cpp
@@ -657,21 +659,30 @@ add_executable(EvoXApp
     apps/EvoX/main.cpp
     apps/EvoX/init.hpp apps/EvoX/cleanup.hpp
     # front
-    apps/EvoX/front/main_loop.hpp apps/EvoX/front/ui_helper.hpp
-    apps/EvoX/front/window_main_menu.hpp apps/EvoX/front/window_simulation.hpp
+    apps/EvoX/front/common.hpp
+    apps/EvoX/front/main_loop.hpp apps/EvoX/front/common.hpp
+    apps/EvoX/front/window_main_menu.hpp apps/EvoX/front/window_choose_exp.hpp
+    apps/EvoX/front/window_simulation.hpp
     # back
-    apps/EvoX/back/app_state.hpp
+    apps/EvoX/back/level/level.hpp apps/EvoX/back/app_state.hpp
+    apps/EvoX/back/grid_fbo.hpp apps/EvoX/back/evox_universe.hpp
+    apps/EvoX/back/tree.hpp apps/EvoX/back/level_select.hpp
+    # EvoX engine sources (same set as sandbox-runner)
+    ${HEADERS_FRAMEWORK} ${HEADERS_MODELS}
+    ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}
     ${IMGUI_SOURCES}
 )
  target_include_directories(EvoXApp PRIVATE
     ${IMGUI_DIR}
     ${IMGUI_DIR}/backends
     ${SDL2_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}
 )
  
 target_link_libraries(EvoXApp PRIVATE
     ${SDL2_LIBRARIES}
     OpenGL::GL
+    GLEW::GLEW
 )
 
 

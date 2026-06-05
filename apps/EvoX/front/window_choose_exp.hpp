@@ -1,9 +1,11 @@
 #pragma once
 
 #include "../back/app_state.hpp"
+#include "../back/tree.hpp"
+#include "../back/level_select.hpp"
 #include "common.hpp"
 
-namespace front::main_menu
+namespace front::choose_exp
 {
 
     static void draw_main_window(ImGuiIO& io)
@@ -38,7 +40,7 @@ namespace front::main_menu
     static void draw_title()
     {
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]);
-        front::common::CenterText("EvoX Engine");
+        front::common::CenterText("Experiments");
         ImGui::PopFont();
         ImGui::Spacing();
         ImGui::Separator();
@@ -46,29 +48,49 @@ namespace front::main_menu
         ImGui::Spacing();
     }
 
-    static void draw_about_popup(back::app_state::AppState& state, ImGuiIO& io)
+    static void draw_experiment_buttons(back::app_state::AppState& state)
     {
-        ImGui::SetNextWindowSize({320, 160}, ImGuiCond_Always);
-        ImGui::SetNextWindowPos(
-            {(io.DisplaySize.x - 320) * 0.5f,
-            (io.DisplaySize.y - 160) * 0.5f},
-            ImGuiCond_Always);
-        if (ImGui::Begin("About##popup", &state.show_about,
-                ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
+        back::tree::Tree<std::string>::Node* n = back::level_select::menu.find(state.current_exp);
+        auto children = back::level_select::menu.childrenOf(n);
+        auto new_children = children;
+
+        size_t i = 0;
+        while (i < children.size())
         {
+            if (front::common::CenterButton(children[i]->value.c_str()))
+            {
+                state.current_exp = children[i]->value;
+                new_children = back::level_select::menu.childrenOf(children[i]);
+
+                if(new_children.size() == 0)
+                    state.start_simulation(children[i]->value);
+                else
+                {
+                    children = new_children;
+                    i = -1;
+                }
+            }
+            
             ImGui::Spacing();
-            front::common::CenterText("EvoX Engine v0.1");
-            ImGui::Spacing();
-            front::common::CenterText("SDL2 + Dear ImGui + OpenGL + EvoX");
-            ImGui::Spacing();
-            ImGui::Spacing();
-            if (front::common::CenterButton("Close", {100, 30}))
-                state.show_about = false;
-        }
-        ImGui::End();
+            i++;
+        } 
     }
 
-    static void DrawMainMenu(back::app_state::AppState& state)
+    static void draw_go_back_button(back::app_state::AppState& state)
+    {
+        back::tree::Tree<std::string>::Node* n = back::level_select::menu.find(state.current_exp);
+
+        if (front::common::CenterButton("  Back  "))
+        {
+            n = back::level_select::menu.find(state.current_exp);
+            if (n->isRoot())
+                state.screen = back::app_state::AppScreen::MainMenu;
+            else
+                state.current_exp = n->parent->value;
+        }
+    }
+
+    static void DrawExpMenu(back::app_state::AppState& state)
     {
         ImGuiIO& io = ImGui::GetIO();
 
@@ -77,13 +99,14 @@ namespace front::main_menu
 
         draw_title();
 
-        if (front::common::CenterButton("  Start  "))
-            state.screen = back::app_state::AppScreen::MenuExp;
-
         ImGui::Spacing();
 
-        if (front::common::CenterButton("  About  "))
-            state.show_about = true;
+        draw_experiment_buttons(state);
+
+        ImGui::Spacing();
+        ImGui::Spacing();
+
+        draw_go_back_button(state);
 
         ImGui::Spacing();
 
@@ -91,9 +114,6 @@ namespace front::main_menu
             front::common::quit();
 
         ImGui::End();
-
-        if (state.show_about)
-            draw_about_popup(state, io);
     }
 
 } // namespace front::main_menu

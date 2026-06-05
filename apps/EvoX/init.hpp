@@ -1,8 +1,12 @@
 #pragma once
 
+#include <GL/glew.h>    // must precede SDL_opengl.h
+
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
+
+#include "back/level_select.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -34,7 +38,7 @@ namespace app_init
     SDL_Window* create_window() 
     {
         SDL_Window* window = SDL_CreateWindow(
-            "Cellular Automata Engine",
+            "EvoX Engine",
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
             1280, 720,
             SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
@@ -78,6 +82,11 @@ namespace app_init
         style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.30f, 0.75f, 0.45f, 1.0f);
     }
 
+    void init_backend()
+    {
+        back::level_select::build_menu_tree();
+    }
+
     std::pair<SDL_Window*, SDL_GLContext> init()
     {
         init_SDL();
@@ -86,6 +95,9 @@ namespace app_init
         SDL_GLContext gl_ctx = create_context(window);
         SDL_GL_MakeCurrent(window, gl_ctx);
 
+        glewExperimental = GL_TRUE;
+        glewInit();  // must run after the GL context is current
+
         SDL_GL_SetSwapInterval(1); // vsync
 
         init_ImGui();
@@ -93,6 +105,8 @@ namespace app_init
 
         ImGui_ImplSDL2_InitForOpenGL(window, gl_ctx);
         ImGui_ImplOpenGL3_Init("#version 330");
+
+        init_backend();
 
         return {window, gl_ctx};
     }
