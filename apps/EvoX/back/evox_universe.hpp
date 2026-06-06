@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <stdexcept>
 
+#include "level/level_config.hpp"
 // EvoX engine — included via relative path from apps/EvoX/back/
 #include "../../../src/Models/EvoAlgos/Universe/UniverseEvoAlgos.hpp"
 #include "../../../src/Models/EvoAlgos/XASMAlgo/EvoX.hpp"
@@ -17,18 +18,15 @@
 #include "../../../src/General/Place.hpp"
 #include "../../../src/Utils/Constants.hpp"
 
+namespace fs = std::filesystem;
+
 namespace back::evox_universe
 {
-
-    namespace fs = std::filesystem;
-
-    struct CellConfig {
-        bool        is_void  = true;
-        std::string evox_str;
-    };
-
     struct EvoXUniverse
     {
+        back::level::LevelConfig config;
+        fs::path config_directory;
+
         int  nb_cells          = 4;
         int  max_nb_instr_exec = 1 << 22;
         int  data_stack_init   = 150;
@@ -38,15 +36,36 @@ namespace back::evox_universe
 
         std::string last_error;
 
-        std::vector<CellConfig>           cells;
-        std::vector<CellConfig>           initial_cells;
-        std::shared_ptr<UniverseEvoAlgos> universe;
+        std::vector<back::level::CellConfig>    cells;
+        std::shared_ptr<UniverseEvoAlgos>       universe;
 
-        // (Re-)allocate N void cells and clear universe.
-        void reset_cells()
+        void set_config(back::level::LevelConfig config, fs::path cfg_dir)
         {
-            cells.assign(nb_cells, CellConfig{});
-            initial_cells = cells;
+            config_directory = cfg_dir;
+            this->config = config;
+            reset();
+        }
+
+        // (Re-)allocate cells from config and clear universe.
+        void reset()
+        {
+            nb_cells = config.cells.size();
+
+            cells.resize(nb_cells);
+            for(int i=0; i<nb_cells; i++) 
+            {
+                std::string cell_name = config.cells[i];
+                if(cell_name == "void")
+                {
+                    set_cell_void(i);
+                }
+                else
+                {
+                    fs::path cell_path = config_directory / cell_name;
+                    load_cell_from_file(i, cell_path.string());
+                }
+            }
+
             universe.reset();
             built         = false;
             needs_rebuild = false;
@@ -81,7 +100,7 @@ namespace back::evox_universe
             return true;
         }
 
-        // Build (or rebuild) the live UniverseEvoAlgos from current cell config.
+        // Build (or rebuild) the live UniverseEvoAlgos
         bool build()
         {
             last_error.clear();
@@ -106,7 +125,6 @@ namespace back::evox_universe
                 }
                 universe = std::make_shared<UniverseEvoAlgos>("evox_ui", places);
                 universe->link_universe_functions_to_individuals();
-                initial_cells = cells;
                 step_count    = 0;
                 built         = true;
                 needs_rebuild = false;
@@ -122,30 +140,24 @@ namespace back::evox_universe
         // Advance one step. Rebuilds first if needed. Returns false on error.
         bool step()
         {
-            if (!built || needs_rebuild) {
-                if (!build()) return false;
+            if (!built || needs_rebuild)
+            {
+                if (!build())
+                    return false;
             }
-            try {
+            try
+            {
                 universe->exec();
-                ++step_count;
+                step_count++;
                 _sync_cells_from_universe();
                 last_error.clear();
                 return true;
-            } catch (const std::exception& e) {
+            } 
+            catch (const std::exception& e)
+            {
                 last_error = std::string("Step error: ") + e.what();
                 return false;
             }
-        }
-
-        // Reset universe to the state it was in when build() was last called.
-        void reset()
-        {
-            cells         = initial_cells;
-            universe.reset();
-            built         = false;
-            needs_rebuild = false;
-            step_count    = 0;
-            last_error.clear();
         }
 
         // Write current cell state to <dir>/step_NNN/cell_N.{evox,void}.
@@ -169,15 +181,21 @@ namespace back::evox_universe
     private:
         void _sync_cells_from_universe()
         {
-            if (!universe) return;
+            if (!universe)
+                return;
+            
             auto places = universe->get_places();
-            for (int i = 0; i < (int)cells.size() && i < (int)places.size(); i++) {
+            for (int i = 0; i < (int)cells.size() && i < (int)places.size(); i++)
+            {
                 auto entity = places[i]->get_entity();
-                if (entity->is_type(EVOX)) {
-                    auto algo       = std::dynamic_pointer_cast<EvoX>(entity);
+                if (entity->is_type(EVOX))
+                {
+                    auto algo         = std::dynamic_pointer_cast<EvoX>(entity);
                     cells[i].is_void  = false;
                     cells[i].evox_str = algo->body_to_evox_string();
-                } else {
+                }
+                else
+                {
                     cells[i].is_void  = true;
                     cells[i].evox_str.clear();
                 }

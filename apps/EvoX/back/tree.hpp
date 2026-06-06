@@ -3,9 +3,12 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <filesystem>
 #include <stdexcept>
 #include <functional>
 #include <algorithm>
+
+namespace fs = std::filesystem;
 
 namespace back::tree
 {
@@ -14,36 +17,51 @@ namespace back::tree
     class Tree
     {
     public:
+
         struct Node
         {
+            ///< value of the node (typically: experiment name)
             T value;
+            ///< path of the data (value is more for display)
+            fs::path path;
+
             Node* parent = nullptr;
             std::vector<std::unique_ptr<Node>> children;
 
-            explicit Node(T val, Node* par = nullptr)
-                : value(std::move(val)), parent(par) {}
+            explicit Node(T val, fs::path path_, Node* parent_ = nullptr)
+                : value(std::move(val)), 
+                  path(std::move(path_)),
+                  parent(parent_) {}
 
             bool isRoot() const { return parent == nullptr; }
             bool isLeaf() const { return children.empty(); }
             size_t childCount() const { return children.size(); }
+            fs::path getPath() const { return path; }
         };
 
-        explicit Tree(T rootValue)
+        explicit Tree(T rootValue, fs::path data_path)
         {
-            root_ = std::make_unique<Node>(std::move(rootValue));
+            root_ = std::make_unique<Node>(
+                std::move(rootValue),
+                fs::path(data_path)
+            );
         }
 
         Node* root() const { return root_.get(); }
 
         // --- Mutation ---
 
-        Node* addChild(Node* parent, T value)
+        Node* addChild(Node* parent, T value, std::string dir_name)
         {
             if (!parent)
                 throw std::invalid_argument("Parent node is null");
 
             parent->children.push_back(
-                std::make_unique<Node>(std::move(value), parent)
+                std::make_unique<Node>(
+                    std::move(value), 
+                    parent->getPath() / dir_name,
+                    parent
+                )
             );
 
             return parent->children.back().get();
@@ -56,8 +74,11 @@ namespace back::tree
             
             auto& siblings = node->parent->children;
             siblings.erase(
-                std::remove_if(siblings.begin(), siblings.end(),
-                    [node](const std::unique_ptr<Node>& n){ return n.get() == node; }),
+                std::remove_if(
+                    siblings.begin(),
+                    siblings.end(),
+                    [node](const std::unique_ptr<Node>& n){ return n.get() == node; }
+                ),
                 siblings.end()
             );
         }
@@ -119,12 +140,13 @@ namespace back::tree
 
         void dfs_(Node* node, std::function<void(Node*)>& f) const
         {
+            // call f on the whole tree
+
             if (!node)
                 return;
             
             f(node);
 
-            // call f on children
             for (auto& child : node->children)
                 dfs_(child.get(), f);
         }

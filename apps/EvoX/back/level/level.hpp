@@ -3,7 +3,17 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <memory>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <filesystem>
+#include <stdexcept>
+#include "level_config.hpp"
+#include "../tree.hpp"
 #include "../evox_universe.hpp"
+
+namespace fs = std::filesystem;
 
 namespace back::level
 {
@@ -11,12 +21,10 @@ namespace back::level
     class Level
     {
     public:
-        std::string experiment_name;
-
         // ── Default config (applied when starting a simulation) ───────
-        int  cfg_nb_cells   = 4;
-        int  cfg_max_instr  = 1 << 22;
-        int  cfg_data_stack = 150;
+        LevelConfig base_config;
+        LevelConfig config;
+        fs::path config_directory;
 
         // ── Simulation state ──────────────────────────────────────────
         back::evox_universe::EvoXUniverse universe;
@@ -26,7 +34,6 @@ namespace back::level
         float step_timer    = 0.0f;
 
         // ── Grid display ──────────────────────────────────────────────
-        float cell_size  = 80.0f;
         bool  show_editor = true;
 
         // ── Cell editor ───────────────────────────────────────────────
@@ -37,20 +44,33 @@ namespace back::level
         std::vector<char> editor_buf;
 
         char load_path[512] = "";
-        char save_dir[512]  = "/tmp/evox_experiment";
+        char save_dir[512]  = "/home/adrien/Programmation/Projets/BioEvo/apps/EvoX/data/evox_experiment";
 
         Level()
         {
+            base_config = LevelConfig::from_json(
+                json::parse(R"({
+                    "experiment_name": "None",
+                    "cell_size": 80.0,
+                    "cells": [
+                        "void",
+                        "void",
+                        "void",
+                        "void"
+                    ]
+                })")
+            );
+            config      = base_config;
             editor_buf.resize(EDITOR_BUF, '\0');
         }
 
-        void start_simulation(std::string exp_name)
+        void start_simulation(back::tree::Tree<std::string>::Node* node)
         {
-            experiment_name            = exp_name;
-            universe.nb_cells          = cfg_nb_cells;
-            universe.max_nb_instr_exec = cfg_max_instr;
-            universe.data_stack_init   = cfg_data_stack;
-            universe.reset_cells();
+            config_directory = node->getPath();
+            config = get_level_config(config_directory / "config.json");
+
+            universe.set_config(config, config_directory);
+
             selected_cell = -1;
             editor_buf[0] = '\0';
             editor_dirty  = false;
@@ -58,8 +78,33 @@ namespace back::level
             step_timer    = 0.0f;
         }
 
+        LevelConfig get_level_config(fs::path cfg_path)
+        {
+
+            std::ifstream file(cfg_path);
+            if (!file.is_open()) {
+                std::cerr << "Error: could not open file: " << cfg_path << "\n";
+                return base_config;
+            }
+
+            try {
+                // Parse directly from the stream — no need to read into a string first
+                json j = json::parse(file);
+                LevelConfig cfg = LevelConfig::from_json(j);
+                return cfg;
+            } catch (const json::parse_error& e) {
+                std::cerr << "JSON parse error: " << e.what() << "\n";
+            } catch (const json::out_of_range& e) {
+                std::cerr << "Missing field: " << e.what() << "\n";
+            } catch (const json::type_error& e) {
+                std::cerr << "Wrong field type: " << e.what() << "\n";
+            }
+            return base_config;
+        }
+
         void exit_simulation()
         {
+            config  = base_config;
             running = false;
         }
 

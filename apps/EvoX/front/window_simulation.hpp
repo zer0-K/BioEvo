@@ -26,7 +26,7 @@ namespace front::simulation
         ImGui::SetCursorPosY(10);
 
         ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]);
-        front::common::CenterText(state.level.experiment_name.c_str());
+        front::common::CenterText(state.level.config.experiment_name.c_str());
         ImGui::PopFont();
         ImGui::Spacing();
         ImGui::Separator();
@@ -101,10 +101,10 @@ namespace front::simulation
             ImGuiWindowFlags_NoScrollbar);
 
         // Render alive/void state into FBO
-        fbo.render(state.make_cell_grid(), gw, 1, (int)state.level.cell_size);
+        fbo.render(state.make_cell_grid(), gw, 1, (int)state.level.config.cell_size);
 
         // Centre the cell strip vertically in the available area
-        float img_h      = state.level.cell_size;
+        float img_h      = state.level.config.cell_size;
         float avail_h    = panel_h - STATUS_H;
         float scroll_h   = img_h + 20.0f;   // +20 for scrollbar
         float padding_top = (avail_h - scroll_h) * 0.5f;
@@ -120,14 +120,14 @@ namespace front::simulation
         ImVec2 img_min = ImGui::GetItemRectMin();
         if (ImGui::IsItemClicked()) {
             float mx  = ImGui::GetMousePos().x - img_min.x;
-            int   idx = (int)(mx / state.level.cell_size);
+            int   idx = (int)(mx / state.level.config.cell_size);
             if (idx >= 0 && idx < gw)
                 state.level.select_cell(idx);
         }
 
         // DrawList overlay: labels + selection border
         ImDrawList* draw = ImGui::GetWindowDrawList();
-        float cs = state.level.cell_size;
+        float cs = state.level.config.cell_size;
         for (int i = 0; i < gw; i++) {
             float x0 = img_min.x + i * cs;
             float y0 = img_min.y;
@@ -173,18 +173,18 @@ namespace front::simulation
         ImGui::Separator();
         ImGui::Spacing();
 
-        ImGui::SliderInt("Cells",         &state.level.cfg_nb_cells,   1, 16);
+        ImGui::SliderInt("Cells", &state.level.config.nb_cells, 1, 16);
         ImGui::Spacing();
 
         // Log-scale slider for max instructions: 2^16 .. 2^26
         static int log2_max_instr = 22;
         if (ImGui::SliderInt("Max instr (2^n)", &log2_max_instr, 14, 26))
-            state.level.cfg_max_instr = 1 << log2_max_instr;
+            state.level.universe.max_nb_instr_exec = 1 << log2_max_instr;
         ImGui::SameLine();
-        ImGui::Text("= %d", state.level.cfg_max_instr);
+        ImGui::Text("= %d", state.level.universe.max_nb_instr_exec);
         ImGui::Spacing();
 
-        ImGui::SliderInt("Stack init",    &state.level.cfg_data_stack,  50, 500);
+        ImGui::SliderInt("Stack init", &state.level.universe.data_stack_init, 50, 500);
 
         ImGui::Spacing();
 
@@ -196,7 +196,6 @@ namespace front::simulation
 
         ImGui::End();
     }
-
 
     static void draw_cell_editor(back::app_state::AppState& state, ImGuiIO& io)
     {

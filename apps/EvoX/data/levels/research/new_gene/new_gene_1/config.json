@@ -1,0 +1,8 @@
+{
+    "experiment_name": "new_gene_1",
+    "cell_size": 200.0,
+    "cells": [
+        "base_individual.evox",
+        "void"
+    ]
+}

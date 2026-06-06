@@ -3,8 +3,12 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <filesystem>
 #include "evox_universe.hpp"
+#include "tree.hpp"
 #include "level/level.hpp"
+
+namespace fs = std::filesystem;
 
 namespace back::app_state
 {
@@ -23,9 +27,9 @@ namespace back::app_state
         bool               show_about  = false;
         back::level::Level level       = back::level::Level();
 
-        void start_simulation(std::string experiment_name)
+        void start_simulation(back::tree::Tree<std::string>::Node* node)
         {
-            level.start_simulation(experiment_name);
+            level.start_simulation(node);
             screen = AppScreen::Simulation;
         }
 

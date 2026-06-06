@@ -664,7 +664,8 @@ add_executable(EvoXApp
     apps/EvoX/front/window_main_menu.hpp apps/EvoX/front/window_choose_exp.hpp
     apps/EvoX/front/window_simulation.hpp
     # back
-    apps/EvoX/back/level/level.hpp apps/EvoX/back/app_state.hpp
+    apps/EvoX/back/level/level.hpp 
+    apps/EvoX/back/level/level_config.hpp apps/EvoX/back/app_state.hpp
     apps/EvoX/back/grid_fbo.hpp apps/EvoX/back/evox_universe.hpp
     apps/EvoX/back/tree.hpp apps/EvoX/back/level_select.hpp
     # EvoX engine sources (same set as sandbox-runner)
@@ -679,8 +680,10 @@ add_executable(EvoXApp
     ${CMAKE_SOURCE_DIR}
 )
  
+find_package(nlohmann_json REQUIRED)
 target_link_libraries(EvoXApp PRIVATE
     ${SDL2_LIBRARIES}
+    nlohmann_json::nlohmann_json
     OpenGL::GL
     GLEW::GLEW
 )

@@ -63,7 +63,7 @@ namespace front::choose_exp
                 new_children = back::level_select::menu.childrenOf(children[i]);
 
                 if(new_children.size() == 0)
-                    state.start_simulation(children[i]->value);
+                    state.start_simulation(children[i]);
                 else
                 {
                     children = new_children;
