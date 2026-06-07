@@ -94,7 +94,7 @@ namespace main_loop
                     front::choose_exp::DrawExpMenu(state);
                     break;
                 case back::app_state::AppScreen::Simulation:
-                    front::simulation::DrawSimulation(state, grid_fbo);
+                    front::simulation::draw_simulation(state, grid_fbo);
                     break;
             }
 
