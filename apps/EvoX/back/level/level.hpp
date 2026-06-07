@@ -21,6 +21,13 @@ namespace back::level
     class Level
     {
     public:
+        struct ProgteinEntry { std::string name; int id = 0; std::string body; };
+        struct GeneEntry     { int id = 0;                   std::string body; };
+        struct EvoxSummary   {
+            std::vector<ProgteinEntry> progteins;
+            std::vector<GeneEntry>     genes;
+        };
+
         // ── Default config (applied when starting a simulation) ───────
         LevelConfig base_config;
         LevelConfig config;
@@ -144,6 +151,68 @@ namespace back::level
                 universe.set_cell_evox(selected_cell, s);
             editor_dirty = false;
         }
+    
+        static EvoxSummary parse_evox_summary(const char* text)
+        {
+            EvoxSummary out;
+            std::istringstream ss(text);
+            std::string line;
+            bool in_dna = false, in_prog = false, in_gene = false;
+            ProgteinEntry cur_p;
+            GeneEntry     cur_g;
+
+            // read first whitespace-delimited token from a trimmed line, uppercased
+            auto kw_of = [](const std::string& tr) {
+                std::string kw; std::istringstream ls(tr); ls >> kw;
+                for (auto& c : kw) c = (char)std::toupper((unsigned char)c);
+                return kw;
+            };
+            // everything after the keyword (safe even if len >= tr.size())
+            auto after_kw = [](const std::string& tr, size_t kw_len) {
+                return (tr.size() > kw_len) ? tr.substr(kw_len) : std::string{};
+            };
+
+            while (std::getline(ss, line)) {
+                // trim leading whitespace
+                size_t f = line.find_first_not_of(" \t");
+                std::string tr = (f != std::string::npos) ? line.substr(f) : std::string{};
+                std::string kw = kw_of(tr);
+
+                if (!in_dna && !in_prog && !in_gene) {
+                    if (kw == "PROGTEIN") {
+                        in_prog = true;  cur_p = {};
+                        std::istringstream ls(after_kw(tr, kw.size()));
+                        std::string tok;
+                        while (ls >> tok) {
+                            if (tok.rfind("id=", 0) == 0)
+                                try { cur_p.id = std::stoi(tok.substr(3)); } catch (...) {}
+                            else if (cur_p.name.empty() && !tok.empty() && tok[0] != '#')
+                                cur_p.name = tok;
+                        }
+                    } else if (kw == "DNA") {
+                        in_dna = true;
+                    }
+                } else if (in_prog) {
+                    if (kw == "END") { out.progteins.push_back(cur_p);  in_prog = false; }
+                    else             { if (!cur_p.body.empty()) cur_p.body += '\n'; cur_p.body += line; }
+                } else if (in_dna && !in_gene) {
+                    if (kw == "END") { in_dna = false; }
+                    else if (kw == "GENE") {
+                        in_gene = true;  cur_g = {};
+                        std::istringstream ls(after_kw(tr, kw.size()));
+                        std::string tok;
+                        while (ls >> tok)
+                            if (tok.rfind("id=", 0) == 0)
+                                try { cur_g.id = std::stoi(tok.substr(3)); } catch (...) {}
+                    }
+                } else if (in_gene) {
+                    if (kw == "END") { out.genes.push_back(cur_g);  in_gene = false; }
+                    else             { if (!cur_g.body.empty()) cur_g.body += '\n'; cur_g.body += line; }
+                }
+            }
+            return out;
+        }
+
     };
 
 } // namespace back::level
