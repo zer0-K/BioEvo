@@ -662,7 +662,9 @@ add_executable(EvoXApp
     apps/EvoX/front/common.hpp
     apps/EvoX/front/main_loop.hpp apps/EvoX/front/common.hpp
     apps/EvoX/front/window_main_menu.hpp apps/EvoX/front/window_choose_exp.hpp
-    apps/EvoX/front/window_simulation.hpp
+    apps/EvoX/front/window_simulation.hpp apps/EvoX/front/simulation/simulation_tab.hpp
+    apps/EvoX/front/simulation/advanced_editor_tab.hpp
+    apps/EvoX/front/simulation/simulation_constants.hpp
     # back
     apps/EvoX/back/level/level.hpp 
     apps/EvoX/back/level/level_config.hpp apps/EvoX/back/app_state.hpp
