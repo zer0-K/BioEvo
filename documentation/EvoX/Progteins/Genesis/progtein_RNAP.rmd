@@ -83,6 +83,7 @@ While loop var is not a gene stop
   increment loop var and RNA ptr
   get val at loop var, i.e. nucleotide val
   skip metamutator if there is one
+  skip locus metadata
   write nucleotide on RNA ptr
   update condition : nucleotide is not a gene stop
 
@@ -206,6 +207,8 @@ id_tRNA_IF0, 3
 | | id_tRNA_OPELVLV, 0, 1, 5        // var1 += metamutator size
 | | id_tRNA_INCLV, 1, 1             // var1-- (fencepost)
 | | id_tRNA_INCLV, 1, 2             // var2-- (fencepost)
+| 
+| // skip locus metadata
 |
 | id_tRNA_SIJ
 |

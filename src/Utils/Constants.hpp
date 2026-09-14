@@ -115,6 +115,7 @@ const int GSTART_ID = -51451;
 const int GSTOP_ID = -77142;
 const int MSTOP_ID = -299792;
 const int GGENESIS_ID = -130662;
+const int LOCUS_ID = -245426;
 
 
 // ------------------------------------------------------------ Experiment names

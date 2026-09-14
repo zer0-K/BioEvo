@@ -1,5 +1,5 @@
 RAW
-    0 3 32138 150 -1 0 0
+    0 3 36898 150 -1 0 0
     19 0 0 0 36 0 0
 END
 
@@ -3386,7 +3386,7 @@ PROGTEIN RNAP id=207
     CPY 1 0 0 105 -77143 0
     INC 1 0 0 105 0 0
     CPY 1 0 0 102 1 0
-    JRE 0 1 0 30 102 0
+    JRE 0 1 0 41 102 0
     INC 1 0 0 100 0 0
     INC 1 0 0 101 0 0
     GR 1 2 0 104 100 0
@@ -3407,7 +3407,15 @@ PROGTEIN RNAP id=207
     ADD 1 1 1 100 100 104
     DEC 1 0 0 100 0 0
     DEC 1 0 0 101 0 0
-    JRA 0 0 0 8 0 0
+    JRA 0 0 0 19 0 0
+    CPY 1 0 0 106 -245427 0
+    INC 1 0 0 106 0 0
+    JRE 0 1 1 3 104 106
+    CPY 1 0 0 107 0 0
+    JRA 0 0 0 2 0 0
+    CPY 1 0 0 107 1 0
+    DEC 1 0 0 107 0 0
+    JRE 0 1 0 9 107 0
     CPY 2 1 0 101 104 0
     CPY 1 2 0 102 101 0
     JRE 0 1 1 3 102 105
@@ -3415,7 +3423,10 @@ PROGTEIN RNAP id=207
     JRA 0 0 0 2 0 0
     CPY 1 0 0 102 1 0
     DEC 1 0 0 102 0 0
-    JRS 0 0 0 29 0 0
+    JRA 0 0 0 3 0 0
+    INC 1 0 0 100 0 0
+    DEC 1 0 0 101 0 0
+    JRS 0 0 0 40 0 0
     DEC 1 0 0 101 0 0
     CPY 2 1 0 99 101 0
     DEC 1 0 0 99 0 0
@@ -4352,8 +4363,7 @@ DNA
         GScstLV 5 4
         CALLLV 4
         RET
-        40001
-        1
+        40001 1
     END
     GENE id=3
         CVARS 125 4
@@ -4561,10 +4571,19 @@ DNA
         INCLV 1 1
         INCLV 1 2
         SIJ
+        SLVcst 7 -245427
+        INCLV 0 7
+        CMPLVLV 0 5 7 8
+        INCLV 1 8
+        IF0 8
         SDLVLV 2 5
         SLVDLV 3 2
         CMPLVLV 0 3 6 3
         INCLV 1 3
+        SIJ
+        INCLV 0 1
+        INCLV 1 2
+        SEJ
         SEJ
         SWJ
         INCLV 1 2

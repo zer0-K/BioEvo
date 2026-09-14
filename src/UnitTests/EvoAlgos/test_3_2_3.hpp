@@ -32,12 +32,12 @@ namespace ut_ea
 
         bool is_passed = true;
 
-        std::cout << "Evo algos - evox - evolution preliminaries -  full replication : " << std::endl;
+        std::cout << "Evo algos - evox - evolution preliminaries - full replication : " << std::endl;
  
         is_passed &= launch_tests_evo_algos_self_replication_autopoiesis();
         is_passed &= launch_tests_evo_algos_self_replication_autopoiesis_evox_format();
 
-        std::cout << "Evo algos - evox - evolution preliminaries -  full replication : ";
+        std::cout << "Evo algos - evox - evolution preliminaries - full replication : ";
         passed_print(is_passed);
 
         return is_passed;
@@ -110,7 +110,7 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "\tEvo algos - self replication - autopoiesis : ";
+            std::cout << "\tEvo algos - evolution preliminaries - full replication - autopoiesis : ";
             passed_print(is_passed);
         }
 
@@ -178,12 +178,10 @@ namespace ut_ea
 
         if(verbose_unit_tests)
         {
-            std::cout << "\tEvo algos - self replication - autopoiesis (evox format) : ";
+            std::cout << "\tEvo algos - evolution preliminaries - full replication - autopoiesis (evox format) : ";
             passed_print(is_passed);
         }
 
         return is_passed;
     }
-
-
 }

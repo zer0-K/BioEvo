@@ -1,4 +1,5 @@
 #include "EvoXParser.hpp"
+#include "../../../../Utils/Constants.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -100,13 +101,19 @@ XASMParser::BodyDef EvoXParser::parse_evox_body_def(std::istream& in, NameMap& n
                 if (evox_upper(t[0]) == "END") break;
                 if (evox_upper(t[0]) == "GENE") {
                     GeneDef g;
+                    int locus = 0;
                     g.id = (t.size() > 1) ? parse_id(t[1]) : 0;
                     while (std::getline(in, line)) {
                         auto gt = tokenize(line);
                         if (gt.empty()) continue;
                         if (evox_upper(gt[0]) == "END") break;
+                        
+                        g.content.push_back(LOCUS_ID);
+                        g.content.push_back(locus);
                         for (auto& tok : gt)
                             g.content.push_back(resolve_token(tok, names));
+                        
+                        locus++;
                     }
                     def.genes.push_back(std::move(g));
                 } else if (evox_upper(t[0]) == "PAD") {
