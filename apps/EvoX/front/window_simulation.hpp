@@ -7,6 +7,7 @@
 #include "../back/grid_fbo.hpp"
 #include "simulation/simulation_constants.hpp"
 #include "simulation/simulation_tab.hpp"
+#include "simulation/debugger_tab.hpp"
 #include "simulation/advanced_editor_tab.hpp"
 
 namespace front::simulation
@@ -100,6 +101,7 @@ namespace front::simulation
         {
             if (ImGui::BeginTabItem("Simulation"))    { active_tab = 0; ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Genetic editor")) { active_tab = 1; ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Debugger")) { active_tab = 2; ImGui::EndTabItem(); }
             ImGui::EndTabBar();
         }
 
@@ -121,9 +123,13 @@ namespace front::simulation
             if (state.level.show_editor)
                 draw_basic_editor(state, io);
         }
+        else if (tab == 1)
+        {
+           draw_genetic_editor(state, io);
+        }
         else
         {
-            draw_genetic_editor(state, io);
+           draw_debugger(state, io);
         }
     }
 

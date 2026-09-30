@@ -3,7 +3,7 @@
 #include "../../../Utils/Maths/RandomGen.hpp"
 #include "../../../Entities/EntityInt.hpp"
 #include "InstructionMapping.hpp"
-//#include "FreeMolecules.hpp"
+
 
 void XASMAlgo::init()
 {
@@ -29,6 +29,8 @@ void XASMAlgo::init()
     write_free_molecules_at = [](int pos, std::vector<int> g){return false;};
 
     neighborhood_size = 0;
+
+    bio_debug = std::make_unique<BiologicalDebugger>();
 }
 
 void XASMAlgo::init_external_functions(std::function<int()> get_universe_size,
@@ -47,87 +49,30 @@ void XASMAlgo::init_external_functions(std::function<int()> get_universe_size,
 
 std::vector<sp_entity> XASMAlgo::exec(std::vector<sp_entity> entries)
 {
-    // check if there is an input first
-    //if(entries.size() == 1 && std::dynamic_pointer_cast<FreeMolecules>(entries[0]) != NULL)
-    //{
-    //    sp_free_molecules free_molecules = std::dynamic_pointer_cast<FreeMolecules>(entries[0]);
-    //    set_input(free_molecules->get_body());
-    //}
-
     // execution starts at pos 0
     program_counter = 0;
 
     // to prevent infinite loops
     instr_counter = 0;
 
-    if(debug)
-    {
-        data_debug.push_back(data);
-    }
-
-    int debug_1 = -1;
-    int debug_2 = -1;
-    int debug_3 = -1;
-    bool is_ribosome = false;
-    bool tRNA_call = false;
-    int last_tRNA_called = -1;
-
     while(program_counter>=0 && program_counter<code.size()
         && instr_counter < max_nb_instr_exec)
     {
         std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
+
+        if(bio_debug->stop())
+            return MPTY;
         
-        if(program_counter == debug_1 || program_counter == debug_2 || program_counter == debug_3)
-        {
-            int test = 0;
-        }
-        if(debug_ribosome)
-        {
-            if(program_counter == 19)
-            {
-                is_ribosome = data[101] == id_ribosome;
-            }
-            if(is_ribosome)
-            {
-                if(tRNA_call)
-                {
-                    int ribosome_ptr = data[data[99]];
-                    int mRNA_end = data[data[99]-1];
-                    if(ribosome_ptr < mRNA_end && data[ribosome_ptr] < 9999 || data[ribosome_ptr] > 15100)
-                    {
-                        // there was an issue in tRNA call
-                        int test3 = 3;
-                    }
-                    tRNA_call = false;
-                }
-
-                if(code_line[0] == instruction::CALL)
-                {
-                    tRNA_call = true;
-                    last_tRNA_called = data[data[data[100]]];
-                    is_ribosome = false;
-                }                
-            }
-            else 
-            {
-                // after tRNA call we go back to ribosome
-                is_ribosome = program_counter == 23 && tRNA_call;
-            }
-        }
-
         exec_instruction(code_line[0], code_line[1], code_line[2], code_line[3], code_line[4], code_line[5], code_line[6]);
 
         program_counter++;
         instr_counter++;
-
-        if(debug)
-        {
-            data_debug.push_back(data);
-        }
     }
 
     // reinit input at end of exec
     set_input_size(0);
+
+    bio_debug->unstop();
 
     return entries;
 }
@@ -1581,6 +1526,10 @@ void XASMAlgo::set_neighborhood_size(int size)
     neighborhood_size = size;
 }
 
+void XASMAlgo::activate_debugger()
+{
+    bio_debug->activated = true;
+}
 
 //----- getters
 

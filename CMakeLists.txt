@@ -200,14 +200,9 @@ set(HEADERS_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/XASMAlgo/Parsing/tRNATable.hpp
     src/Models/EvoAlgos/XASMAlgo/Parsing/XASMParser.hpp
     src/Models/EvoAlgos/XASMAlgo/Parsing/EvoXParser.hpp
-#---------- Experiments
-#----- BioEvo
-# Replicators
-    #src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.hpp
-#----- Classical Algos
-# Function execution
-    #src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.hpp
-    )
+# EvoXUtils
+    src/Models/EvoAlgos/XASMAlgo/EvoXUtils/biological_debugger.hpp
+)
 
 set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/Universe/UniverseEvoAlgos.cpp src/Models/EvoAlgos/Universe/UniverseEvoXCustomNeighborhood.cpp
@@ -219,14 +214,7 @@ set(SOURCES_MODEL_EVO_ALGOS
     src/Models/EvoAlgos/XASMAlgo/Parsing/tRNATable.cpp
     src/Models/EvoAlgos/XASMAlgo/Parsing/XASMParser.cpp
     src/Models/EvoAlgos/XASMAlgo/Parsing/EvoXParser.cpp
-#---------- Experiments
-#----- BioEvo
-# Replicators
-    #src/Experiment/BioEvo/Replicators/EvoAlgos/EvoX/ReplicationEvoXQuine.cpp
-#----- Classical Algos
-# Function execution
-    #src/Experiment/ClassicalInfo/FunctionExecution/EvoX/FunctionExecutionEvoX.cpp
-    )
+)
 
 
 # ********************************* Evolutionary biology *********************************
@@ -663,6 +651,7 @@ add_executable(EvoXApp
     apps/EvoX/front/main_loop.hpp apps/EvoX/front/common.hpp
     apps/EvoX/front/window_main_menu.hpp apps/EvoX/front/window_choose_exp.hpp
     apps/EvoX/front/window_simulation.hpp apps/EvoX/front/simulation/simulation_tab.hpp
+    apps/EvoX/front/simulation/debugger_tab.hpp
     apps/EvoX/front/simulation/advanced_editor_tab.hpp
     apps/EvoX/front/simulation/simulation_constants.hpp
     # back

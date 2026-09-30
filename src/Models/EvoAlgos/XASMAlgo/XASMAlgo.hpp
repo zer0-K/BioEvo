@@ -1,10 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <array>
 #include <functional>
 
 #include "../../../Utils/Constants.hpp"
-
+#include "EvoXUtils/biological_debugger.hpp"
 #include "../../../Entities/Entity.hpp"
 
 /**
@@ -44,6 +45,8 @@ protected:
     int program_counter;
     int instr_counter;  ///< count the number of instructions executed
     int max_nb_instr_exec;  ///< max number of instructions to execute
+
+    std::vector<sp_entity> MPTY = std::vector<sp_entity>();
 
 
     //---------- external functions
@@ -95,6 +98,8 @@ public:
     bool debug;
     bool debug_ribosome;
     int data_debug_window;
+
+    std::unique_ptr<BiologicalDebugger> bio_debug;
 
     using Entity::Entity;
 
@@ -164,6 +169,8 @@ public:
     void reset_data();
 
     void set_neighborhood_size(int size);
+
+    void activate_debugger();
 
     // getters
     std::vector<std::array<int,SIZE_INSTR>> get_code();
