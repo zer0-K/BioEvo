@@ -55,11 +55,20 @@ std::vector<sp_entity> XASMAlgo::exec(std::vector<sp_entity> entries)
     // to prevent infinite loops
     instr_counter = 0;
 
+    if(bio_debug->stop())
+    {
+        // resume exec to where it was before
+        bio_debug->resume();
+        program_counter = bio_debug->program_counter+1;
+        instr_counter = bio_debug->instr_counter+1;
+    }
+
     while(program_counter>=0 && program_counter<code.size()
         && instr_counter < max_nb_instr_exec)
     {
         std::array<int,SIZE_INSTR> code_line = code.at(program_counter);
 
+        bio_debug->check(code_line, program_counter, instr_counter);
         if(bio_debug->stop())
             return MPTY;
         
@@ -72,7 +81,7 @@ std::vector<sp_entity> XASMAlgo::exec(std::vector<sp_entity> entries)
     // reinit input at end of exec
     set_input_size(0);
 
-    bio_debug->unstop();
+    bio_debug->reset();
 
     return entries;
 }
