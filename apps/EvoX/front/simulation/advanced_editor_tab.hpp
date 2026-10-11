@@ -5,11 +5,22 @@
 
 #include "../../back/app_state.hpp"
 #include "../../back/grid_fbo.hpp"
+#include "../../back/biological_debris.hpp"
 #include "simulation_constants.hpp"
 
 namespace front::simulation
 {
-    static constexpr float LIST_W  = 220.0f; 
+    static constexpr float LIST_W   = 220.0f; 
+    static constexpr float DEBRIS_W = 220.0f;
+
+    // Incremented each time the editor buffer is modified from this tab,
+    // so that the cached summary gets re-parsed.
+    static int s_editor_revision = 0;
+
+    // Debris currently previewed in the content view, per mode
+    // ([0] = progteins, [1] = DNA). Cleared when a progtein/gene is selected.
+    static bool                            s_show_debris[2] = {false, false};
+    static back::biological_debris::Debris s_debris_preview[2];
 
     static void draw_cell_selector(back::app_state::AppState& state, int nb_cells)
     {
@@ -64,8 +75,11 @@ namespace front::simulation
                 auto& p = s_summary.progteins[i];
                 char lbl[80];
                 snprintf(lbl, sizeof(lbl), "[%d]  %s", p.id, p.name.c_str());
-                if (ImGui::Selectable(lbl, selected_progtein == i))
+                if (ImGui::Selectable(lbl, selected_progtein == i && !s_show_debris[0]))
+                {
                     selected_progtein = i;
+                    s_show_debris[0]  = false;
+                }
             }
         }
         else // genes
@@ -74,8 +88,11 @@ namespace front::simulation
             {
                 char lbl[32];
                 snprintf(lbl, sizeof(lbl), "gene  id=%d", s_summary.genes[i].id);
-                if (ImGui::Selectable(lbl, selected_gene == i)) 
-                    selected_gene = i;
+                if (ImGui::Selectable(lbl, selected_gene == i && !s_show_debris[1]))
+                {
+                    selected_gene    = i;
+                    s_show_debris[1] = false;
+                }
             }
         }
 
@@ -93,7 +110,18 @@ namespace front::simulation
     {
         ImGui::BeginChild("##ge_content", {context_width, available_height}, true);
 
-        if (mode == 0)
+        if (s_show_debris[mode])
+        {
+            auto& d = s_debris_preview[mode];
+            int nlines = 1;
+            for (char c : d.body) if (c == '\n') nlines++;
+            ImGui::Text("DEBRIS %s  (%d lines)  —  not in the cell, click \"Add\" to insert it",
+                d.name.c_str(), nlines);
+            ImGui::Separator();
+            ImGui::Spacing();
+            ImGui::TextUnformatted(d.body.c_str());
+        }
+        else if (mode == 0)
         {
             if (selected_progtein >= 0 && selected_progtein < (int)s_summary.progteins.size())
             {
@@ -131,7 +159,112 @@ namespace front::simulation
         ImGui::EndChild();
     }
 
-    static void draw_editor_zone(back::level::Level::EvoxSummary s_summary,
+    static int next_free_progtein_id(const back::level::Level::EvoxSummary& s_summary)
+    {
+        int max_id = -1;
+        for (auto& p : s_summary.progteins) max_id = std::max(max_id, p.id);
+        return max_id + 1;
+    }
+
+    static int next_free_gene_id(const back::level::Level::EvoxSummary& s_summary)
+    {
+        int max_id = -1;
+        for (auto& g : s_summary.genes) max_id = std::max(max_id, g.id);
+        return max_id + 1;
+    }
+
+    static void add_debris_to_cell(back::app_state::AppState& state,
+                                   const back::level::Level::EvoxSummary& s_summary,
+                                   const back::biological_debris::Debris& d,
+                                   int mode)
+    {
+        namespace bd = back::biological_debris;
+
+        std::string evox(state.level.editor_buf.data());
+        std::string updated = (mode == 0)
+            ? bd::insert_progtein(evox, d.name, next_free_progtein_id(s_summary), d.body)
+            : bd::insert_gene(evox, next_free_gene_id(s_summary), d.body);
+
+        if (updated.size() >= back::level::Level::EDITOR_BUF)
+        {
+            std::cerr << "Biological debris: editor buffer full, cannot add " << d.name << "\n";
+            return;
+        }
+
+        std::memcpy(state.level.editor_buf.data(), updated.c_str(), updated.size() + 1);
+        state.level.editor_dirty = true;
+        s_editor_revision++;
+    }
+
+    static void draw_biological_debris(back::app_state::AppState& state,
+                                       const back::level::Level::EvoxSummary& s_summary,
+                                       int mode,
+                                       float available_height)
+    {
+        namespace bd = back::biological_debris;
+
+        // [0] = progteins debris, [1] = DNA (genes) debris
+        static std::vector<bd::Debris> s_debris[2];
+        static int  s_selected[2] = {-1, -1};
+        static bool s_loaded = false;
+        if (!s_loaded)
+        {
+            s_debris[0] = bd::load_all(bd::progteins_debris_path);
+            s_debris[1] = bd::load_all(bd::dna_debris_path);
+            s_loaded = true;
+        }
+
+        auto& debris   = s_debris[mode];
+        int&  selected = s_selected[mode];
+
+        ImGui::BeginChild("##ge_debris", {DEBRIS_W, available_height}, true,
+            ImGuiWindowFlags_HorizontalScrollbar);
+
+        ImGui::Text("Biological debris");
+        ImGui::SameLine();
+        if (ImGui::SmallButton("Refresh"))
+        {
+            s_debris[0] = bd::load_all(bd::progteins_debris_path);
+            s_debris[1] = bd::load_all(bd::dna_debris_path);
+            s_selected[0]    = s_selected[1]    = -1;
+            s_show_debris[0] = s_show_debris[1] = false;
+        }
+        ImGui::TextDisabled("%s debris", mode == 0 ? "Progtein" : "DNA");
+
+        bool has_selection = selected >= 0 && selected < (int)debris.size();
+        ImGui::BeginDisabled(!has_selection);
+        if (ImGui::Button("Add", {-FLT_MIN, 0}))
+            add_debris_to_cell(state, s_summary, debris[selected], mode);
+        ImGui::EndDisabled();
+        ImGui::Separator();
+
+        if (debris.empty())
+            ImGui::TextDisabled("No debris found.");
+
+        for (int i = 0; i < (int)debris.size(); i++)
+        {
+            auto& d = debris[i];
+            ImGui::PushID(i);
+            if (ImGui::Selectable(d.name.c_str(), selected == i && s_show_debris[mode]))
+            {
+                selected                = i;
+                s_show_debris[mode]     = true;
+                s_debris_preview[mode]  = d;
+            }
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::BeginTooltip();
+                ImGui::TextUnformatted(d.body.c_str());
+                ImGui::EndTooltip();
+            }
+            ImGui::PopID();
+        }
+
+        ImGui::EndChild();
+    }
+
+    static void draw_editor_zone(back::app_state::AppState& state,
+                                 back::level::Level::EvoxSummary s_summary,
                                  int mode)
     {
         // ── Two-column layout: list  |  content ──────────────────────
@@ -139,7 +272,7 @@ namespace front::simulation
         static int selected_gene     = -1;
 
         float avail_h   = ImGui::GetContentRegionAvail().y;
-        float content_w = ImGui::GetContentRegionAvail().x - LIST_W - 8.0f;
+        float content_w = ImGui::GetContentRegionAvail().x - LIST_W - DEBRIS_W - 16.0f;
         if (content_w < 80.0f)
             content_w = 80.0f;
 
@@ -154,9 +287,14 @@ namespace front::simulation
 
         // Right: content view
         draw_genetic_info(s_summary, mode, selected_progtein, selected_gene, content_w, avail_h);
+
+        ImGui::SameLine();
+
+        // Far right: biological debris, click to add to the current list
+        draw_biological_debris(state, s_summary, mode, avail_h);
     }
 
-    static bool draw_choose_mode(back::app_state::AppState& state,
+    static int draw_choose_mode(back::app_state::AppState& state,
                                  back::level::Level::EvoxSummary s_summary)
     {
         // ── Mode selector (Progteins / Genes) ─────────────────────────
@@ -182,12 +320,15 @@ namespace front::simulation
         static int        s_cell      = -2;
         static int        s_step      = -1;
         static bool       s_was_dirty = true;
+        static int        s_revision  = -1;
 
         bool need_reparse = (s_cell != state.level.selected_cell)
                          || (s_step != state.level.universe.step_count)
+                         || (s_revision != s_editor_revision)
                          || (!state.level.editor_dirty && s_was_dirty);
         if (need_reparse)
         {
+            s_revision = s_editor_revision;
             s_cell    = state.level.selected_cell;
             s_step    = state.level.universe.step_count;
             s_summary = state.level.parse_evox_summary(state.level.editor_buf.data());
@@ -202,13 +343,13 @@ namespace front::simulation
         static back::level::Level::EvoxSummary s_summary;
 
         s_summary = reparsing(state, s_summary);
-        bool mode = draw_choose_mode(state, s_summary);
+        int mode = draw_choose_mode(state, s_summary);
 
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
 
-        draw_editor_zone(s_summary, mode);
+        draw_editor_zone(state, s_summary, mode);
     }
 
     static void draw_genetic_editor(back::app_state::AppState& state, ImGuiIO& io)

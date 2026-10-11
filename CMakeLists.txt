@@ -659,6 +659,7 @@ add_executable(EvoXApp
     apps/EvoX/back/level/level_config.hpp apps/EvoX/back/app_state.hpp
     apps/EvoX/back/grid_fbo.hpp apps/EvoX/back/evox_universe.hpp
     apps/EvoX/back/tree.hpp apps/EvoX/back/level_select.hpp
+    apps/EvoX/back/biological_debris.hpp
     # EvoX engine sources (same set as sandbox-runner)
     ${HEADERS_FRAMEWORK} ${HEADERS_MODELS}
     ${SOURCES_FRAMEWORK} ${SOURCES_MODELS}

@@ -137,10 +137,15 @@ namespace back::evox_universe
             }
         }
 
+        bool is_built()
+        {
+            return built && !needs_rebuild;
+        }
+
         // Advance one step. Rebuilds first if needed. Returns false on error.
         bool step()
         {
-            if (!built || needs_rebuild)
+            if (!is_built())
             {
                 if (!build())
                     return false;

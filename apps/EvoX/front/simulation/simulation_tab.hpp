@@ -133,7 +133,7 @@ namespace front::simulation
             ImGui::Spacing();
 
             // Reserve space below the editor for buttons + load row + save row
-            float editor_h = ImGui::GetContentRegionAvail().y - 176.0f;
+            float editor_h = ImGui::GetContentRegionAvail().y - 250.0f;
             if (editor_h < 60.0f) editor_h = 60.0f;
 
             if (ImGui::InputTextMultiline("##code",
@@ -182,6 +182,30 @@ namespace front::simulation
         ImGui::Text("Save dir:");
         ImGui::SetNextItemWidth(-1);
         ImGui::InputText("##save_dir", state.level.save_dir, sizeof(state.level.save_dir));
+
+        // ── Save the selected individual's code (progteins + genes) ──
+        static std::string s_save_msg;
+        static bool        s_save_ok = false;
+
+        bool can_save = state.level.selected_cell >= 0 && state.level.selected_cell < n
+                     && !state.level.universe.cells[state.level.selected_cell].is_void;
+
+        ImGui::Text("Save individual (progteins + genes):");
+        float save_btn_w = 60.0f;
+        ImGui::SetNextItemWidth(-(save_btn_w + 8));
+        ImGui::InputText("##save_name", state.level.save_name, sizeof(state.level.save_name));
+        ImGui::SameLine();
+        ImGui::BeginDisabled(!can_save);
+        if (ImGui::Button("Save", {save_btn_w, 0}))
+        {
+            std::string path = state.level.save_individual_code();
+            s_save_ok  = !path.empty();
+            s_save_msg = s_save_ok ? "Saved to " + path : "Could not save (see console)";
+        }
+        ImGui::EndDisabled();
+        if (!s_save_msg.empty())
+            ImGui::TextColored(s_save_ok ? ImVec4(0.4f, 0.9f, 0.4f, 1.0f) : ImVec4(1.0f, 0.4f, 0.4f, 1.0f),
+                               "%s", s_save_msg.c_str());
     }
 
     // ── basic editor side panel ───────────────────────────────────────────────────

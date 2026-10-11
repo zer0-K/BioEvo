@@ -52,6 +52,7 @@ namespace back::level
 
         char load_path[512] = "";
         char save_dir[512]  = "/home/adrien/Programmation/Projets/BioEvo/apps/EvoX/data/evox_experiment";
+        char save_name[128] = "individual.evox";
 
         Level()
         {
@@ -152,6 +153,40 @@ namespace back::level
             editor_dirty = false;
         }
     
+        // Write the progteins + genes (DNA) of the selected cell, as shown in
+        // the editor (unapplied edits included), to <save_dir>/<save_name>.
+        // Returns the written path, or an empty string on failure.
+        std::string save_individual_code() const
+        {
+            if (selected_cell < 0 || selected_cell >= (int)universe.cells.size()
+                || universe.cells[selected_cell].is_void)
+                return {};
+
+            EvoxSummary s = parse_evox_summary(editor_buf.data());
+
+            std::ostringstream out;
+            for (const auto& p : s.progteins)
+                out << "PROGTEIN " << p.name << " id=" << p.id << "\n"
+                    << p.body << "\nEND\n\n";
+            out << "DNA\n";
+            for (const auto& g : s.genes)
+                out << "    GENE id=" << g.id << "\n"
+                    << g.body << "\n    END\n";
+            out << "END\n";
+
+            std::error_code ec;
+            fs::create_directories(save_dir, ec);
+            fs::path path = fs::path(save_dir) / save_name;
+            std::ofstream f(path);
+            if (!f.is_open())
+            {
+                std::cerr << "Error: could not write file: " << path << "\n";
+                return {};
+            }
+            f << out.str();
+            return path.string();
+        }
+
         static EvoxSummary parse_evox_summary(const char* text)
         {
             EvoxSummary out;

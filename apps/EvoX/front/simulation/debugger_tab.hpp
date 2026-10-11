@@ -48,7 +48,11 @@ namespace front::simulation
 
     static void draw_debugger_editor(back::app_state::AppState& state)
     {
-
+        if (state.level.universe.cells[state.level.selected_cell].is_void)
+            return;
+        
+        if(!state.level.universe.is_built())
+            state.level.universe.build();
     }
 
     static void draw_debugger(back::app_state::AppState& state, ImGuiIO& io)
