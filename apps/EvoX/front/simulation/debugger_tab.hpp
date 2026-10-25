@@ -94,7 +94,7 @@ namespace front::simulation
                                       int selected_progtein,
                                       float available_height)
     {
-        static int  s_clicked_progtein = -1;   // progtein for which the button was clicked
+        static int s_clicked_progtein = -1;   // progtein for which the button was clicked
 
         ImGui::BeginChild("##dbg_breakpoints", {0, available_height}, true);
 
@@ -109,7 +109,7 @@ namespace front::simulation
                 state.level.universe.build();
                 auto place = state.level.universe.universe->get_places()[state.level.selected_cell];
                 auto evox_individual = std::dynamic_pointer_cast<EvoX>(place->get_entity());
-                evox_individual->bio_debug->activated = true;
+                evox_individual->activate_debugger();
                 evox_individual->bio_debug->add_breakpoint_at_progtein(p.id);
             }
         }

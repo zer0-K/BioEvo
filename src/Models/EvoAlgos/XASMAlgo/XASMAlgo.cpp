@@ -17,11 +17,6 @@ void XASMAlgo::init()
     set_data_size(DEFAULT_X86_DATA_SIZE);
     set_input_size(1);
     set_output_size(1);
-
-    debug = false;
-    data_debug_window = 10;
-    data_debug = std::vector<std::vector<int>>(0);
-
     // init external function with dummy lambdas
     get_universe_size = [](){return 0;};
     is_empty = [](int pos){return false;};
@@ -41,8 +36,6 @@ void XASMAlgo::init_external_functions(std::function<int()> get_universe_size,
     this->is_empty = is_empty;
     this->get_free_molecules_at = get_free_molecules_at;
     this->write_free_molecules_at = write_free_molecules_at;
-
-    this->debug_ribosome = false;
 }
 
 
@@ -59,8 +52,8 @@ std::vector<sp_entity> XASMAlgo::exec(std::vector<sp_entity> entries)
     {
         // resume exec to where it was before
         bio_debug->resume();
-        program_counter = bio_debug->program_counter+1;
-        instr_counter = bio_debug->instr_counter+1;
+        program_counter = bio_debug->get_previous_program_pointer() + 1;
+        instr_counter = bio_debug->get_previous_instr_counter() + 1;
     }
 
     while(program_counter>=0 && program_counter<code.size()
@@ -81,6 +74,7 @@ std::vector<sp_entity> XASMAlgo::exec(std::vector<sp_entity> entries)
     // reinit input at end of exec
     set_input_size(0);
 
+    bio_debug->check_end_of_step(data, instr_counter);
     bio_debug->reset();
 
     return entries;
@@ -1507,6 +1501,8 @@ void XASMAlgo::set_input(std::vector<int> in)
     {
         input_x86[i] = in[i];
     }
+
+    bio_debug->check_input(in);
 }
 
 void XASMAlgo::set_data_at(int pos, int val)
@@ -1537,7 +1533,7 @@ void XASMAlgo::set_neighborhood_size(int size)
 
 void XASMAlgo::activate_debugger()
 {
-    bio_debug->activated = true;
+    bio_debug->activate();
 }
 
 //----- getters
@@ -1560,50 +1556,4 @@ std::vector<int> XASMAlgo::get_data()
 int XASMAlgo::get_neighborhood_size()
 {
     return neighborhood_size;
-}
-
-// utils
-
-void XASMAlgo::print_data_debug()
-{
-    if(debug)
-    {
-        std::cout << std::endl << std::endl;
-        std::cout << "******************** debug x86 algo ********************";
-        std::cout << std::endl << std::endl;
-
-        std::cout << "Input : " << std::endl;
-
-        for(int i=0; i<input.size();i++)
-        {
-            std::cout << input[i] << "\t";
-        }
-
-        std::cout << std::endl << std::endl;
-
-        std::cout << "Data accross execution : " << std::endl;
-
-        for(int i=0; i<data_debug.size();i++)
-        {
-            std::cout << i << " : \t";
-
-            for(int j=0; j<data_debug_window;j++)
-            {
-                std::cout << data_debug[i][j] << "\t";
-            }
-
-            std::cout << std::endl;
-        }
-
-        std::cout << std::endl << std::endl;
-
-        std::cout << "Output : " << std::endl;
-
-        for(int i=0; i<output.size();i++)
-        {
-            std::cout << output[i] << "\t";
-        }
-
-        std::cout << std::endl << std::endl;
-    }
 }

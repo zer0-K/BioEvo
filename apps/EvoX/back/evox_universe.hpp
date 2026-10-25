@@ -116,6 +116,7 @@ namespace back::evox_universe
                         algo->set_max_nb_instr_exec(max_nb_instr_exec);
                         algo->set_data_at(99, data_stack_init);
                         algo->set_body(EvoXParser::parse_body(tmp));
+                        algo->activate_debugger();
                         places[i] = std::make_shared<Place>(algo, i);
                     } else {
                         auto ev = std::make_shared<EntityVoid>("void_" + std::to_string(i));
@@ -161,6 +162,57 @@ namespace back::evox_universe
             catch (const std::exception& e)
             {
                 last_error = std::string("Step error: ") + e.what();
+                return false;
+            }
+        }
+
+        // Trigger a replication of every EvoX algo of the universe.
+        // nb_genes is the largest number of genes among the individuals:
+        // universe->exec() runs all the algos at once, so the transcription
+        // loop only needs to cover the biggest genome.
+        // Each exec counts as a step. Rebuilds first if needed.
+        bool replicate(int nb_genes)
+        {
+            if (!is_built())
+            {
+                if (!build())
+                    return false;
+            }
+            try
+            {
+                auto set_input_all = [&](std::vector<int> in) {
+                    for (auto& place : universe->get_places())
+                    {
+                        auto algo = std::dynamic_pointer_cast<EvoX>(place->get_entity());
+                        if (algo)
+                            algo->set_input(in);
+                    }
+                };
+                auto exec = [&]() {
+                    universe->exec();
+                    step_count++;
+                };
+
+                // init
+                set_input_all({-1, id_self_compil_func_ID_list});
+                exec();
+                // transcribe all genes
+                for (int i = 0; i < nb_genes; i++)
+                {
+                    set_input_all({});
+                    exec();
+                }
+                // post-process
+                set_input_all({});
+                exec();
+
+                _sync_cells_from_universe();
+                last_error.clear();
+                return true;
+            }
+            catch (const std::exception& e)
+            {
+                last_error = std::string("Replication error: ") + e.what();
                 return false;
             }
         }

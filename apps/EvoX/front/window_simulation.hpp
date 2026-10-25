@@ -46,6 +46,15 @@ namespace front::simulation
         }
         ImGui::SameLine();
 
+        if (ImGui::Button("  Replicate  "))
+        {
+            state.level.running = false;
+            if (state.level.editor_dirty) state.level.apply_editor();
+            state.level.replicate();
+            if (!state.level.editor_dirty) state.level.load_editor();
+        }
+        ImGui::SameLine();
+
         if (ImGui::Button("  Reset  "))
         {
             state.level.running = false;

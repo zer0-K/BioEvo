@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iostream>
 #include <filesystem>
+#include <algorithm>
 #include <stdexcept>
 #include "level_config.hpp"
 #include "../tree.hpp"
@@ -153,6 +154,18 @@ namespace back::level
             editor_dirty = false;
         }
     
+        // Replicate every EvoX algo of the universe, running the
+        // transcription loop once per gene of the biggest genome.
+        bool replicate()
+        {
+            int max_nb_genes = 0;
+            for (const auto& c : universe.cells)
+                if (!c.is_void)
+                    max_nb_genes = std::max(max_nb_genes,
+                        (int)parse_evox_summary(c.evox_str.c_str()).genes.size());
+            return universe.replicate(max_nb_genes);
+        }
+
         // Write the progteins + genes (DNA) of the selected cell, as shown in
         // the editor (unapplied edits included), to <save_dir>/<save_name>.
         // Returns the written path, or an empty string on failure.

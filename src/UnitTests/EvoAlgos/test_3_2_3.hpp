@@ -124,6 +124,74 @@ namespace ut_ea
      * sequence as first test above, and verifies the replicated body is identical to
      * the evox-generated body.
      */
+    bool launch_tests_evo_algos_self_replication_autopoiesis_new_gene()
+    {
+        bool is_passed = true;
+
+        //---------- ALGO
+
+        sp_evox algo = std::make_shared<EvoX>("evox algo");
+        algo->init();
+        algo->set_max_nb_instr_exec(2<<22);
+
+        std::vector<int> body = EvoXParser::parse_body(project_folder + "data/body_transcribed.evox");
+        algo->set_body(body);
+        algo->set_data_at(99, 150);  // stack pointer at data[99]
+
+        //---------- UNIVERSE
+
+        std::vector<sp_place> places(3);
+        places[0] = std::make_shared<Place>(algo, 0);
+        for(int i = 0; i < 2; i++)
+        {
+            sp_entity_void entity_void = std::make_shared<EntityVoid>(
+                "entity void " + std::to_string(i+1));
+            entity_void->init();
+            places[i+1] = std::make_shared<Place>(entity_void, i+1);
+        }
+
+        sp_univ_evo_algos universe = std::make_shared<UniverseEvoAlgos>("universe", places);
+        universe->link_universe_functions_to_individuals();
+
+        //---------- EXECUTE
+
+        algo->set_input({-1, id_self_compil_func_ID_list});
+        universe->exec();
+
+        int nb_genes = 98;
+        for(int i = 0; i < nb_genes; i++)
+        {
+            algo->set_input({});
+            universe->exec();
+        }
+        algo->set_input({});
+        universe->exec();
+
+        //---------- CHECK
+
+        sp_entity entity = universe->get_places()[2]->get_entity();
+        sp_evox transcribed_algo = std::dynamic_pointer_cast<EvoX>(entity);
+
+        is_passed = transcribed_algo != nullptr;
+        if(is_passed)
+            is_passed = evox_comp_body(transcribed_algo->get_body(), body, true);
+
+        if(verbose_unit_tests)
+        {
+            std::cout << "\tEvo algos - evolution preliminaries - full replication - autopoiesis (evox format) : ";
+            passed_print(is_passed);
+        }
+
+        return is_passed;
+    }
+
+    /**
+     * @brief autopoietic self-replication using a body loaded from .evox file
+     *
+     * Loads body_transcribed.evox via EvoXParser, runs the same self-replication
+     * sequence as first test above, and verifies the replicated body is identical to
+     * the evox-generated body.
+     */
     bool launch_tests_evo_algos_self_replication_autopoiesis_evox_format()
     {
         bool is_passed = true;
